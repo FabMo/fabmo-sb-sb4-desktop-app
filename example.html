@@ -1,0 +1,38 @@
+<html>
+	<head>
+	<title>JSON Fetch Example</title>
+	</head>
+
+	<body>
+	<style type="text/css">
+	.tablecell {
+		border: 1px solid gray;
+		padding: 0.25em;
+	}
+	</style>
+	<p style='color: red; padding:1em;'>Check the Javascript console to see the full JSON data object</p>
+	<div id="sb3content"></div>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	
+	$.getJSON(
+		'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
+		function(data) {
+
+			// Print the JSON data object to the console
+			console.log(data)
+			
+			table = ["<table style='border-collapse: collapse'>"];
+			for(key in data) {
+				table.push('<tr>');
+				table.push('<td class="tablecell">' + key + '</td>');
+				table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
+				table.push('</tr>');
+			}
+			table.push('</table>');
+			$('#sb3content').html(table.join('\n'));
+	});
+	</script>
+	</body>
+</html>
