@@ -152,6 +152,10 @@ FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 			alert("GCode sent to tool: " + data)
 		break;
 
+		case "runSBP":
+			alert("OpenSBP Code sent to tool: " + data)
+		break;
+
 		case "showDRO":
 			alert("DRO Shown.");
 		break;
