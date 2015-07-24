@@ -1,7 +1,7 @@
 {
-	"name":"Sb4.00.03",
+	"name":"Sb4.00.02",
 	"main":"./index.html",
-	"icon":"icon.jpg",
+	"icon":"icon.gif",
 	"icon_color":"navy",
 	"version":"0.0.3",
 	"author":"Ryan Sturmer & Ted",

@@ -8,7 +8,6 @@ var FabMoDashboard = function() {
 		'status' : []
 	};
 	this._setupMessageListener();
-	console.log(this.isPresent());
 }
 
 FabMoDashboard.prototype.isPresent = function() {
@@ -23,36 +22,21 @@ FabMoDashboard.prototype.isPresent = function() {
 // data can be a string, Blob, File, or dataURL
 FabMoDashboard.prototype._download = function(data, strFileName, strMimeType) {
 	
-	var self = window, // this script is only for browsers anyway...
-		u = "application/octet-stream", // this default mime also triggers iframe downloads
-		m = strMimeType || u, 
-		x = data,
-		D = document,
-		a = D.createElement("a"),
-		z = function(a){return String(a);},
-		B = (self.Blob || self.MozBlob || self.WebKitBlob || z);
-		B=B.call ? B.bind(self) : Blob ;
-		var fn = strFileName || "download",
-		blob, 
-		fr;
-
-	/*
-	if(String(this)==="true"){ //reverse arguments, allowing download.bind(true, "text/xml", "export.xml") to act as a callback
-		x=[x, m];
-		m=x[0];
-		x=x[1]; 
-	}
+	var self = window 						// this script is only for browsers anyway...
+	var u = "application/octet-stream" 		// this default mime also triggers iframe downloads
+	var m = strMimeType || u;
+	var x = data;
+	var D = document;
+	var a = D.createElement("a");
+	var z = function(a){return String(a);};
+	var B = (self.Blob || self.MozBlob || self.WebKitBlob || z);
+	var B=B.call ? B.bind(self) : Blob;
+	var fn = strFileName || "download";
+	var blob;
+	var fr;
 	
-	//go ahead and download dataURLs right away
-	if(String(x).match(/^data\:[\w+\-]+\/[\w+\-]+[,;]/)){
-		return navigator.msSaveBlob ?  // IE10 can't do a[download], only Blobs:
-			navigator.msSaveBlob(d2b(x), fn) : 
-			saver(x) ; // everyone else can save dataURLs un-processed
-	}//end if dataURL passed?
-	*/
 	blob = x instanceof B ? x : new B([x], {type: m}) ;
-	
-	
+
 	function d2b(u) {
 		var p= u.split(/[:;,]/),
 		t= p[1],
@@ -127,7 +111,6 @@ FabMoDashboard.prototype._download = function(data, strFileName, strMimeType) {
 } // _download
 
 FabMoDashboard.prototype._call = function(name, data, callback) {
-	console.log("Making a call");
 	if(this.isPresent()) {
 		message = {"call":name, "data":data}
 		if(callback) {
@@ -141,7 +124,6 @@ FabMoDashboard.prototype._call = function(name, data, callback) {
 }
 
 FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
-	console.log("Simulating a call.");
 	switch(name) {
 		case "submitJob":
 			alert("Job Submitted: " + data.config.filename);
@@ -153,7 +135,7 @@ FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 		break;
 
 		case "runSBP":
-			alert("OpenSBP Code sent to tool: " + data)
+			alert("OpenSBP sent to tool: " + data)
 		break;
 
 		case "showDRO":
@@ -162,6 +144,10 @@ FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 
 		case "hideDRO":
 			alert("DRO Hidden.");
+		break;
+		
+		default:
+			alert(name + " called.");
 		break;
 	}
 }
@@ -192,7 +178,6 @@ FabMoDashboard.prototype._setupMessageListener = function() {
 		 		break;
 
 			case 'evt':
-				//console.log("Dashboard client got an event: " + JSON.stringify(message));
 				if('id' in message) {
 					if(message.id in this._event_listeners) {
 						listeners = this._event_listeners[message.id]
@@ -204,6 +189,14 @@ FabMoDashboard.prototype._setupMessageListener = function() {
 				break;
 			}
 	}.bind(this));
+}
+
+FabMoDashboard.prototype.getAppArgs = function(callback) {
+	this._call("getAppArgs", null, callback);
+}
+
+FabMoDashboard.prototype.launchApp = function(id, args, callback) {
+	this._call("launchApp", {'id': id, 'args':args}, callback);
 }
 
 FabMoDashboard.prototype.on = function(name, callback) {
@@ -218,7 +211,7 @@ FabMoDashboard.prototype.hideDRO = function(callback) {
 	this._call("hideDRO", null, callback);
 }
 
-FabMoDashboard.prototype.submitJob = function(data, config,  callback) {
+FabMoDashboard.prototype.submitJob = function(data, config, callback) {
 	var message = {};
 
 	// Pass a form to get a file that was browsed for
@@ -299,6 +292,14 @@ FabMoDashboard.prototype.submitApp = function(data, config,  callback) {
 	this._call("submitApp", message, callback)
 }
 
+FabMoDashboard.prototype.getConfig = function(callback) {
+	this._call("getConfig", null, callback);
+}
+
+FabMoDashboard.prototype.setConfig = function(data, callback) {
+	this._call("setConfig", data, callback);
+}
+
 FabMoDashboard.prototype.deleteApp = function(id, callback) {
 	this._call("deleteApp",id,callback);
 }
@@ -309,6 +310,22 @@ FabMoDashboard.prototype.runGCode = function(text) {
 
 FabMoDashboard.prototype.runSBP = function(text) {
 	this._call("runSBP", text);
+}
+
+FabMoDashboard.prototype.connectToWifi = function(ssid, key, callback) {
+	this._call("connectToWifi", {'ssid':ssid, 'key':key}, callback);
+}
+
+FabMoDashboard.prototype.getMacros = function(callback) {
+	this._call("getMacros", null, callback);
+}
+
+FabMoDashboard.prototype.runMacro = function(id, callback) {
+	this._call("runMacro", id, callback);
+}
+
+FabMoDashboard.prototype.requestStatus = function(callback) {
+	this._call("requestStatus", null, callback);
 }
 
 fabmoDashboard = new FabMoDashboard();
