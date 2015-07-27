@@ -117,6 +117,7 @@ $(document).ready(function() {
 				event.preventDefault();
 				curLine = ""; 												// Remove after sent or called
                 $(".top-bar").click(); 										// ... and click to clear any dropdowns
+				$("#txt_area").text("");
 				$("#cmd-input").focus();
 				break;
 			case 70: //F
