@@ -39,53 +39,56 @@ $(document).ready(function() {
 				switch(key.substring(0,1)) {
 					case "F":
 						$("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						table.push('<tr>');
-						table.push('<td class="tablecell">' + key + '</td>');
+						//table.push('<tr>');
+						//table.push('<td class="tablecell">' + key + '</td>');
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						table.push('</tr>');
+						//table.push('</tr>');
 						break;
 					case "M":
 						$("#menu_moves").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						table.push('<tr>');
-						table.push('<td class="tablecell">' + key + '</td>');
+						//table.push('<tr>');
+						//table.push('<td class="tablecell">' + key + '</td>');
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						table.push('</tr>');
+						//table.push('</tr>');
 						break;
 					case "J":
 						$("#menu_jogs").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						table.push('<tr>');
-						table.push('<td class="tablecell">' + key + '</td>');
+						//table.push('<tr>');
+						//table.push('<td class="tablecell">' + key + '</td>');
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						table.push('</tr>');
+						//table.push('</tr>');
 						break;
 					case "C":
 						$("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						table.push('<tr>');
-						table.push('<td class="tablecell">' + key + '</td>');
+						//table.push('<tr>');
+						//table.push('<td class="tablecell">' + key + '</td>');
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						table.push('</tr>');
+						//table.push('</tr>');
 						break;
 					case "Z":
 						$("#menu_zero").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						table.push('<tr>');
-						table.push('<td class="tablecell">' + key + '</td>');
+						//table.push('<tr>');
+						//table.push('<td class="tablecell">' + key + '</td>');
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						table.push('</tr>');
+						//table.push('</tr>');
 						break;
 					case "S":
 						$("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						table.push('<tr>');
-						table.push('<td class="tablecell">' + key + '</td>');
+						//table.push('<tr>');
+						//table.push('<td class="tablecell">' + key + '</td>');
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						table.push('</tr>');
+						//table.push('</tr>');
 						break;
 				}
 			}
-			table.push('</table>');
-			$('#sb3content').html(table.join('\n'));
+			//table.push('</table>');
+			//$('#sb3content').html(table.join('\n'));
 
 			$(document).foundation();
 			$(document).foundation('dropdown', 'reflow');
+
+			// *** Initialize
+				fabmoDashboard.showDRO();
 
 			// *** Respond to Menu Click/Selection (paste in 2 Letter Command ***
 			// ... had to do this within the load and after the menu created, otherwise there was no binding to individual elements
