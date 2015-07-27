@@ -1,10 +1,10 @@
 {
-	"name":"Sb4.00.02",
+	"name":"Sb4.00.03",
 	"main":"./index.html",
 	"icon":"icon.gif",
 	"icon_color":"navy",
 	"version":"0.0.3",
 	"author":"Ryan Sturmer & Ted",
 	"website":"http://www.shopbottools.com",
-	"description":"working on Sb4 ..."
+	"description":"Basic Legacy ShopBot Interface - Sb4"
 }
