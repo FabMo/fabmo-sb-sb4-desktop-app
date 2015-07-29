@@ -158,11 +158,18 @@ $(document).ready(function() {
 		if ( curLine.length === 2 ) {
             curLine = "#" + curLine;		
 			$( curLine ).click();
+			if (curLine === "#JH") {
+				sendCmd();
+			}	
 		}	
 		}).keydown(function( event ) {
 		switch (event.which) {
 			case 13:
-				event.preventDefault();
+//			document.getElementById("cmd-input").value = ""; // remove after sent or called
+			event.preventDefault();
+//			fabmoDashboard.requestStatus(function(err, data) {
+//				console.log(data);
+//			});
 		}	
 	});
 
