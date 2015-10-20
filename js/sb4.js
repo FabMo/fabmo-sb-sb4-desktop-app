@@ -27,11 +27,10 @@ $(document).ready(function() {
 		mobile_show_parent_link: true
 	  }
 	});
-	// ** Get MENUs Items from JSON file **
-	// var comfilepath = window.location.pathname.substring(0, lastIndexOf('/'));
 
+	// ** Get MENUs Items from JSON file **
 	$.getJSON(
-		'./asets/sb3_commands.json',
+		'assets/sb3_commands.json',
 		// 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
 		function(data) {
 			// Print the JSON data object to the console just for debug and inspection
