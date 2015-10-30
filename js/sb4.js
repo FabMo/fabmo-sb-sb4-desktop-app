@@ -74,7 +74,7 @@ $(document).ready(function() {
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
 						//table.push('</tr>');
 						break;
-					case "S":
+					case "B":
 						$("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
 						//table.push('<tr>');
 						//table.push('<td class="tablecell">' + key + '</td>');
