@@ -163,6 +163,9 @@ $(document).ready(function() {
 			if (curLine === "#JH") {
 				sendCmd();
 			}	
+			if (curLine === "#FP") {
+				jQuery('#file').trigger('click');
+			}	
 		}	
 		}).keydown(function( event ) {
 		switch (event.which) {
@@ -177,6 +180,14 @@ $(document).ready(function() {
 
 
 	// Just for testing stuff ... 
+
+	$('#file').change(function(evt) {
+		fabmoDashboard.submitJob($('#fileform'), {}, function(err, data) {
+			resetFormElement($('#file'));
+		});
+	});
+
+
 	$("#other").click(function() {
 		console.log('got change');
 		sendCmd("Command from Button Click");

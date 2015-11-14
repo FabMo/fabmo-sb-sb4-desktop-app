@@ -4,6 +4,7 @@ var FabMoDashboard = function() {
 	this.window = window;
 	this._id = 0;
 	this._handlers = {};
+	this.status = {};
 	this._event_listeners = {
 		'status' : []
 	};
@@ -126,28 +127,52 @@ FabMoDashboard.prototype._call = function(name, data, callback) {
 FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 	switch(name) {
 		case "submitJob":
-			alert("Job Submitted: " + data.config.filename);
+			toaster();
+			$('.alert-text').text("Job Submitted: " + data.config.filename);
+			$('.alert-toaster').slideDown(null, function (){
+				setTimeout(function(){$('.alert-toaster').remove(); }, 1000);
+			})
 			this._download(data.data, data.config.filename, "text/plain");
 		break;
 
 		case "runGCode":
-			alert("GCode sent to tool: " + data)
+			toaster();
+			$('.alert-text').text("GCode sent to tool: " + data);
+			$('.alert-toaster').slideDown(null, function (){
+				setTimeout(function(){$('.alert-toaster').remove(); }, 1000);
+			})
 		break;
 
 		case "runSBP":
-			alert("OpenSBP sent to tool: " + data)
+			toaster();
+			$('.alert-text').text("OpenSBP sent to tool: " + data)
+			$('.alert-toaster').slideDown(null, function (){
+				setTimeout(function(){$('.alert-toaster').remove(); }, 1000);
+			})
 		break;
 
 		case "showDRO":
-			alert("DRO Shown.");
+			toaster();
+			$('.alert-text').text("DRO Shown.");
+			$('.alert-toaster').slideDown(null, function (){
+				setTimeout(function(){$('.alert-toaster').remove()}, 1000);
+			})
 		break;
 
 		case "hideDRO":
-			alert("DRO Hidden.");
+			toaster();
+			$('.alert-text').text("DRO Hidden.");
+			$('.alert-toaster').slideDown(null, function (){
+				setTimeout(function(){$('.alert-toaster').remove(); }, 1000);
+			})
 		break;
 		
 		default:
-			alert(name + " called.");
+			toaster();
+			$('.alert-text').text(name + " called.");
+			$('.alert-toaster').slideDown(null, function (){
+				setTimeout(function(){$('.alert-toaster').remove(); }, 1000);
+			})
 		break;
 	}
 }
@@ -195,6 +220,10 @@ FabMoDashboard.prototype.getAppArgs = function(callback) {
 	this._call("getAppArgs", null, callback);
 }
 
+FabMoDashboard.prototype.getAppInfo = function(callback) {
+	this._call("getAppInfo", null, callback);
+}
+
 FabMoDashboard.prototype.launchApp = function(id, args, callback) {
 	this._call("launchApp", {'id': id, 'args':args}, callback);
 }
@@ -209,6 +238,18 @@ FabMoDashboard.prototype.showDRO = function(callback) {
 
 FabMoDashboard.prototype.hideDRO = function(callback) {
 	this._call("hideDRO", null, callback);
+}
+
+FabMoDashboard.prototype.showFooter = function(callback) {
+	this._call("showFooter", null, callback);
+}
+
+FabMoDashboard.prototype.hideFooter = function(callback) {
+	this._call("hideFooter", null, callback);
+}
+
+FabMoDashboard.prototype.notification = function(type,message,callback) {
+	this._call("notification", {'type':type,'message':message}, callback);
 }
 
 FabMoDashboard.prototype.submitJob = function(data, config, callback) {
@@ -235,6 +276,10 @@ FabMoDashboard.prototype.submitJob = function(data, config, callback) {
 
 FabMoDashboard.prototype.resubmitJob = function(id, callback) {
 	this._call("resubmitJob", id, callback)
+}
+
+FabMoDashboard.prototype.cancelJob = function(id, callback) {
+	this._call("cancelJob", id, callback)
 }
 
 FabMoDashboard.prototype.getJobsInQueue = function(callback) {
@@ -304,16 +349,40 @@ FabMoDashboard.prototype.deleteApp = function(id, callback) {
 	this._call("deleteApp",id,callback);
 }
 
-FabMoDashboard.prototype.runGCode = function(text) {
-	this._call("runGCode", text);
+FabMoDashboard.prototype.runGCode = function(text, callback) {
+	this._call("runGCode", text, callback);
 }
 
-FabMoDashboard.prototype.runSBP = function(text) {
-	this._call("runSBP", text);
+FabMoDashboard.prototype.runSBP = function(text, callback) {
+	this._call("runSBP", text, callback);
 }
 
 FabMoDashboard.prototype.connectToWifi = function(ssid, key, callback) {
 	this._call("connectToWifi", {'ssid':ssid, 'key':key}, callback);
+}
+
+FabMoDashboard.prototype.disconnectFromWifi = function(callback) {
+	this._call("disconnectFromWifi", null, callback);
+}
+
+FabMoDashboard.prototype.forgetWifi = function(ssid, key, callback) {
+	this._call("forgetWifi", {'ssid':ssid}, callback);
+}
+
+FabMoDashboard.prototype.enableWifi = function(callback) {
+	this._call("enableWifi", null, callback);
+}
+
+FabMoDashboard.prototype.disableWifi = function(callback) {
+	this._call("disableWifi", null, callback);
+}
+
+FabMoDashboard.prototype.enableWifiHotspot = function(callback) {
+	this._call("enableWifiHotspot", null, callback);
+}
+
+FabMoDashboard.prototype.disableWifiHotspot = function(callback) {
+	this._call("disableWifiHotspot", null, callback);
 }
 
 FabMoDashboard.prototype.getMacros = function(callback) {
@@ -324,8 +393,32 @@ FabMoDashboard.prototype.runMacro = function(id, callback) {
 	this._call("runMacro", id, callback);
 }
 
+FabMoDashboard.prototype.updateMacro = function(id, macro, callback) {
+	this._call("updateMacro", {'id':id, 'macro':macro}, callback);
+}
+
 FabMoDashboard.prototype.requestStatus = function(callback) {
 	this._call("requestStatus", null, callback);
+}
+
+FabMoDashboard.prototype.notify = function(type, message, callback) {
+	this._call("notify", {'type':type, 'message':message}, callback);
+}
+
+FabMoDashboard.prototype.deleteMacro = function(id, callback) {
+	this._call("deleteMacro", id, callback);
+}
+
+FabMoDashboard.prototype.getAppConfig = function(callback) {
+	this._call("getAppConfig", null, callback);
+}
+
+FabMoDashboard.prototype.setAppConfig = function(config, callback) {
+	this._call("setAppConfig", config, callback);
+}
+
+var toaster = function () {
+	$('body').append("<div class='alert-toaster' style='position:fixed; margin: auto; top: 20px; right: 20px; width: 250px; height: 60px; background-color: #F3F3F3; border-radius: 3px; z-index: 1005; box-shadow: 4px 4px 7px -2px rgba(0,0,0,0.75); display: none'><span class='alert-text' style= 'position:absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0; height: 20px; width: 250px; text-align: center;'></span><div>");
 }
 
 fabmoDashboard = new FabMoDashboard();
