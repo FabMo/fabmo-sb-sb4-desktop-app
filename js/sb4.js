@@ -1,52 +1,21 @@
-// JS for Sb4 ...
-
-// Validate the input of the provided form (just checks for a valid number, no range check)
-// Mark the input as invalid if it contains bad data
-// Return the value if it's valid, null otherwise
-function validateInput(target) {
-  var f = parseFloat(target.val());
-  if(isNaN(f) || f === undefined) {
-      target.parent().removeClass('has-success');
-      target.parent().addClass('has-error');
-      return null;
-  } else {
-      target.parent().removeClass('has-error');
-      target.parent().addClass('has-success');
-      return f;
-  }
-}
-
+/**
+ * Main js file for SB4
+ * This is where the SB4 application starts.  
+ * Includes the document ready event
+ */
 
 function sendCmd() {
 		var thisCmd = document.getElementById("cmd-input").value;
 		$("#txt_area").text("Running > " + thisCmd);
 		fabmoDashboard.runSBP(thisCmd);					 // SEND IT >>>
 		document.getElementById("cmd-input").value = ""; // remove after sent or called
-		//var curSpeed = document.getElementById("opensbp_movexy_speed").value;
-		//document.getElementById("opensbp_movexy_speed").value = curSpeed.toFixed(1);
-}
-function updSpeed(speed) {
-		
-		//var curSpeed = validateInput($("#opensbp_movexy_speed"));
-		//var curSpeed = ($("#opensbp_movexy_speed"));
-		//var curSpeed = parseFloat(speed.val());
-		//var curSpeed = parseFloat(speed.val());
-		//var curSpeed = document.getElementById("opensbp_movexy_speed").value;
-		//var curSpeed = 1.26;
-		//var newspeed = curSpeed;
-		//var newspeed = curSpeed.toFixed(1);
-		//$("#opensbp_movexy_speed_f").val(newspeed);
-		console.log('got speed ... ' + speed);
-		return speed;
-
-		//var curSpeed = document.getElementById("opensbp_movexy_speed").value;
-		//curSpeed.toFixed(1);
-		//document.getElementById("opensbp_movexy_speed").value = curSpeed;
 }
 
 $(document).ready(function() {
+
 	// Set and try to maintain focus in Command Input box
 	$("#cmd-input").focus();
+
 	// Start and customize foundation
 	$(document).foundation({
 	  reveal : {
@@ -66,77 +35,39 @@ $(document).ready(function() {
 	  }
 	});
 
+
 	// *** Get MENUs Items from JSON file @initial load; now using local copy**
 	$.getJSON(
 		'assets/sb3_commands.json',
 		// 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
 		function(data) {
 			// Comment in for DEBUG; Print the JSON data object to the console just for debug and inspection
-			console.log(data)
+			// console.log(data)
 			table = ["<table style='border-collapse: collapse'>"];
 			for(key in data) {
 				switch(key.substring(0,1)) {
 					case "F":
 						$("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						//table.push('<tr>');
-						//table.push('<td class="tablecell">' + key + '</td>');
-						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						//table.push('</tr>');
 						break;
 					case "M":
 						$("#menu_moves").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						//table.push('<tr>');
-						//table.push('<td class="tablecell">' + key + '</td>');
-						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						//table.push('</tr>');
 						break;
 					case "J":
 						$("#menu_jogs").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						//table.push('<tr>');
-						//table.push('<td class="tablecell">' + key + '</td>');
-						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						//table.push('</tr>');
 						break;
 					case "C":
 						$("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						//table.push('<tr>');
-						//table.push('<td class="tablecell">' + key + '</td>');
-						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						//table.push('</tr>');
 						break;
 					case "Z":
 						$("#menu_zero").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						//table.push('<tr>');
-						//table.push('<td class="tablecell">' + key + '</td>');
-						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						//table.push('</tr>');
 						break;
 					case "S":
 						$("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-						//table.push('<tr>');
-						//table.push('<td class="tablecell">' + key + '</td>');
-						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
-						//table.push('</tr>');
 						break;
 				}
 			}
-			//table.push('</table>');
-			//$('#sb3content').html(table.join('\n'));
 
-			$(document).foundation();
 			$(document).foundation('dropdown', 'reflow');
-
-			// ** Initialize Default Appearance
-			fabmoDashboard.showDRO(); 
-
-			var speed_XY = $("#opensbp_movexy_speed").val();
-			speed_XY = speed_XY.toFixed(1);
-			console.log('got speedXY ... ' + speed_XY);
-
-
-			//$("#opensbp_movexy_speed_f").val.updSpeed(speed_XY);
-			//$("#opensbp_movexy_speed_f").val(updSpeed($("#opensbp_movexy_speed")));
-	
 
 			// ** Set Up Response to Menu Click/Selection (paste in 2 Letter Command ***
 			// ... had to do this within the load and after the menu created, otherwise no binding to individual elements
@@ -144,9 +75,21 @@ $(document).ready(function() {
 				var thisCmd = this.id;
 				$("#cmd-input").val(thisCmd + ", ");
 				$("#cmd-input").focus();
-				console.log('got change ... ' + thisCmd);
+				//console.log('got change ... ' + thisCmd);
 			});
 
+
+	});
+
+	// ** Initialize Default Appearance
+	fabmoDashboard.showDRO(); 
+
+	// Update the UI textboxes with config data from the engine
+	update();
+
+	// Bind to UI texboxes that change opensbp configs
+	$('.opensbp_input').change( function() {
+		setConfig(this.id, this.value);
 	});
 
 	// *** Respond to Command Entry
@@ -218,17 +161,17 @@ $(document).ready(function() {
 		}).keydown(function( event ) {
 		switch (event.which) {
 			case 13:
-//			document.getElementById("cmd-input").value = ""; // remove after sent or called
-			event.preventDefault();
-//			fabmoDashboard.requestStatus(function(err, data) {
-//				console.log(data);
-//			});
+				// document.getElementById("cmd-input").value = ""; // remove after sent or called
+				event.preventDefault();
+				break;
+
+			default:
+				break;
 		}	
 	});
 
 
-	// Just for testing stuff ... 
-
+	// Hidden file element for FP command
 	$('#file').change(function(evt) {
 		fabmoDashboard.submitJob($('#fileform'), {}, function(err, data) {
 			resetFormElement($('#file'));
@@ -236,6 +179,7 @@ $(document).ready(function() {
 	});
 
 
+	// Just for testing stuff ... 
 	$("#other").click(function() {
 		console.log('got change');
 		sendCmd("Command from Button Click");

@@ -95,22 +95,22 @@
 					<h6>Move Speeds</h6>
 					<div class="row">
 						<div class="large-6 medium-6 columns">
-							<label class="right"> X / Y &nbsp;&nbsp</label>
-			                <input type="text" placeholder="00.0" id="opensbp_movexy_speed" class="text-right opensbp_values"/>
+							<label class="right"> X / Y &nbsp;&nbsp;</label>
+			                <input type="text" placeholder="00.0" id="opensbp-movexy_speed" class="text-right opensbp_input"/>
 						</div>
 						<div class="large-6 medium-6 columns">
-							<label class="right"> Z &nbsp;&nbsp</label>
-			                <input type="text" placeholder="00.0" id="opensbp_movez_speed" class="text-right opensbp_values"/>
+							<label class="right"> Z &nbsp;&nbsp;</label>
+			                <input type="text" placeholder="00.0" id="opensbp-movez_speed" class="text-right opensbp_input"/>
 						</div>
 					</div>
 					<h6>Jog Speeds</h6>
 					<div class="row">
 						<div class="large-6 medium-6 columns">
-							<label class="right"> X / Y &nbsp;&nbsp</label>
+							<label class="right"> X / Y &nbsp;&nbsp;</label>
 							<input class="text-right" type="text" placeholder="0.00" />
 						</div>
 						<div class="large-6 medium-6 columns">
-							<label class="right"> Z &nbsp;&nbsp</label>
+							<label class="right"> Z &nbsp;&nbsp;</label>
 							<input class="text-right" type="text" placeholder="0.00" />
 						</div>
 					</div>
@@ -165,72 +165,10 @@
 			  </div>
 			</div>
 			</footer>
+		<script src="js/configuration.js"></script>
 		<script src="js/sb4.js"></script>
 		<script src="js/foundation.min.js"></script>
 		<script src="js/vendor/fastclick.js"></script>
-	    <script>
-	      $(document).foundation();
-	    </script>
-
-
-		<script src="js/configuration.js"></script>
-		  <script>
-		    $(document).ready(function() {
-		      // $(document).foundation();
-
-		      // Setup Unit Labels
-		      registerUnitLabel('.in_mm_label', 'in', 'mm');
-		      registerUnitLabel('.ipm_mmpm_label', 'in/min', 'mm/min');
-		      registerUnitLabel('.ipm2_mmpm2_label', 'in/min<sup>2</sup>', 'mm/min<sup>2</sup>');
-		      registerUnitLabel('.inrev_mmrev_label', 'in/rev', 'mm/rev');
-		      registerUnitLabel('.inpm3_mmpm3_label', 'in/min<sup>3', 'mm/min<sup>3')
-
-		      fabmoDashboard.on('status', function(status) {
-		        updateLabels(status.unit);
-		      });
-		      fabmoDashboard.requestStatus();
-
-		      // Populate Settings
-		      update();
-
-		      // Update settings on change
-		      $('.driver_input').change( function() {
-		        setConfig(this.id, this.value);
-		      });
-
-		      $('.engine_input').change( function() {
-		        setConfig(this.id, this.value);
-		      });
-
-		      $('.machine_input').change( function() {
-		        setConfig(this.id, this.value);
-		      });
-
-		      $('.opensbp_input').change( function() {
-		        setConfig(this.id, this.value);
-		      });
-
-		      $('.opensbp_values').change( function() {
-		        var parts = this.id.split("_");
-		        var sbp = "";
-		        var v = parts[1];
-		        if(v !== undefined) {
-		          sbp = "VU,";
-		          sbp += (v === "units1") ? this.value : ","; 
-		          sbp += (v === "units2") ? this.value : ","; 
-		          sbp += (v === "units3") ? this.value : ","; 
-		          sbp += (v === "units4") ? this.value : ","; 
-		          sbp += (v === "units5") ? this.value : ","; 
-		          sbp += (v === "units6") ? this.value : ","; 
-		        }
-		        
-		        fabmoDashboard.runSBP(sbp, function(err, data) {
-		          setTimeout(update, 500);
-		        });
-		      });
-		    });
-		  </script>
-
 
 	<!-- Working on Menu Display -->
 	<style type="text/css">

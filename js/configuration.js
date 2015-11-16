@@ -46,7 +46,7 @@ function update() {
             }
             for(key in branch) {
               v = branch[key];
-              input = $('#' + branchname + '_' + key);
+              input = $('#' + branchname + '-' + key);
               if(input.length) {
                 input.val(String(v));
               }
@@ -56,6 +56,7 @@ function update() {
     });
 }
 
+/*
 function setConfig(id, value) {
     var parts = id.split("_");
     var type = parts[0];
@@ -72,9 +73,10 @@ function setConfig(id, value) {
       update();
     });
 }
+*/
 
 function setConfig(id, value) {
-	var parts = id.split("_");
+	var parts = id.split("-");
 	var o = {};
 	var co = o;
 	var i=0;
@@ -87,7 +89,8 @@ function setConfig(id, value) {
 	} while(i++ < parts.length-1 );
 
 	co[parts[parts.length-1]] = value;
-	fabmoDashboard.setConfig(o, function(err, data) {
+	  console.log(o);
+    fabmoDashboard.setConfig(o, function(err, data) {
 	  update();
 	});
 }
