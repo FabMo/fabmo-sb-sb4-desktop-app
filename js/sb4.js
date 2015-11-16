@@ -186,5 +186,9 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 	
-});	
+
+	var speed_XY = parseFloat($('#opensbp-movexy_speed').val());
+	console.log("Speed is: " + speed_XY.toFixed(2));
+	console.log("Twice the speed is: " + (2*speed_XY).toFixed(2));
+});
 
