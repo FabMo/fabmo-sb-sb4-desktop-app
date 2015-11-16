@@ -1,10 +1,10 @@
 {
-	"name":"Sb4.00.05",
+	"name":"Sb4.00.06",
 	"main":"./index.html",
 	"icon":"icon.gif",
 	"icon_color":"navy",
 	"version":"0.0.3",
-	"author":"Ryan Sturmer & Ted",
+	"author":"Ryan Sturmer & Ted Hall",
 	"website":"http://www.shopbottools.com",
-	"description":"Basic Legacy ShopBot Interface - Sb4"
+	"description":"Retro ShopBot CNC Interface - Sb4"
 }

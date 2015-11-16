@@ -1,9 +1,47 @@
 // JS for Sb4 ...
+
+// Validate the input of the provided form (just checks for a valid number, no range check)
+// Mark the input as invalid if it contains bad data
+// Return the value if it's valid, null otherwise
+function validateInput(target) {
+  var f = parseFloat(target.val());
+  if(isNaN(f) || f === undefined) {
+      target.parent().removeClass('has-success');
+      target.parent().addClass('has-error');
+      return null;
+  } else {
+      target.parent().removeClass('has-error');
+      target.parent().addClass('has-success');
+      return f;
+  }
+}
+
+
 function sendCmd() {
 		var thisCmd = document.getElementById("cmd-input").value;
 		$("#txt_area").text("Running > " + thisCmd);
 		fabmoDashboard.runSBP(thisCmd);					 // SEND IT >>>
 		document.getElementById("cmd-input").value = ""; // remove after sent or called
+		//var curSpeed = document.getElementById("opensbp_movexy_speed").value;
+		//document.getElementById("opensbp_movexy_speed").value = curSpeed.toFixed(1);
+}
+function updSpeed(speed) {
+		
+		//var curSpeed = validateInput($("#opensbp_movexy_speed"));
+		//var curSpeed = ($("#opensbp_movexy_speed"));
+		//var curSpeed = parseFloat(speed.val());
+		//var curSpeed = parseFloat(speed.val());
+		//var curSpeed = document.getElementById("opensbp_movexy_speed").value;
+		//var curSpeed = 1.26;
+		//var newspeed = curSpeed;
+		//var newspeed = curSpeed.toFixed(1);
+		//$("#opensbp_movexy_speed_f").val(newspeed);
+		console.log('got speed ... ' + speed);
+		return speed;
+
+		//var curSpeed = document.getElementById("opensbp_movexy_speed").value;
+		//curSpeed.toFixed(1);
+		//document.getElementById("opensbp_movexy_speed").value = curSpeed;
 }
 
 $(document).ready(function() {
@@ -28,14 +66,13 @@ $(document).ready(function() {
 	  }
 	});
 
-	// ** Get MENUs Items from JSON file **
+	// *** Get MENUs Items from JSON file @initial load; now using local copy**
 	$.getJSON(
 		'assets/sb3_commands.json',
 		// 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
 		function(data) {
-			// Print the JSON data object to the console just for debug and inspection
+			// Comment in for DEBUG; Print the JSON data object to the console just for debug and inspection
 			console.log(data)
-			
 			table = ["<table style='border-collapse: collapse'>"];
 			for(key in data) {
 				switch(key.substring(0,1)) {
@@ -74,7 +111,7 @@ $(document).ready(function() {
 						//table.push('<td class="tablecell">' + data[key]['name'] || 'Unnamed' + '</td>');
 						//table.push('</tr>');
 						break;
-					case "B":
+					case "S":
 						$("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
 						//table.push('<tr>');
 						//table.push('<td class="tablecell">' + key + '</td>');
@@ -89,11 +126,20 @@ $(document).ready(function() {
 			$(document).foundation();
 			$(document).foundation('dropdown', 'reflow');
 
-			// *** Initialize
-				fabmoDashboard.showDRO();
+			// ** Initialize Default Appearance
+			fabmoDashboard.showDRO(); 
 
-			// *** Respond to Menu Click/Selection (paste in 2 Letter Command ***
-			// ... had to do this within the load and after the menu created, otherwise there was no binding to individual elements
+			var speed_XY = $("#opensbp_movexy_speed").val();
+			//var newspeed = speed_XY;
+			console.log('got speedXY ... ' + speed_XY);
+
+
+			//$("#opensbp_movexy_speed_f").val.updSpeed(speed_XY);
+			//$("#opensbp_movexy_speed_f").val(updSpeed($("#opensbp_movexy_speed")));
+	
+
+			// ** Set Up Response to Menu Click/Selection (paste in 2 Letter Command ***
+			// ... had to do this within the load and after the menu created, otherwise no binding to individual elements
 			$(".menuDD").bind( 'click', function() {
 				var thisCmd = this.id;
 				$("#cmd-input").val(thisCmd + ", ");
@@ -103,7 +149,7 @@ $(document).ready(function() {
 
 	});
 
-	// Respond to Command Entry (do we need a rendundant "Go" Button for some systems?)
+	// *** Respond to Command Entry
 	var xTriggered = 0;
 	var thisKey = 0;
 	$("#cmd-input").keyup(function( event ) {
@@ -116,12 +162,12 @@ $(document).ready(function() {
 		curLine = curLine.toUpperCase();
 		switch(thisKey) {
 			case 13:
-				sendCmd();													// On ENTER ... SEND the command
+				sendCmd();										// On ENTER ... SEND the command
 				break;
 			case 27:
 				event.preventDefault();
-				curLine = ""; 												// Remove after sent or called
-                $(".top-bar").click(); 										// ... and click to clear any dropdowns
+				curLine = ""; 									// Remove after sent or called
+                $(".top-bar").click(); 							// ... and click to clear any dropdowns
 				$("#txt_area").text("");
 				$("#cmd-input").focus();
 				break;
@@ -156,16 +202,18 @@ $(document).ready(function() {
 				}		
 				break;
 		}	
-        document.getElementById("cmd-input").value = curLine;    			// Uppercase if needed or clean up from ESC
+		// ** Handle 2-letter Commands (Uppercase)
+        document.getElementById("cmd-input").value = curLine; 
 		if ( curLine.length === 2 ) {
             curLine = "#" + curLine;		
 			$( curLine ).click();
-			if (curLine === "#JH") {
+				// * Special Case Items to act on second key
+				if (curLine === "#JH") {
 				sendCmd();
-			}	
-			if (curLine === "#FP") {
+				}	
+				if (curLine === "#FP") {
 				jQuery('#file').trigger('click');
-			}	
+				}	
 		}	
 		}).keydown(function( event ) {
 		switch (event.which) {

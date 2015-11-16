@@ -1,0 +1,11 @@
+body {
+	margin-top: 10px;
+}
+
+#config-system-config {
+	font-family: monospace;
+	word-wrap: break-word;
+}
+#opensbp_movexy_speed {
+	font-family: monospace;
+}
