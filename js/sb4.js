@@ -130,7 +130,7 @@ $(document).ready(function() {
 			fabmoDashboard.showDRO(); 
 
 			var speed_XY = $("#opensbp_movexy_speed").val();
-			//var newspeed = speed_XY;
+			speed_XY = speed_XY.toFixed(1);
 			console.log('got speedXY ... ' + speed_XY);
 
 
