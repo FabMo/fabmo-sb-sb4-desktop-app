@@ -1,80 +1,32 @@
-var unit_label_index = {}
-
-var registerUnitLabel = function(label, in_label, mm_label) {
-  var labels = {
-    'in' : in_label,
-    'mm' : mm_label
-  }
-  unit_label_index[label] = labels;
-}
-
-var updateLabels = function(unit) {
-	$.each(unit_label_index, function(key, value) {
-		$(key).html(value[unit]);
-	});
-}
-
-var flattenObject = function(ob) {
-  var toReturn = {};
-  for (var i in ob) {
-    if (!ob.hasOwnProperty(i)) continue;
-
-    if ((typeof ob[i]) == 'object') {
-      var flatObject = flattenObject(ob[i]);
-      for (var x in flatObject) {
-        if (!flatObject.hasOwnProperty(x)) continue;
-    
-        toReturn[i + '_' + x] = flatObject[x];
-      }
-    } else {
-      toReturn[i] = ob[i];
-    }
-  }
-  return toReturn;
-};
-
-function update() {
+/**
+ * Update UI elements on the page from the engine's opensbp
+  configuration.
+ * Takes any element with an id of the form branchname-configitem_name that corresponds to a configuration item:
+ * eg: opensbp-movexy_speed, opensbp-jogxy_speed
+ * and populates it from the corresponding value in the opensbp configuration, read from the engine.
+ */
+function updateUIFromEngineConfig() {
     fabmoDashboard.getConfig(function(err, data) {
       if(err) {
         console.error(err);
       } else {
-        ['driver', 'engine', 'opensbp', 'machine'].forEach(function(branchname) {
-            if(branchname === 'machine') {
-              branch = flattenObject(data[branchname]);
-            } else {
-              branch = data[branchname];
-            }
-            for(key in branch) {
-              v = branch[key];
-              input = $('#' + branchname + '-' + key);
-              if(input.length) {
-                input.val(String(v));
-              }
-            }
-        });
+        for(key in data.opensbp) {
+          v = branch[key];
+          input = $('#opensbp-' + key);
+          if(input.length) {
+            input.val(String(v));
+          }
+        }
       }
     });
 }
 
-/*
-function setConfig(id, value) {
-    var parts = id.split("_");
-    var type = parts[0];
-    var key = parts[1];
-    // Workaround for (restify bug?)
-    if(key[0].match(/[0-9]/)) {
-      key = '_' + key;
-    }
-    var o = {};
-    o[key] = value;
-    cfg = {};
-    cfg[type] = o;
-    fabmoDashboard.setConfig(cfg, function(err, data) {
-      update();
-    });
-}
-*/
-
+/**
+ * Set the specified value in the engine's configuration
+ * id is of the form opensbp-configitem_name such as opensbp-movexy_speed, etc.
+ * This will only work for configuration items on the first branch of the tree - 
+ * deeper items need more consideration.
+ */
 function setConfig(id, value) {
 	var parts = id.split("-");
 	var o = {};

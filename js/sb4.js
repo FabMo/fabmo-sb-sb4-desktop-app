@@ -85,7 +85,7 @@ $(document).ready(function() {
 	fabmoDashboard.showDRO(); 
 
 	// Update the UI textboxes with config data from the engine
-	update();
+	updateUIFromEngineConfig();
 
 	// Bind to UI texboxes that change opensbp configs
 	$('.opensbp_input').change( function() {
