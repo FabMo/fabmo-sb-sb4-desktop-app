@@ -84,12 +84,36 @@ $(document).ready(function() {
 	// ** Initialize Default Appearance
 	fabmoDashboard.showDRO(); 
 
-	// Update the UI textboxes with config data from the engine
+	// Update the generic UI textboxes with config data from the engine
 	updateUIFromEngineConfig();
 
-	// Bind to UI texboxes that change opensbp configs
+	// Update the speed UI textboxes with config data from the engine (speeds are formatted)
+	updateSpeedsFromEngineConfig();
+	
+	// Handle and Bind generic UI textboxes that directly change opensbp configs
 	$('.opensbp_input').change( function() {
 		setConfig(this.id, this.value);
+	});
+
+	// Handle and Bind updates from formatted SPEED textboxes
+	$('.opensbp_input_formattedspeeds').change( function() {
+		switch(this.id){
+			case 'formatted_movexy_speed':
+				setConfig('opensbp-movexy_speed', this.value);
+				break;
+			case 'formatted_movez_speed':
+				setConfig('opensbp-movez_speed', this.value);
+				break;
+			case 'formatted_jogxy_speed':
+				setConfig('opensbp-jogxy_speed', this.value);
+				break;
+			case 'formatted_jogz_speed':
+				setConfig('opensbp-jogz_speed', this.value);
+				break;
+		}
+		console.log("changed speeds ...");
+		updateSpeedsFromEngineConfig();
+		$("#cmd-input").focus();
 	});
 
 	// *** Respond to Command Entry
@@ -108,11 +132,13 @@ $(document).ready(function() {
 				sendCmd();										// On ENTER ... SEND the command
 				break;
 			case 27:
-				event.preventDefault();
+				event.preventDefault();							// ESC as a general clear and update tool
 				curLine = ""; 									// Remove after sent or called
                 $(".top-bar").click(); 							// ... and click to clear any dropdowns
 				$("#txt_area").text("");
 				$("#cmd-input").focus();
+				updateUIFromEngineConfig();
+				updateSpeedsFromEngineConfig();
 				break;
 			case 70: //F
 				if ( curLine ==="F" ) {
@@ -178,6 +204,18 @@ $(document).ready(function() {
 		});
 	});
 
+	// Clear Command Line after a status report is recieved
+	fabmoDashboard.on('status', function(status) {
+  	  $('#cmd-input').val("");
+  	  console.log('got status report ...');
+  	  if (!status.job){
+		$("#txt_area").text("");
+		updateSpeedsFromEngineConfig();
+  	  }
+	});
+
+
+
 
 	// Just for testing stuff ... 
 	$("#other").click(function() {
@@ -187,8 +225,8 @@ $(document).ready(function() {
 	});
 	
 
-	var speed_XY = parseFloat($('#opensbp-movexy_speed').val());
-	console.log("Speed is: " + speed_XY.toFixed(2));
-	console.log("Twice the speed is: " + (2*speed_XY).toFixed(2));
+	//var speed_XY = parseFloat($('#opensbp-movexy_speed').val());
+	//console.log("Speed is: " + speed_XY.toFixed(2));
+	//console.log("Twice the speed is: " + (2*speed_XY).toFixed(2));
 });
 
