@@ -99,16 +99,20 @@ $(document).ready(function() {
 	$('.opensbp_input_formattedspeeds').change( function() {
 		switch(this.id){
 			case 'formatted_movexy_speed':
-				setConfig('opensbp-movexy_speed', this.value);
+			    fabmoDashboard.runSBP('MS,' + this.value);
+				//setConfig('opensbp-movexy_speed', this.value);
 				break;
 			case 'formatted_movez_speed':
-				setConfig('opensbp-movez_speed', this.value);
+			    fabmoDashboard.runSBP('MS,,' + this.value);
+				//setConfig('opensbp-movez_speed', this.value);
 				break;
 			case 'formatted_jogxy_speed':
-				setConfig('opensbp-jogxy_speed', this.value);
+			    fabmoDashboard.runSBP('JS,' + this.value);
+				//setConfig('opensbp-jogxy_speed', this.value);
 				break;
 			case 'formatted_jogz_speed':
-				setConfig('opensbp-jogz_speed', this.value);
+			    fabmoDashboard.runSBP('JS,,' + this.value);
+				//setConfig('opensbp-jogz_speed', this.value);
 				break;
 		}
 		console.log("changed speeds ...");
