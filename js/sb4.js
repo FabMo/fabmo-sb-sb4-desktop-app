@@ -187,6 +187,9 @@ $(document).ready(function() {
 				if (curLine === "#FP") {
 				jQuery('#file').trigger('click');
 				}	
+				if (curLine === "#FE") {
+				fabmoDashboard.launchApp('editor');
+				}	
 		}	
 		}).keydown(function( event ) {
 		switch (event.which) {
