@@ -42,7 +42,7 @@ $(document).ready(function() {
 		// 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
 		function(data) {
 			// Comment in for DEBUG; Print the JSON data object to the console just for debug and inspection
-			 console.log(data)
+			// console.log(data)
 			table = ["<table style='border-collapse: collapse'>"];
 			for(key in data) {
 				switch(key.substring(0,1)) {
@@ -187,6 +187,9 @@ $(document).ready(function() {
 			$( curLine ).click();
 				// * Special Case Items to act on second key
 				if (curLine === "#JH") {
+				sendCmd();
+				}	
+				if (curLine === "#MH") {
 				sendCmd();
 				}	
 				if (curLine === "#ZX") {

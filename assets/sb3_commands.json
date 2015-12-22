@@ -209,7 +209,6 @@
       "cmd": "MH",
       "name": "move Home (X and Y; Z Safe Height)"
    },
-   },
    "MO": {
       "cmd": "MO",
       "name": "motors oFF"
