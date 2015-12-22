@@ -64,6 +64,9 @@ $(document).ready(function() {
 					case "S":
 						$("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
 						break;
+					case "V":
+						$("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+						break;
 				}
 			}
 
