@@ -42,7 +42,7 @@ $(document).ready(function() {
 		// 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
 		function(data) {
 			// Comment in for DEBUG; Print the JSON data object to the console just for debug and inspection
-			// console.log(data)
+			 console.log(data)
 			table = ["<table style='border-collapse: collapse'>"];
 			for(key in data) {
 				switch(key.substring(0,1)) {
@@ -99,19 +99,19 @@ $(document).ready(function() {
 	$('.opensbp_input_formattedspeeds').change( function() {
 		switch(this.id){
 			case 'formatted_movexy_speed':
-			    fabmoDashboard.runSBP('MS,' + this.value);
+			    fabmoDashboard.runSBP('VS,' + this.value);
 				//setConfig('opensbp-movexy_speed', this.value);
 				break;
 			case 'formatted_movez_speed':
-			    fabmoDashboard.runSBP('MS,,' + this.value);
+			    fabmoDashboard.runSBP('VS,,' + this.value);
 				//setConfig('opensbp-movez_speed', this.value);
 				break;
 			case 'formatted_jogxy_speed':
-			    fabmoDashboard.runSBP('JS,' + this.value);
+			    fabmoDashboard.runSBP('VS,,,,,,' + this.value);
 				//setConfig('opensbp-jogxy_speed', this.value);
 				break;
 			case 'formatted_jogz_speed':
-			    fabmoDashboard.runSBP('JS,,' + this.value);
+			    fabmoDashboard.runSBP('VS,,,,,,,' + this.value);
 				//setConfig('opensbp-jogz_speed', this.value);
 				break;
 		}
@@ -174,6 +174,11 @@ $(document).ready(function() {
 				$("#menu_settings").click();
 				}		
 				break;
+			case 86: //V
+				if ( curLine ==="V" ) {
+				$("#menu_values").click();
+				}		
+				break;
 		}	
 		// ** Handle 2-letter Commands (Uppercase)
         document.getElementById("cmd-input").value = curLine; 
@@ -184,10 +189,25 @@ $(document).ready(function() {
 				if (curLine === "#JH") {
 				sendCmd();
 				}	
+				if (curLine === "#ZX") {
+				sendCmd();
+				}	
+				if (curLine === "#ZY") {
+				sendCmd();
+				}	
+				if (curLine === "#ZZ") {
+				sendCmd();
+				}	
+				if (curLine === "#Z2") {
+				sendCmd();
+				}	
+				if (curLine === "#Z3") {
+				sendCmd();
+				}	
 				if (curLine === "#FP") {
 				jQuery('#file').trigger('click');
 				}	
-				if (curLine === "#FE") {
+				if (curLine === "#FN") {
 				fabmoDashboard.launchApp('editor');
 				}	
 		}	

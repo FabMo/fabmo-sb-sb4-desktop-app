@@ -22,9 +22,244 @@
       "cmd": "FP",
       "name": "PART FILE LOAD"
    },
+   "FE": {
+      "cmd": "FE",
+      "name": "part file Edit",
+      "params": [
+         {
+            "name": "Part File Name",
+            "desc": "Part Files have a .sbp extension",
+            "abrev": "fNm",
+            "typeext": 0,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "partfile"
+         }
+      ]
+   },
    "FN": {
       "cmd": "FN",
       "name": "New blank part file"
+   },
+   "FG": {
+      "cmd": "FG",
+      "name": "Goto line / single step",
+      "params": [
+         {
+            "name": "Part File Name",
+            "desc": "Part Files have a .sbp extension",
+            "abrev": "fNm",
+            "typeext": 0,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "Proportion X",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pX",
+            "typeext": 0,
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "0.00",
+               "100.00"
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "Proportion Y",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pY",
+            "typeext": 0,
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "0.00",
+               "100.00"
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "Proportion Z",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pZ",
+            "typeext": 0,
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "0.00",
+               "100.00"
+            ],
+            "type": "int"
+         },
+         {
+            "name": "Repetitions",
+            "desc": "Number of Repeats with Plunge in template files",
+            "abrev": "Rp",
+            "typeext": 0,
+            "default": "1",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "opt"
+         },
+         {
+            "name": "Offset in 2D or 3D",
+            "desc": "Treat starting location as temporary 0 in X&Y or XY&Z",
+            "abrev": "Ofst",
+            "typeext": 0,
+            "default": "0",
+            "default_desc": "No Offset",
+            "opts": [
+               {
+                  "value": "1",
+                  "desc": "3D Offset"
+               },
+               {
+                  "value": "2",
+                  "desc": "2D Offset"
+               }
+            ],
+            "sysvar": "0",
+            "type": "dist"
+         },
+         {
+            "name": "Plunge (per repetition)",
+            "desc": "Use for plunging in template files without Z movements",
+            "abrev": "plg",
+            "typeext": 3,
+            "default": "-0.00",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "ck"
+         },
+         {
+            "name": "Tabbing",
+            "desc": "Activate ShopBot's automatic tabbing feature",
+            "abrev": "Tb",
+            "typeext": 0,
+            "default": "0",
+            "default_desc": "Off",
+            "opts": [],
+            "sysvar": "0",
+            "type": "ck"
+         },
+         {
+            "name": "Plunge from 0",
+            "desc": "Plunge from Z zero in template files, not from current Z location",
+            "abrev": "z0",
+            "typeext": 0,
+            "default": "0",
+            "default_desc": "Off",
+            "opts": [],
+            "sysvar": "0",
+            "type": "axis"
+         },
+         {
+            "name": "Proportion A",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pA",
+            "typeext": 4,
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "-100.00",
+               "100.00"
+            ],
+            "type": "axis"
+         },
+         {
+            "name": "Proportion B",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pB",
+            "typeext": 5,
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "-100.00",
+               "100.00"
+            ],
+            "type": "partfile"
+         }
+      ]
+   },
+   "FC": {
+      "cmd": "FC",
+      "name": "file Conversions",
+      "params": [
+         {
+            "name": "Name of File to Convert",
+            "desc": "Select File to Convert; extension defines type of conversion, or select type",
+            "abrev": "fNm",
+            "typeext": 0,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         }
+      ]
+   },
+   "FS": {
+      "cmd": "FS",
+      "name": "file Set part file folder",
+      "params": [
+         {
+            "name": "Part File Path & Folder",
+            "desc": "Specify a different active Part File Folder by defining full Path",
+            "abrev": "path",
+            "typeext": 0,
+            "default": "c:\\SbParts",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "obs"
+         },
+         {
+            "name": "File Mask",
+            "desc": "",
+            "abrev": "",
+            "typeext": 0,
+            "default": " ",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "Custom File Path & Folder",
+            "desc": "Specify a different active Custom File Folder by defining full Path; location of Custom Cuts",
+            "abrev": "Cpath",
+            "typeext": 0,
+            "default": "c:\\SbParts\\Custom",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "dist"
+         }
+      ]
    },
    "MX": {
       "cmd": "MX",
@@ -78,6 +313,63 @@
             "range": [
                null,
                "Table limits Z"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "MA": {
+      "cmd": "MA",
+      "name": "move A axis",
+      "params": [
+         {
+            "name": "New A location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvA",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits A"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "MB": {
+      "cmd": "MB",
+      "name": "move B axis",
+      "params": [
+         {
+            "name": "New B location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvB",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits B"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "MC": {
+      "cmd": "MC",
+      "name": "move C axis",
+      "params": [
+         {
+            "name": "New C location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvC",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits C"
             ],
             "type": "dist"
          }
@@ -160,6 +452,219 @@
          }
       ]
    },
+   "M4": {
+      "cmd": "M4",
+      "name": "move in 4 axes",
+      "params": [
+         {
+            "name": "New X location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvX",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits X"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New Y location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvY",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits Y"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New Z location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvZ",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits Z"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New A location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvA",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits A"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "M5": {
+      "cmd": "M5",
+      "name": "move in 5 axes",
+      "params": [
+         {
+            "name": "New X location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvX",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits X"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New Y location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvY",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits Y"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New Z location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvZ",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits Z"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New A location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvA",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits A"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New B location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvB",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits B"
+            ],
+            "type": "ops"
+         }
+      ]
+   },
+   "M6": {
+      "cmd": "M6",
+      "name": "move in 6 axes",
+      "params": [
+         {
+            "name": "New X location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvX",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits X"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New Y location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvY",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits Y"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New Z location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvZ",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits Z"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New A location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvA",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits A"
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "New B location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvB",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits B"
+            ],
+            "type": "ops"
+         },
+               {
+            "name": "New C location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvC",
+            "typeext": 2,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits C"
+            ],
+            "type": "ops"
+         }
+      ]
+   },
    "MD": {
       "cmd": "MD",
       "name": "move Distance at Angle",
@@ -209,6 +714,102 @@
       "cmd": "MH",
       "name": "move Home (X and Y; Z Safe Height)"
    },
+   "MN": {
+      "cmd": "MN",
+      "name": "move Nudge"
+   },
+   "MI": {
+      "cmd": "MI",
+      "name": "move Indexer or Oscillate",
+      "params": [
+         {
+            "name": "Axis to Rotate or Oscillate",
+            "desc": "Rotational/Ocillatory Axis; 0 to Turn OFF",
+            "abrev": "mvAx",
+            "typeext": 0,
+            "default": "B",
+            "default_desc": "Axis",
+            "opts": [
+               {
+                  "value": "A",
+                  "desc": "Axis"
+               },
+               {
+                  "value": "C",
+                  "desc": "Axis"
+               },
+               {
+                  "value": "Z",
+                  "desc": "Axis"
+               },
+               {
+                  "value": "O",
+                  "desc": "OFF"
+               }
+            ],
+            "sysvar": "0",
+            "type": "opt"
+         },
+         {
+            "name": "Rotation Direction",
+            "desc": "Direction for Rotation",
+            "abrev": "Dr",
+            "typeext": 0,
+            "default": "1",
+            "default_desc": "clockwise",
+            "opts": [
+               {
+                  "value": "-1",
+                  "desc": "counterclockwise"
+               }
+            ],
+            "sysvar": "0",
+            "type": "int"
+         },
+         {
+            "name": "Rotary Speed",
+            "desc": "Approx Range in RPM (range 3 to 500); not used for Oscillate; min max depend on motor and resolution ",
+            "abrev": "spR",
+            "typeext": 0,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "Frequency of Oscillation",
+            "desc": "(.5 - 100; But actual MIN and MAX based on Motor Capability and Length of Move)",
+            "abrev": "spC",
+            "typeext": 0,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "Distance of Oscillation",
+            "desc": "(How far to Move in Each Oscillation)",
+            "abrev": "diC",
+            "typeext": 0,
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "distm"
+         }
+      ]
+   },
+   "M0": {
+      "cmd": "M0",
+      "name": "motors 0FF"
    },
    "MO": {
       "cmd": "MO",

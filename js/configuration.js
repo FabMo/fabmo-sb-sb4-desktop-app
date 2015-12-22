@@ -5,6 +5,7 @@
  * and populates it from the corresponding value in the opensbp configuration, read from the engine.
  */
 function updateUIFromEngineConfig() {
+    // getting config values for OpenSBP and G2; note that move speeds is OpenSBP, but jogs are in G2
     fabmoDashboard.getConfig(function(err, data) {
       if(err) {
         console.error(err);
@@ -15,6 +16,13 @@ function updateUIFromEngineConfig() {
           if(input.length) {
             input.val(String(v));
           }
+        }  
+        for(key in data.driver) {
+          v = data.driver[key];
+          input = $('#g2-values' + key);
+          if(input.length) {
+            input.val(String(v));
+          }  
         }
       }
       //console.log(data);
@@ -25,11 +33,15 @@ function updateUIFromEngineConfig() {
  * Update formatted Speeds for UI Speed Box display.
  */
 function updateSpeedsFromEngineConfig() {
+    var temp = 0;
     fabmoDashboard.getConfig(function(err, data) {
       $('#formatted_movexy_speed').val(data.opensbp.movexy_speed.toFixed(2));
       $('#formatted_movez_speed').val(data.opensbp.movez_speed.toFixed(2));
-      $('#formatted_jogxy_speed').val(data.opensbp.jogxy_speed.toFixed(2));
-      $('#formatted_jogz_speed').val(data.opensbp.jogz_speed.toFixed(2));
+    // note that jog speeds are handled differently than move speeds (they are from G2 velocity max)
+      temp = data.driver.xvm / 60;
+      $('#formatted_jogxy_speed').val(temp.toFixed(2));
+      temp = data.driver.zvm / 60;
+      $('#formatted_jogz_speed').val(temp.toFixed(2));
     });
 }
 
