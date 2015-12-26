@@ -80,7 +80,15 @@ $(document).ready(function() {
 			// 	$("#cmd-input").focus();
 			// 	//console.log('got change ... ' + thisCmd);
 			// });
+			$(".menuDD").bind( 'click', function() {
+			 	var thisCmd = this.id;
+			 	$("#cmd-input").val(thisCmd);
+			 	$("#cmd-input").focus();
 
+			 	//$("#cmd-input").click();  **** This is where I think I want to trigger the keyup read of the cmd-input box
+
+			 	// console.log('got change ... ' + thisCmd);
+			});
 
 	});
 
@@ -187,10 +195,10 @@ $(document).ready(function() {
         document.getElementById("cmd-input").value = curLine; 
         	// ... ck for comma from pasted menu item ???
 		if ( curLine.length === 2 ) {
-            curLine = "#" + curLine;		
-			$( curLine ).click();
+            curCmd = "#" + curLine;		
+			$( curCmd ).click();
 				// * Special Case Items to act Immediately on Second Key Input
-				switch(curLine) {
+				switch(curCmd) {
 					case "#JH" :
 					case "#MH" :
 					case "#ZX" :
@@ -208,11 +216,11 @@ $(document).ready(function() {
 						fabmoDashboard.launchApp('editor', {'new' : true, 'content' : "' Create an OpenSBP job here ...", 'language' : 'sbp'});
 						break;
 					default :
-						curLine = curLine + ",";
-					// 	var thisCmd = this.id;
-					$("#cmd-input").val(curLine + ", ");
-					$("#cmd-input").focus();
-					console.log('got change ... ' + curLine);
+						curLine = curLine + ", ";
+						// 	var thisCmd = this.id;
+						$("#cmd-input").val(curLine);
+						$("#cmd-input").focus();
+						//console.log('got change ... ' + curLine);
 				}
 		}	
 		}).keydown(function( event ) {
