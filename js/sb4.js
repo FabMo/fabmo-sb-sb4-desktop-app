@@ -74,12 +74,12 @@ $(document).ready(function() {
 
 			// ** Set Up Response to Menu Click/Selection (paste in 2 Letter Command ***
 			// ... had to do this within the load and after the menu created, otherwise no binding to individual elements
-			$(".menuDD").bind( 'click', function() {
-				var thisCmd = this.id;
-				$("#cmd-input").val(thisCmd + ", ");
-				$("#cmd-input").focus();
-				//console.log('got change ... ' + thisCmd);
-			});
+			// $(".menuDD").bind( 'click', function() {
+			// 	var thisCmd = this.id;
+			// 	$("#cmd-input").val(thisCmd + ", ");
+			// 	$("#cmd-input").focus();
+			// 	//console.log('got change ... ' + thisCmd);
+			// });
 
 
 	});
@@ -183,39 +183,37 @@ $(document).ready(function() {
 				}		
 				break;
 		}	
-		// ** Handle 2-letter Commands (Uppercase)
+		// ** Handle 2-letter Commands SPECIAL CASE Execute on 2nd Letter (Uppercase)
         document.getElementById("cmd-input").value = curLine; 
+        	// ... ck for comma from pasted menu item ???
 		if ( curLine.length === 2 ) {
             curLine = "#" + curLine;		
 			$( curLine ).click();
-				// * Special Case Items to act on second key
-				if (curLine === "#JH") {
-				sendCmd();
-				}	
-				if (curLine === "#MH") {
-				sendCmd();
-				}	
-				if (curLine === "#ZX") {
-				sendCmd();
-				}	
-				if (curLine === "#ZY") {
-				sendCmd();
-				}	
-				if (curLine === "#ZZ") {
-				sendCmd();
-				}	
-				if (curLine === "#Z2") {
-				sendCmd();
-				}	
-				if (curLine === "#Z3") {
-				sendCmd();
-				}	
-				if (curLine === "#FP") {
-				jQuery('#file').trigger('click');
-				}	
-				if (curLine === "#FN") {
-				fabmoDashboard.launchApp('editor');
-				}	
+				// * Special Case Items to act Immediately on Second Key Input
+				switch(curLine) {
+					case "#JH" :
+					case "#MH" :
+					case "#ZX" :
+					case "#ZY" :
+					case "#ZZ" :
+					case "#Z2" :
+					case "#Z3" :
+						sendCmd();
+						break;
+					case "#FP":
+						jQuery('#file').trigger('click');
+						break;
+					case "#SI" :	
+					case "#FN" :
+						fabmoDashboard.launchApp('editor', {'new' : true, 'content' : "' Create an OpenSBP job here ...", 'language' : 'sbp'});
+						break;
+					default :
+						curLine = curLine + ",";
+					// 	var thisCmd = this.id;
+					$("#cmd-input").val(curLine + ", ");
+					$("#cmd-input").focus();
+					console.log('got change ... ' + curLine);
+				}
 		}	
 		}).keydown(function( event ) {
 		switch (event.which) {
