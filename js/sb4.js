@@ -4,11 +4,66 @@
  * Includes the document ready event
  */
 
-function sendCmd() {
-		var thisCmd = document.getElementById("cmd-input").value;
+function sendCmd(command) {
+		var thisCmd = command || $('#cmd-input').val();
 		$("#txt_area").text("Running > " + thisCmd);
-		fabmoDashboard.runSBP(thisCmd);					 // SEND IT >>>
-		document.getElementById("cmd-input").value = ""; // remove after sent or called
+		fabmoDashboard.runSBP(thisCmd);					 	// SEND IT >>>
+		$('#cmd-input').val(''); 							// remove after sent or called
+}
+
+function processCommandInput(command) {
+		var command = command.trim().toUpperCase();
+
+		if(command.length == 1) {
+			switch(command) {
+				case "F":
+					$("#menu_files").click();
+					break;
+				case "M":
+					$("#menu_moves").click();
+					break;
+				case "J":
+					$("#menu_jogs").click();
+					break;
+				case "C":
+					$("#menu_cuts").click();
+					break;
+				case "Z":
+					$("#menu_zero").click();
+					break;
+				case "S":
+					$("#menu_settings").click();
+					break;
+				case "V":
+					$("#menu_values").click();
+					break;						
+			}
+		} else if(command.length == 2) {
+			switch(command) {
+				case "JH" :
+				case "MH" :
+				case "ZX" :
+				case "ZY" :
+				case "ZZ" :
+				case "Z2" :
+				case "Z3" :
+					sendCmd(command);
+					break;
+				case "FP":
+					jQuery('#file').trigger('click');
+					break;
+				case "SI" :	
+				case "FN" :
+					fabmoDashboard.launchApp('editor', {'new' : true, 'content' : "' Create an OpenSBP job here ...", 'language' : 'sbp'});
+					break;
+				default :
+					var newCommandString = command + ", ";
+					$("#cmd-input").val(newCommandString);
+					break;
+			}
+			$("#cmd-input").focus();
+
+		}
 }
 
 $(document).ready(function() {
@@ -80,10 +135,10 @@ $(document).ready(function() {
 			// 	$("#cmd-input").focus();
 			// 	//console.log('got change ... ' + thisCmd);
 			// });
-			$(".menuDD").bind( 'click', function() {
-			 	var thisCmd = this.id;
-			 	$("#cmd-input").val(thisCmd + ', ');
-			 	$("#cmd-input").focus();
+
+			$(".menuDD").bind( 'click', function(event) {
+			 	var commandText = this.id;
+			 	processCommandInput(commandText);
 			});
 
 	});
@@ -129,16 +184,17 @@ $(document).ready(function() {
 
 	// *** Respond to Command Entry
 	var xTriggered = 0;
-	var thisKey = 0;
+
 	$("#cmd-input").keyup(function( event ) {
+
+		// For Debug
+		var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
+		var commandInputText = $("#cmd-input").val();
 		xTriggered++;
-		thisKey = event.which;
-		var msg = "Handler for .keyup() called " + xTriggered + " time(s). " + event.which;
 		console.log( msg, "html" );
 		console.log( event );
-        var curLine = document.getElementById("cmd-input").value;
-		curLine = curLine.toUpperCase();
-		switch(thisKey) {
+
+		switch(event.which) {
 			case 13:
 				sendCmd();										// On ENTER ... SEND the command
 				break;
@@ -151,75 +207,17 @@ $(document).ready(function() {
 				updateUIFromEngineConfig();
 				updateSpeedsFromEngineConfig();
 				break;
-			case 70: //F
-				if ( curLine ==="F" ) {
-				$("#menu_files").click();
-				}		
+			case 8:
+			case 46:
 				break;
-			case 77: //M
-				if ( curLine ==="M" ) {
-				$("#menu_moves").click();
-				}		
+			default:
+				processCommandInput(commandInputText);
 				break;
-			case 74: //J
-				if ( curLine ==="J" ) {
-				$("#menu_jogs").click();
-				}		
-				break;
-			case 67: //C
-				if ( curLine ==="C" ) {
-				$("#menu_cuts").click();
-				}		
-				break;
-			case 90: //Z
-				if ( curLine ==="Z" ) {
-				$("#menu_zero").click();
-				}		
-				break;
-			case 83: //S
-				if ( curLine ==="S" ) {
-				$("#menu_settings").click();
-				}		
-				break;
-			case 86: //V
-				if ( curLine ==="V" ) {
-				$("#menu_values").click();
-				}		
-				break;
-		}	
-		// ** Handle 2-letter Commands SPECIAL CASE Execute on 2nd Letter (Uppercase)
-        document.getElementById("cmd-input").value = curLine; 
-        	// ... ck for comma from pasted menu item ???
-		if ( curLine.length === 2 ) {
-            curCmd = "#" + curLine;		
-			$( curCmd ).click();
-				// * Special Case Items to act Immediately on Second Key Input
-				switch(curCmd) {
-					case "#JH" :
-					case "#MH" :
-					case "#ZX" :
-					case "#ZY" :
-					case "#ZZ" :
-					case "#Z2" :
-					case "#Z3" :
-						sendCmd();
-						break;
-					case "#FP":
-						jQuery('#file').trigger('click');
-						break;
-					case "#SI" :	
-					case "#FN" :
-						fabmoDashboard.launchApp('editor', {'new' : true, 'content' : "' Create an OpenSBP job here ...", 'language' : 'sbp'});
-						break;
-					default :
-						curLine = curLine + ", ";
-						// 	var thisCmd = this.id;
-						$("#cmd-input").val(curLine);
-						$("#cmd-input").focus();
-						//console.log('got change ... ' + curLine);
-				}
-		}	
-		}).keydown(function( event ) {
+		}
+
+	}); // $("#cmd-input").keyup()
+
+	$("#cmd-input").keydown(function( event ) {		
 		switch (event.which) {
 			case 13:
 				// document.getElementById("cmd-input").value = ""; // remove after sent or called
