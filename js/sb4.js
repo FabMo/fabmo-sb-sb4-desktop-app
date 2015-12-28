@@ -82,12 +82,8 @@ $(document).ready(function() {
 			// });
 			$(".menuDD").bind( 'click', function() {
 			 	var thisCmd = this.id;
-			 	$("#cmd-input").val(thisCmd);
+			 	$("#cmd-input").val(thisCmd + ', ');
 			 	$("#cmd-input").focus();
-
-			 	//$("#cmd-input").click();  **** This is where I think I want to trigger the keyup read of the cmd-input box
-
-			 	// console.log('got change ... ' + thisCmd);
 			});
 
 	});
