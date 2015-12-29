@@ -61,9 +61,10 @@ function processCommandInput(command) {
 					$("#cmd-input").val(newCommandString);
 					break;
 			}
-			$("#cmd-input").focus();
+			return true;
 
 		}
+		return false
 }
 
 $(document).ready(function() {
@@ -138,6 +139,7 @@ $(document).ready(function() {
 
 			$(".menuDD").bind( 'click', function(event) {
 			 	var commandText = this.id;
+			 	$(document).foundation('dropdown', 'reflow');
 			 	processCommandInput(commandText);
 			});
 
@@ -211,7 +213,11 @@ $(document).ready(function() {
 			case 46:
 				break;
 			default:
-				processCommandInput(commandInputText);
+				var ok = processCommandInput(commandInputText);
+				if(ok) {
+					$(".top-bar").click();
+					$("#cmd-input").focus();
+				}
 				break;
 		}
 
