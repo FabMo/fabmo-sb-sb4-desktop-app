@@ -257,7 +257,7 @@ $(document).ready(function() {
 	      file : $('#fileform'),
 	      filename : $('#file'),
 	      name : "FP-called file",
-	      description :  
+	      description : 'description' 
 	    });
 
 
