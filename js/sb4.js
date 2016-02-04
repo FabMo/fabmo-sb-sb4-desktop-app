@@ -238,9 +238,29 @@ $(document).ready(function() {
 
 	// Hidden file element for FP command
 	$('#file').change(function(evt) {
-		fabmoDashboard.submitJob($('#fileform'), {}, function(err, data) {
-			resetFormElement($('#file'));
-		});
+
+//old
+//		fabmoDashboard.submitJob($('#fileform'), {}, function(err, data) {
+//			resetFormElement($('#file'));
+//		});
+
+//new format
+//	    fabmo.submitJob({
+//	      file : makeCircle(cx,cy,d,zpullup,depth,seg_size,feedrate, passdepth),
+//	      filename : 'example-circle.nc',
+//	      name : d + '" Diameter Circle',
+//	      description : d + '" diameter circle centered at ' + cx + ',' + cy + ' at a depth of ' + depth + '"' 
+//	    });
+
+//my shot at it
+	    fabmo.submitJob({
+	      file : $('#fileform'),
+	      filename : $('#file'),
+	      name : "FP-called file",
+	      description :  
+	    });
+
+
 	});
 
 	// Clear Command Line after a status report is recieved
