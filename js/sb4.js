@@ -253,6 +253,7 @@ $(document).ready(function() {
 //	    });
 
 //my shot at it
+
 	    fabmo.submitJob({
 	      file : $('#fileform'),
 	      filename : $('#file'),
