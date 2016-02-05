@@ -71,7 +71,6 @@ function processCommandInput(command) {
 }
 
 $(document).ready(function() {
-
   // Set and try to maintain focus in Command Input box
   $("#cmd-input").focus();
 
