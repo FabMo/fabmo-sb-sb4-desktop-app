@@ -6,7 +6,7 @@
  */
 function updateUIFromEngineConfig() {
     // getting config values for OpenSBP and G2; note that move speeds is OpenSBP, but jogs are in G2
-    fabmoDashboard.getConfig(function(err, data) {
+    fabmo.getConfig(function(err, data) {
       if(err) {
         console.error(err);
       } else {
@@ -34,7 +34,7 @@ function updateUIFromEngineConfig() {
  */
 function updateSpeedsFromEngineConfig() {
     var temp = 0;
-    fabmoDashboard.getConfig(function(err, data) {
+    fabmo.getConfig(function(err, data) {
       $('#formatted_movexy_speed').val(data.opensbp.movexy_speed.toFixed(2));
       $('#formatted_movez_speed').val(data.opensbp.movez_speed.toFixed(2));
     // note that jog speeds are handled differently than move speeds (they are from G2 velocity max)
@@ -66,7 +66,7 @@ function setConfig(id, value) {
 
 	co[parts[parts.length-1]] = value;
 	  console.log(o);
-    fabmoDashboard.setConfig(o, function(err, data) {
+    fabmo.setConfig(o, function(err, data) {
 	  updateUIFromEngineConfig();
 	});
 }

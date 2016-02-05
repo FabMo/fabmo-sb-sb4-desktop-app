@@ -1,190 +1,189 @@
 <!doctype html>
 <html class="no-js" lang="en">
 
-    <head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>ShopBot Controls SB4</title>
-		<link rel="stylesheet" href="css/normalize.css">
-		<link rel="stylesheet" href="css/foundation.min.css">
-		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/foundation.css" />
-    </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopBot Controls SB4</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/foundation.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/foundation.css" />
+</head>
 
-	<body>
-		<script src="js/vendor/modernizr.js"></script>
-	    <script src="js/lib/jquery.js"></script>
-    	<script src="js/lib/bootstrap.min.js"></script>
-    	<script src="js/lib/fabmo.js"></script>
-    	<script type="text/javascript">
-        	var fabmo = new FabMoDashboard();
-        	var fabmoDashboard = new FabMoDashboard();
-    	</script>
+<body>
+  <script src="js/lib/modernizr.js"></script>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/bootstrap.min.js"></script>
+  <script src="js/lib/fabmo.js"></script>
+  <script type="text/javascript">
+  var fabmo = new FabMoDashboard();
+  </script>
 
-		<nav class="top-bar" data-topbar role="navigation" style="background-color: dark;">
-		<ul class="title-area">
-		  <li class="name">
-		  </li>
-		  <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
-		</ul>
-	 
-		<section class="top-bar-section">
-		  <ul class="left">
-			<li class="divider"></li>
-			<li class="has-dropdown">
-			  <a style="background-color: dark;"><strong>[F] iles</strong></a>
-			  <ul class="dropdown" id="menu_files">
-				<li><label>CUT, Edit, or Convert PART FILES</label></li>
-			  </ul>
-			</li>
-			<li class="divider"></li>
-			<li class="has-dropdown">
-			  <a style="background-color: dark;"><strong>[M] oves</strong></a>
-			  <ul class="dropdown" id="menu_moves">
-				<li><label>Basic Movement Commands</label></li>
-			  </ul>
-			</li>
-			<li class="divider"></li>
-			<li class="has-dropdown">
-			  <a style="background-color: dark;"><strong>[J] ogs</strong></a>
-			  <ul class="dropdown" id="menu_jogs">
-				<li><label>Jog or Rapid Motion Commands</label></li>
-			  </ul>
-			</li>
-			<li class="divider"></li>
-			<li class="has-dropdown">
-			  <a style="background-color: dark;"><strong>[C] uts</strong></a>
-			  <ul class="dropdown" id="menu_cuts">
-				<li><label>Simple Cut Commands and Macros</label></li>
-			  </ul>
-			</li>
-			<li class="divider"></li>
-			<li class="has-dropdown">
-			  <a style="background-color: dark;"><strong>[Z] ero</strong></a>
-			  <ul class="dropdown" id="menu_zero">
-				<li><label>Set the Current Location of Axes to Zero</label></li>
-			  </ul>
-			</li>
-			<li class="divider"></li>
-			<li class="has-dropdown">
-			  <a style="background-color: dark;"><strong>[S] ettings</strong></a>
-			  <ul class="dropdown" id="menu_settings">
-				<li><label>Input or Change a Setting</label></li>
-			  </ul>
-			</li>
-			<li class="divider"></li>
-			<li class="has-dropdown">
-			  <a style="background-color: dark;"><strong>[V] alues</strong></a>
-			  <ul class="dropdown" id="menu_values">
-				<li><label>Set or Change Current Configuration Values</label></li>
-			  </ul>
-			</li>
-		  </ul>
-		</section>
-	  </nav>
-	 <form style="display:none;" id="fileform">
-	<input type="file" id="file">
-</form>
-		<!-- Grid Example -->
-		<div class="row">
-			<p>   </p>
-			<div class="large-14 medium-12 columns">
-			<div class="row" >
-				<div class="large-4 medium-4 small-6 columns">
-				<div class="callout panel" style="background-color: white;">
-					<img src="./assets/image6b.gif" >
-					<p>   </p>
+  <nav class="top-bar" data-topbar role="navigation" style="background-color: dark;">
+    <ul class="title-area">
+      <li class="name">
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+    </ul>
 
-					<h6>Move Speeds</h6>
-					<div class="row">
-						<div class="large-6 medium-6 columns">
-							<label class="right"> X / Y &nbsp;&nbsp;</label>
-			                <input type="text" placeholder="0.00" id="formatted_movexy_speed" class="text-right opensbp_input_formattedspeeds"/>
-						</div>
-						<div class="large-6 medium-6 columns">
-							<label class="right"> Z &nbsp;&nbsp;</label>
-			                <input type="text" placeholder="0.00" id="formatted_movez_speed" class="text-right opensbp_input_formattedspeeds"/>
-						</div>
-					</div>
-					<h6>Jog Speeds</h6>
-					<div class="row">
-						<div class="large-6 medium-6 columns">
-							<label class="right"> X / Y &nbsp;&nbsp;</label>
-			                <input type="text" placeholder="0.00" id="formatted_jogxy_speed" class="text-right opensbp_input_formattedspeeds"/>
-						</div>
-						<div class="large-6 medium-6 columns">
-							<label class="right"> Z &nbsp;&nbsp;</label>
-			                <input type="text" placeholder="0.00" id="formatted_jogz_speed" class="text-right opensbp_input_formattedspeeds"/>
-						</div>
-					</div>
+    <section class="top-bar-section">
+      <ul class="left">
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[F] iles</strong></a>
+          <ul class="dropdown" id="menu_files">
+            <li><label>CUT, Edit, or Convert PART FILES</label></li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[M] oves</strong></a>
+          <ul class="dropdown" id="menu_moves">
+            <li><label>Basic Movement Commands</label></li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[J] ogs</strong></a>
+          <ul class="dropdown" id="menu_jogs">
+            <li><label>Jog or Rapid Motion Commands</label></li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[C] uts</strong></a>
+          <ul class="dropdown" id="menu_cuts">
+            <li><label>Simple Cut Commands and Macros</label></li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[Z] ero</strong></a>
+          <ul class="dropdown" id="menu_zero">
+            <li><label>Set the Current Location of Axes to Zero</label></li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[S] ettings</strong></a>
+          <ul class="dropdown" id="menu_settings">
+            <li><label>Input or Change a Setting</label></li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[V] alues</strong></a>
+          <ul class="dropdown" id="menu_values">
+            <li><label>Set or Change Current Configuration Values</label></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <form style="display:none;" id="fileform">
+    <input name="uploadFile" type="file" id="file">
+  </form>
+  <!-- Grid Example -->
+  <div class="row">
+    <p> </p>
+    <div class="large-14 medium-12 columns">
+      <div class="row">
+        <div class="large-4 medium-4 small-6 columns">
+          <div class="callout panel" style="background-color: white;">
+            <img src="./assets/image6b.gif">
+            <p> </p>
 
-				</div>
-				</div>
+            <h6>Move Speeds</h6>
+            <div class="row">
+              <div class="large-6 medium-6 columns">
+                <label class="right"> X / Y &nbsp;&nbsp;</label>
+                <input type="text" placeholder="0.00" id="formatted_movexy_speed" class="text-right opensbp_input_formattedspeeds" />
+              </div>
+              <div class="large-6 medium-6 columns">
+                <label class="right"> Z &nbsp;&nbsp;</label>
+                <input type="text" placeholder="0.00" id="formatted_movez_speed" class="text-right opensbp_input_formattedspeeds" />
+              </div>
+            </div>
+            <h6>Jog Speeds</h6>
+            <div class="row">
+              <div class="large-6 medium-6 columns">
+                <label class="right"> X / Y &nbsp;&nbsp;</label>
+                <input type="text" placeholder="0.00" id="formatted_jogxy_speed" class="text-right opensbp_input_formattedspeeds" />
+              </div>
+              <div class="large-6 medium-6 columns">
+                <label class="right"> Z &nbsp;&nbsp;</label>
+                <input type="text" placeholder="0.00" id="formatted_jogz_speed" class="text-right opensbp_input_formattedspeeds" />
+              </div>
+            </div>
 
-			<!-- Command Input and File Display Panel ((could add some validation here)) -->
-			  <div class="large-8 medium-8 small-6 columns">
-				<div class="callout panel">
-				  <form>
-					<div class="row">
-					  <div class="large-12 columns">
-						<label class="show-for-small-only">Command Input</label>
-						<label class="show-for-medium-up"><strong>Command Input</strong> (select from menu above or type Commands directly here)</label>
-						<form>
-							<input type="text" autocomplete="off" id="cmd-input" placeholder="2-Letter OpenSBP Command, followed by parameters ..."  value="" />
-						</form>
-					  </div>
-					</div>
-					<div class="row">
-					  <div class="large-12 columns">
-						 <label id="running" value="" placeholder="  " > </label>
-						<label></label>
-						<textarea rows="12" cols="50" name="textarea_filedisplay" id="txt_area">
+          </div>
+        </div>
+
+        <!-- Command Input and File Display Panel ((could add some validation here)) -->
+        <div class="large-8 medium-8 small-6 columns">
+          <div class="callout panel">
+            <form>
+              <div class="row">
+                <div class="large-12 columns">
+                  <label class="show-for-small-only">Command Input</label>
+                  <label class="show-for-medium-up"><strong>Command Input</strong> (select from menu above or type Commands directly here)</label>
+                  <form>
+                    <input type="text" autocomplete="off" id="cmd-input" placeholder="2-Letter OpenSBP Command, followed by parameters ..." value="" />
+                  </form>
+                </div>
+              </div>
+              <div class="row">
+                <div class="large-12 columns">
+                  <label id="running" value="" placeholder="  "> </label>
+                  <label></label>
+                  <textarea rows="12" cols="50" name="textarea_filedisplay" id="txt_area">
 						</textarea>
-					  </div>
-					</div>
-				  </form>  
-				  <p class="show-for-medium-up"><strong>This is a basic CNC interface for cutting Part Files and sending Commands.</strong> Use FP to run Part Files or enter OpenSBP Commands and parameters in Command Input, followed by ENTER. Click HELP for more information on Commands.</p>
-				</div>
-			</div>
+                </div>
+              </div>
+            </form>
+            <p class="show-for-medium-up"><strong>This is a basic CNC interface for cutting Part Files and sending Commands.</strong> Use FP to run Part Files or enter OpenSBP Commands and parameters in Command Input, followed by ENTER. Click HELP for more information on Commands.</p>
+          </div>
+        </div>
 
-			</div>
-		  </div>     
-		</div>
+      </div>
+    </div>
+  </div>
 
-			<footer class="row">
-			<div class="large-12 columns">
-			  <div class="row">
-				<div class="large-6 columns">
-				  <p>© Copyright ShopBot Tools 2016.</p>
-				</div>
-				<div class="large-6 columns">
-				  <ul class="inline-list right">
-					<li><a href="http://foundation.zurb.com/docs/" target="_blank">Link 1</a></li>
-					<li><a href="#">Link 2</a></li>
-					<li><a href="#">Link 3</a></li>
-					<li><a href="#">Link 4</a></li>
-				  </ul>
-				</div>
-			  </div>
-			</div>
-			</footer>
-		<script src="js/configuration.js"></script>
-		<script src="js/sb4.js"></script>
-		<script src="js/lib/foundation.min.js"></script>
-		<script src="js/foundation/foundation.dropdown.js"></script>
-		<script src="js/vendor/fastclick.js"></script>
+  <footer class="row">
+    <div class="large-12 columns">
+      <div class="row">
+        <div class="large-6 columns">
+          <p>© Copyright ShopBot Tools 2016.</p>
+        </div>
+        <div class="large-6 columns">
+          <ul class="inline-list right">
+            <li><a href="http://foundation.zurb.com/docs/" target="_blank">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 3</a></li>
+            <li><a href="#">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="js/configuration.js"></script>
+  <script src="js/sb4.js"></script>
+  <script src="js/lib/foundation.min.js"></script>
+  <script src="js/foundation/foundation.dropdown.js"></script>
+  <script src="js/lib/fastclick.js"></script>
 
-	<!-- Working on Menu Display -->
-	<style type="text/css">
-		.tablecell {
-			border: 1px solid gray;
-			padding: 0.25em;
-		}
-	</style>
+  <!-- Working on Menu Display -->
+  <style type="text/css">
+  .tablecell {
+    border: 1px solid gray;
+    padding: 0.25em;
+  }
+  </style>
 
-    </body>
+</body>
+
 </html>
-
 
 
 
