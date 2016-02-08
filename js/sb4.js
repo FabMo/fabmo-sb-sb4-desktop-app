@@ -231,38 +231,20 @@ $(document).ready(function() {
         // document.getElementById("cmd-input").value = ""; // remove after sent or called
         event.preventDefault();
         break;
-
       default:
         break;
     }
   });
 
-
   // Hidden file element for FP command
   $('#file').change(function(evt) {
-
-    //old
-    //		fabmo.submitJob($('#fileform'), {}, function(err, data) {
-    //			resetFormElement($('#file'));
-    //		});
-
-    //new format
-    //	    fabmo.submitJob({
-    //	      file : makeCircle(cx,cy,d,zpullup,depth,seg_size,feedrate, passdepth),
-    //	      filename : 'example-circle.nc',
-    //	      name : d + '" Diameter Circle',
-    //	      description : d + '" diameter circle centered at ' + cx + ',' + cy + ' at a depth of ' + depth + '"' 
-    //	    });
-
-    //my shot at it
     var file = $('#fileform');
+    var filename = $('#file').val().split('\\').pop();
     fabmo.submitJob({
       file: file,
-      name: "FP-called file",
-      description: 'description'
+      name: filename,
+      description: '... called from Sb4'
     });
-
-
   });
 
   // Clear Command Line after a status report is recieved
