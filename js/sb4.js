@@ -6,49 +6,79 @@
 function sendCmd(command) {
   var thisCmd = command || $('#cmd-input').val();
   $("#txt_area").text("Running > " + thisCmd);
-  fabmo.runSBP(thisCmd); // SEND IT >>>
-  $('#cmd-input').val(''); // remove after sent or called
+    fabmo.runSBP(thisCmd);    // SEND IT >>>
+  $('#cmd-input').val('');    // remove after sent or called
 }
 
 function processCommandInput(command) {
   var command = command.trim().toUpperCase();
-
   if (command.length == 1) {
     switch (command) {
       case "F":
+        $("#cmd-input").val(command);
         $("#menu_files").click();
         break;
       case "M":
+        $("#cmd-input").val(command);
         $("#menu_moves").click();
         break;
       case "J":
+        $("#cmd-input").val(command);
         $("#menu_jogs").click();
         break;
       case "C":
+        $("#cmd-input").val(command);
         $("#menu_cuts").click();
         break;
       case "Z":
+        $("#cmd-input").val(command);
         $("#menu_zero").click();
         break;
       case "S":
+        $("#cmd-input").val(command);
         $("#menu_settings").click();
         break;
       case "V":
+        $("#cmd-input").val(command);
         $("#menu_values").click();
+        break;
+      case "H":
+        $("#cmd-input").val(command);
+        $("#menu_help").click();
+        break;
+      default:
+        command = "";
+        event.preventDefault(); // ESC as a general clear and update tool
+        curLine = ""; // Remove after sent or called
+        $(".top-bar").click(); // ... and click to clear any dropdowns
+        $("#txt_area").text("");
+        $("#cmd-input").val(command);
+        $("#cmd-input").focus();
         break;
     }
   } else if (command.length == 2) {
     switch (command) {
       case "JH":
       case "MH":
+      case "MO":
+      case "M0":
       case "ZX":
       case "ZY":
       case "ZZ":
+      case "ZA":
+      case "ZB":
+      case "ZC":
       case "Z2":
       case "Z3":
+      case "Z4":
+      case "Z5":
+      case "Z6":
+      case "C2":
+      case "C3":
         sendCmd(command);
         break;
       case "FP":
+        $("#cmd-input").val(command);
         $('#file').trigger('click');
         break;
       case "SI":
@@ -59,9 +89,13 @@ function processCommandInput(command) {
           'language': 'sbp'
         });
         break;
+      case "HC":
+        fabmo.navigate('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', {target : '_blank'});
+        break;        
       default:
         var newCommandString = command + ", ";
         $("#cmd-input").val(newCommandString);
+        $("#cmd-input").focus();
         break;
     }
     return true;
@@ -101,6 +135,7 @@ $(document).ready(function() {
     function(data) {
       // Comment in for DEBUG; Print the JSON data object to the console just for debug and inspection
       // console.log(data)
+      var excluded_axes_str = "AC46";
       table = ["<table style='border-collapse: collapse'>"];
       for (key in data) {
         switch (key.substring(0, 1)) {
@@ -108,22 +143,31 @@ $(document).ready(function() {
             $("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
             break;
           case "M":
-            $("#menu_moves").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+            if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
+              $("#menu_moves").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+            }
             break;
           case "J":
-            $("#menu_jogs").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+            if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
+              $("#menu_jogs").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+            }
             break;
           case "C":
             $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
             break;
           case "Z":
-            $("#menu_zero").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+            if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
+              $("#menu_zero").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+            }
             break;
           case "S":
             $("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
             break;
           case "V":
             $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+            break;
+          case "H":
+            $("#menu_help").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
             break;
         }
       }

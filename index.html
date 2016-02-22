@@ -78,6 +78,13 @@
             <li><label>Set or Change Current Configuration Values</label></li>
           </ul>
         </li>
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a style="background-color: dark;"><strong>[H] elp</strong></a>
+          <ul class="dropdown" id="menu_help">
+            <li><label>Get Help for SB4</label></li>
+          </ul>
+        </li>
       </ul>
     </section>
   </nav>
@@ -120,7 +127,7 @@
           </div>
         </div>
 
-        <!-- Command Input and File Display Panel ((could add some validation here)) -->
+        <!-- Command Input and File Display Panel  -->
         <div class="large-8 medium-8 small-6 columns">
           <div class="callout panel">
             <form>
@@ -129,7 +136,7 @@
                   <label class="show-for-small-only">Command Input</label>
                   <label class="show-for-medium-up"><strong>Command Input</strong> (select from menu above or type Commands directly here)</label>
                   <form>
-                    <input type="text" autocomplete="off" id="cmd-input" placeholder="2-Letter OpenSBP Command, followed by parameters ..." value="" />
+                    <input type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
                   </form>
                 </div>
               </div>
@@ -142,7 +149,7 @@
                 </div>
               </div>
             </form>
-            <p class="show-for-medium-up"><strong>This is a basic CNC interface for cutting Part Files and sending Commands.</strong> Use FP to run Part Files or enter OpenSBP Commands and parameters in Command Input, followed by ENTER. Click HELP for more information on Commands.</p>
+            <p class="show-for-medium-up"><strong>This is a basic CNC interface for cutting Part Files and sending Commands.</strong> Use FP to run Part Files or enter OpenSBP Commands and parameters in Command Input, followed by ENTER. Click HELP for more information on Commands and on the "open-syntax" OpenSBP Language.</p>
           </div>
         </div>
 
@@ -155,14 +162,6 @@
       <div class="row">
         <div class="large-6 columns">
           <p>© Copyright ShopBot Tools 2016.</p>
-        </div>
-        <div class="large-6 columns">
-          <ul class="inline-list right">
-            <li><a target="_blank" href="http://foundation.zurb.com/">Link 1</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-            <li><a href="#">Link 4</a></li>
-          </ul>
         </div>
       </div>
     </div>
