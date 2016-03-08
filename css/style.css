@@ -6,3 +6,9 @@ body {
 	font-family: monospace;
 	word-wrap: break-word;
 }
+
+#txt_area {
+	background: #327C7E;
+	border: 1px solid #646464;
+	color: white;
+}
