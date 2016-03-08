@@ -14,6 +14,10 @@ function processCommandInput(command) {
   var command = command.trim().toUpperCase();
   if (command.length == 1) {
     switch (command) {
+      case "K":
+      	command = "SK";
+      	command.length = 2;
+      	break;
       case "F":
         $("#cmd-input").val(command);
         $("#menu_files").click();
@@ -62,6 +66,10 @@ function processCommandInput(command) {
       case "MH":
       case "MO":
       case "M0":
+      case "SA":
+      case "SR":
+      case "SF":
+      case "ST":
       case "ZX":
       case "ZY":
       case "ZZ":
@@ -77,6 +85,8 @@ function processCommandInput(command) {
       case "C3":
         sendCmd(command);
         break;
+      case "CN":
+      	command = "C#";
       case "FP":
         $("#cmd-input").val(command);
         $('#file').trigger('click');
@@ -89,9 +99,30 @@ function processCommandInput(command) {
           'language': 'sbp'
         });
         break;
+//      case "HC":
+//        fabmo.navigate('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', {target : '_blank'});
+//        break;        
       case "HC":
-        fabmo.navigate('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', {target : '_blank'});
+        fabmo.navigate('/assets/ComRef.pdf', {target : '_blank'});
         break;        
+      case "HF":
+        fabmo.navigate('https://handibot.com/forum/list.php?2', {target : '_blank'});
+        break;        
+      case "HW":
+        fabmo.navigate('https://handibot.com', {target : '_blank'});
+        break;        
+      case "HQ":
+        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
+        break;        
+      case "HQ":
+        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
+        break;        
+      case "HS":
+        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
+        break;        
+      case "SK":
+      	//need "K" call
+      	break;
       default:
         var newCommandString = command + ", ";
         $("#cmd-input").val(newCommandString);

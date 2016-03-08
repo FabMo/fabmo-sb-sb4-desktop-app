@@ -4058,37 +4058,26 @@
       "cmd": "UI",
       "name": "Install Control Box Firmware"
    },
+
+   "HS": {
+      "cmd": "HS",
+      "name": "Handibot SAFETY !"
+   },
    "HQ": {
       "cmd": "HQ",
-      "name": "Quick Start for beginning ShopBotters"
+      "name": "Quick Launch for beginning Handibotters"
    },
    "HC": {
       "cmd": "HC",
       "name": "Command Reference"
    },
-   "HR": {
-      "cmd": "HR",
-      "name": "Quick Ref to Command Summary"
-   },
-   "HE": {
-      "cmd": "HE",
-      "name": "Quick Ref for Editing Part Files"
-   },
    "HF": {
       "cmd": "HF",
-      "name": "ShopBot User Forum"
+      "name": "Handibot User Forum"
    },
    "HW": {
       "cmd": "HW",
-      "name": "ShopBot Website"
-   },
-   "HP": {
-      "cmd": "HP",
-      "name": "Programming and Developer Resources"
-   },
-   "HI": {
-      "cmd": "HI",
-      "name": "Info on Control Card Diagnostic LEDs"
+      "name": "Handibot Website"
    },
    "HA": {
       "cmd": "HA",
