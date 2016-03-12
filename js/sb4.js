@@ -10,6 +10,27 @@ function sendCmd(command) {
   $('#cmd-input').val('');    // remove after sent or called
 }
 
+// https://www.kirupa.com/html5/check_if_internet_connection_exists_in_javascript.htm
+function doesConnectionExist() {
+    var xhr = new XMLHttpRequest();
+    var file = "http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf";
+    var randomNum = Math.round(Math.random() * 10000);
+     
+    xhr.open('HEAD', file + "?rand=" + randomNum, false);
+     
+    try {
+        xhr.send();
+         
+        if (xhr.status >= 200 && xhr.status < 304) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (e) {
+        return false;
+    }
+}
+
 function processCommandInput(command) {
   var command = command.trim().toUpperCase();
   if (command.length == 1) {
@@ -103,7 +124,7 @@ function processCommandInput(command) {
 //        fabmo.navigate('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', {target : '_blank'});
 //        break;        
       case "HC":
-        fabmo.navigate('/assets/ComRef.pdf', {target : '_blank'});
+        fabmo.navigate('../assets/ComRef.pdf', {target : '_blank'});
         break;        
       case "HF":
         fabmo.navigate('https://handibot.com/forum/list.php?2', {target : '_blank'});
@@ -111,12 +132,15 @@ function processCommandInput(command) {
       case "HW":
         fabmo.navigate('https://handibot.com', {target : '_blank'});
         break;        
+
       case "HQ":
-        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
-        break;        
-      case "HQ":
-        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
-        break;        
+        if (doesConnectionExist) {
+          fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
+        } else {
+          fabmo.notify('warning', 'Uh Oh!');
+        } 
+        break;
+                
       case "HS":
         fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
         break;        
