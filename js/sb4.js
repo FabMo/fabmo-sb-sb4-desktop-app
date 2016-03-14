@@ -120,11 +120,8 @@ function processCommandInput(command) {
           'language': 'sbp'
         });
         break;
-//      case "HC":
-//        fabmo.navigate('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', {target : '_blank'});
-//        break;        
       case "HC":
-        fabmo.navigate('../assets/ComRef.pdf', {target : '_blank'});
+        fabmo.navigate('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', {target : '_blank'});
         break;        
       case "HF":
         fabmo.navigate('https://handibot.com/forum/list.php?2', {target : '_blank'});
@@ -132,18 +129,24 @@ function processCommandInput(command) {
       case "HW":
         fabmo.navigate('https://handibot.com', {target : '_blank'});
         break;        
-
       case "HQ":
-        if (doesConnectionExist) {
-          fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
-        } else {
-          fabmo.notify('warning', 'Uh Oh!');
-        } 
-        break;
-                
-      case "HS":
-        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf', {target : '_blank'});
+        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Setup.pdf', {target : '_blank'});
         break;        
+      case "HS":
+        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Safety.pdf', {target : '_blank'});
+        break;        
+
+      // case "HC":
+      //   fabmo.navigate('../assets/ComRef.pdf', {target : '_blank'});
+      //   break;        
+      // case "HQ":
+      //   if (doesConnectionExist) {
+      //     fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Setup.pdf', {target : '_blank'});
+      //   } else {
+      //     fabmo.notify('warning', 'Uh Oh!');
+      //   } 
+      //   break;
+
       case "SK":
       	//need "K" call
       	break;
