@@ -133,7 +133,7 @@ function processCommandInput(command) {
         fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Setup.pdf', {target : '_blank'});
         break;        
       case "HS":
-        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Safety.pdf', {target : '_blank'});
+        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_Safety.pdf', {target : '_blank'});
         break;        
 
       // case "HC":
