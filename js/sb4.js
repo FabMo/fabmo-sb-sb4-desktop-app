@@ -267,20 +267,33 @@ $(document).ready(function() {
   $('.opensbp_input_formattedspeeds').change(function() {
     switch (this.id) {
       case 'formatted_movexy_speed':
-        fabmo.runSBP('VS,' + this.value);
-        //setConfig('opensbp-movexy_speed', this.value);
+        var mult_cmds=[
+          'VS,' + this.value,
+          'SV'
+          ].join("\n");
+          //console.log("Commands are: \n" + mult_cmds);
+        fabmo.runSBP(mult_cmds);
         break;
       case 'formatted_movez_speed':
-        fabmo.runSBP('VS,,' + this.value);
-        //setConfig('opensbp-movez_speed', this.value);
+        var mult_cmds=[
+          'VS,,' + this.value,
+          'SV'
+          ].join("\n");
+        fabmo.runSBP(mult_cmds);
         break;
       case 'formatted_jogxy_speed':
-        fabmo.runSBP('VS,,,,,,' + this.value);
-        //setConfig('opensbp-jogxy_speed', this.value);
+        var mult_cmds=[
+          'VS,,,,,,' + this.value,
+          'SV'
+          ].join("\n");
+        fabmo.runSBP(mult_cmds);
         break;
       case 'formatted_jogz_speed':
-        fabmo.runSBP('VS,,,,,,,' + this.value);
-        //setConfig('opensbp-jogz_speed', this.value);
+        var mult_cmds=[
+          'VS,,,,,,,' + this.value,
+          'SV'
+          ].join("\n");
+        fabmo.runSBP(mult_cmds);
         break;
     }
     console.log("changed speeds ...");
