@@ -3,6 +3,7 @@
  * This is where the SB4 application starts.  
  * Includes the document ready event
  */
+
 function sendCmd(command) {
   var thisCmd = command || $('#cmd-input').val();
   $("#txt_area").text("Running > " + thisCmd);
@@ -11,25 +12,25 @@ function sendCmd(command) {
 }
 
 // https://www.kirupa.com/html5/check_if_internet_connection_exists_in_javascript.htm
-function doesConnectionExist() {
-    var xhr = new XMLHttpRequest();
-    var file = "http://docs.handibot.com/doc-output/Handibot%202%20MANUAL%20Safe%20Use%20Source_v001.pdf";
-    var randomNum = Math.round(Math.random() * 10000);
+// function doesConnectionExist() {
+//     var xhr = new XMLHttpRequest();
+//     var file = "http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf";
+//     var randomNum = Math.round(Math.random() * 10000);
      
-    xhr.open('HEAD', file + "?rand=" + randomNum, false);
+//     xhr.open('HEAD', file + "?rand=" + randomNum, false);
      
-    try {
-        xhr.send();
+//     try {
+//         xhr.send();
          
-        if (xhr.status >= 200 && xhr.status < 304) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (e) {
-        return false;
-    }
-}
+//         if (xhr.status >= 200 && xhr.status < 304) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     } catch (e) {
+//         return false;
+//     }
+// }
 
 function processCommandInput(command) {
   var command = command.trim().toUpperCase();
@@ -128,6 +129,7 @@ function processCommandInput(command) {
         break;        
       case "HW":
         fabmo.navigate('https://handibot.com', {target : '_blank'});
+        console.log ("error test " + err);
         break;        
       case "HQ":
         fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Setup.pdf', {target : '_blank'});
@@ -189,12 +191,11 @@ $(document).ready(function() {
   // *** Get MENUs Items from JSON file @initial load; now using local copy**
   $.getJSON(
     'assets/sb3_commands.json',
-    // 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
+      // originally derived from 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
     function(data) {
       // Comment in for DEBUG; Print the JSON data object to the console just for debug and inspection
       // console.log(data)
-      var excluded_axes_str = "AC46";
-      table = ["<table style='border-collapse: collapse'>"];
+      //     table = ["<table style='border-collapse: collapse'>"];
       for (key in data) {
         switch (key.substring(0, 1)) {
           case "F":
