@@ -4,7 +4,7 @@
  * eg: opensbp-movexy_speed, opensbp-jogxy_speed
  * and populates it from the corresponding value in the opensbp configuration, read from the engine.
  */
-var excluded_axes_str;
+
 function updateUIFromEngineConfig() {
     // getting config values for OpenSBP and G2; note that move speeds is OpenSBP, but jogs are in G2
     fabmo.getConfig(function(err, data) {
@@ -25,26 +25,37 @@ function updateUIFromEngineConfig() {
             input.val(String(v));
           }  
         }
-        // Work out how many axes to display in menu drop-downs
-        // ... allow both inch and rotary
-        excluded_axes_str = "";
-        var num_axes_str = "";
-          if (data.driver.aam == 0) {
-            excluded_axes_str = excluded_axes_str + "A";
-            num_axes_str = num_axes_str + "4";
-          }
-          if (data.driver.bam == 0) {
-            excluded_axes_str = excluded_axes_str + "B";
-            num_axes_str = num_axes_str + "5";
-          }
-          if (data.driver.cam == 0) {
-            excluded_axes_str = excluded_axes_str + "C";
-            num_axes_str = num_axes_str + "6";
-          }
-        excluded_axes_str = excluded_axes_str + num_axes_str;
       }
-      console.log(data);
-      console.log("axes - " + excluded_axes_str);
+    });
+}
+
+/**
+ * Work out how many axes to display in menu drop-downs by what to exclude (allow linear and rotary)
+ */
+function getExcludedAxes(callback) {
+    fabmo.getConfig(function(err, data) {
+      var excluded_axes_str="";
+      if(err) {
+        console.error(err);
+      } else {
+        var num_axes_str = "";
+        if (data.driver.aam == 0) {
+          excluded_axes_str = excluded_axes_str + "A";
+          num_axes_str = num_axes_str + "4";
+        }
+        if (data.driver.bam == 0) {
+          excluded_axes_str = excluded_axes_str + "B";
+          num_axes_str = num_axes_str + "5";
+        }
+        if (data.driver.cam == 0) {
+          excluded_axes_str = excluded_axes_str + "C";
+          num_axes_str = num_axes_str + "6";
+        }
+        excluded_axes_str = excluded_axes_str + num_axes_str;
+        console.log(data);
+        console.log("axes - " + excluded_axes_str);
+        callback(excluded_axes_str);
+      }
     });
 }
 

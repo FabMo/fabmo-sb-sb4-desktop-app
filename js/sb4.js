@@ -188,65 +188,69 @@ $(document).ready(function() {
   });
 
 
-  // *** Get MENUs Items from JSON file @initial load; now using local copy**
+  // *** Get MENUs Items from JSON file @initial load ***
   $.getJSON(
     'assets/sb3_commands.json',
-      // originally derived from 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json', 
+      // originally derived from 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json'
+      // ... now using local copy with lots of mods and updates 
     function(data) {
-      // Comment in for DEBUG; Print the JSON data object to the console just for debug and inspection
-      // console.log(data)
-      //     table = ["<table style='border-collapse: collapse'>"];
-      for (key in data) {
-        switch (key.substring(0, 1)) {
-          case "F":
-            $("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            break;
-          case "M":
-            if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
-              $("#menu_moves").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            }
-            break;
-          case "J":
-            if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
-              $("#menu_jogs").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            }
-            break;
-          case "C":
-            $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            break;
-          case "Z":
-            if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
-              $("#menu_zero").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            }
-            break;
-          case "S":
-            $("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            break;
-          case "V":
-            $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            break;
-          case "H":
-            $("#menu_help").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-            break;
+      getExcludedAxes(function(excluded_axes_str){
+
+        console.log("newAxis - " + excluded_axes_str);
+        for (key in data) {
+          switch (key.substring(0, 1)) {
+            case "F":
+              $("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              break;
+            case "M":
+              if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
+                $("#menu_moves").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              }
+              break;
+            case "J":
+              if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
+                $("#menu_jogs").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              }
+              break;
+            case "C":
+              $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              break;
+            case "Z":
+              if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
+                $("#menu_zero").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              }
+              break;
+            case "S":
+              $("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              break;
+            case "V":
+              $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              break;
+            case "H":
+              $("#menu_help").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+              break;
+          }
         }
-      }
 
-      $(document).foundation('dropdown', 'reflow');
-
-      // ** Set Up Response to Menu Click/Selection (paste in 2 Letter Command ***
-      // ... had to do this within the load and after the menu created, otherwise no binding to individual elements
-      // $(".menuDD").bind( 'click', function() {
-      // 	var thisCmd = this.id;
-      // 	$("#cmd-input").val(thisCmd + ", ");
-      // 	$("#cmd-input").focus();
-      // 	//console.log('got change ... ' + thisCmd);
-      // });
-
-      $(".menuDD").bind('click', function(event) {
-        var commandText = this.id;
         $(document).foundation('dropdown', 'reflow');
-        processCommandInput(commandText);
+
+        // ** Set Up Response to Menu Click/Selection (paste in 2 Letter Command ***
+        // ... had to do this within the load and after the menu created, otherwise no binding to individual elements
+        // $(".menuDD").bind( 'click', function() {
+        //  var thisCmd = this.id;
+        //  $("#cmd-input").val(thisCmd + ", ");
+        //  $("#cmd-input").focus();
+        //  //console.log('got change ... ' + thisCmd);
+        // });
+
+        $(".menuDD").bind('click', function(event) {
+          var commandText = this.id;
+          $(document).foundation('dropdown', 'reflow');
+          processCommandInput(commandText);
+        });
+        
       });
+
 
     });
 
