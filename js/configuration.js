@@ -52,8 +52,8 @@ function getExcludedAxes(callback) {
           num_axes_str = num_axes_str + "6";
         }
         excluded_axes_str = excluded_axes_str + num_axes_str;
-        console.log(data);
-        console.log("axes - " + excluded_axes_str);
+        //console.log(data);
+        //console.log("axes - " + excluded_axes_str);
         callback(excluded_axes_str);
       }
     });

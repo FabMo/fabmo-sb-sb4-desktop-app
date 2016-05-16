@@ -11,26 +11,19 @@ function sendCmd(command) {
   $('#cmd-input').val('');    // remove after sent or called
 }
 
-// https://www.kirupa.com/html5/check_if_internet_connection_exists_in_javascript.htm
-// function doesConnectionExist() {
-//     var xhr = new XMLHttpRequest();
-//     var file = "http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf";
-//     var randomNum = Math.round(Math.random() * 10000);
-     
-//     xhr.open('HEAD', file + "?rand=" + randomNum, false);
-     
-//     try {
-//         xhr.send();
-         
-//         if (xhr.status >= 200 && xhr.status < 304) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     } catch (e) {
-//         return false;
-//     }
-// }
+function getUsrResource(remote, local) {
+  $.ajax({
+    url:'http://docs.handibot.com',
+    type:'HEAD',
+    error: function(){
+      fabmo.navigate(local,{target : '_self'});
+//      fabmo.navigate(local);
+    },
+    success: function(){
+      fabmo.navigate(remote,{target : '_self'});
+    }
+  });
+}
 
 function processCommandInput(command) {
   var command = command.trim().toUpperCase();
@@ -83,6 +76,7 @@ function processCommandInput(command) {
         break;
     }
   } else if (command.length == 2) {
+
     switch (command) {
       case "JH":
       case "MH":
@@ -121,34 +115,26 @@ function processCommandInput(command) {
           'language': 'sbp'
         });
         break;
+
+      case "HA":
+        fabmo.notify('info', 'About: Sb4 Version 4.0.14');
+        break;
       case "HC":
-        fabmo.navigate('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', {target : '_blank'});
+        getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
         break;        
       case "HF":
-        fabmo.navigate('https://handibot.com/forum/list.php?2', {target : '_blank'});
+        getUsrResource('https://handibot.com/forum/list.php?2', 'assets/docs/No_Internet.pdf');
         break;        
       case "HW":
-        fabmo.navigate('https://handibot.com', {target : '_blank'});
-        console.log ("error test " + err);
+        getUsrResource('https://handibot.com', 'assets/docs/No_Internet.pdf');
         break;        
       case "HQ":
-        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Setup.pdf', {target : '_blank'});
+        getUsrResource('http://docs.handibot.com/doc-output/Handibot2_Unboxing.pdf', 'assets/docs/Handibot 2 MANUAL Unboxing Source_v004.pdf');
         break;        
       case "HS":
-        fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_Safety.pdf', {target : '_blank'});
+        getUsrResource('http://docs.handibot.com/doc-output/Handibot2_Safety.pdf', 'assets/docs/Handibot 2 MANUAL Safe Use Source_v002.pdf');
         break;        
-
-      // case "HC":
-      //   fabmo.navigate('../assets/ComRef.pdf', {target : '_blank'});
-      //   break;        
-      // case "HQ":
-      //   if (doesConnectionExist) {
-      //     fabmo.navigate('http://docs.handibot.com/doc-output/Handibot_2_MANUAL_Setup.pdf', {target : '_blank'});
-      //   } else {
-      //     fabmo.notify('warning', 'Uh Oh!');
-      //   } 
-      //   break;
-
+  
       case "SK":
       	//need "K" call
       	break;
@@ -195,8 +181,6 @@ $(document).ready(function() {
       // ... now using local copy with lots of mods and updates 
     function(data) {
       getExcludedAxes(function(excluded_axes_str){
-
-        console.log("newAxis - " + excluded_axes_str);
         for (key in data) {
           switch (key.substring(0, 1)) {
             case "F":
