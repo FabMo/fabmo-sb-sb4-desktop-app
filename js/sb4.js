@@ -12,15 +12,16 @@ function sendCmd(command) {
 }
 
 function getUsrResource(remote, local) {
-  $.ajax({
-    url:'http://docs.handibot.com',
-    type:'HEAD',
-    error: function(){
-      fabmo.navigate(local,{target : '_self'});
-//      fabmo.navigate(local);
-    },
-    success: function(){
-      fabmo.navigate(remote,{target : '_self'});
+  fabmo.isOnline(function(err, online) {
+    if(err) {
+      console.log("isOnline Error");
+      return;         
+    }
+    if(online) {
+      fabmo.navigate(remote,{target : '_blank'});    }
+      //fabmo.navigate(remote,{target : '_self'});    }
+    else {
+      fabmo.navigate(local,{target : '_blank'});
     }
   });
 }
@@ -120,6 +121,7 @@ function processCommandInput(command) {
         fabmo.notify('info', 'About: Sb4 Version 4.0.14');
         break;
       case "HC":
+        console.log("triggered");
         getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
         break;        
       case "HF":
