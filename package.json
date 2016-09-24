@@ -3,7 +3,7 @@
   "main": "./index.html",
   "icon": "icon.png",
   "icon_color": "blue",
-  "version": "4.0.14",
+  "version": "4.0.15",
   "author": "Ryan Sturmer & Ted Hall",
   "website": "http://www.shopbottools.com",
   "description": "Retro ShopBot CNC Interface - Sb4",

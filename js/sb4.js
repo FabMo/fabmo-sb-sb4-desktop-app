@@ -7,8 +7,28 @@
 function sendCmd(command) {
   var thisCmd = command || $('#cmd-input').val();
   $("#txt_area").text("Running > " + thisCmd);
-    fabmo.runSBP(thisCmd);    // SEND IT >>>
-  $('#cmd-input').val('');    // remove after sent or called
+  // Some Commands Need 'SV' to make permanent; thus multiline version
+  	var cmd_eval = thisCmd.substring(0,2);
+  		switch (cmd_eval) {
+  			case "VS":
+		        var mult_cmds=[
+        		thisCmd,
+          		'SV'						// Make Permanent
+          		].join("\n");
+        		fabmo.runSBP(mult_cmds);	// SEND MULTI >>>  
+  				break;
+  			case "MS":
+		        var mult_cmds=[
+        		thisCmd,
+          		'SV'						// Make Permanent
+          		].join("\n");
+        		fabmo.runSBP(mult_cmds);	// SEND MULTI >>>  
+  				break;
+  			default:
+			    fabmo.runSBP(thisCmd);    	// SEND SIMPLE >>>
+  				break;
+  		}
+  $('#cmd-input').val('');    				// remove after sent or called
 }
 
 function getUsrResource(remote, local) {
