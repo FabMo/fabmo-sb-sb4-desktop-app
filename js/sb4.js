@@ -32,18 +32,21 @@ function sendCmd(command) {
 }
 
 function getUsrResource(remote, local) {
-  fabmo.isOnline(function(err, online) {
-    if(err) {
-      console.log("isOnline Error");
-      return;         
-    }
-    if(online) {
-      fabmo.navigate(remote,{target : '_blank'});    }
-      //fabmo.navigate(remote,{target : '_self'});    }
-    else {
+  // temporarily only getting local because not detecting error on raspi tablets 
       fabmo.navigate(local,{target : '_blank'});
-    }
-  });
+
+  // fabmo.isOnline(function(err, online) {
+  //   if(err) {
+  //     console.log("isOnline Error");
+  //     return;         
+  //   }
+  //   if(online) {
+  //     fabmo.navigate(remote,{target : '_blank'});    }
+  //     //fabmo.navigate(remote,{target : '_self'});    }
+  //   else {
+  //     fabmo.navigate(local,{target : '_blank'});
+  //   }
+  // });
 }
 
 function processCommandInput(command) {
@@ -260,8 +263,8 @@ $(document).ready(function() {
 
     });
 
-  // ** Initialize Default Appearance
-  fabmo.showDRO();
+  // ** Initialize Default Appearance                                        ####Change to remember state
+    fabmo.showDRO();
 
   // Update the generic UI textboxes with config data from the engine
   updateUIFromEngineConfig();
@@ -362,27 +365,83 @@ $(document).ready(function() {
     }
   });
 
-  // Hidden file element for FP command
+  // File element for FP command; Clears Cue then Runs and puts file in JobManager history
   $('#file').change(function(evt) {
-    var file = $('#fileform');
-    var filename = $('#file').val().split('\\').pop();
-    fabmo.submitJob({
-      file: file,
-      name: filename,
-      description: '... called from Sb4'
-    });
-  });
+    fabmo.clearJobQueue(function(err,data){
+    if (err){
+      cosole.log(err);
+    } else {
 
-  // Clear Command Line after a status report is recieved
+        var filename = $('#file').val().split('\\').pop();
+        fabmo.submitJob({
+          file: file,
+          name: filename,
+          description: '... called from Sb4'
+        }, {stayHere: true},
+            function() { 
+              fabmo.runNext();
+        });
+        console.log('file= ' + file);
+        console.log('filename= ' + filename);
+        $('#file').val('');
+    }
+  });
+  })
+
+  // $('#file').change(function(evt) {
+  //     fabmo.clearJobQueue(function(err,data){
+  //     if (err){
+  //       cosole.log(err);
+  //     } else {
+  //       var file = $('#fileform');
+  //       var filename = $('#file').val().split('\\').pop();
+  //       fabmo.submitJob({
+  //         file: content,
+  //         filename: file,
+  //         name: file,
+  //         description: "Job request for: " + file,
+  //         stayHere: true
+  //         }, function(err, message) {
+  //         if (err){
+  //           console.log(err);
+  //          } else {
+  //             fabmo.runNext(function(err, data) {
+  //                if (err) {
+  //                  console.log(err);
+  //                } else {
+  //                    console.log('running');
+  //                }
+  //              });
+  //            }
+  //          });
+  //        }
+  //     });
+  // });
+
+
+  // Clear Command Line after a status report is recieved            ##### Need a clear after esc too
   fabmo.on('status', function(status) {
     $('#cmd-input').val("");
     console.log('got status report ...');
     if (!status.job) {
       $("#txt_area").text("");
       updateSpeedsFromEngineConfig();
+
+      $(".top-bar").click(); // ... and click to clear any dropdowns
+ 
     }
   });
 
+
+  // Process Macro Box Keys
+  $("#cut_part_call").click(function(event) {
+    console.log('got CutPart');
+    $('#file').trigger('click');
+  });
+  $("#first_macro_button").click(function(event) {
+    console.log('got firstMacro');
+    sendCmd("C3");
+  });
 
 
 
@@ -392,6 +451,8 @@ $(document).ready(function() {
     sendCmd("Command from Button Click");
     event.preventDefault();
   });
+
+  
 
 
   //var speed_XY = parseFloat($('#opensbp-movexy_speed').val());

@@ -37,6 +37,7 @@ var FabMoDashboard = function(options) {
 		'disconnect' : [],
 		'reconnect' : [],
     	'video_frame' : [],
+      'upload_progress':[]
 	};
 	this._setupMessageListener();
     // listen for escape key press to quit the engine
@@ -163,9 +164,7 @@ FabMoDashboard.prototype._download = function(data, strFileName, strMimeType) {
 } // _download
 
 FabMoDashboard.prototype._call = function(name, data, callback) {
-	// console.log(this)
 	if(this.isPresent()) {
-		//console.debug("Calling " + name + " with " + JSON.stringify(data));
 		message = {"call":name, "data":data}
 		if(callback) {
 			message.id = this._id++;
@@ -173,7 +172,6 @@ FabMoDashboard.prototype._call = function(name, data, callback) {
 		}
 		this.target.postMessage(message, '*');
 	} else {
-		//console.debug("Simulating " + name + " with " + JSON.stringify(data));
 		this._simulateCall(name, data, callback);
 	}
 }
@@ -200,6 +198,7 @@ FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 			}
 			text.textContent = msg;
 			showToaster(toast);
+			callback(null, {})
 		break;
 
 		case "runGCode":
@@ -249,6 +248,17 @@ FabMoDashboard.prototype.on = function(name, callback) {
 	this._on(name, callback);
 }
 
+FabMoDashboard.prototype.off = function(name, callback) {
+	var listeners = this._event_listeners[name] || [];
+	if(!callback) {
+		this._event_listeners[name] = [];
+	} else {
+ 		var idx = listeners.indexOf(5);
+		if (idx > -1) {
+    		this._event_listeners[name].splice(index, 1);
+		}
+	}
+}
 
 FabMoDashboard.prototype._setupMessageListener = function() {
 	this.window.addEventListener('message', function (evt) {
@@ -418,7 +428,7 @@ FabMoDashboard.prototype.notification = function(type,message,callback) {
 FabMoDashboard.prototype.notify = FabMoDashboard.prototype.notification;
 
 function _makeFile(obj) {
-	if(obj instanceof jQuery) {
+	if(window.jQuery && obj instanceof jQuery) {
 		if(obj.is('input:file')) {
 			obj = obj[0];
 		} else {
@@ -474,7 +484,7 @@ function _makeJob(obj) {
 FabMoDashboard.prototype.submitJob = function(jobs, options, callback) {
 	var args = {jobs : []};
 
-	if(jobs instanceof jQuery) {
+	if(window.jQuery && jobs instanceof jQuery) {
 		if(jobs.is('input:file')) {
 			jobs = obj[0];
 		} else {
@@ -505,6 +515,7 @@ FabMoDashboard.prototype.submitJob = function(jobs, options, callback) {
 	args.options = options || {};
 	this._call("submitJob", args, callback)
 }
+FabMoDashboard.prototype.submitJobs = FabMoDashboard.prototype.submitJob;
 
 FabMoDashboard.prototype.updateOrder = function(data, callback) {
 	this._call("updateOrder", data, callback);
@@ -515,11 +526,21 @@ FabMoDashboard.prototype.updateOrder = function(data, callback) {
  *
  * @method resubmitJob
  * @param {Number} id The ID of the job to resubmit
+ * @param {Object} options Job submission options
+ * @param {Object} options Job submission options
  * @param {function} callback
  * @param {Error} callback.err Error object if there was an error.
  */
-FabMoDashboard.prototype.resubmitJob = function(id, callback) {
-	this._call("resubmitJob", id, callback)
+FabMoDashboard.prototype.resubmitJob = function(id, options, callback) {
+  if(typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+  var args = {
+    id : id,
+    options : options || {}
+  }
+	this._call("resubmitJob", args, callback)
 }
 
 /**
@@ -702,7 +723,7 @@ FabMoDashboard.prototype.getApps = function(callback) {
 FabMoDashboard.prototype.submitApp = function(apps, options, callback) {
 	var args = {apps : []};
 
-	if(apps instanceof jQuery) {
+	if(window.jQuery && apps instanceof jQuery) {
 		if(apps.is('input:file')) {
 			apps = apps[0];
 		} else {
@@ -732,6 +753,17 @@ FabMoDashboard.prototype.submitApp = function(apps, options, callback) {
 
 	args.options = options || {};
 	this._call("submitApp", args, callback)
+}
+FabMoDashboard.prototype.getUpdaterConfig = function(callback) {
+	this._call("getUpdaterConfig", null, callback);
+}
+
+FabMoDashboard.prototype.setUpdaterConfig = function(data, callback) {
+	this._call("setUpdaterConfig", data, callback);
+}
+
+FabMoDashboard.prototype.getInfo = function(callback) {
+	this._call("getInfo", null, callback);
 }
 
 FabMoDashboard.prototype.getConfig = function(callback) {
@@ -969,6 +1001,10 @@ FabMoDashboard.prototype.getUsers = function(callback){
   this._call("getUsers",null,callback);
 }
 
+FabMoDashboard.prototype.getUpdaterStatus = function(callback){
+  this._call("getUpdaterStatus",null,callback);
+}
+
 
 var toaster = function () {
 	var el = document.createElement('div');
@@ -981,7 +1017,6 @@ var showToaster = function (toaster) {
     toaster.style.visibility = 'visible';
     setTimeout(function(){document.body.removeChild(toaster)}, 1000);
 }
-console.log(FabMoDashboard);
 return FabMoDashboard;
 
 }));

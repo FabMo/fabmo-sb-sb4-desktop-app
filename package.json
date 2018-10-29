@@ -1,10 +1,10 @@
 {
-  "name": "SB4",
+  "name": "Handi-CNC",
   "main": "./index.html",
   "icon": "icon.png",
   "icon_color": "#327c7e",
   "author": "Ted Hall",
-  "version": "4.0.16",
+  "version": "4.0.17",
   "website": "http://www.shopbottools.com",
   "description": "Retro ShopBot CNC Interface - Sb4",
   "id": "fabmo-sb4",
