@@ -99,7 +99,7 @@
       <div class="row">
         <div class="large-4 medium-4 small-6 columns">
           <div class="callout panel" style="background-color: white;">
-            <img src="./assets/image6b.gif">
+            <img data-tooltip class="top" tabindex="1" title="This app is Handibot's basic CNC interface for cutting Part Files and sending Commands in the OpenSBP language. Use Menu or 2-letter Commands followed by optional parameters followed by ENTER. See HELP for more information on the open-syntax OpenSBP language." src="./assets/image6b.gif">
             <p> </p>
 
             <h6>Speeds (default feed rates)</h6>
@@ -125,6 +125,10 @@
             </div>
 
           </div>
+
+          <p class="small text-left">[ Alt-F4 exits kiosk mode; Ctl-Tab switches windows ]</p>
+          <p class="small text-left">© Copyright ShopBot Tools 2018.</p>
+
         </div>
 
         <!-- Command Input and File Display Panel  -->
@@ -151,7 +155,9 @@
                 </div>
               </div>
             </form>
-            <p class="show-for-medium-up"><strong data-tooltip class="top" tabindex="1" title="Enter Commands followed by optional parameters and then ENTER. Click HELP for more information on the open-syntax OpenSBP language."> A basic CNC interface for cutting Part Files and sending Commands in the OpenSBP language.</strong> Use <strong>FP</strong> to run Part Files or click CUT PART.</p>
+      <!--      
+            <p class="show-for-medium-up"><strong data-tooltip class="top" tabindex="2" title="Enter Commands followed by optional parameters and then ENTER. Click HELP for more information on the open-syntax OpenSBP language."> A basic CNC interface for cutting Part Files and sending Commands in the OpenSBP language.</strong> Use <strong>FP</strong> to run Part Files or click CUT PART.</p>
+      -->
           </div>
         </div>
 
@@ -161,7 +167,7 @@
 
             <!-- Buttons (actions) -->
             <button type="button" class="success button small medium-expanded" id="cut_part_call" > == CUT PART ==  </button>
-            <button type="button" class="secondary button small medium-expanded" id="first_marcro_button" >Home X & Y (C3)</button>
+            <button type="button" class="secondary button small medium-expanded" id="first_macro_button" >Home X & Y (C3)</button>
             <button type="button" class="secondary button small medium-expanded" id="second_macro_button" >Set Z Zero (C2)</button>
             <p class="show-for-medium-up">Useful macros to run CNC files and set zero location for axes.</p>
 
@@ -172,6 +178,7 @@
     </div>
   </div>
 
+  <!--
   <footer class="row">
     <div class="large-12 columns">
       <div class="row">
@@ -182,6 +189,8 @@
       </div>
     </div>
   </footer>
+  -->
+  
   <script src="js/configuration.js"></script>
   <script src="js/sb4.js"></script>
   <script src="js/lib/foundation.min.js"></script>

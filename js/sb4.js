@@ -9,6 +9,9 @@ function sendCmd(command) {
   $("#txt_area").text("Running > " + thisCmd);
   // Some Commands Need 'SV' to make permanent; thus multiline version
   	var cmd_eval = thisCmd.substring(0,2);
+
+        console.log(thisCmd);
+
   		switch (cmd_eval) {
   			case "VS":
 		        var mult_cmds=[
@@ -440,6 +443,10 @@ $(document).ready(function() {
   });
   $("#first_macro_button").click(function(event) {
     console.log('got firstMacro');
+    sendCmd("C3");
+  });
+  $("#second_macro_button").click(function(event) {
+    console.log('got secondMacro');
     sendCmd("C3");
   });
 
