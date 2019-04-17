@@ -34,6 +34,9 @@ function updateUIFromEngineConfig() {
  */
 function getExcludedAxes(callback) {
     fabmo.getConfig(function(err, data) {
+      console.log("getConf-");
+      console.log(err);
+      console.log(data);
       var excluded_axes_str="";
       if(err) {
         console.error(err);

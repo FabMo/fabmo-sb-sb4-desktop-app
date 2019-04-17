@@ -2,16 +2,14 @@
  * Main js file for SB4
  * This is where the SB4 application starts.  
  * Includes the document ready event
- */
+ **/
 
 function sendCmd(command) {
   var thisCmd = command || $('#cmd-input').val();
-  $("#txt_area").text("Running > " + thisCmd);
+    postSbpAction(thisCmd);
   // Some Commands Need 'SV' to make permanent; thus multiline version
   	var cmd_eval = thisCmd.substring(0,2);
-
         console.log(thisCmd);
-
   		switch (cmd_eval) {
   			case "VS":
 		        var mult_cmds=[
@@ -50,6 +48,12 @@ function getUsrResource(remote, local) {
   //     fabmo.navigate(local,{target : '_blank'});
   //   }
   // });
+}
+
+function postSbpAction(action) {
+  setTimeout(function() { 
+    $("#txt_area").text("Running:" + '\n' + "    " + action); }, 
+    500);
 }
 
 function processCommandInput(command) {
@@ -201,6 +205,15 @@ $(document).ready(function() {
     }
   });
 
+  var noExcluded = "";
+  getExcludedAxes(function(excluded_axes_str) {
+    noExcluded = excluded_axes_str;
+    console.log(excluded_axes_str);
+    console.log("A- " + noExcluded);
+  })
+  console.log("B- " + noExcluded);
+  
+
 
   // *** Get MENUs Items from JSON file @initial load ***
   $.getJSON(
@@ -267,7 +280,7 @@ $(document).ready(function() {
     });
 
   // ** Initialize Default Appearance                                        ####Change to remember state
-    fabmo.showDRO();
+  fabmo.showDRO();
 
   // Update the generic UI textboxes with config data from the engine
   updateUIFromEngineConfig();
@@ -424,17 +437,15 @@ $(document).ready(function() {
 
   // Clear Command Line after a status report is recieved            ##### Need a clear after esc too
   fabmo.on('status', function(status) {
+    console.log("status-" + status.state + "  ln-" + status.curline);
     $('#cmd-input').val("");
-    console.log('got status report ...');
-    if (!status.job) {
-      $("#txt_area").text("");
-      updateSpeedsFromEngineConfig();
-
-      $(".top-bar").click(); // ... and click to clear any dropdowns
- 
-    }
+    //if (status.state==="idle") {
+    if (status.state != "running") {
+          $("#txt_area").text("");
+          updateSpeedsFromEngineConfig();
+          $(".top-bar").click(); // ... and click to clear any dropdowns
+      }
   });
-
 
   // Process Macro Box Keys
   $("#cut_part_call").click(function(event) {
@@ -447,7 +458,7 @@ $(document).ready(function() {
   });
   $("#second_macro_button").click(function(event) {
     console.log('got secondMacro');
-    sendCmd("C3");
+    sendCmd("C2");
   });
 
 
@@ -459,10 +470,6 @@ $(document).ready(function() {
     event.preventDefault();
   });
 
-  
-
-
-  //var speed_XY = parseFloat($('#opensbp-movexy_speed').val());
   //console.log("Speed is: " + speed_XY.toFixed(2));
   //console.log("Twice the speed is: " + (2*speed_XY).toFixed(2));
 });

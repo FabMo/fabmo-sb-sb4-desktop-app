@@ -198,7 +198,6 @@ FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 			}
 			text.textContent = msg;
 			showToaster(toast);
-			callback(null, {})
 		break;
 
 		case "runGCode":
@@ -1015,7 +1014,8 @@ var toaster = function () {
 }
 var showToaster = function (toaster) {
     toaster.style.visibility = 'visible';
-    setTimeout(function(){document.body.removeChild(toaster)}, 1000);
+		//*problem running just HTML
+		//setTimeout(function(){document.body.removeChild(toaster)}, 1000);
 }
 return FabMoDashboard;
 

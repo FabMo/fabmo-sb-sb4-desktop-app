@@ -31,7 +31,7 @@
       <ul class="left">
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark;"><strong>F</strong>iles</a>
+          <a style="background-color: dark"><strong>F</strong>iles</a>
           <ul class="dropdown" id="menu_files">
             <li><label>CUT, Edit, or Convert PART FILES</label></li>
           </ul>
@@ -102,7 +102,7 @@
             <img data-tooltip class="top" tabindex="1" title="This app is Handibot's basic CNC interface for cutting Part Files and sending Commands in the OpenSBP language. Use Menu or 2-letter Commands followed by optional parameters followed by ENTER. See HELP for more information on the open-syntax OpenSBP language." src="./assets/image6b.gif">
             <p> </p>
 
-            <h6>Speeds (default feeds)</h6>
+            <h6 title="Default feed rates and rapid speeds">Speeds</h6>
             <div class="row">
               <div class="large-6 medium-6 columns">
                 <label class="right"> Move X / Y &nbsp;&nbsp;</label>
@@ -127,7 +127,7 @@
           </div>
 
           <p class="small text-left">[ F11 (or right-click) to exit fullscreen; Ctl-Tab switches windows ]</p>
-          <p class="small text-left">© Copyright ShopBot Tools 2018.</p>
+          <p class="small text-left">© Copyright ShopBot Tools 2019.</p>
 
         </div>
 
@@ -148,10 +148,9 @@
                 <div class="large-12 columns">
                   <label id="running" value="" placeholder="  "> </label>
                   <label></label>
-                  <textarea class="show-for-small-only" rows="2" cols="50" name="textarea_filedisplay" id="txt_area">
-                  </textarea>
-                  <textarea class="show-for-medium-up" rows="6" cols="50" name="textarea_filedisplay" id="txt_area">
-                  </textarea>
+                  <!--add readonly to textarea-->
+                  <!--<textarea class="show-for-small-only" rows="2" cols="50" name="textarea_filedisplay"></textarea>-->
+                  <textarea class="show-for-medium-up running" rows="3" cols="50" name="textarea_filedisplay" id="txt_area"></textarea>
                 </div>
               </div>
             </form>
@@ -169,7 +168,7 @@
             <button type="button" class="success button small medium-expanded" id="cut_part_call" > == CUT PART ==  </button>
             <button type="button" class="secondary button small medium-expanded" id="first_macro_button" >Home X & Y (C3)</button>
             <button type="button" class="secondary button small medium-expanded" id="second_macro_button" >Set Z Zero (C2)</button>
-            <p class="show-for-medium-up">Useful macros to run CNC files and set zero location for axes.</p>
+            <p class="show-for-medium-up" title="Shortcut buttons">Useful commands and macros.</p>
 
           </div>
         </div>  
