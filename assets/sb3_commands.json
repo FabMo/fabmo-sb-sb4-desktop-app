@@ -4061,11 +4061,11 @@
 
    "HS": {
       "cmd": "HS",
-      "name": "Handibot SAFETY !"
+      "name": "SAFETY !"
    },
    "HQ": {
       "cmd": "HQ",
-      "name": "Quick Launch for beginning Handibotters"
+      "name": "Quick Launch for beginners"
    },
    "HC": {
       "cmd": "HC",
@@ -4073,11 +4073,11 @@
    },
    "HF": {
       "cmd": "HF",
-      "name": "Handibot User Forum"
+      "name": "User Forum"
    },
    "HW": {
       "cmd": "HW",
-      "name": "Handibot Website"
+      "name": "ShopBot Website"
    },
    "HA": {
       "cmd": "HA",

@@ -1,7 +1,10 @@
 body {
 	margin-top: 10px;
 }
-
+body.noScroll { /* ...or body.dialogShowing */
+	overflow: hidden;
+  }
+  
 #config-system-config {
 	font-family: monospace;
 	word-wrap: break-word;

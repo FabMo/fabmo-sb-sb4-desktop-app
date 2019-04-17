@@ -107,7 +107,6 @@ function processCommandInput(command) {
         break;
     }
   } else if (command.length == 2) {
-
     switch (command) {
       case "JH":
       case "MH":
@@ -146,11 +145,10 @@ function processCommandInput(command) {
           'language': 'sbp'
         });
         break;
-
       case "HA":
-        fabmo.notify('info', 'About: Sb4 Version 4.0.14');
+        fabmo.notify('info', 'About: Sb4 Version 4.0.22');
         break;
-      case "HC":
+        case "HC":
         console.log("triggered");
         getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
         break;        
@@ -158,7 +156,7 @@ function processCommandInput(command) {
         getUsrResource('https://handibot.com/forum/list.php?2', 'assets/docs/No_Internet.pdf');
         break;        
       case "HW":
-        getUsrResource('https://handibot.com', 'assets/docs/No_Internet.pdf');
+        getUsrResource('https://www.shopbottools.com', 'assets/docs/No_Internet.pdf');
         break;        
       case "HQ":
         getUsrResource('http://docs.handibot.com/doc-output/Handibot2_Unboxing.pdf', 'assets/docs/Handibot 2 MANUAL Unboxing Source_v004.pdf');
@@ -382,6 +380,7 @@ $(document).ready(function() {
   });
 
   // File element for FP command; Clears Cue then Runs and puts file in JobManager history
+ let curFile 
   $('#file').change(function(evt) {
     fabmo.clearJobQueue(function(err,data){
     if (err){
@@ -397,8 +396,9 @@ $(document).ready(function() {
             function() { 
               fabmo.runNext();
         });
-        console.log('file= ' + file);
+        console.log(file);
         console.log('filename= ' + filename);
+        curFile = filename;
         $('#file').val('');
     }
   });
@@ -437,10 +437,12 @@ $(document).ready(function() {
 
   // Clear Command Line after a status report is recieved            ##### Need a clear after esc too
   fabmo.on('status', function(status) {
-    console.log("status-" + status.state + "  ln-" + status.curline);
     $('#cmd-input').val("");
-    //if (status.state==="idle") {
-    if (status.state != "running") {
+
+      if (status.line !=null) {
+        $("#txt_area").text("Running:" + '\n' + "      FP, " + curFile + '\n' + "      " + status.line + "/" + status.nb_lines);
+      }    
+      if (status.state != "running") {
           $("#txt_area").text("");
           updateSpeedsFromEngineConfig();
           $(".top-bar").click(); // ... and click to clear any dropdowns
