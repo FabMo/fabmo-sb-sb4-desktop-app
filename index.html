@@ -7,8 +7,8 @@
   <title>ShopBot Controls SB4</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/foundation.min.css">
+<!--  <link rel="stylesheet" href="css/foundation.css" /> -->
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/foundation.css" />
 </head>
 
 <body>
@@ -16,17 +16,17 @@
   <script src="js/lib/jquery.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>
   <script src="js/lib/fabmo.js"></script>
+  
   <script type="text/javascript">
     var fabmo = new FabMoDashboard();
   </script>
 
-  <nav class="top-bar" data-topbar role="navigation" style="background-color: dark;">
-    <ul class="title-area">
-      <li class="name">
-      </li>
+  <nav class="top-bar" data-topbar role="navigation" style="background-color: dark">
+<!--    <ul class="title-area">
+      <li class="name"></li>
       <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
     </ul>
-
+-->
     <section class="top-bar-section">
       <ul class="left">
         <li class="divider"></li>
@@ -150,7 +150,7 @@
                   <label></label>
                   <!--add readonly to textarea-->
                   <!--<textarea class="show-for-small-only" rows="2" cols="50" name="textarea_filedisplay"></textarea>-->
-                  <textarea class="show-for-medium-up running" rows="3" cols="50" name="textarea_filedisplay" id="txt_area"></textarea>
+                  <textarea class="show-for-medium-up running" rows="3" cols="50" name="textarea_filedisplay" id="txt_area" readonly></textarea>
                 </div>
               </div>
             </form>
@@ -195,14 +195,6 @@
   <script src="js/lib/foundation.min.js"></script>
   <script src="js/foundation/foundation.dropdown.js"></script>
   <script src="js/lib/fastclick.js"></script>
-
-  <!-- Working on Menu Display -->
-  <style type="text/css">
-  .tablecell {
-    border: 1px solid gray;
-    padding: 0.25em;
-  }
-  </style>
 
 </body>
 

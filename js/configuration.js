@@ -3,7 +3,7 @@
  * Takes any element with an id of the form branchname-configitem_name that corresponds to a configuration item:
  * eg: opensbp-movexy_speed, opensbp-jogxy_speed
  * and populates it from the corresponding value in the opensbp configuration, read from the engine.
- */
+ **/
 
 function updateUIFromEngineConfig() {
     // getting config values for OpenSBP and G2; note that move speeds is OpenSBP, but jogs are in G2
@@ -62,7 +62,7 @@ function getExcludedAxes(callback) {
 
 /**
  * Update formatted Speeds for UI Speed Box display.
- */
+ **/
 function updateSpeedsFromEngineConfig() {
     var temp = 0;
     fabmo.getConfig(function(err, data) {
@@ -81,7 +81,7 @@ function updateSpeedsFromEngineConfig() {
  * id is of the form opensbp-configitem_name such as opensbp-movexy_speed, etc.
  * This will only work for configuration items on the first branch of the tree - 
  * deeper items need more consideration. (???)
- */
+ **/
 function setConfig(id, value) {
 	var parts = id.split("-");
 	var o = {};

@@ -183,7 +183,6 @@ function processCommandInput(command) {
 $(document).ready(function() {
   // Set and try to maintain focus in Command Input box
   $("#cmd-input").focus();
-
   // Start and customize foundation
   $(document).foundation({
     reveal: {
@@ -203,6 +202,7 @@ $(document).ready(function() {
     }
   });
 
+
   var noExcluded = "";
   getExcludedAxes(function(excluded_axes_str) {
     noExcluded = excluded_axes_str;
@@ -210,7 +210,7 @@ $(document).ready(function() {
     console.log("A- " + noExcluded);
   })
   console.log("B- " + noExcluded);
-  
+ 
 
 
   // *** Get MENUs Items from JSON file @initial load ***
@@ -278,68 +278,67 @@ $(document).ready(function() {
     });
 
   // ** Initialize Default Appearance                                        ####Change to remember state
-  fabmo.showDRO();
+  //fabmo.showDRO();
 
   // Update the generic UI textboxes with config data from the engine
-  updateUIFromEngineConfig();
+    updateUIFromEngineConfig();
 
   // Update the speed UI textboxes with config data from the engine (speeds are formatted)
-  updateSpeedsFromEngineConfig();
+    updateSpeedsFromEngineConfig();
 
   // Handle and Bind generic UI textboxes that directly change opensbp configs
-  $('.opensbp_input').change(function() {
-    setConfig(this.id, this.value);
-  });
+    $('.opensbp_input').change(function() {
+      setConfig(this.id, this.value);
+    });
 
   // Handle and Bind updates from formatted SPEED textboxes
-  $('.opensbp_input_formattedspeeds').change(function() {
-    switch (this.id) {
-      case 'formatted_movexy_speed':
-        var mult_cmds=[
-          'VS,' + this.value,
-          'SV'
-          ].join("\n");
-          //console.log("Commands are: \n" + mult_cmds);
-        fabmo.runSBP(mult_cmds);
-        break;
-      case 'formatted_movez_speed':
-        var mult_cmds=[
-          'VS,,' + this.value,
-          'SV'
-          ].join("\n");
-        fabmo.runSBP(mult_cmds);
-        break;
-      case 'formatted_jogxy_speed':
-        var mult_cmds=[
-          'VS,,,,,,' + this.value,
-          'SV'
-          ].join("\n");
-        fabmo.runSBP(mult_cmds);
-        break;
-      case 'formatted_jogz_speed':
-        var mult_cmds=[
-          'VS,,,,,,,' + this.value,
-          'SV'
-          ].join("\n");
-        fabmo.runSBP(mult_cmds);
-        break;
-    }
-    console.log("changed speeds ...");
-    updateSpeedsFromEngineConfig();
-    $("#cmd-input").focus();
-  });
+    $('.opensbp_input_formattedspeeds').change(function() {
+      switch (this.id) {
+        case 'formatted_movexy_speed':
+          var mult_cmds=[
+            'VS,' + this.value,
+            'SV'
+            ].join("\n");
+            //console.log("Commands are: \n" + mult_cmds);
+          fabmo.runSBP(mult_cmds);
+          break;
+        case 'formatted_movez_speed':
+          var mult_cmds=[
+            'VS,,' + this.value,
+            'SV'
+            ].join("\n");
+          fabmo.runSBP(mult_cmds);
+          break;
+        case 'formatted_jogxy_speed':
+          var mult_cmds=[
+            'VS,,,,,,' + this.value,
+            'SV'
+            ].join("\n");
+          fabmo.runSBP(mult_cmds);
+          break;
+        case 'formatted_jogz_speed':
+          var mult_cmds=[
+            'VS,,,,,,,' + this.value,
+            'SV'
+            ].join("\n");
+          fabmo.runSBP(mult_cmds);
+          break;
+      }
+      console.log("changed speeds ...");
+      updateSpeedsFromEngineConfig();
+      $("#cmd-input").focus();
+    });
 
-  // *** Respond to Command Entry
-  var xTriggered = 0;
-
+  // ** Respond to Command Entry
+    var xTriggered = 0;
   $("#cmd-input").keyup(function(event) {
-
-    // For Debug
-    var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
     var commandInputText = $("#cmd-input").val();
-    xTriggered++;
-    console.log(msg, "html");
-    console.log(event);
+
+    // // ## For Debug
+    // var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
+    // xTriggered++;
+    // console.log(msg, "html");
+    // console.log(event);
 
     switch (event.which) {
       case 13:
@@ -380,7 +379,7 @@ $(document).ready(function() {
   });
 
   // File element for FP command; Clears Cue then Runs and puts file in JobManager history
- let curFile 
+  let curFile 
   $('#file').change(function(evt) {
     fabmo.clearJobQueue(function(err,data){
     if (err){
@@ -435,42 +434,56 @@ $(document).ready(function() {
   // });
 
 
-  // Clear Command Line after a status report is recieved            ##### Need a clear after esc too
-  fabmo.on('status', function(status) {
-    $('#cmd-input').val("");
+  /**
+   * Clear Command Line after a status report is recieved            ##### Need a clear after esc too
+  **/
+    fabmo.on('status', function(status) {
+      $('#cmd-input').val("");
+        if (status.nb_lines > 0) {           // If we're running a file ...
+          $("#txt_area").text("Running:" + '\n' + "      FP, " + curFile + '\n' + "      " + status.line + "/" + status.nb_lines);
+        // } else {  
+        
+        }    
+        if (status.state != "running") {
+            $("#txt_area").text("");
+            updateSpeedsFromEngineConfig();
+            $(".top-bar").click();           // ... and click to clear any dropdowns
+            $("#cmd-input").focus();         // ... and reset focus
+        }
+    });
 
-      if (status.line !=null) {
-        $("#txt_area").text("Running:" + '\n' + "      FP, " + curFile + '\n' + "      " + status.line + "/" + status.nb_lines);
-      }    
-      if (status.state != "running") {
-          $("#txt_area").text("");
-          updateSpeedsFromEngineConfig();
-          $(".top-bar").click(); // ... and click to clear any dropdowns
-      }
-  });
+  /**
+   * Try to restore CMD focus when there is a shift back to app
+  **/
+    $(window).click(function(){
+      console.log("app got focus!")
+      $("#cmd-input").focus();               // ... and reset focus
+    });
 
-  // Process Macro Box Keys
-  $("#cut_part_call").click(function(event) {
-    console.log('got CutPart');
-    $('#file').trigger('click');
-  });
-  $("#first_macro_button").click(function(event) {
-    console.log('got firstMacro');
-    sendCmd("C3");
-  });
-  $("#second_macro_button").click(function(event) {
-    console.log('got secondMacro');
-    sendCmd("C2");
-  });
+  /**
+   * Process Macro Box Keys
+  **/
+    $("#cut_part_call").click(function(event) {
+      console.log('got CutPart');
+      $('#file').trigger('click');
+    });
+    $("#first_macro_button").click(function(event) {
+      console.log('got firstMacro');
+      sendCmd("C3");
+    });
+    $("#second_macro_button").click(function(event) {
+      console.log('got secondMacro');
+      sendCmd("C2");
+    });
 
 
 
   // Just for testing stuff ... 
-  $("#other").click(function() {
-    console.log('got change');
-    sendCmd("Command from Button Click");
-    event.preventDefault();
-  });
+    $("#other").click(function() {
+      console.log('got change');
+      sendCmd("Command from Button Click");
+      event.preventDefault();
+    });
 
   //console.log("Speed is: " + speed_XY.toFixed(2));
   //console.log("Twice the speed is: " + (2*speed_XY).toFixed(2));
