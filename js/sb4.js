@@ -455,10 +455,22 @@ $(document).ready(function() {
   /**
    * Try to restore CMD focus when there is a shift back to app
   **/
-    $(window).click(function(){
-      console.log("app got focus!")
+    // $(window).click(function(){
+    //   console.log("app got focus!")
+    //   $("#cmd-input").focus();               // ... and reset focus
+    // });
+
+    $(document).click(function(e){
+      // Check if click was triggered on or within #menu_content
+      if( $(e.target).closest("#speedPanel").length > 0 ) {
+          return false;
+      }
       $("#cmd-input").focus();               // ... and reset focus
-    });
+  });
+
+
+
+
 
   /**
    * Process Macro Box Keys
