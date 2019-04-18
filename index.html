@@ -14,12 +14,8 @@
 <body>
   <script src="js/lib/modernizr.js"></script>
   <script src="js/lib/jquery.js"></script>
-  <script src="js/lib/bootstrap.min.js"></script>
-  <script src="js/lib/fabmo.js"></script>
-  
-  <script type="text/javascript">
-    var fabmo = new FabMoDashboard();
-  </script>
+<!--  <script src="js/lib/bootstrap.min.js"></script> -->
+
 
   <nav class="top-bar" data-topbar role="navigation" style="background-color: dark">
     <ul class="title-area">
@@ -47,7 +43,7 @@
         <li class="has-dropdown">
           <a style="background-color: dark" title="Jog or Rapid Motion Commands"><strong>J</strong>ogs</a>
           <ul class="dropdown" id="menu_jogs">
-            <li><label>Jog or Rapid Motion Commands</label></li>
+            <li></li>
           </ul>
         </li>
         <li class="divider"></li>
@@ -189,14 +185,32 @@
     </div>
   </footer>
   -->
-  
-  <script src="js/configuration.js"></script>
-  <script src="js/sb4.js"></script>
-  <script src="js/lib/foundation.min.js"></script>
-  <script src="js/foundation/foundation.dropdown.js"></script>
-  <script src="js/lib/fastclick.js"></script>
+  <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
+  <a href="#" data-reveal-id="wheelPad">WHEEL-PAD trials</a>
 
+  <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="modalTitle">Sample Fill-In Sheet</h2>
+    <p>One parameter _________________________________</p>
+    <p>And the next parmeter _________________________</p>
+    <p>Form generated from SbpJSON ............................ OK-BUTTON</p>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+  <div id="wheelPad" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="modalTitle">WHEEL-PAD</h2>
+    <p></p><br><br><br>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
 </body>
+
+  <script src="js/lib/fabmo.js"></script>
+  <script>
+    var fabmo = new FabMoDashboard();
+  </script>
+  <script src="js/sb4.js"></script>
+  <script src="js/configuration.js"></script>
+  <script src="js/lib/foundation.min.js"></script>
+  <!-- <script src="js/foundation/foundation.dropdown.js"></script> -->
+  <script src="js/lib/fastclick.js"></script>
 
 </html>
 
