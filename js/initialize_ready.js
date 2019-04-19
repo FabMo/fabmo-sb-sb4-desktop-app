@@ -1,5 +1,6 @@
 /**
  * Initialize App on Document-Ready
+ * Most Event Handling
  */
 
 $(document).ready(function() {
@@ -156,88 +157,63 @@ $(document).ready(function() {
       }
     });
   
-      /**
-      * Final run CALL for FP command; first clears anything in JogQueue then Runs and puts file in JobManager history then clears file remnants
-      */
-     $("#ok_run").click(function(event) {
-      console.log(curFilename);
-      $('#myModal').foundation('reveal', 'close');
-          fabmo.clearJobQueue(function(err,data){
-            if (err){
-            cosole.log(err);
-          } else {
-              fabmo.submitJob({
-                file: curFile,
-                name: curFilename,
-                description: '... called from Sb4'
-              }, {stayHere: true},
-                  function() { 
-                    fabmo.runNext();
-              });
-          }
-      });
-      // clear out ....
-  //    curFilename="";
-  //    $("#curfilename").text("");
-  //    $('#file').val('');
-    });
-  
-    $("#cmd_quit").click(function(event) {
-      console.log("Not Run");
-      $('#myModal').foundation('reveal', 'close');
-      curFilename="";
-      $("#curfilename").text("");
-    });
-  
-  
-          let curFilename, curFile 
+    // ** Final run CALL for FP command; first clears anything in JogQueue then Runs and puts file in JobManager history then clears file remnants
+            let curFilename, curFile 
         $('#file').change(function(evt) {
-                  var filename = $('#file').val().split('\\').pop();
-                  curFilename = filename;
-                  curFile = file;
-              //console.log(join(file,"\n"))
+               var filename = $('#file').val().split('\\').pop();
+               curFilename = filename;
+               curFile = file;
+           //console.log(join(file,"\n"))
+            $("#curfilename").text(curFilename);
+            $('#myModal').foundation('reveal', 'open');
+            console.log(filename);
+            console.log(file);
+            console.log(curFile);
+        })    
+        $("#ok_run").click(function(event) {
+            console.log(curFilename);
+            $('#myModal').foundation('reveal', 'close');
+            fabmo.clearJobQueue(function(err,data){
+                if (err){
+                    cosole.log(err);
+                } else {
+                    fabmo.submitJob({
+                        file: curFile,
+                        name: curFilename,
+                        description: '... called from Sb4'
+                    }, {stayHere: true},
+                        function() { 
+                            fabmo.runNext();
+                    });
+                }
+            });
+            // clear out ....
+                //    curFilename="";
+                //    $("#curfilename").text("");
+                //    $('#file').val('');
+        });
+        $("#cmd_quit").click(function(event) {    // QUIT
+            console.log("Not Run");
+            $('#myModal').foundation('reveal', 'close');
+            curFile = "";
+            curFilename="";
+            $("#curfilename").text("");
+        });
   
-                  $("#curfilename").text(curFilename);
-             $('#myModal').foundation('reveal', 'open');
-             console.log(filename);
-             console.log(file);
-             console.log(curFile);
-         
-      //     fabmo.clearJobQueue(function(err,data){
-      //       if (err){
-      //       cosole.log(err);
-      //     } else {
-  
-      //         var filename = $('#file').val().split('\\').pop();
-      //         fabmo.submitJob({
-      //           file: file,
-      //           name: filename,
-      //           description: '... called from Sb4'
-      //         }, {stayHere: true},
-      //             function() { 
-      //               fabmo.runNext();
-      //         });
-      //         console.log(file);
-      //         console.log('filename= ' + filename);
-      //         curFile = filename;
-      //         $('#file').val('');
-      //     }
-      //     });
-        })
-  
-  
-    // ** Clear Command Line after a status report is recieved            ##### Need a clear after esc too
+    // ** STATUS: Report Ongoing and Clear Command Line after a status report is recieved    ## Need a clear after esc too
     fabmo.on('status', function(status) {
-      console.log("status-" + status.state + "  ln-" + status.curline);
-      $('#cmd-input').val("");
-      //if (status.state==="idle") {
-      if (status.state != "running") {
+        $('#cmd-input').val("");
+        if (status.nb_lines > 0) {           // If we're running a file ...
+            $("#txt_area").text("Running:" + '\n' + "      FP, " + curFile + '\n' + "      " + status.line + "/" + status.nb_lines);
+        }    
+        if (status.state != "running") {
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
-            $(".top-bar").click(); // ... and click to clear any dropdowns
+            $(".top-bar").click();           // ... and click to clear any dropdowns
+            $("#cmd-input").focus();         // ... and reset focus
         }
     });
-  
+      
     // ** Try to restore CMD focus when there is a shift back to app
     $(document).click(function(e){
       // Check if click was triggered on or within #menu_content
