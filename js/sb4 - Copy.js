@@ -1,7 +1,7 @@
 /**
  * Main js file for SB4
  * This is where the SB4 application starts.  
- * Everything NOT Handled in "Document Ready"
+ * Includes the document ready event
  **/
 
 function sendCmd(command) {
@@ -332,67 +332,73 @@ $(document).ready(function() {
     }
   });
 
-  // *** Final "RUN" CALL for FP command; first clears anything in JogQueue then Runs and puts file in JobManager history then clears file remnants
-   $("#ok_run").click(function(event) {
-    console.log(curFilename);
-    $('#myModal').foundation('reveal', 'close');
-        fabmo.clearJobQueue(function(err,data){
-          if (err){
-          cosole.log(err);
-        } else {
-            fabmo.submitJob({
-              file: curFile,
-              name: curFilename,
-              description: '... called from Sb4'
-            }, {stayHere: true},
-                function() { 
-                  fabmo.runNext();
-            });
-        }
-    });
-    // clear out ....
-//    curFilename="";
-//    $("#curfilename").text("");
-//    $('#file').val('');
+
+  // CUT PART of FP command; Clears Queue then Runs and puts file in JobManager history
+  $('#file').change(function(evt) {
+    fabmo.clearJobQueue(function(err,data){
+    if (err){
+      cosole.log(err);
+    } else {
+        var filename = $('#file').val().split('\\').pop();
+        fabmo.submitJob({
+          file: file,
+          name: filename,
+          description: '... called from Sb4'
+        }, {stayHere: true},
+            function() { 
+              fabmo.runNext();
+        });
+        console.log('file= ' + file);
+        console.log('filename= ' + filename);
+        $('#file').val('');
+    }
   });
+  })
 
-  $("#cmd_quit").click(function(event) {     // QUIT
-    console.log("Not Run");
-    $('#myModal').foundation('reveal', 'close');
-    curFile = "";
-    curFilename="";
-    $("#curfilename").text("");
-  });
+  // $('#file').change(function(evt) {
+  //     fabmo.clearJobQueue(function(err,data){
+  //     if (err){
+  //       cosole.log(err);
+  //     } else {
+  //       var file = $('#fileform');
+  //       var filename = $('#file').val().split('\\').pop();
+  //       fabmo.submitJob({
+  //         file: content,
+  //         filename: file,
+  //         name: file,
+  //         description: "Job request for: " + file,
+  //         stayHere: true
+  //         }, function(err, message) {
+  //         if (err){
+  //           console.log(err);
+  //          } else {
+  //             fabmo.runNext(function(err, data) {
+  //                if (err) {
+  //                  console.log(err);
+  //                } else {
+  //                    console.log('running');
+  //                }
+  //              });
+  //            }
+  //          });
+  //        }
+  //     });
+  // });
 
-        let curFilename, curFile 
-      $('#file').change(function(evt) {
-          var filename = $('#file').val().split('\\').pop();
-          curFilename = filename;
-          curFile = file;
-         //console.log(join(file,"\n"))
-          $("#curfilename").text(curFilename);
-          $('#myModal').foundation('reveal', 'open');
-          console.log(filename);
-          console.log(file);
-          console.log(curFile);
-      })
 
-  // *** STATUS: Clear Command Line after a status report is recieved            ##### Need a clear after esc too
+  // Clear Command Line after a status report is recieved            ##### Need a clear after esc too
   fabmo.on('status', function(status) {
+    console.log("status-" + status.state + "  ln-" + status.curline);
     $('#cmd-input').val("");
-      if (status.nb_lines > 0) {           // If we're running a file ...
-        $("#txt_area").text("Running:" + '\n' + "      FP, " + curFile + '\n' + "      " + status.line + "/" + status.nb_lines);
-      // } else {  
-      }    
-      if (status.state != "running") {
+    //if (status.state==="idle") {
+    if (status.state != "running") {
           $("#txt_area").text("");
           updateSpeedsFromEngineConfig();
-          $(".top-bar").click();           // ... and click to clear any dropdowns
-          $("#cmd-input").focus();         // ... and reset focus
+          $(".top-bar").click(); // ... and click to clear any dropdowns
       }
   });
 
-  // *** Try to restore CMD focus when there is a shift back to app
+  // Try to restore CMD focus when there is a shift back to app
   $(document).click(function(e){
     // Check if click was triggered on or within #menu_content
       if( $(e.target).closest("#speedPanel").length > 0 ) {
@@ -401,7 +407,7 @@ $(document).ready(function() {
       $("#cmd-input").focus();               // ... and reset focus
   });
 
-  // *** Process Macro Box Keys
+  // Process Macro Box Keys
   $("#cut_part_call").click(function(event) {
     console.log('got CutPart');
     $('#file').trigger('click');
@@ -415,8 +421,8 @@ $(document).ready(function() {
     sendCmd("C2");
   });
 
-
-  // *** Just for testing stuff ... 
+  
+  // Just for testing stuff ... 
   $("#other").click(function() {
     console.log('got change');
     sendCmd("Command from Button Click");
