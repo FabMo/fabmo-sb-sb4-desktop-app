@@ -163,7 +163,6 @@ function processCommandInput(command) {
       case "HS":
         getUsrResource('http://docs.handibot.com/doc-output/Handibot2_Safety.pdf', 'assets/docs/Handibot 2 MANUAL Safe Use Source_v002.pdf');
         break;        
-  
       case "SK":
       	//need "K" call
       	break;
@@ -204,7 +203,7 @@ $(document).ready(function() {
             for (key in data) {
               switch (key.substring(0, 1)) {
                 case "F":
-                  $("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                $("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
                   break;
                 case "M":
                   if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
@@ -236,9 +235,14 @@ $(document).ready(function() {
               }
             }
           });
+    $(document).foundation('dropdown', 'reflow');
         $(".menuDD").bind('click', function(event) {
+   console.log("got here")
+
+
+   
           var commandText = this.id;
-          $(document).foundation('dropdown', 'reflow');
+    //      $(document).foundation('dropdown', 'reflow');
           processCommandInput(commandText);
         });
     });
@@ -325,33 +329,74 @@ $(document).ready(function() {
             break;
         }
     });
-  /**
-    * File element for FP command; Clears Cue then Runs and puts file in JobManager history
+
+    /**
+    * Final run CALL for FP command; first clears anything in JogQueue then Runs and puts file in JobManager history then clears file remnants
     */
-      let curFile 
-      $('#file').change(function(evt) {
-    $('#myModal').foundation('reveal', 'open');
+  $("#ok_run").click(function(event) {
+    console.log(curFilename);
+    $('#myModal').foundation('reveal', 'close');
         fabmo.clearJobQueue(function(err,data){
           if (err){
           cosole.log(err);
         } else {
-
-            var filename = $('#file').val().split('\\').pop();
-    console.log("where we do settings-sheet")
             fabmo.submitJob({
-              file: file,
-              name: filename,
+              file: curFile,
+              name: curFilename,
               description: '... called from Sb4'
             }, {stayHere: true},
                 function() { 
                   fabmo.runNext();
             });
-            console.log(file);
-            console.log('filename= ' + filename);
-            curFile = filename;
-            $('#file').val('');
         }
-        });
+    });
+    // clear out ....
+//    curFilename="";
+//    $("#curfilename").text("");
+//    $('#file').val('');
+  });
+
+  $("#cmd_quit").click(function(event) {
+    console.log("Not Run");
+    $('#myModal').foundation('reveal', 'close');
+    curFilename="";
+    $("#curfilename").text("");
+  });
+
+
+        let curFilename, curFile 
+      $('#file').change(function(evt) {
+                var filename = $('#file').val().split('\\').pop();
+                curFilename = filename;
+                curFile = file;
+            //console.log(join(file,"\n"))
+
+                $("#curfilename").text(curFilename);
+           $('#myModal').foundation('reveal', 'open');
+           console.log(filename);
+           console.log(file);
+           console.log(curFile);
+       
+    //     fabmo.clearJobQueue(function(err,data){
+    //       if (err){
+    //       cosole.log(err);
+    //     } else {
+
+    //         var filename = $('#file').val().split('\\').pop();
+    //         fabmo.submitJob({
+    //           file: file,
+    //           name: filename,
+    //           description: '... called from Sb4'
+    //         }, {stayHere: true},
+    //             function() { 
+    //               fabmo.runNext();
+    //         });
+    //         console.log(file);
+    //         console.log('filename= ' + filename);
+    //         curFile = filename;
+    //         $('#file').val('');
+    //     }
+    //     });
       })
   /**
    * STATUS: Clear Command Line after a status report is recieved            ##### Need a clear after esc too
@@ -395,7 +440,7 @@ $(document).ready(function() {
       sendCmd("C2");
     });
 
-    // Just for testing stuff ... 
+    // Just for testing stuff ...  need a new button ...
     $("#other").click(function() {
       console.log('got change');
       sendCmd("Command from Button Click");
