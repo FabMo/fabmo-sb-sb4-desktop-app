@@ -14,6 +14,9 @@
 <body>
   <script src="js/lib/modernizr.js"></script>
   <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/foundation.min.js"></script>
+  <script src="js/lib/foundation.dropdown.js"></script>
+  <script src="js/lib/fastclick.js"></script>
 <!--  <script src="js/lib/bootstrap.min.js"></script> -->
 
 
@@ -136,7 +139,8 @@
                   <label class="show-for-small-only">Cmd</label>
                   <label class="show-for-medium-up"><strong>Command Input</strong> (select from menu above or type Commands directly here)</label>
                   <form>
-                    <input type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
+                    <input class="show-for-medium-up" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
+                    <input class="show-for-small-only" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="{2-Letters...}" value="" />
                   </form>
                 </div>
               </div>
@@ -188,14 +192,17 @@
   <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
   <a href="#" data-reveal-id="wheelPad">WHEEL-PAD trials</a>
 
-  <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <div id="myModal" class="reveal-modal" data-reveal role="dialog">
     <h2 id="modalTitle">Sample Fill-In Sheet</h2>
+    <p id="curfilename"></p>
     <p>One parameter _________________________________</p>
     <p>And the next parmeter _________________________</p>
     <p>Form generated from SbpJSON ............................ OK-BUTTON</p>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    <ul class="button-group">
+    <li><a class="secondary button" role="button" id="ok_run" tabindex="0">OK-RUN</a></li><li><a class="secondary button" role="button" id="cmd_quit">QUIT</a></li>
+    </ul>
   </div>
-  <div id="wheelPad" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <div id="wheelPad" class="reveal-modal" data-reveal aria-labelledby="modalTitle" role="dialog">
     <h2 id="modalTitle">WHEEL-PAD</h2>
     <p></p><br><br><br>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
@@ -208,9 +215,6 @@
   </script>
   <script src="js/sb4.js"></script>
   <script src="js/configuration.js"></script>
-  <script src="js/lib/foundation.min.js"></script>
-  <!-- <script src="js/foundation/foundation.dropdown.js"></script> -->
-  <script src="js/lib/fastclick.js"></script>
 
 </html>
 
