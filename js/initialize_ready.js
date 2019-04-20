@@ -156,22 +156,52 @@ $(document).ready(function() {
           break;
       }
     });
-  
+
+      let curFilename, curFile 
+		document.getElementById('file').addEventListener('input', function(evt) {
+      console.log("detected file")
+      var file = document.getElementById("file").files[0];
+      var fileReader = new FileReader();
+      fileReader.onload = function(fileLoadedEvent){
+          var lines = fileLoadedEvent.target.result.split('\n');
+          for(var line = 0; line < lines.length; line++){
+            console.log(line + ">>>" + lines[line]);
+          }
+          curFile = file
+      };
+      fileReader.readAsText(file, "UTF-8");
+      var curFilename = evt.target.files[0].name;
+      $("#curfilename").text(curFilename);
+      $('#myModal').foundation('reveal', 'open');
+    })
+
+
+
+
     // ** Final run CALL for FP command; first clears anything in JogQueue then Runs and puts file in JobManager history then clears file remnants
-            let curFilename, curFile 
-        $('#file').change(function(evt) {
-               var filename = $('#file').val().split('\\').pop();
-               curFilename = filename;
-               curFile = file;
-           //console.log(join(file,"\n"))
-            $("#curfilename").text(curFilename);
-            $('#myModal').foundation('reveal', 'open');
-            console.log(filename);
-            console.log(file);
-            console.log(curFile);
-        })    
-        $("#ok_run").click(function(event) {
+        //     let curFilename, curFile 
+        // $('#file').change(function(evt) {
+        //        var filename = $('#file').val().split('\\').pop();
+        //        curFilename = filename;
+        //        curFile = file;
+        //    //console.log(join(file,"\n"))
+        //     $("#curfilename").text(curFilename);
+        //     $('#myModal').foundation('reveal', 'open');
+        //     console.log(filename);
+        //     //console.log(file);
+        //     //console.log(curFile);
+        //    // ## need to clear things if file selector is exited w/o file
+        // })    
+        $("#btn_ok_run").click(function(event) {
             console.log(curFilename);
+
+            var fileReader = new FileReader();
+            fileReader.readAsText(curFile, "UTF-8");  
+            fileReader.onload = function(fileLoadedEvent){
+              var textFromFileLoaded = fileLoadedEvent.target.result;
+              console.log(textFromFileLoaded);
+            }  
+
             $('#myModal').foundation('reveal', 'close');
             fabmo.clearJobQueue(function(err,data){
                 if (err){
@@ -187,12 +217,27 @@ $(document).ready(function() {
                     });
                 }
             });
-            // clear out ....
+            // ## not clearing is probably leaving this hanging for next try
+            // clear out .... AFTER THE RUN
                 //    curFilename="";
                 //    $("#curfilename").text("");
                 //    $('#file').val('');
         });
-        $("#cmd_quit").click(function(event) {    // QUIT
+        $("#btn_cmd_quit").click(function(event) {    // QUIT
+            console.log("Not Run");
+            $('#myModal').foundation('reveal', 'close');
+            curFile = "";
+            curFilename="";
+            $("#curfilename").text("");
+        });
+        $("#btn_prev_file").click(function(event) {    // PREVIEW
+            console.log("Not Run");
+            $('#myModal').foundation('reveal', 'close');
+            curFile = "";
+            curFilename="";
+            $("#curfilename").text("");
+        });
+        $("#btn_edit_file").click(function(event) {    // EDIT
             console.log("Not Run");
             $('#myModal').foundation('reveal', 'close');
             curFile = "";
@@ -202,11 +247,16 @@ $(document).ready(function() {
   
     // ** STATUS: Report Ongoing and Clear Command Line after a status report is recieved    ## Need a clear after esc too
     fabmo.on('status', function(status) {
-        $('#cmd-input').val("");
+        console.log(status.state);
         if (status.nb_lines > 0) {           // If we're running a file ...
-            $("#txt_area").text("Running:" + '\n' + "      FP, " + curFile + '\n' + "      " + status.line + "/" + status.nb_lines);
+            $("#txt_area").text("Running:" + '\n' + "      FP, " + curFilename + '\n' + "      " + status.line + "/" + status.nb_lines);
+            $('#cmd-input').val('>');
+        }
+        if (status.state === "running") {
+            $('#cmd-input').val('>');
         }    
         if (status.state != "running") {
+            $('#cmd-input').val("");
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
             $(".top-bar").click();           // ... and click to clear any dropdowns

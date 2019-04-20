@@ -53,6 +53,7 @@ function postSbpAction(action) {
   setTimeout(function() { 
     $("#txt_area").text("Running:" + '\n' + "    " + action); }, 
     500);
+    $('#cmd-input').val('>');
 }
 
 function processCommandInput(command) {

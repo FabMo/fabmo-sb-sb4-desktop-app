@@ -89,6 +89,7 @@
   </nav>
   <form style="display:none;" id="fileform">
     <input name="uploadFile" type="file" id="file">
+    <button onclick="loadFileAsText()"></button>
   </form>
 
   <!-- Grid Layout -->
@@ -193,13 +194,16 @@
   <a href="#" data-reveal-id="wheelPad">WHEEL-PAD trials</a>
 
   <div id="myModal" class="reveal-modal" data-reveal role="dialog">
-    <h2 id="modalTitle">Sample Fill-In Sheet</h2>
+    <h2 id="modalTitle">File Ready to Run</h2>
     <p id="curfilename"></p>
-    <p>One parameter _________________________________</p>
-    <p>And the next parmeter _________________________</p>
-    <p>Form generated from SbpJSON ............................ OK-BUTTON</p>
+    <p>Offset: _______________________________________</p>
+    <p>Height: _______________________________________</p>
+    <p>Repetitions: __________________________________</p>
     <ul class="button-group">
-    <li><a class="secondary button" role="button" id="ok_run" tabindex="0">OK-RUN</a></li><li><a class="secondary button" role="button" id="cmd_quit">QUIT</a></li>
+      <li><a class="secondary button" role="button" id="btn_ok_run" tabindex="0">OK-RUN</a></li>
+      <li><a class="secondary button" role="button" id="btn_cmd_quit">QUIT</a></li>
+      <li><a class="secondary button" role="button" id="btn_prev_file">Preview File</a></li>
+      <li><a class="secondary button" role="button" id="btn_edit_file">Edit File</a></li>
     </ul>
   </div>
   <div id="wheelPad" class="reveal-modal" data-reveal aria-labelledby="modalTitle" role="dialog">
