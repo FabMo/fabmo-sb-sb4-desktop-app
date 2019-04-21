@@ -137,6 +137,25 @@ function processCommandInput(command) {
         $("#cmd-input").val(command);
         $('#file').trigger('click');
         break;
+
+      case "CC":
+        let display, parameters="";
+        $("#cmd-input").val(command);
+        //console.log(cmds[command].params);
+        cmds[command].params.forEach(function(entry) {
+          console.log("an entry> " + entry.name);
+          parameters += "{" + entry.name + "}, ";
+        });  
+          console.log(parameters)          
+          display = command + ": " + cmds[command].name
+          $('#params').append(parameters);
+          $('#curfilename').append("Parameters for Command");
+          $('#modalTitle').empty();
+          $('#modalTitle').append(display);
+          $('#myModal').foundation('reveal', 'open');
+        console.log('ready to call CMD')
+        break;
+
       case "SI":
       case "FN":
         fabmo.launchApp('editor', {

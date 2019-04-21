@@ -3,6 +3,8 @@
  * Most Event Handling
  */
 
+let cmds = [];
+
 $(document).ready(function() {
     // Set and try to maintain focus in Command Input box
     $("#cmd-input").focus();
@@ -16,11 +18,13 @@ $(document).ready(function() {
         mobile_show_parent_link: true
       }
     });
-  
+
+
     // *** Get MENUs Items from JSON file @initial load ***
     $.getJSON(     // ## never solved problem of getting into index.html for debug
       'assets/sb3_commands.json',       // Originally from 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json'
       function(data) {                  // ... now using local copy with lots of mods and updates
+console.log(data)        
         getExcludedAxes(function(excluded_axes_str){
           for (key in data) {
             switch (key.substring(0, 1)) {
@@ -39,6 +43,8 @@ $(document).ready(function() {
                 break;
               case "C":
                 $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                cmds[key]=data[key];
+                console.log(cmds[key])
                 break;
               case "Z":
                 if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
@@ -117,8 +123,8 @@ $(document).ready(function() {
       var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
       var commandInputText = $("#cmd-input").val();
       xTriggered++;
-      console.log(msg, "html");
-      console.log(event);
+      //console.log(msg, "html");
+      //console.log(event);
   
       switch (event.which) {
         case 13:
@@ -161,13 +167,12 @@ $(document).ready(function() {
       let curFilename, curFile
       let lines = new Array()
 		document.getElementById('file').addEventListener('input', function(evt) {
-      console.log("detected file")
       let file = document.getElementById("file").files[0];
       let fileReader = new FileReader();
       fileReader.onload = function(fileLoadedEvent){
           lines = fileLoadedEvent.target.result.split('\n');
           for(let line = 0; line < lines.length; line++){
-            console.log(line + ">>>" + lines[line]);
+          //  console.log(line + ">>>" + lines[line]);
           }
           curFile = file
       };
@@ -177,42 +182,37 @@ $(document).ready(function() {
       $('#myModal').foundation('reveal', 'open');
     })
 
-    $("#btn_ok_run").click(function(event) {
-            console.log(curFilename);
-            // var fileReader = new FileReader();
-            // fileReader.readAsText(curFile, "UTF-8");  
-            // fileReader.onload = function(fileLoadedEvent){
-            //   var textFromFileLoaded = fileLoadedEvent.target.result;
-            //   //console.log(textFromFileLoaded);
-            // }  
-            $('#myModal').foundation('reveal', 'close');
-            fabmo.clearJobQueue(function(err,data){
-                if (err){
-                    cosole.log(err);
-                } else {
-                    fabmo.submitJob({
-                        file: curFile,
-                        name: curFilename,
-                        description: '... called from Sb4'
-                    }, {stayHere: true},
-                        function() { 
-                            fabmo.runNext();
-                    });
+        $("#btn_ok_run").click(function(event) {
+          //console.log(curFilename);
+          $('#myModal').foundation('reveal', 'close');
+          fabmo.clearJobQueue(function (err, data) {
+            if (err) {
+              cosole.log(err);
+            } else {
+              fabmo.submitJob({
+                file: curFile,
+                name: curFilename,
+                description: '... called from Sb4'
+              }, { stayHere: true },
+                function () {
+                  fabmo.runNext();
                 }
-            });
-            // ## not clearing is probably leaving this hanging for next try
-            // clear out .... AFTER THE RUN
-                //    curFilename="";
-                //    $("#curfilename").text("");
-                //    $('#file').val('');
+              );
+              curFile="";                           // ... clear out after running
+              curFilename = "";
+              $("#curfilename").text("");
+              $('#file').val('');
+        }
+          });
         });
-        $("#btn_cmd_quit").click(function(event) {    // QUIT
+        $("#btn_cmd_quit").click(function(event) {      // QUIT
             console.log("Not Run");
             $('#myModal').foundation('reveal', 'close');
             curFile = "";
             curFilename="";
             $("#curfilename").text("");
-        });
+            $('#file').val('');
+          });
         $("#btn_prev_file").click(function(event) {    // PREVIEW
             console.log("Not Run");
             $('#myModal').foundation('reveal', 'close');
@@ -242,7 +242,7 @@ $(document).ready(function() {
             $('#cmd-input').val('>');
         }
         if (status.state === "running") {
-            $('#cmd-input').val('>');
+            $('#cmd-input').val(' ');
         }    
         if (status.state != "running") {
             $('#cmd-input').val("");
@@ -264,7 +264,6 @@ $(document).ready(function() {
   
     // ** Process Macro Box Keys
     $("#cut_part_call").click(function(event) {
-      console.log('got CutPart');
       $('#file').trigger('click');
     });
     $("#first_macro_button").click(function(event) {
