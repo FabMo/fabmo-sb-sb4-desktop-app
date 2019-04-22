@@ -238,6 +238,7 @@ console.log(data)
             lineDisplay += "  " + (status.line - 1) + "  " + lines[status.line - 1] + '\n' 
             lineDisplay += "> " + status.line  + "  " + lines[status.line] + '\n' 
             lineDisplay += "  " + (status.line + 1) + "  " + lines[status.line + 1] + '\n' 
+            lineDisplay += "  " + (status.line + 2) + "  " + lines[status.line + 2] + '\n' 
             $("#txt_area").text(lineDisplay);
             $('#cmd-input').val('>');
         }
