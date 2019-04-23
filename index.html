@@ -4,23 +4,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ShopBot Controls SB4</title>
+  <title>ShopBot Console</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/foundation.min.css">
 <!--  <link rel="stylesheet" href="css/foundation.css" /> -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body style="background-color:rgb(130, 128, 126)">
   <script src="js/lib/modernizr.js"></script>
   <script src="js/lib/jquery.js"></script>
   <script src="js/lib/foundation.min.js"></script>
   <script src="js/lib/foundation.dropdown.js"></script>
   <script src="js/lib/fastclick.js"></script>
-<!--  <script src="js/lib/bootstrap.min.js"></script> -->
 
+  <script src="js/lib/fabmo.js"></script>
+  <script> let fabmo = new FabMoDashboard(); </script>
 
-  <nav class="top-bar" data-topbar role="navigation" style="background-color: dark">
+  <nav class="top-bar" data-topbar role="navigation" style="background-color:rgb(92, 90, 90)">
     <ul class="title-area">
       <li class="name"></li>
       <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
@@ -30,56 +31,56 @@
       <ul class="left">
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="CUT, Edit, or Preview PART FILES"><strong>F</strong>iles</a>
+          <a style="background-color:rgb(92, 90, 90)" title="CUT, Edit, or Preview PART FILES"><strong>F</strong>iles</a>
           <ul class="dropdown" id="menu_files">
             <li></li>
           </ul>
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="Basic Movement Commands"><strong>M</strong>oves</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Basic Movement Commands"><strong>M</strong>oves</a>
           <ul class="dropdown" id="menu_moves">
             <li></li>
           </ul>
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="Jog or Rapid Motion Commands"><strong>J</strong>ogs</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Jog or Rapid Motion Commands"><strong>J</strong>ogs</a>
           <ul class="dropdown" id="menu_jogs">
             <li></li>
           </ul>
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="Simple Cut Commands and Macros"><strong>C</strong>uts</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Simple Cut Commands and Macros"><strong>C</strong>uts</a>
           <ul class="dropdown" id="menu_cuts">
             <li></li>
           </ul>
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="Set the Current Location of Axes to Zero"><strong>Z</strong>ero</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Set the Current Location of Axes to Zero"><strong>Z</strong>ero</a>
           <ul class="dropdown" id="menu_zero">
             <li></li>
           </ul>
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="Input or Change a Setting"><strong>S</strong>ettings</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Input or Change a Setting"><strong>S</strong>ettings</a>
           <ul class="dropdown" id="menu_settings">
             <li></li>
           </ul>
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="Set or Change Current Configuration Values"><strong>V</strong>alues</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Set or Change Current Configuration Values"><strong>V</strong>alues</a>
           <ul class="dropdown" id="menu_values">
             <li></li>
           </ul>
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color: dark" title="Get Help for ShopBot"><strong>H</strong>elp</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Get Help for ShopBot"><strong>H</strong>elp</a>
           <ul class="dropdown" id="menu_help">
             <li></li>
           </ul>
@@ -98,7 +99,7 @@
     <div class="large-14 medium-12 columns">
       <div class="row">
         <div class="large-4 medium-4 small-6 columns">
-          <div class="callout panel" style="background-color: white;" id="speedPanel">
+          <div class="callout panel" style="background-color:grey; border-radius:20px; border-color:rgb(136, 171, 190)"  id="speedPanel">
             <img data-tooltip class="top" tabindex="1" title="This app is ShopBot's classic CNC interface for cutting Part Files and sending Commands in the OpenSBP language. Use Menu or 2-letter Commands followed by optional parameters followed by ENTER. See HELP > Cmd Reference for info on OpenSBP language." src="./assets/image6b.gif">
             <p> </p>
 
@@ -106,7 +107,7 @@
             <div class="row">
               <div class="large-6 medium-6 columns">
                 <label class="right"> Move X / Y &nbsp;&nbsp;</label>
-                <input type="text" placeholder="0.00" id="formatted_movexy_speed" class="text-right opensbp_input_formattedspeeds" />
+                <input type="text" style="color:rgb(124, 202, 207); background-color:rgb(117, 126, 128); border-radius:5px; border-color:rgb(136, 171, 190)" placeholder="0.00" id="formatted_movexy_speed" class="text-right opensbp_input_formattedspeeds" />
               </div>
               <div class="large-6 medium-6 columns">
                 <label class="right"> Move Z &nbsp;&nbsp;</label>
@@ -127,13 +128,13 @@
           </div>
 
           <p class="small text-left">[ F11 (or right-click) to exit fullscreen; Ctl-Tab switches windows ]</p>
-          <p class="small text-left">© Copyright ShopBot Tools 2019.</p>
+          <p class="small text-left" id="copyright">© Copyright ShopBot Tools 2019.</p>
 
         </div>
 
         <!-- Command Input and File Display Panel  -->
         <div class="large-8 medium-8 small-6 columns">
-          <div class="callout panel">
+          <div class="callout panel" style="background-color:grey; border-radius:20px">
             <form>
               <div class="row">
                 <div class="large-12 columns">
@@ -151,7 +152,7 @@
                   <label></label>
                   <!--add readonly to textarea-->
                   <!--<textarea class="show-for-small-only" rows="2" cols="50" name="textarea_filedisplay"></textarea>-->
-                  <textarea class="show-for-medium-up running" rows="6" cols="50" name="textarea_filedisplay" id="txt_area" readonly style="font-family:'Courier New', Courier, monospace"></textarea>
+                  <textarea class="show-for-medium-up running" rows="6" cols="50" name="textarea_filedisplay" id="txt_area" readonly no-scroll no-wrap style="font-family:'Courier New', Courier, monospace"></textarea>
                 </div>
               </div>
             </form>
@@ -163,7 +164,7 @@
 
         <!-- Macro Button Panel  -->
         <div class="large-8 medium-8 small-6 columns">
-          <div class="callout panel" style="background-color: white;">
+          <div class="callout panel" style="background-color:grey; border-radius:20px">
 
             <!-- Buttons (actions) -->
             <button type="button" class="success button small medium-expanded" id="cut_part_call" > == CUT PART ==  </button>
@@ -212,11 +213,9 @@
   </div>
 </body>
 
-  <script src="js/lib/fabmo.js"></script>
-  <script>   var fabmo = new FabMoDashboard() </script>
   <script src="js/initialize_ready.js"></script>
-  <script src="js/config_work.js"></script>
-  <script src="js/sb4.js"></script>
+  <script src="js/tool_config.js"></script>
+  <script src="js/sb_app.js"></script>
 
 </html>
 
