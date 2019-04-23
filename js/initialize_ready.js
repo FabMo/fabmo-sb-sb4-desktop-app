@@ -19,6 +19,14 @@ $(document).ready(function() {
       }
     });
 
+    // *** Let' Figure out where we are ...
+    let pathname = window.location.pathname; // Returns path only (/path/example.html)
+    let url      = window.location.href;     // Returns full URL (https://example.com/path/example.html)
+    let origin   = window.location.origin;   // Returns base URL (https://example.com)
+    console.log("pathname- " + pathname);
+    console.log("url- " + url);
+    console.log("origin- " + origin);
+    $("#copyright").append("   [" + origin + "]");
 
     // *** Get MENUs Items from JSON file @initial load ***
     $.getJSON(     // ## never solved problem of getting into index.html for debug
