@@ -265,7 +265,7 @@ console.log(data)
     // ** Try to restore CMD focus when there is a shift back to app
     $(document).click(function(e){
       // Check if click was triggered on or within #menu_content
-        if( $(e.target).closest("#speedPanel").length > 0 ) {
+        if( $(e.target).closest("#speed-panel").length > 0 ) {
             return false;
         }
         $("#cmd-input").focus();               // ... and reset focus
