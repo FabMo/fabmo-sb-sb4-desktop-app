@@ -6,9 +6,37 @@ body.noScroll body.dialogShowing { /* ...or body.dialogShowing */
 	overflow: hidden;
   }
   
-#config-system-config {
-	font-family: monospace;
-	word-wrap: break-word;
+#speed-panel, #cmd-panel, #macro-panel {
+	background-color:grey;
+	border-radius:20px;
+	border-color:rgb(136, 171, 190); 
+}
+
+input.opensbp_input_formattedspeeds {
+	color:rgb(113, 233, 241);
+	background-color:rgb(117, 126, 128);
+	border-color:rgb(136, 171, 190);
+	border-radius:5px;
+}
+
+input.cmds {
+	color:rgb(113, 233, 241);
+	background-color:rgb(117, 126, 128);
+	border-color:rgb(136, 171, 190);
+	border-radius:5px;
+}
+
+input[type="text"]:focus {
+	color: rgb(253, 250, 208);
+	background: rgb(163, 174, 175);
+}
+
+label.speed-labels, .cmds {
+	color:#333;
+}
+
+p.at-foot {
+	color:#333;
 }
 
 #txt_area {
@@ -16,4 +44,24 @@ body.noScroll body.dialogShowing { /* ...or body.dialogShowing */
 	border: 1px solid #646464;
 	color: rgb(191, 196, 184);
 	resize: none;
+	border-radius:5px;
 }
+
+#cut_part_call {
+	border-radius:5px;
+}
+
+#first_macro_button, #second_macro_button {
+	border-radius:5px;
+	background-color: rgb(167, 165, 165);
+}
+
+#first_macro_button:hover, #second_macro_button:hover {
+	background-color: rgb(146, 142, 142);
+}
+
+/* #config-system-config {
+	font-family: monospace;
+	word-wrap: break-word;
+} */
+

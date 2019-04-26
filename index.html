@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ShopBot Console</title>
+  <title>DESKTOP</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/foundation.min.css">
 <!--  <link rel="stylesheet" href="css/foundation.css" /> -->
@@ -99,50 +99,50 @@
     <div class="large-14 medium-12 columns">
       <div class="row">
         <div class="large-4 medium-4 small-6 columns">
-          <div class="callout panel" style="background-color:grey; border-radius:20px; border-color:rgb(136, 171, 190)"  id="speedPanel">
-            <img data-tooltip class="top" tabindex="1" title="This app is ShopBot's classic CNC interface for cutting Part Files and sending Commands in the OpenSBP language. Use Menu or 2-letter Commands followed by optional parameters followed by ENTER. See HELP > Cmd Reference for info on OpenSBP language." src="./assets/image6b.gif">
+          <div class="callout panel" id="speed-panel">
+            <img data-tooltip class="top" tabindex="1" title="This app is ShopBot's classic CNC interface for cutting Part Files and sending Commands in the OpenSBP language. Use Menu or 2-letter Commands followed by optional parameters followed by ENTER. See HELP > Cmd Reference for info on OpenSBP language." src="./assets/image6b_transparent.png">
             <p> </p>
 
             <h6 title="Default feed rates and rapid speeds">Speeds</h6>
             <div class="row">
               <div class="large-6 medium-6 columns">
-                <label class="right"> Move X / Y &nbsp;&nbsp;</label>
-                <input type="text" style="color:rgb(124, 202, 207); background-color:rgb(117, 126, 128); border-radius:5px; border-color:rgb(136, 171, 190)" placeholder="0.00" id="formatted_movexy_speed" class="text-right opensbp_input_formattedspeeds" />
+                <label class="right speed-labels"> Move X / Y &nbsp;&nbsp;</label>
+                <input type="text" placeholder="0.00" id="formatted_movexy_speed" class=" text-right opensbp_input_formattedspeeds" />
               </div>
               <div class="large-6 medium-6 columns">
-                <label class="right"> Move Z &nbsp;&nbsp;</label>
+                <label class="right speed-labels"> Move Z &nbsp;&nbsp;</label>
                 <input type="text" placeholder="0.00" id="formatted_movez_speed" class="text-right opensbp_input_formattedspeeds" />
               </div>
             </div>
             <div class="row">
               <div class="large-6 medium-6 columns">
-                <label class="right"> Jog X / Y &nbsp;&nbsp;</label>
+                <label class="right speed-labels"> Jog X / Y &nbsp;&nbsp;</label>
                 <input type="text" placeholder="0.00" id="formatted_jogxy_speed" class="text-right opensbp_input_formattedspeeds" />
               </div>
               <div class="large-6 medium-6 columns">
-                <label class="right"> Jog Z &nbsp;&nbsp;</label>
+                <label class="right speed-labels"> Jog Z &nbsp;&nbsp;</label>
                 <input type="text" placeholder="0.00" id="formatted_jogz_speed" class="text-right opensbp_input_formattedspeeds" />
               </div>
             </div>
 
           </div>
 
-          <p class="small text-left">[ F11 (or right-click) to exit fullscreen; Ctl-Tab switches windows ]</p>
-          <p class="small text-left" id="copyright">© Copyright ShopBot Tools 2019.</p>
+          <p class="small text-left at-foot">[ F11 (or right-click) to exit fullscreen; Ctl-Tab switches windows ]</p>
+          <p class="small text-left at-foot" id="copyright">© Copyright ShopBot Tools 2019.</p>
 
         </div>
 
         <!-- Command Input and File Display Panel  -->
         <div class="large-8 medium-8 small-6 columns">
-          <div class="callout panel" style="background-color:grey; border-radius:20px">
+          <div class="callout panel" id="cmd-panel">
             <form>
               <div class="row">
                 <div class="large-12 columns">
                   <label class="show-for-small-only">Cmd</label>
-                  <label class="show-for-medium-up"><strong>Command Input</strong> (select from menu above or type Commands directly here)</label>
+                  <label class="show-for-medium-up cmds"><strong>Command Input</strong> (select from menu above or type Commands directly here)</label>
                   <form>
-                    <input class="show-for-medium-up" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
-                    <input class="show-for-small-only" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="{2-Letters...}" value="" />
+                    <input class="show-for-medium-up cmds" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
+                    <input class="show-for-small-only cmds" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="{2-Letters...}" value="" />
                   </form>
                 </div>
               </div>
@@ -164,14 +164,12 @@
 
         <!-- Macro Button Panel  -->
         <div class="large-8 medium-8 small-6 columns">
-          <div class="callout panel" style="background-color:grey; border-radius:20px">
-
+          <div class="callout panel" id="macro-panel">
             <!-- Buttons (actions) -->
             <button type="button" class="success button small medium-expanded" id="cut_part_call" > == CUT PART ==  </button>
             <button type="button" class="secondary button small medium-expanded" id="first_macro_button" >Home X & Y (C3)</button>
             <button type="button" class="secondary button small medium-expanded" id="second_macro_button" >Set Z Zero (C2)</button>
-            <p class="show-for-medium-up" title="Shortcut buttons">Useful commands and macros.</p>
-
+            <p class="show-for-medium-up" title="Access other macros from left-side menu">Useful commands and macros.</p>
           </div>
         </div>  
 
