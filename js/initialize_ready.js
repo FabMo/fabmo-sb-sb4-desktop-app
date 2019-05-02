@@ -32,7 +32,6 @@ $(document).ready(function() {
     $.getJSON(     // ## never solved problem of getting into index.html for debug
       'assets/sb3_commands.json',       // Originally from 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json'
       function(data) {                  // ... now using local copy with lots of mods and updates
-console.log(data)        
         getExcludedAxes(function(excluded_axes_str){
           for (key in data) {
             switch (key.substring(0, 1)) {
@@ -125,12 +124,12 @@ console.log(data)
     });
   
     // ** Set-Up Response to Command Entry
-      var xTriggered = 0; // ## used?
+      //var xTriggered = 0; // ## used?
     $("#cmd-input").keyup(function(event) {
       // For Debug
-      var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
-      var commandInputText = $("#cmd-input").val();
-      xTriggered++;
+      //var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
+      //var commandInputText = $("#cmd-input").val();
+      //xTriggered++;
       //console.log(msg, "html");
       //console.log(event);
   
@@ -174,13 +173,18 @@ console.log(data)
     // ** Final run CALL for FP command; first clears anything in JogQueue then Runs and puts file in JobManager history then clears file remnants
       let curFilename, curFile
       let lines = new Array()
-		document.getElementById('file').addEventListener('input', function(evt) {
+    $('#file').change(function(evt) {
+
+    //document.getElementById('file').addEventListener('input', function(evt) {
+      event.preventDefault();
+      console.log("got entry")
+      console.log(evt)
       let file = document.getElementById("file").files[0];
       let fileReader = new FileReader();
       fileReader.onload = function(fileLoadedEvent){
           lines = fileLoadedEvent.target.result.split('\n');
           for(let line = 0; line < lines.length; line++){
-          //  console.log(line + ">>>" + lines[line]);
+            //  console.log(line + ">>>" + lines[line]);
           }
           curFile = file
       };
@@ -266,6 +270,8 @@ console.log(data)
     $(document).click(function(e){
       // Check if click was triggered on or within #menu_content
         if( $(e.target).closest("#speed-panel").length > 0 ) {
+            return false;
+        } else if($(e.target).closest("#speed-panel").length > 0) {
             return false;
         }
         $("#cmd-input").focus();               // ... and reset focus
