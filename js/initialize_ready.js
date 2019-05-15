@@ -264,7 +264,11 @@ $(document).ready(function() {
             $(".top-bar").click();           // ... and click to clear any dropdowns
             $("#cmd-input").focus();         // ... and reset focus
         }
-    });
+
+        // Didn't figure out how to make this work ...
+        //fabmo.getWifiNetworks(function(err, networks) {
+        //  console.log("net: " + networks)});
+      });
       
     // ** Try to restore CMD focus when there is a shift back to app
     $(document).click(function(e){
