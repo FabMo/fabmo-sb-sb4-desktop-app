@@ -128,7 +128,7 @@ $(document).ready(function() {
     $("#cmd-input").keyup(function(event) {
       // For Debug
       //var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
-      //var commandInputText = $("#cmd-input").val();
+      var commandInputText = $("#cmd-input").val();
       //xTriggered++;
       //console.log(msg, "html");
       //console.log(event);

@@ -11,7 +11,7 @@ body {
 
 input.opensbp_input_formattedspeeds {
 	color:rgb(113, 233, 241);
-	background-color:rgb(117, 126, 128);
+	background-color:rgb(91, 104, 107);
 	border-color:rgb(136, 171, 190);
 	border-radius:5px;
 }
@@ -24,7 +24,7 @@ input.cmds {
 }
 
 input[type="text"]:focus {
-	color: rgb(253, 250, 208);
+	color: rgb(252, 250, 221);
 	background: rgb(163, 174, 175);
 }
 
