@@ -177,8 +177,9 @@ $(document).ready(function() {
 
     //document.getElementById('file').addEventListener('input', function(evt) {
       event.preventDefault();
-      console.log("got entry")
-      console.log(evt)
+      console.log("got entry");
+      console.log(evt);
+      console.log("file- " + curFile);
       let file = document.getElementById("file").files[0];
       let fileReader = new FileReader();
       fileReader.onload = function(fileLoadedEvent){
@@ -210,11 +211,7 @@ $(document).ready(function() {
                   fabmo.runNext();
                 }
               );
-              curFile="";                           // ... clear out after running
-              curFilename = "";
-              $("#curfilename").text("");
-              $('#file').val('');
-        }
+            }
           });
         });
         $("#btn_cmd_quit").click(function(event) {      // QUIT
@@ -246,7 +243,8 @@ $(document).ready(function() {
         let lineDisplay = "";
         if (status.nb_lines > 0) {           // If we're running a file ...
             lineDisplay = "Running:  " + curFilename + '\n'
-            lineDisplay += "-----------------------------------" + '\n'
+            //lineDisplay += "-----------------------------------" + '\n'
+            lineDisplay += "  " + (status.line - 2) + "  " + lines[status.line - 2] + '\n' 
             lineDisplay += "  " + (status.line - 1) + "  " + lines[status.line - 1] + '\n' 
             lineDisplay += "> " + status.line  + "  " + lines[status.line] + '\n' 
             lineDisplay += "  " + (status.line + 1) + "  " + lines[status.line + 1] + '\n' 
@@ -261,8 +259,9 @@ $(document).ready(function() {
             $('#cmd-input').val("");
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
-            $(".top-bar").click();           // ... and click to clear any dropdowns
-            $("#cmd-input").focus();         // ... and reset focus
+
+            $(".top-bar").click();               // ... and click to clear any dropdowns
+            $("#cmd-input").focus();             // ... and reset focus
         }
 
         // Didn't figure out how to make this work ...
@@ -283,6 +282,13 @@ $(document).ready(function() {
   
     // ** Process Macro Box Keys
     $("#cut_part_call").click(function(event) {
+
+      curFile="";                           // ... clear out after running
+      curFilename = "";
+      $("#curfilename").text("");
+      $('#file').val('');
+
+      
       $('#file').trigger('click');
     });
     $("#first_macro_button").click(function(event) {
