@@ -1,5 +1,5 @@
 # Fabmo Sb4 App
-ShopBot Sb4 Console; friendly, familiar CNC interface for ShopBotters
+ShopBot Sb4 Desktop View; friendly, familiar CNC interface for ShopBotters
 
 ## About
 Sb4 is a FabMo App with the look and feel of the legacy Sb3 ShopBot Software -- familiar to ShopBot users, and thus a good starting point for getting comfortable with FabMo. It may also be useful for those wanting to work at the motion-coding level with digital fabrication tools as the OpenSBP language is more human-friendly and programmable than g-code. The Macro (scripting) language of FabMo is also OpenSBP so the Sb4 interface allows testing Macro concepts.
