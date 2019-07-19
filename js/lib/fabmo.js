@@ -41,12 +41,66 @@ var FabMoDashboard = function(options) {
 	};
 	this._setupMessageListener();
     // listen for escape key press to quit the engine
-    document.onkeyup = function (e) {
-        if(e.keyCode == 27) {
+    document.onkeydown = function (e) {
+        if(e.keyCode === 27) {
             console.warn("ESC key pressed - quitting engine.");
             this.stop();
+        } else if (e.keyCode === 75 && e.ctrlKey ) {
+			this.manualEnter()
+		}
+	}.bind(this);
+	
+	function detectswipe(func) {
+        swipe_det = new Object();
+        swipe_det.sX = 0; swipe_det.sY = 0; swipe_det.eX = 0; swipe_det.eY = 0;
+        var max_x = 80;  //max x difference for vertical swipe
+        var min_y = 100;  //min y swipe for vertical swipe
+		var swipe = true;
+		var maxSwipeTime = 300;
+		var direc = "";
+		var swipeTime;
+		ele = window.document;
+		function startSwipeTime() {
+			swipeTime = setTimeout(function(){
+				swipe = false;
+			}, maxSwipeTime);
+		};
+		
+        ele.addEventListener('touchstart',function(e){
+			startSwipeTime();
+			var t = e.touches[0];
+			swipe_det.sX = t.screenX; 
+			swipe_det.sY = t.screenY;
+        },false);
+        ele.addEventListener('touchmove',function(e){
+          var t = e.touches[0];
+          swipe_det.eX = t.screenX; 
+          swipe_det.eY = t.screenY;    
+        },false);
+        ele.addEventListener('touchend',function(e){
+		  //vertical detection
+          if ((((swipe_det.eY - min_y > swipe_det.sY) || (swipe_det.eY + min_y < swipe_det.sY)) && ((swipe_det.eX < swipe_det.sX + max_x) && (swipe_det.sX > swipe_det.eX - max_x) && (swipe_det.eY > 0) && swipe))) {
+			clearTimeout(swipeTime);
+			if(swipe_det.eY < swipe_det.sY) direc = "u";
+			else direc = "d";
+          }
+      
+          if (direc != "") {
+            if(typeof func == 'function') func(direc);
+          }
+          direc = "";
+		  swipe_det.sX = 0; swipe_det.sY = 0; swipe_det.eX = 0; swipe_det.eY = 0; swipe = true;
+
+        },false);  
+      }
+      
+	  myfunction = function (d) {
+        if(d === "u") {
+            this.manualEnter();
         }
-    }.bind(this);
+      }.bind(this);
+
+      detectswipe(myfunction);
 
     if(!this.options.defer) {
 		this.ready();
@@ -164,6 +218,7 @@ FabMoDashboard.prototype._download = function(data, strFileName, strMimeType) {
 } // _download
 
 FabMoDashboard.prototype._call = function(name, data, callback) {
+
 	if(this.isPresent()) {
 		message = {"call":name, "data":data}
 		if(callback) {
@@ -198,16 +253,7 @@ FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 			}
 			text.textContent = msg;
 			showToaster(toast);
-		break;
-
-		case "runGCode":
-			text.textContent = "GCode sent to tool: " + data;
-		    showToaster(toast);
-		break;
-
-		case "runSBP":
-			text.textContent = "OpenSBP sent to tool: " + data;
-			showToaster(toast);
+			callback(null, {})
 		break;
 
 		case "showDRO":
@@ -218,6 +264,16 @@ FabMoDashboard.prototype._simulateCall = function(name, data, callback) {
 		case "hideDRO":
 			text.textContent = "DRO Hidden.";
 			showToaster(toaster);
+		break;
+
+		case "runGCode":
+			text.textContent = "GCode sent to tool: " + data;
+		    showToaster(toast);
+		break;
+
+		case "runSBP":
+			text.textContent = "OpenSBP sent to tool: " + data;
+			showToaster(toast);
 		break;
 
 		default:
@@ -356,8 +412,7 @@ FabMoDashboard.prototype.launchApp = function(id, args, callback) {
 FabMoDashboard.prototype.showDRO = function(callback) {
 	this._call("showDRO", null, callback);
 }
-
-/**
+ /**
  * Hide the DRO (Digital ReadOut) in the dashboard if it is not already hidden.
  *
  * @method hideDRO
@@ -367,6 +422,28 @@ FabMoDashboard.prototype.showDRO = function(callback) {
 FabMoDashboard.prototype.hideDRO = function(callback) {
 	this._call("hideDRO", null, callback);
 }
+
+/**
+ * Show the top nav bar
+ *
+ * @method showNav
+ * @param {function} callback Called once the nav has been displayed.
+ * @param {Error} callback.err Error object if there was an error.
+ */
+FabMoDashboard.prototype.showNav = function(callback) {
+	this._call("showNav", null, callback);
+}
+ /**
+ * Hide the top nav bar
+ *
+ * @method hideNav
+ * @param {function} callback Called once the nav has been hidden.
+ * @param {Error} callback.err Error object if there was an error.
+ */
+FabMoDashboard.prototype.hideNav = function(callback) {
+	this._call("hideNav", null, callback);
+}
+
 
 //Modal Functions
 FabMoDashboard.prototype.showModal = function(options, callback) {
@@ -477,8 +554,8 @@ function _makeJob(obj) {
 /**
  * Submit one or more jobs to the dashboard.
  * @param {Array|Object|jQuery} jobs A single job object, an array containing multiple job objects, or a jQuery object that points to a file type form input, or a form containing a file type input.
- * @param {Object} [options] Options for job submission
- * @todo Finish documenting this function
+ * @param {Object} [options] Options for job submission. Currently only accepts one option: `stayHere` which if true, will prevent the dashboard from jumping to the job manager when the job has been submitted.
+ *
  */
 FabMoDashboard.prototype.submitJob = function(jobs, options, callback) {
 	var args = {jobs : []};
@@ -678,14 +755,31 @@ FabMoDashboard.prototype.manualMoveFixed = function(axis, speed, distance, callb
 }
 
 /**
+ * Stream a raw gcode
+ * Tool must be in 'raw' manual mode for this to work.
+ */
+FabMoDashboard.prototype.manualRunGCode = function(code, callback) {
+	this._call("manualRunGCode",{"code": code}, callback);
+}
+
+/**
  * Start performing a manual move of the specified axis at the specified speed.
  *
  * @method manualStart
  * @param {Number} axis One of `x`,`y`,`z`,`a`,`b`,`c`
  * @param {Number} speed Speed in current tool units.  Negative to move in the negative direction.
  */
-FabMoDashboard.prototype.manualStart = function(axis, speed) {
-	this._call("manualStart",{"axis":axis, "speed":speed}, callback);
+FabMoDashboard.prototype.manualStart = function(axis, speed, second_axis, second_speed) {
+	this._call("manualStart",{"axis":axis, "speed":speed, "second_axis":second_axis, "second_speed":second_speed }, callback);
+}
+
+
+FabMoDashboard.prototype.manualEnter = function(options, callback) {
+	this._call("manualEnter",options, callback);
+}
+
+FabMoDashboard.prototype.manualExit = function(axis, speed, callback) {
+	this._call("manualExit", callback);
 }
 
 /**
@@ -1014,8 +1108,7 @@ var toaster = function () {
 }
 var showToaster = function (toaster) {
     toaster.style.visibility = 'visible';
-		//*problem running just HTML
-		//setTimeout(function(){document.body.removeChild(toaster)}, 1000);
+    setTimeout(function(){document.body.removeChild(toaster)}, 1000);
 }
 return FabMoDashboard;
 

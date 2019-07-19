@@ -149,6 +149,7 @@
                   </strong></form>
                 </div>
               </div>
+              <!-- display panel  -->
               <div class="row">
                 <div class="large-12 columns">
                   <label id="running" value="" placeholder="  "> </label>
@@ -191,8 +192,11 @@
     </div>
   </footer>
   -->
+
+  <!--
   <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
   <a href="#" data-reveal-id="wheelPad">WHEEL-PAD trials</a>
+-->
 
   <div id="myModal" class="reveal-modal" data-reveal role="dialog">
     <h2 id="modalTitle">File Ready to Run</h2>
@@ -202,8 +206,7 @@
     <ul class="button-group">
       <li><a class="secondary button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
       <li><a class="secondary button" role="button" id="btn_cmd_quit">QUIT</a></li>
-      <li><a class="secondary button" role="button" id="btn_prev_file">Preview File</a></li>
-      <li><a class="secondary button" role="button" id="btn_edit_file">View File in Editor</a></li>
+      <li><a class="secondary button" role="button" id="btn_prev_file" title="in Job Manager; such as Preview, Edit, Scale, etc..">Advanced Functions</a></li>
     </ul>
   </div>
   <div id="wheelPad" class="reveal-modal" data-reveal aria-labelledby="modalTitle" role="dialog">
@@ -211,9 +214,9 @@
   </div>
 </body>
 
-  <script src="js/initialize_ready.js"></script>
   <script src="js/tool_config.js"></script>
   <script src="js/sb_app.js"></script>
+  <script src="js/initialize_ready.js"></script>
 
 </html>
 

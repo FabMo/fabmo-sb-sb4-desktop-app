@@ -6,8 +6,6 @@
 let cmds = [];
 
 $(document).ready(function() {
-    // Set and try to maintain focus in Command Input box
-    $("#cmd-input").focus();
     $(document).foundation({            // Start and customize foundation
       tooltip: {
         disable_for_touch: true
@@ -23,9 +21,9 @@ $(document).ready(function() {
     let pathname = window.location.pathname; // Returns path only (/path/example.html)
     let url      = window.location.href;     // Returns full URL (https://example.com/path/example.html)
     let origin   = window.location.origin;   // Returns base URL (https://example.com)
-    console.log("pathname- " + pathname);
-    console.log("url- " + url);
-    console.log("origin- " + origin);
+    //console.log("pathname- " + pathname);
+    //console.log("url- " + url);
+    //console.log("origin- " + origin);
     $("#copyright").append("   [" + origin + "]");
 
     // *** Get MENUs Items from JSON file @initial load ***
@@ -174,9 +172,8 @@ $(document).ready(function() {
       let curFilename, curFile
       let lines = new Array()
     $('#file').change(function(evt) {
-
     //document.getElementById('file').addEventListener('input', function(evt) {
-      event.preventDefault();
+      evt.preventDefault();
       console.log("got entry");
       console.log(evt);
       console.log("file- " + curFile);
@@ -215,40 +212,43 @@ $(document).ready(function() {
           });
         });
         $("#btn_cmd_quit").click(function(event) {      // QUIT
-            console.log("Not Run");
-            $('#myModal').foundation('reveal', 'close');
-            curFile = "";
-            curFilename="";
-            $("#curfilename").text("");
-            $('#file').val('');
-          });
-        $("#btn_prev_file").click(function(event) {    // PREVIEW
-            console.log("Not Run");
-            $('#myModal').foundation('reveal', 'close');
-            curFile = "";
-            curFilename="";
-            $("#curfilename").text("");
+          console.log("Not Run");
+          $('#myModal').foundation('reveal', 'close');
+          curFile = "";
+          curFilename="";
+          $("#curfilename").text("");
         });
-        $("#btn_edit_file").click(function(event) {    // EDIT
-            console.log("Not Run");
-            $('#myModal').foundation('reveal', 'close');
-            curFile = "";
-            curFilename="";
-            $("#curfilename").text("");
+        $("#btn_prev_file").click(function(event) {    // ADVANCED
+          console.log("Advanced - curFilename");
+          $('#myModal').foundation('reveal', 'close');
+          fabmo.clearJobQueue(function (err, data) {
+            if (err) {
+              cosole.log(err);
+            } else {
+              job = curFilename.replace('.sbp', '');
+              fabmo.submitJob({
+                file: curFile,
+                filename: curFilename,
+                name: job,
+                description: '... called from Sb4'
+              });
+            }
+          });
         });
   
     // ** STATUS: Report Ongoing and Clear Command Line after a status report is recieved    ## Need a clear after esc too
     fabmo.on('status', function(status) {
         console.log(status.state);
+console.log(status.nb_lines)
+        const dispLen = 50;
         let lineDisplay = "";
-        if (status.nb_lines > 0) {           // If we're running a file ...
-            lineDisplay = "Running:  " + curFilename + '\n'
-            //lineDisplay += "-----------------------------------" + '\n'
-            lineDisplay += "  " + (status.line - 2) + "  " + lines[status.line - 2] + '\n' 
-            lineDisplay += "  " + (status.line - 1) + "  " + lines[status.line - 1] + '\n' 
-            lineDisplay += "> " + status.line  + "  " + lines[status.line] + '\n' 
-            lineDisplay += "  " + (status.line + 1) + "  " + lines[status.line + 1] + '\n' 
-            lineDisplay += "  " + (status.line + 2) + "  " + lines[status.line + 2] + '\n' 
+        if (status.nb_lines > 1) {           // If we're running a file ... greater than 1 to cover 2 commands in MS
+            lineDisplay ="=======Running:  " + curFilename + '\n'
+            lineDisplay += "  " + (status.line - 2) + "  " + lines[status.line - 2].substring(0, dispLen) + '\n' 
+            lineDisplay += "  " + (status.line - 1) + "  " + lines[status.line - 1].substring(0, dispLen) + '\n' 
+            lineDisplay += "> " + status.line  + "  " + lines[status.line].substring(0, dispLen) + '\n' 
+            lineDisplay += "  " + (status.line + 1) + "  " + lines[status.line + 1].substring(0, dispLen) + '\n' 
+            lineDisplay += "  " + (status.line + 2) + "  " + lines[status.line + 2].substring(0, dispLen) + '\n' 
             $("#txt_area").text(lineDisplay);
             $('#cmd-input').val('>');
         }
@@ -259,7 +259,6 @@ $(document).ready(function() {
             $('#cmd-input').val("");
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
-
             $(".top-bar").click();               // ... and click to clear any dropdowns
             $("#cmd-input").focus();             // ... and reset focus
         }
@@ -280,26 +279,36 @@ $(document).ready(function() {
         $("#cmd-input").focus();               // ... and reset focus
     });
   
+    //... this only helps a little with focus
+    $(document).mouseenter(function(e){
+      // Check if click was triggered on or within #menu_content
+console.log("MOUSE-ENTER")
+      // if( $(e.target).closest("#speed-panel").length > 0 ) {
+      //       return false;
+      //   } else if($(e.target).closest("#speed-panel").length > 0) {
+      //       return false;
+      //   }
+      $("#cmd-input").focus();               // ... and reset focus
+    });
+  
     // ** Process Macro Box Keys
     $("#cut_part_call").click(function(event) {
-
       curFile="";                           // ... clear out after running
       curFilename = "";
       $("#curfilename").text("");
       $('#file').val('');
-
-      
       $('#file').trigger('click');
     });
+
     $("#first_macro_button").click(function(event) {
       console.log('got firstMacro');
       sendCmd("C3");
     });
+
     $("#second_macro_button").click(function(event) {
       console.log('got secondMacro');
       sendCmd("C2");
     });
-  
     
     // Just for testing stuff ... 
     $("#other").click(function() {
@@ -308,7 +317,10 @@ $(document).ready(function() {
       event.preventDefault();
     });
   
-    //console.log("Speed is: " + speed_XY.toFixed(2));
-    //console.log("Twice the speed is: " + (2*speed_XY).toFixed(2));
-  });
+    fabmo.requestStatus(function(err,status) {		// first call to get us started
+      console.log('G2_first_state>' + status.state);
+    });
+    
+
+});
   

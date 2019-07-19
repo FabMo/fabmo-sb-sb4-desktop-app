@@ -51,8 +51,8 @@ function getUsrResource(remote, local) {
 
 function postSbpAction(action) {
   setTimeout(function() { 
-    $("#txt_area").text("Running:" + '\n' + "    " + action); }, 
-    500);
+    $("#txt_area").text("-------Running:" + '\n' + "    " + action); }, 
+    200);
     $('#cmd-input').val('>');
 }
 
@@ -196,4 +196,3 @@ function processCommandInput(command) {
   }
   return false
 }
-
