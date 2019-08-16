@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/foundation.min.css">
 <!--  <link rel="stylesheet" href="css/foundation.css" /> -->
-  <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/stylejogdial.css">
 </head>
 
 <!--  <body style="background-color:rgb(192, 189, 186)">  -->
@@ -18,6 +19,10 @@
   <script src="js/lib/foundation.min.js"></script>
   <script src="js/lib/foundation.dropdown.js"></script>
   <script src="js/lib/fastclick.js"></script>
+
+  <script type="text/javascript" src="js/lib/haptics.js"></script>
+  <script type="text/javascript" src="js/jog_dial.js"></script>
+  <script type="text/javascript" src="js/make_moves.js"></script>
 
   <script src="js/lib/fabmo.js"></script>
   <script> let fabmo = new FabMoDashboard(); </script>
@@ -195,7 +200,7 @@
 
   
   <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
-  <a href="#" data-reveal-id="wheelPad">WHEEL-PAD trials</a>
+  <a href="#" data-reveal-id="wheelPad">JOG-PAD Testing</a>
 
 
   <div id="myModal" class="reveal-modal" data-reveal role="dialog">
@@ -209,14 +214,21 @@
       <li><a class="secondary button" role="button" id="btn_prev_file" title="in Job Manager; such as Preview, Edit, Scale, etc..">Advanced Functions</a></li>
     </ul>
   </div>
-  <div id="wheelPad" class="reveal-modal" data-reveal aria-labelledby="modalTitle" role="dialog">
-    <h2 id="modalTitle">WHEEL-PAD</h2>
+
+  <div id="wheelPad" class="reveal-modal-bg full dial" data-reveal style="display: none" role="dialog">
+<!--    <h2 id="modalTitle">JOG-PAD</h2>
+    <div class="dial"> -->
+      <div id="jog_dial_one"></div>
+      <div id="jog_dial_one_meter">
+        <div id="jog_dial_one_meter_inner"></div>
+      </div>
+  <!--  </div>  -->
   </div>
 </body>
 
   <script src="js/tool_config.js"></script>
   <script src="js/sb_app.js"></script>
-  <script src="js/initialize_ready.js"></script>
+  <script src="js/initialize_act.js"></script>
 
 </html>
 

@@ -1,9 +1,13 @@
 /**
  * Initialize App on Document-Ready
- * Most Event Handling
+ * Most Event Handling except KeyPad Stuff
  */
 
 let cmds = [];
+let JOg_Pad_Open = false;
+
+if (!window.Haptics)
+	alert("The haptics.js library is not loaded.");
 
 $(document).ready(function() {
     $(document).foundation({            // Start and customize foundation
@@ -321,6 +325,19 @@ console.log("MOUSE-ENTER")
       console.log('G2_first_state>' + status.state);
     });
     
+    $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // #th Is it possible to miss opening and closing?
+      if ($(this).context.id==="wheelPad") {
+        JOg_pad_open = true;
+console.log('got wheelPad opening')
+      }; 
+    })
+
+    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+      if ($(this).context.id==="wheelPad") {
+        JOg_pad_open = false;
+console.log('got wheelPad closing')
+      }; 
+    })
+
 
 });
-  
