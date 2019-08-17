@@ -53,7 +53,7 @@ $(document).ready(function() {
               case "C":
                 $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
                 cmds[key]=data[key];
-                console.log(cmds[key])
+//console.log(cmds[key])
                 break;
               case "Z":
                 if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
@@ -243,7 +243,7 @@ $(document).ready(function() {
     // ** STATUS: Report Ongoing and Clear Command Line after a status report is recieved    ## Need a clear after esc too
     fabmo.on('status', function(status) {
         console.log(status.state);
-console.log(status.nb_lines)
+//console.log(status.nb_lines)
         const dispLen = 50;
         let lineDisplay = "";
         if (status.nb_lines > 1) {           // If we're running a file ... greater than 1 to cover 2 commands in MS

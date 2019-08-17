@@ -202,6 +202,9 @@
   <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
   <a href="#" data-reveal-id="wheelPad">JOG-PAD Testing</a>
 
+ <!-- needed this setting here to prevent closing; left in later for redundancy -->
+ <script>Foundation.libs.reveal.settings.close_on_background_click = false;</script>
+ <script>Foundation.libs.reveal.settings.close_on_esc = true;</script>
 
   <div id="myModal" class="reveal-modal" data-reveal role="dialog">
     <h2 id="modalTitle">File Ready to Run</h2>
@@ -215,14 +218,28 @@
     </ul>
   </div>
 
-  <div id="wheelPad" class="reveal-modal-bg full dial" data-reveal style="display: none" role="dialog">
-<!--    <h2 id="modalTitle">JOG-PAD</h2>
-    <div class="dial"> -->
+  <div id="wheelPad" class="reveal-modal-bg full dial" data-reveal data-options="close_on_background_click:false;close_on_esc:true;" style="display: none" role="dialog">
+    <!--    <h2 id="modalTitle">JOG-PAD</h2> -->
+    <!-- <div class="dial"> -->
       <div id="jog_dial_one"></div>
       <div id="jog_dial_one_meter">
         <div id="jog_dial_one_meter_inner"></div>
       </div>
-  <!--  </div>  -->
+      <div id="jog_dial_meter_y">
+        <div id="jog_dial_meter_y_inner"></div>
+      </div>
+      <div id="jog_dial_meter_z">
+        <div id="jog_dial_meter_z_inner"></div>
+      </div>
+      <div id="jog_dial_axis_sel">
+        X
+      </div>
+      <div id="jog_dial_grid_tool"></div>
+      <div id="jog_dial_enter_tool"></div>
+      <div id="jog_dial_settings"></div>
+      <div id="jog_dial_follower"></div>
+
+    <!-- </div> -->
   </div>
 </body>
 

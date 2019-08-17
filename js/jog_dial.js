@@ -8,6 +8,8 @@
 (function (window, undefined) {
   'use strict';
 
+  var bar = document.getElementById('jog_dial_one_meter_inner');
+
   /*
   * Constructor
   * JogDial
@@ -399,7 +401,7 @@
     JogDial.utils.addEvent(W, JogDial.DomEvent.MOUSE_OUT, mouseUpEvent, false);
 
     JogDial.utils.addEvent(document, JogDial.DomEvent.KEY_DOWN, keyDownEvent);
-    JogDial.utils.addEvent(document, JogDial.DomEvent.KEY_UP, keyUpEvent);
+    //JogDial.utils.addEvent(document, JogDial.DomEvent.KEY_UP, keyUpEvent);
     JogDial.utils.addEvent(document, JogDial.DomEvent.WHEEL, wheelEvent);
 
   
@@ -426,48 +428,46 @@
     function keyDownEvent(e) {
       if (JOg_pad_open) {
         let dist = 5;
-        //if (e.repeat) {console.log("repeating>>>>>")};
         e.preventDefault();  //#the does work on preventing key entry
         if (e.repeat) {
           return;
         } else {
-          switch ( e.keyCode ) {
-            case 65:  //A
-//            JogDial.utils.extend(self.knob, {rotation: (info.now.rotation + dist), });  
-//              angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + dist));
-//              angleTo(self, lastRot + dist);
-//                info.now.rotation += dist;
-//                lastRot = info.now.rotation;
+//console.log(e.keyCode)
+          switch (e.keyCode) {
+            case 37: // [left-arrow]
+               injectMove(self, info, -1*dist);
+              break;	
+            case 38: // [up-arrow]
+                // ... to be next axis up
+              break;
+            case 39: // [right-arrow]
                 injectMove(self, info, dist);
-//console.log("got A rotation = ", info.now.rotation);
+              break;	
+          case 40: // [down-arrow]
+                // ... to be next axis down
+                break;
+            case 65:  //A
               break;
             case 81: //Q
-//              angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation - dist));
-//                info.now.rotation -= dist;
-                injectMove(self, info, -1*dist);
-//console.log("got Q rotation = ", info.now.rotation);
              break;	
           };
         };	
       }
     };  
-    function keyUpEvent(e) {
-//console.log('got key up')
-        //var obj = event;
-        //console.log('key UP- ' + obj);
-        switch ( e.keyCode ) {
-          case 65:  //A
-            console.log("off A");
-           break;
-          case 81: //Q
-            console.log("off Q");
-           break;	
-        }
-    };
+    // function keyUpEvent(e) { 
+    //     switch (e.keyCode) {
+    //       case 65:  //A
+    //         console.log("off A");
+    //        break;
+    //       case 81: //Q
+    //         console.log("off Q");
+    //        break;	
+    //     }
+    // };
 
     function wheelEvent(e) {
       if (JOg_pad_open) {
-        e.preventDefault();       // #does not seem to actually prevent scroll event at this point
+//        e.preventDefault();       // #does not seem to actually prevent scroll event at this point
         let dist = 5;
         let move = 0;
 //console.log("wheel",e)
@@ -482,9 +482,8 @@
     };  
 
     var lastRot = 0;
-    function mouseDragEvent(e) {                        // mouseDragEvent (MOUSE_MOVE)
+    function mouseDragEvent(e) {                            // mouseDragEvent (MOUSE_MOVE)
 //console.log("ON..");
-var bar = document.getElementById('jog_dial_one_meter_inner');
 //console.log(e);
       if (self.pressed) {
         // Prevent default event
@@ -542,14 +541,16 @@ var bar = document.getElementById('jog_dial_one_meter_inner');
             Haptics.vibrate(5);                             // HAPTICS  & SOUND ACTION
             beep(10, 400, 5);
             lastRot = rotation;
-bar.style.width = Math.round((e.target.rotation/360)*10) + '%';   // size of indicator bar moves
+            var bar_width = Math.round((rotation/360)*10) + '%';   // size of indicator bar moves
+            $("#jog_dial_one_meter_inner").css('width',bar_width);
 console.log("vib")
-          }
-console.log("dragEvt: ", degree, lastRot, rotation, info.old.rotation, info.now.rotation);
+        }
+//console.log("dragEvt: ", degree, lastRot, rotation, info.old.rotation, info.now.rotation);
       }
     };
     
     function mouseUpEvent() {                               // mouseDragEvent (MOUSE_UP, MOUSE_OUT)
+console.log('got mouse-up in main')
       if(self.pressed){
         self.pressed = false;
         if(self.info.snapshot.direction != null){
@@ -598,14 +599,16 @@ console.log("dragEvt: ", degree, lastRot, rotation, info.old.rotation, info.now.
     JogDial.utils.triggerEvent(self.knob, JogDial.CustomEvent.MOUSE_MOVE);
   };
 
-  function injectMove(self, info, dist) {
+  function injectMove(self, info, dist) {                                    // *** INJECT MOTION
   //            JogDial.utils.extend(self.knob, {rotation: (info.now.rotation + dist), });  
         angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + dist));
   //              angleTo(self, lastRot + dist);
         beep(10, 400, 5);
         info.now.rotation += dist;
-   info.old.rotation = (info.old.rotation + dist)%360
-        console.log("injEvt: ", info.old.rotation, info.now.rotation);
+        info.old.rotation = (info.old.rotation + dist)%360
+        var bar_width = Math.round((info.now.rotation/360)*10) + '%';   // size of indicator bar moves
+        $("#jog_dial_one_meter_inner").css('width',bar_width);
+console.log("injEvt: ", info.old.rotation, info.now.rotation);
         //                lastRot = info.now.rotation;
   }
 
@@ -644,13 +647,13 @@ const a=new AudioContext()
 
 
 //---------------------------------------------ON-LOAD  
-// ##@th added for bar control 
+// ##@th added for bar control
 window.onload = function(){
   var bar = document.getElementById('jog_dial_one_meter_inner');
   var dialOne = JogDial(document.getElementById('jog_dial_one'),
                         {debug:false, minDegree:null, maxDegree:null, degreeStartAt: 180})
     .on('mousemove', function(evt){
-console.log('bar-event')
+console.log('got mouse event!')      
       bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves
     });
 

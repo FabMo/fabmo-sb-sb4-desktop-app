@@ -8,8 +8,6 @@
     G2_state: ""
   }
 
-//     var fabmo = new FabMoDashboard();
-
 
 //     var LIne_up, LIne_dn, LIne_full;               // motion direction transit lines, primary feature of app
 //     var RUn_dist = 0;                              // for incrementing distance along transit lines before next update
