@@ -21,10 +21,10 @@ p {
   width: 200px;
   height: 200px;
   margin: 10px auto;
-  border-width: 5px;
+  border-width: 3px;
   background: #0f68cd50;
   border-style: solid;
-  border-color: #0f69cd;
+  border-color: #3a93f8;
   -webkit-border-radius: 100px;
   -moz-border-radius: 100px;
   -ms-border-radius: 100px;
@@ -67,7 +67,7 @@ p {
 #jog_dial_axis_sel {
   position: relative;
   left: 0;
-  top: 0%;
+  top: -5px;
   width:80px;
   height: 80px;
   margin: 5px auto;
@@ -80,4 +80,18 @@ p {
   -ms-border-radius: 40px;
   -o-border-radius: 40px;
   border-radius: 40px;
+}
+
+#jog_dial_follower {
+  position: relative;
+  left: 0;
+  top: 0;
+  width:40px;
+  height: 40px;
+  background: #ffef95;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  border-radius: 20px;
 }

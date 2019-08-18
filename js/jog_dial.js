@@ -338,7 +338,7 @@
 //    self.radius = WRad - KRad;
 //    self.center = {x:WRad+WMargnLT, y:WRad+WMargnTP};
     self.radius = 100;                         //##
-    self.center = {x:70, y:70};              //##
+    self.center = {x:65, y:65};                //## ... hard-coded fussing to get this located, probably a better way
                                                //##Just over-ride these to set a forgiving sense area
 //console.log("radius- (w/center) " + self.radius)
 //console.log(self.center)
@@ -346,21 +346,6 @@
 //console.log("KRad- " + KRad)
 //console.log("Wmargns- " + WMargnLT + WMargnTP)
 
-    //Set debug mode
-    if (opt.debug) setDebug(self);
-  };
-
-  function setDebug(self) {
-    var KS = self.knob.style;
-    var WS = self.wheel.style;
-    KS.backgroundColor = '#00F';
-    WS.backgroundColor = '#0F0';
-    KS.opacity = WS.opacity = .4;
-    KS.filter = WS.filter = 'progid:DXImageTransform.Microsoft.Alpha(Opacity=40)';
-
-    //Fancy CSS3 for debug
-    KS.webkitBorderRadius = WS.webkitBorderRadius = "50%";
-    KS.borderRadius = WS.borderRadius = "50%";
   };
 
   function setEvents(self) {
@@ -443,7 +428,7 @@
             case 39: // [right-arrow]
                 injectMove(self, info, dist);
               break;	
-          case 40: // [down-arrow]
+            case 40: // [down-arrow]
                 // ... to be next axis down
                 break;
             case 65:  //A
@@ -465,7 +450,7 @@
     //     }
     // };
 
-    function wheelEvent(e) {
+    function wheelEvent(e) {                                // MOUSE WHEEL SCROLLING
       if (JOg_pad_open) {
 //        e.preventDefault();       // #does not seem to actually prevent scroll event at this point
         let dist = 5;
@@ -482,7 +467,7 @@
     };  
 
     var lastRot = 0;
-    function mouseDragEvent(e) {                            // mouseDragEvent (MOUSE_MOVE)
+    function mouseDragEvent(e) {                            // MOUSE DRAG > mouseDragEvent (MOUSE_MOVE)
 //console.log("ON..");
 //console.log(e);
       if (self.pressed) {
@@ -533,8 +518,9 @@
           rotation: rotation,
           degree: degree
         });
-//console.log("r- " + rotation)
-//console.log(degree)
+
+//console.log(rotation, degree)
+//console.log(self.knob)
         // Update ANGLE and MOTION
         angleTo(self, radian);
         if (Math.abs(lastRot - rotation) >= 10) {           // ##Appears to be our STEP TEST
@@ -550,7 +536,7 @@ console.log("vib")
     };
     
     function mouseUpEvent() {                               // mouseDragEvent (MOUSE_UP, MOUSE_OUT)
-console.log('got mouse-up in main')
+//console.log('got mouse-up in main')
       if(self.pressed){
         self.pressed = false;
         if(self.info.snapshot.direction != null){
@@ -577,6 +563,12 @@ console.log('got mouse-up in main')
         degree = JogDial.utils.convertUnitToClock(radian);
     self.knob.style.left = _x + 'px';
     self.knob.style.top = _y + 'px';
+console.log('radian, cos(rad), self.radius, self.center.x')    
+console.log('radian, sin(rad), self.radius, self.center.y')    
+console.log(radian, Math.cos(radian), self.radius, self.center.x)
+console.log(radian, Math.sin(radian), self.radius, self.center.y)
+console.log(self.knob.style.left, self.knob.style.top)
+document.querySelector("#jog_dial_follower").style.left = self.knob.style.left;
 
     if(self.knob.rotation == undefined){
       // Update JogDial data information
@@ -633,6 +625,7 @@ console.log("injEvt: ", info.old.rotation, info.now.rotation);
 
 //--------------------------------------------SOUNDS
 const a=new AudioContext()
+console.log(a.baseLatency)
   function beep(vol, freq, duration){
     v=a.createOscillator()
     u=a.createGain()
@@ -651,13 +644,14 @@ const a=new AudioContext()
 window.onload = function(){
   var bar = document.getElementById('jog_dial_one_meter_inner');
   var dialOne = JogDial(document.getElementById('jog_dial_one'),
-                        {debug:false, minDegree:null, maxDegree:null, degreeStartAt: 180})
+          {minDegree:null, maxDegree:null, degreeStartAt: 180})
+//          {debug:false, minDegree:null, maxDegree:null, degreeStartAt: 180})
     .on('mousemove', function(evt){
 console.log('got mouse event!')      
       bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves
     });
 
-    //beep(20, 1800, 10);
+    beep(20, 1800, 1);
     // beep(50, 100, 200);
 
 
