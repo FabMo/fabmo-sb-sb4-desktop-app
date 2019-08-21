@@ -556,6 +556,7 @@ console.log("vib")
   * @param  {String}         radian
   */
   function angleTo(self, radian, triggeredDegree) {
+console.log(radian)
     radian *= JogDial.ToRad;
     var _x =  Math.cos(radian) * self.radius + self.center.x,
         _y =  Math.sin(radian) * self.radius + self.center.y,
@@ -568,7 +569,7 @@ console.log('radian, sin(rad), self.radius, self.center.y')
 console.log(radian, Math.cos(radian), self.radius, self.center.x)
 console.log(radian, Math.sin(radian), self.radius, self.center.y)
 console.log(self.knob.style.left, self.knob.style.top)
-document.querySelector("#jog_dial_follower").style.left = self.knob.style.left;
+//document.querySelector("#jog_dial_follower").style.left = self.knob.style.left;
 
     if(self.knob.rotation == undefined){
       // Update JogDial data information
@@ -600,8 +601,17 @@ document.querySelector("#jog_dial_follower").style.left = self.knob.style.left;
         info.old.rotation = (info.old.rotation + dist)%360
         var bar_width = Math.round((info.now.rotation/360)*10) + '%';   // size of indicator bar moves
         $("#jog_dial_one_meter_inner").css('width',bar_width);
+//console.log(self,info,dist)
 console.log("injEvt: ", info.old.rotation, info.now.rotation);
-        //                lastRot = info.now.rotation;
+console.log(info.old.rotation * Math.PI / 180)
+var new_rad = info.old.rotation * Math.PI / 180;
+var _x =  Math.cos(new_rad) * 165,
+_y =  Math.sin(new_rad) * 165;
+//quadrant = JogDial.utils.getQuadrant(_x, _y),
+//degree = JogDial.utils.convertUnitToClock(radian);
+document.querySelector("#jog_dial_follower").style.left = _x + 'px';
+document.querySelector("#jog_dial_follower").style.top = _y + 'px';
+               lastRot = info.now.rotation;
   }
 
   // UMD Wrapper pattern
