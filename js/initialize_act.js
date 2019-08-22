@@ -242,8 +242,16 @@ $(document).ready(function() {
   
     // ** STATUS: Report Ongoing and Clear Command Line after a status report is recieved    ## Need a clear after esc too
     fabmo.on('status', function(status) {
-        console.log(status.state);
-//console.log(status.nb_lines)
+      globals.TOol_x = status.posx;                                            // get LOCATION GLOBALS
+      globals.TOol_y = status.posy;
+      globals.TOol_z = status.posz;
+      globals.TOol_a = status.posa;
+      globals.TOol_b = status.posb;
+      globals.TOol_c = status.posc;
+      globals.G2_state = status.state;
+console.log(globals.G2_state);
+  update_loc(99);
+//console.log(status.posx)
         const dispLen = 50;
         let lineDisplay = "";
         if (status.nb_lines > 1) {           // If we're running a file ... greater than 1 to cover 2 commands in MS
@@ -256,10 +264,10 @@ $(document).ready(function() {
             $("#txt_area").text(lineDisplay);
             $('#cmd-input').val('>');
         }
-        if (status.state === "running") {
+        if (globals.G2_state === "running") {
             $('#cmd-input').val(' ');
         }    
-        if (status.state != "running") {
+        if (globals.G2_state != "running") {
             $('#cmd-input').val("");
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
@@ -322,12 +330,13 @@ console.log("MOUSE-ENTER")
     });
   
     fabmo.requestStatus(function(err,status) {		// first call to get us started
-      console.log('G2_first_state>' + status.state);
+      console.log('G2_first_state>' + globals.G2_state);
     });
     
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // #th Is it possible to miss opening and closing?
       if ($(this).context.id==="wheelPad") {
         JOg_pad_open = true;
+        fabmo.manualEnter({hideKeypad:true, mode:'raw'});
 console.log('got wheelPad opening')
       }; 
     })
@@ -335,6 +344,7 @@ console.log('got wheelPad opening')
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
       if ($(this).context.id==="wheelPad") {
         JOg_pad_open = false;
+        fabmo.manualExit();
 console.log('got wheelPad closing')
       }; 
     })

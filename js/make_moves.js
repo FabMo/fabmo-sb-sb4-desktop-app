@@ -1,5 +1,4 @@
   // *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
-  // Global position and tracking (to get in and out of paperScope)
   window.globals = {
     TOol_x: 0,                                     // REAL LOCATIONS OF TOOL from G2
     TOol_y: 0,                                     // ... had to set as windows.globals to get to paperjs canvas
@@ -434,21 +433,21 @@
 //         doMotion(undefined, undefined, MOveTo_z);                   // SEND a Z
 //     }
 
-// //..................................... SEND DATA TO FABMO VIA livecode RUNTIME   ###==PRIMARY OUTPUT==###
-//     function doMotion (x, y, z) {                                              // ########################
-//       var err
-//       console.log("NEXT doMotion loc: " + x, y, z);
-//       var code = ['G1']
-//       if(x != undefined) {code.push('X' + x.toFixed(4));}
-//       if(y != undefined) {code.push('Y' + y.toFixed(4));}
-//       if(z != undefined) {code.push('Z' + z.toFixed(4));}
-//       code.push('F180');
-//       //code.push('F60');
-//       fabmo.manualRunGCode(code.join(''))
-//       //fabmo.
-//       //fabmo.livecodeStart(x, y, z, (err));
-//       //PAnEvent = false;
-//     }
+//..................................... SEND DATA TO FABMO VIA livecode RUNTIME   ###==PRIMARY OUTPUT==###
+    function doMotion (x, y, z) {                                              // ########################
+      var err
+      console.log("NEXT doMotion loc: " + x, y, z);
+      var code = ['G1']
+      if(x != undefined) {code.push('X' + x.toFixed(4));}
+      if(y != undefined) {code.push('Y' + y.toFixed(4));}
+      if(z != undefined) {code.push('Z' + z.toFixed(4));}
+      code.push('F180');
+      //code.push('F60');
+      fabmo.manualRunGCode(code.join(''))
+      //fabmo.
+      //fabmo.livecodeStart(x, y, z, (err));
+      //PAnEvent = false;
+    }
 // //..................................... Misc
 //     function getSnapLoc (loc, scale) {
 //       loc = Math.round(loc * scale);
