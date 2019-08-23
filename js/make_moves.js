@@ -1,11 +1,3 @@
-  // *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
-  window.globals = {
-    TOol_x: 0,                                     // REAL LOCATIONS OF TOOL from G2
-    TOol_y: 0,                                     // ... had to set as windows.globals to get to paperjs canvas
-    TOol_z: 0,
-    TOol_a: 0,
-    G2_state: ""
-  }
 
 
 //     var LIne_up, LIne_dn, LIne_full;               // motion direction transit lines, primary feature of app

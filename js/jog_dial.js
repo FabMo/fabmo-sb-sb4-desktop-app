@@ -411,7 +411,7 @@
     };
 
     function keyDownEvent(e) {
-      if (JOg_pad_open) {
+      if (globals.JOg_pad_open) {
         let dist = 5;
         e.preventDefault();  //#the does work on preventing key entry
         if (e.repeat) {
@@ -451,7 +451,7 @@
     // };
 
     function wheelEvent(e) {                                // MOUSE WHEEL SCROLLING
-      if (JOg_pad_open) {
+      if (globals.JOg_pad_open) {
 //        e.preventDefault();       // #does not seem to actually prevent scroll event at this point
         let dist = 5;
         let move = 0;
@@ -629,8 +629,8 @@
 // ----------------------------------------- MOVE the FOLLOWER MARKER
 function update_loc (angle) {
   var new_rad = globals.TOol_x  // * Math.PI / 180;
-  var _x =  (Math.cos(new_rad) * 125) + 100,
-      _y =  (Math.sin(new_rad) * 125) -20;
+  var _x =  (Math.cos(new_rad) * 125) + 80,
+      _y =  (Math.sin(new_rad) * 125) -15;
 //quadrant = JogDial.utils.getQuadrant(_x, _y),
 //degree = JogDial.utils.convertUnitToClock(radian);
     document.querySelector("#jog_dial_follower").style.left = _x + 'px';

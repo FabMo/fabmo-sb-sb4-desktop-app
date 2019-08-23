@@ -4,7 +4,19 @@
  */
 
 let cmds = [];
-let JOg_Pad_Open = false;
+//let JOg_Pad_Open = false;
+
+// *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
+window.globals = {
+  TOol_x: 0,                                     // REAL LOCATIONS OF TOOL from G2
+  TOol_y: 0,                                     // ... had to set as windows.globals to get to paperjs canvas
+  TOol_z: 0,
+  TOol_a: 0,
+  G2_state: "",
+  DOne_first_status_ck: "false",
+  JOg_Pad_Open: "false" 
+}
+
 
 if (!window.Haptics)
 	alert("The haptics.js library is not loaded.");
@@ -250,6 +262,11 @@ $(document).ready(function() {
       globals.TOol_c = status.posc;
       globals.G2_state = status.state;
 console.log(globals.G2_state);
+      if (globals.DOne_first_status_ck === "false") {
+        globals.DOne_first_status_ck = "true";
+        if (globals.G2_state === "manual") {fabmo.manualExit()}
+      }
+
   update_loc(99);
 //console.log(status.posx)
         const dispLen = 50;
@@ -335,7 +352,7 @@ console.log("MOUSE-ENTER")
     
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // #th Is it possible to miss opening and closing?
       if ($(this).context.id==="wheelPad") {
-        JOg_pad_open = true;
+        globals.JOg_pad_open = true;
         fabmo.manualEnter({hideKeypad:true, mode:'raw'});
 console.log('got wheelPad opening')
       }; 
@@ -343,11 +360,15 @@ console.log('got wheelPad opening')
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
       if ($(this).context.id==="wheelPad") {
-        JOg_pad_open = false;
+        globals.JOg_pad_open = false;
         fabmo.manualExit();
 console.log('got wheelPad closing')
       }; 
     })
 
+    window.addEventListener("unload", function(e){
+      fabmo.manualExit();
+      console.log("unloaded!");        
+    }, false);
 
 });

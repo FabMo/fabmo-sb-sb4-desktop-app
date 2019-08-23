@@ -82,6 +82,14 @@ p {
   border-radius: 40px;
 }
 
+#jog_dial_sel_char {
+  position: relative;
+  left: 10px;
+  top: 10px;
+  font-size: 3em;
+  color: #76c7e7ed;
+}
+
 #jog_dial_follower {
   position: relative;
   left: 0;
