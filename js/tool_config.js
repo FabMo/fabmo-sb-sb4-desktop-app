@@ -29,11 +29,31 @@ function updateUIFromEngineConfig() {
     });
 }
 
-/**
- * Work out how many axes to display in menu drop-downs by what to exclude (allow linear and rotary)
- * TODO - get 6th axis working right
- **/
-function getExcludedAxes(callback) {
+function updateSpeedsFromEngineConfig() {
+  var temp = 0;
+  fabmo.getConfig(function(err, data) {
+    $('#formatted_movexy_speed').val(data.opensbp.movexy_speed.toFixed(2));
+    $('#formatted_movez_speed').val(data.opensbp.movez_speed.toFixed(2));
+  // note that jog speeds are handled differently than move speeds (they are from G2 velocity max)
+    temp = data.driver.xvm / 60;
+    $('#formatted_jogxy_speed').val(temp.toFixed(2));
+    temp = data.driver.zvm / 60;
+    $('#formatted_jogz_speed').val(temp.toFixed(2));
+  });
+}
+
+function getAxisLimits() {
+  let axis, temp
+  fabmo.getConfig(function(err, data) {
+    for (axis = 1; axis = 3; axis++) {
+//      temp = AXis[axis] + "max"
+//      LIm_up[axis] = data.machine.envelope.xmax
+    }
+console.log("testAxis",LIm_up[1],LIm_up[2])
+  });  
+}
+
+function getExcludedAxes(callback) {         //#th TODO get 6th Axis working right (linear and rotary???)
     fabmo.getConfig(function(err, data) {
       var excluded_axes_str="";
       if(err) {
@@ -60,24 +80,8 @@ function getExcludedAxes(callback) {
     });
 }
 
-/**
- * Update formatted Speeds for UI Speed Box display.
- **/
-function updateSpeedsFromEngineConfig() {
-    var temp = 0;
-    fabmo.getConfig(function(err, data) {
-      $('#formatted_movexy_speed').val(data.opensbp.movexy_speed.toFixed(2));
-      $('#formatted_movez_speed').val(data.opensbp.movez_speed.toFixed(2));
-    // note that jog speeds are handled differently than move speeds (they are from G2 velocity max)
-      temp = data.driver.xvm / 60;
-      $('#formatted_jogxy_speed').val(temp.toFixed(2));
-      temp = data.driver.zvm / 60;
-      $('#formatted_jogz_speed').val(temp.toFixed(2));
-    });
-}
 
 /**
- * Set the specified value in the engine's configuration.
  * id is of the form opensbp-configitem_name such as opensbp-movexy_speed, etc.
  * This will only work for configuration items on the first branch of the tree - 
  * deeper items need more consideration. (???)

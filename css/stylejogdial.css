@@ -44,7 +44,7 @@ p {
 #jog_dial_one_meter {
   position: relative;
   left: 0;
-  top: 35%;
+  top: 60%;
   width: 200px;
   height: 10px;
   margin: 20px auto 30px;
@@ -84,8 +84,8 @@ p {
 
 #jog_dial_sel_char {
   position: relative;
-  left: 10px;
-  top: 10px;
+  left: 1px;
+  top: 1px;
   font-size: 3em;
   color: #76c7e7ed;
 }

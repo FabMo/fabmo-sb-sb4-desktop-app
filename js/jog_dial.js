@@ -1,9 +1,12 @@
+//* jog_dial.js ... change to jog_pad
 /*
-* jog_dial.js
-* modified from JogDial.js - v 1.0
+* evolved from from JogDial.js - v 1.0
 * Copyright (c) 2014 Sean Oh (ohsiwon@gmail.com)
 * Licensed under the MIT license
+* - generally used set up; upper functions
+* - added primarily lower functions ...
 */
+var divider  //*
 
 (function (window, undefined) {
   'use strict';
@@ -466,14 +469,10 @@
       }  
     };  
 
-    var lastRot = 0;
 //-------------------------------------------------------------------------------------------------------------------------------
-    function mouseDragEvent(e) {                            // MOUSE DRAG > mouseDragEvent (MOUSE_MOVE)
-//console.log("ON..");
-//console.log(e);
-      if (self.pressed) {
-        // Prevent default event
-//console.log("DRAGGED..");
+    var lastRot = 0;                                        // ##################################################################
+    function mouseDragEvent(e) {                            // MOUSE DRAG > mouseDragEvent (MOUSE_MOVE) and all related
+      if (self.pressed) {                                   // ##################################################################
         (e.preventDefault) ? e.preventDefault() : e.returnValue = false;
         // var info = self.info, opt = self.opt,
         var offset = JogDial.utils.getCoordinates(e),
@@ -514,18 +513,19 @@
           info.snapshot.direction = null;
         }
         
-        JogDial.utils.extend(self.knob, {                    // Update JogDial data information
+        JogDial.utils.extend(self.knob, {                // Update JogDial data information
           rotation: rotation,
           degree: degree
         });
-        angleTo(self, radian);                          // Update ANGLE and Do MOTION
+        angleTo(self, radian);                           // Update ANGLE and Do MOTION
         if (Math.abs(lastRot - rotation) >= 10) {           // ##Appears to be our STEP TEST
-      console.log("vib")
+      //console.log("vib")
             Haptics.vibrate(5);                             // HAPTICS  & SOUND ACTION
-            beep(10, 400, 5);
-            //###########################################
-            doMotion(rotation * Math.PI / 180,); // probably don't want to do this division
-            //############################################
+            //beep(10, 400, 5);
+            beep(20, 1400, 2);             //1800,1
+            //============================================
+              doMotion(rotation * Math.PI / 180,); // probably don't want to do this division
+            //============================================
             lastRot = rotation;
             var bar_width = Math.round((rotation/360)*10) + '%';   // size of indicator bar moves
             $("#jog_dial_one_meter_inner").css('width',bar_width);
@@ -535,7 +535,7 @@
     };
 //-------------------------------------------------------------------------------------------------------------------------------
 
-    function mouseUpEvent() {                               // mouseDragEvent (MOUSE_UP, MOUSE_OUT)
+    function mouseUpEvent() {                               // mouseUpEvent (MOUSE_UP, MOUSE_OUT)
 //console.log('got mouse-up in main')
       if(self.pressed){
         self.pressed = false;
@@ -582,19 +582,29 @@
   };
 //-------------------------------------------------------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------------------------------------------------------
-  function injectMove(self, info, dist) {                                    // *** INJECT MOTION
-        angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + dist));
-        beep(10, 400, 5);
-        info.now.rotation += dist;
-        info.old.rotation = (info.old.rotation + dist)%360
-        var bar_width = Math.round((info.now.rotation/360)*10) + '%';   // size of indicator bar moves
-        $("#jog_dial_one_meter_inner").css('width',bar_width);
-        //###########################################
-        doMotion(info.now.rotation * Math.PI / 180,); // probably don't want to do this division
-        //############################################
+//---------------------------------------------------------------------------// #################################################
+  function injectMove(self, info, dist) {                                    // *** INJECT MOTION (with alternates to wheel drag)
+                                                                             // #################################################
+    let sel_axis = 1 //X
+    let sel_axis_phy_distance = 24                                           // *needs to be tool size from config; dealing with metric???
+    let sel_axis_turns = 4
+    let sel_axis_rot_tot_distance = sel_axis_turns * 360
+    let sel_axis_multiplier = sel_axis_phy_distance / sel_axis_rot_tot_distance
+    let sel_axis_divider = sel_axis_rot_tot_distance / sel_axis_phy_distance  
+divider = sel_axis_divider / Math.PI
+//console.log(dist, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
+    angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + dist));
+    //beep(10, 400, 5);
+    beep(20, 1800, 1);
+    info.now.rotation += dist;
+    info.old.rotation = (info.old.rotation + dist)%360
+    var bar_width = Math.round((info.now.rotation/360)*10) + '%';             // size of indicator bar moves
+    $("#jog_dial_one_meter_inner").css('width',bar_width);
+    //============================================
+//      doMotion(info.now.rotation * Math.PI / 180,); // probably don't want to do this division
+      doMotion(sel_axis_multiplier * (info.now.rotation + dist),); 
+    //============================================
 
-//console.log(self,info,dist)
 //console.log("injEvt: ", info.old.rotation, info.now.rotation);
 //console.log(info.old.rotation * Math.PI / 180)
 //var new_rad = info.old.rotation * Math.PI / 180;
@@ -628,7 +638,12 @@
 
 // ----------------------------------------- MOVE the FOLLOWER MARKER
 function update_loc (angle) {
-  var new_rad = globals.TOol_x  // * Math.PI / 180;
+  //var new_rad = globals.TOol_x  // * Math.PI / 180;
+  var new_rad = globals.TOol_x / divider
+  new_rad = (new_rad)%360
+//console.log(new_rad)
+
+  // * Math.PI / 180;
   var _x =  (Math.cos(new_rad) * 125) + 80,
       _y =  (Math.sin(new_rad) * 125) -15;
 //quadrant = JogDial.utils.getQuadrant(_x, _y),
@@ -663,7 +678,7 @@ window.onload = function(){
           {minDegree:null, maxDegree:null, degreeStartAt: 180})
 //          {debug:false, minDegree:null, maxDegree:null, degreeStartAt: 180})
     .on('mousemove', function(evt){
-console.log('got mouse event!')      
+//console.log('got mouse event!')      
       bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves
     });
 

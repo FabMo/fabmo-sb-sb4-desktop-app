@@ -31,22 +31,24 @@ function sendCmd(command) {
   $('#cmd-input').val('');    				// remove after sent or called
 }
 
-function getUsrResource(remote, local) {
+function getUsrResource(remote, local) {                      // ## mucking around here testing Easel
   // temporarily only getting local because not detecting error on raspi tablets 
-      fabmo.navigate(local,{target : '_blank'});
+  //    fabmo.navigate(local,{target : '_blank'});
 
-  // fabmo.isOnline(function(err, online) {
-  //   if(err) {
-  //     console.log("isOnline Error");
-  //     return;         
-  //   }
-  //   if(online) {
-  //     fabmo.navigate(remote,{target : '_blank'});    }
-  //     //fabmo.navigate(remote,{target : '_self'});    }
-  //   else {
-  //     fabmo.navigate(local,{target : '_blank'});
-  //   }
-  // });
+  fabmo.isOnline(function(err, online) {
+    if(err) {
+      console.log("isOnline Error");
+      return;         
+    }
+console.log("seems online")    
+    if(online) {
+      //fabmo.navigate(remote,{target : '_blank'});    }
+      fabmo.navigate(remote,{target : '_self'});    }
+    else {
+//      fabmo.navigate(local,{target : '_blank'});
+      fabmo.navigate(remote,{target : '_blank'});
+    }
+  });
 }
 
 function postSbpAction(action) {
@@ -91,6 +93,10 @@ function processCommandInput(command) {
       case "V":
         $("#cmd-input").val(command);
         $("#menu_values").click();
+        break;
+      case "D":
+        $("#cmd-input").val(command);
+        $("#menu_design").click();
         break;
       case "H":
         $("#cmd-input").val(command);
@@ -164,11 +170,22 @@ function processCommandInput(command) {
           'language': 'sbp'
         });
         break;
+                                                                             // ## mucking around here with Easel and in calling routines
+      case "DE":                                                             // testing some design stuff ... *added to this sbp3_commands
+        getUsrResource('http://easel.inventables.com/users/sign_in', 'assets/docs/No_Internet.pdf');
+        break;        
+      case "DA":
+        break;
+      case "DT":
+        //getUsrResource('https://www.tinkercad.com/dashboard', 'assets/docs/No_Internet.pdf'); // also '/join' or '/login'
+        getUsrResource('https://www.tinkercad.com/login', 'assets/docs/No_Internet.pdf');
+        break;        
+
       case "HA":
         fabmo.notify('info', 'About: Sb4 Version 4.0.14');
         break;
       case "HC":
-        console.log("triggered");
+console.log("triggered");
         getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
         break;        
       case "HF":

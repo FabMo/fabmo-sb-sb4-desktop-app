@@ -12,11 +12,16 @@ window.globals = {
   TOol_y: 0,                                     // ... had to set as windows.globals to get to paperjs canvas
   TOol_z: 0,
   TOol_a: 0,
+  TOol_b: 0,
+  TOol_c: 0,
   G2_state: "",
   DOne_first_status_ck: "false",
   JOg_Pad_Open: "false" 
 }
 
+let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
+let LIm_up = new Array(10)                       // x=1
+let LIm_dn = new Array(10)
 
 if (!window.Haptics)
 	alert("The haptics.js library is not loaded.");
@@ -78,6 +83,11 @@ $(document).ready(function() {
               case "V":
                 $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
                 break;
+
+              case "D":
+                $("#menu_design").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                break;
+
               case "H":
                 $("#menu_help").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
                 break;
@@ -95,6 +105,8 @@ $(document).ready(function() {
     updateUIFromEngineConfig();
   
     updateSpeedsFromEngineConfig();
+
+//    getAxisLimits();
   
     $('.opensbp_input').change(function() {  // Handle and Bind generic UI textboxes
       setConfig(this.id, this.value);
@@ -261,13 +273,13 @@ $(document).ready(function() {
       globals.TOol_b = status.posb;
       globals.TOol_c = status.posc;
       globals.G2_state = status.state;
-console.log(globals.G2_state);
+//console.log(globals.G2_state);
       if (globals.DOne_first_status_ck === "false") {
         globals.DOne_first_status_ck = "true";
         if (globals.G2_state === "manual") {fabmo.manualExit()}
       }
 
-  update_loc(99);
+        update_loc(99);
 //console.log(status.posx)
         const dispLen = 50;
         let lineDisplay = "";
@@ -311,7 +323,7 @@ console.log(globals.G2_state);
     //... this only helps a little with focus
     $(document).mouseenter(function(e){
       // Check if click was triggered on or within #menu_content
-console.log("MOUSE-ENTER")
+//console.log("MOUSE-ENTER")
       // if( $(e.target).closest("#speed-panel").length > 0 ) {
       //       return false;
       //   } else if($(e.target).closest("#speed-panel").length > 0) {

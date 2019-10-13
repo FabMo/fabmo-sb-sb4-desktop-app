@@ -4059,6 +4059,19 @@
       "name": "Install Control Box Firmware"
    },
 
+   "DE": {
+      "cmd": "DE",
+      "name": "Design with Inventables' EASEL"
+   },
+   "DA": {
+      "cmd": "DA",
+      "name": "... info on EASEL and Inventables"
+   },
+   "DT": {
+      "cmd": "DT",
+      "name": "Design with Autodesk's TinkerCAD"
+   },
+
    "HS": {
       "cmd": "HS",
       "name": "SAFETY !"

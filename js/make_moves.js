@@ -428,8 +428,10 @@
 //..................................... SEND DATA TO FABMO VIA livecode RUNTIME   ###==PRIMARY OUTPUT==###
     function doMotion (x, y, z) {                                              // ########################
       var err
-      console.log("NEXT doMotion loc: " + x, y, z);
+//console.log("NEXT doMotion loc: " + x, y, z);
       var code = ['G1']
+
+
       if(x != undefined) {code.push('X' + x.toFixed(4));}
       if(y != undefined) {code.push('Y' + y.toFixed(4));}
       if(z != undefined) {code.push('Z' + z.toFixed(4));}
