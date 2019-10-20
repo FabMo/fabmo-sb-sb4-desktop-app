@@ -6,7 +6,18 @@
 * - generally used set up; upper functions
 * - added primarily lower functions ...
 */
-var divider  //*
+
+
+//var divider  //*
+//,,,,,,,,,,fix need to have this respond to axis choice
+let sel_axis = 1 //X
+let sel_axis_phy_distance = 24                                           // *needs to be tool size from config; dealing with metric???
+let sel_axis_turns = 4
+let sel_axis_rot_tot_distance = sel_axis_turns * 360
+let sel_axis_multiplier = sel_axis_phy_distance / sel_axis_rot_tot_distance
+let sel_axis_divider = sel_axis_rot_tot_distance / sel_axis_phy_distance;  
+var divider = sel_axis_divider * Math.PI;
+
 
 (function (window, undefined) {
   'use strict';
@@ -52,10 +63,11 @@ var divider  //*
       knobSize : '30%',                     // $$how big know is relative to ... wheel ???
       wheelSize : '500%',                   // ?? size of wheel relative too ??? ##Set large to be forgiving
       zIndex : 9999,                        // ?? for ??
-      degreeStartAt : 0,
+      degreeStartAt : ((globals.TOol_x - 1.6)%360),
       minDegree : null,  // (null) infinity
       maxDegree : null   // (null) infinity
     };
+console.log(JogDial.Defaults.degreeStartAt);
 
     // Predefined rotation info
     JogDial.DegInfo = {
@@ -283,6 +295,10 @@ var divider  //*
     self.info.old = JogDial.utils.extend({},JogDial.DegInfo);
     self.info.snapshot = JogDial.utils.extend({},self.info);
     self.info.snapshot.direction = null;
+
+console.log('can I do something here?')
+
+
   };
 
   function setStage(self) {
@@ -582,16 +598,13 @@ var divider  //*
   };
 //-------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
 //---------------------------------------------------------------------------// #################################################
   function injectMove(self, info, dist) {                                    // *** INJECT MOTION (with alternates to wheel drag)
                                                                              // #################################################
-    let sel_axis = 1 //X
-    let sel_axis_phy_distance = 24                                           // *needs to be tool size from config; dealing with metric???
-    let sel_axis_turns = 4
-    let sel_axis_rot_tot_distance = sel_axis_turns * 360
-    let sel_axis_multiplier = sel_axis_phy_distance / sel_axis_rot_tot_distance
-    let sel_axis_divider = sel_axis_rot_tot_distance / sel_axis_phy_distance  
-divider = sel_axis_divider / Math.PI
+
 //console.log(dist, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
     angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + dist));
     //beep(10, 400, 5);
@@ -638,14 +651,17 @@ divider = sel_axis_divider / Math.PI
 
 // ----------------------------------------- MOVE the FOLLOWER MARKER
 function update_loc (angle) {
-  //var new_rad = globals.TOol_x  // * Math.PI / 180;
-  var new_rad = globals.TOol_x / divider
-  new_rad = (new_rad)%360
-//console.log(new_rad)
+  var new_rad = globals.TOol_x  // * Math.PI / 180;
+  //  var new_rad = globals.TOol_x / divider;
+console.log("start", globals.TOol_x);
+console.log("first", new_rad);
+      new_rad = new_rad - 1.6 //just to try and remove ~ 90 degree
+      new_rad = (new_rad)%360
+console.log("second", new_rad);
 
   // * Math.PI / 180;
-  var _x =  (Math.cos(new_rad) * 125) + 80,
-      _y =  (Math.sin(new_rad) * 125) -15;
+  var _x =  (Math.cos(new_rad) * 100) + 80,   //125
+      _y =  (Math.sin(new_rad) * 100) -15;
 //quadrant = JogDial.utils.getQuadrant(_x, _y),
 //degree = JogDial.utils.convertUnitToClock(radian);
     document.querySelector("#jog_dial_follower").style.left = _x + 'px';
@@ -670,17 +686,19 @@ console.log(a.baseLatency)
   }
 
 
-//---------------------------------------------ON-LOAD  
+//---------------------------------------------ON-app LOAD  
 // ##@th added for bar control
 window.onload = function(){
+//  var cur_deg = ((globals.TOol_x - 1.6)%360);                                 // start know at current location
   var bar = document.getElementById('jog_dial_one_meter_inner');
   var dialOne = JogDial(document.getElementById('jog_dial_one'),
-          {minDegree:null, maxDegree:null, degreeStartAt: 180})
-//          {debug:false, minDegree:null, maxDegree:null, degreeStartAt: 180})
+        {minDegree:null, maxDegree:null})
+//        {minDegree:null, maxDegree:null, degreeStartAt: 0})
     .on('mousemove', function(evt){
-//console.log('got mouse event!')      
-      bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves
+        bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves
     });
+
+    console.log("what was loaded?");
 
     beep(20, 1800, 1);
     // beep(50, 100, 200);
@@ -688,3 +706,10 @@ window.onload = function(){
 
 }
 
+/*
+* - general idea; 10 turns of wheel to cover the axis, each turn 360 degree = 1/10 distance (e.g. .6 for handibotX)
+* - do we coast in time or distance or both. what marker syncs with what marker?
+* - filtering the start; filtering reverses
+*
+*
+*/

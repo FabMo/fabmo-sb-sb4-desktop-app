@@ -378,7 +378,12 @@ console.log('got wheelPad closing')
       }; 
     })
 
-    window.addEventListener("unload", function(e){
+    $('#wheel_pad_close').click(function(event) {      //##testing close button
+console.log('got close click')
+      $('#modal').foundation('reveal', 'close');
+    });
+
+    window.addEventListener("unload", function(event){
       fabmo.manualExit();
       console.log("unloaded!");        
     }, false);
