@@ -279,7 +279,7 @@ $(document).ready(function() {
         if (globals.G2_state === "manual") {fabmo.manualExit()}
       }
 
-        update_loc(99);
+        JogDial.utils.update_loc();
 //console.log(status.posx)
         const dispLen = 50;
         let lineDisplay = "";
