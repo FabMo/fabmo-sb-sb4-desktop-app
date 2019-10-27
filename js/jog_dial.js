@@ -10,17 +10,17 @@
 
 //var divider  //*
 //,,,,,,,,,,fix need to have this respond to axis choice
-let sel_axis = 1 //X
-let sel_axis_phy_distance = 24                                           // *needs to be tool size from config; dealing with metric???
-let sel_axis_turns = 4
-let sel_axis_rot_tot_distance = sel_axis_turns * 360
-let sel_axis_multiplier = sel_axis_phy_distance / sel_axis_rot_tot_distance
-let sel_axis_divider = sel_axis_rot_tot_distance / sel_axis_phy_distance;  
+var sel_axis = 1 //X
+var sel_axis_phy_distance = 24                                           // *needs to be tool size from config; dealing with metric???
+var sel_axis_turns = 4
+var sel_axis_rot_tot_distance = sel_axis_turns * 360
+var sel_axis_multiplier = sel_axis_phy_distance / sel_axis_rot_tot_distance
+var sel_axis_divider = sel_axis_rot_tot_distance / sel_axis_phy_distance;  
 var divider = sel_axis_divider * Math.PI;
+var JDbase = "";
 
-
-(function (window, undefined) {
-  'use strict';
+//(function (window, undefined) {
+//  'use strict';
 
   var bar = document.getElementById('jog_dial_one_meter_inner');
 
@@ -295,7 +295,9 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
       return this;
     },
     angle: function angle(data) {
-      var deg = (data > this.opt.maxDegree) ? this.opt.maxDegree : data;
+      var deg = data;
+      //var deg = (data > this.opt.maxDegree) ? this.opt.maxDegree : data;
+console.log("gotcall- ", data,deg, this.opt.maxDegree);      
       angleTo(this, JogDial.utils.convertClockToUnit(deg), deg);
     }
   };
@@ -309,6 +311,9 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
     self.info.old = JogDial.utils.extend({},JogDial.DegInfo);
     self.info.snapshot = JogDial.utils.extend({},self.info);
     self.info.snapshot.direction = null;
+
+    JDbase = self.base;
+console.log("base", JDbase);    
 
   };
 
@@ -543,7 +548,7 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
             //beep(10, 400, 5);
             beep(20, 1400, 2);             //1800,1
             //============================================
-              doMotion(rotation * Math.PI / 180,); // probably don't want to do this division
+              _domotion(rotation * Math.PI / 180,); // probably don't want to do this division
             //============================================
             lastRot = rotation;
             var bar_width = Math.round((rotation/360)*10) + '%';   // size of indicator bar moves
@@ -583,7 +588,6 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
         degree: JogDial.utils.convertUnitToClock(radian)
       });
     }
-
     if(triggeredDegree){
       // Update JogDial data information
       self.info.now = JogDial.utils.extend({},{rotation:triggeredDegree, quadrant: quadrant});
@@ -600,8 +604,9 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
   //-------------------------------------------------------------------------// #################################################
   function injectMove(self, info, dist) {                                    // *** INJECT MOTION (with alternates to wheel drag)
                                                                              // #################################################
-//console.log(dist, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
+console.log("INJECT>>  ",dist, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
     angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + dist));
+//console.log("self- ", self);
     //beep(10, 400, 5);
     beep(20, 1800, 1);
     info.now.rotation += dist;
@@ -610,7 +615,7 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
     $("#jog_dial_one_meter_inner").css('width',bar_width);
     //============================================
     //      doMotion(info.now.rotation * Math.PI / 180,); // probably don't want to do this division
-      doMotion(sel_axis_multiplier * (info.now.rotation + dist),); 
+      _domotion(sel_axis_multiplier * (info.now.rotation + dist),); 
     //============================================
 
     //console.log("injEvt: ", info.old.rotation, info.now.rotation);
@@ -624,6 +629,13 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
     ////document.querySelector("#jog_dial_follower").style.left = _x + 'px';
     ////document.querySelector("#jog_dial_follower").style.top = _y + 'px';
     //              var lastRot = info.now.rotation;
+  }
+
+  function _domotion(dist_x, dist_y, dist_z, dist_a, dist_b, dist_c) {        // =============== General call to motion generator
+    doMotion(dist_x, dist_y, dist_z, dist_a, dist_b, dist_c);                 // ... generally compile
+console.log("X>  ",dist_x)    
+    $('#jog_dial_loc_trgt').val(dist_x.toFixed(3));
+    
   }
 
   // UMD Wrapper pattern: Based on returnExports.js script from (https://github.com/umdjs/umd/blob/master/returnExports.js)
@@ -640,18 +652,19 @@ console.log('X-update-- ', globals.TOol_x, new_rad)
       window.JogDial = JogDial;
   }
 
-})(window);
+//})(window);
 
 //---------------------------------------------ON-app LOAD  
+var dialOne;
 window.onload = function(){
-//  var cur_deg = ((globals.TOol_x - 1.6)%360);                                 // start know at current location
+  var cur_deg = ((globals.TOol_x - 1.6)%360);                                 // start know at current location
+console.log("deg>  ", cur_deg)
   var bar = document.getElementById('jog_dial_one_meter_inner');
-  var dialOne = JogDial(document.getElementById('jog_dial_one'),
-//        {minDegree:null, maxDegree:null})
-        {minDegree:null, maxDegree:null, degreeStartAt: 1.5})
-    .on('mousemove', function(evt){
+  dialOne = JogDial(document.getElementById('jog_dial_one'),
+        {minDegree:null, maxDegree:null, degreeStartAt: 120})
+  .on('mousemove', function(evt){
         bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves // ##@th added for bar control???
-    });
+  });
 
   beep(20, 1800, 1);
     // beep(50, 100, 200);

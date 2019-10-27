@@ -425,11 +425,21 @@
 //         doMotion(undefined, undefined, MOveTo_z);                   // SEND a Z
 //     }
 
-//..................................... SEND DATA TO FABMO VIA livecode RUNTIME   ###==PRIMARY OUTPUT==###
-    function doMotion (x, y, z) {                                              // ########################
-      var err
-//console.log("NEXT doMotion loc: " + x, y, z);
-      var code = ['G1']
+let debounce = '';
+//..................................... SEND DATA TO FABMO VIA livecode RUNTIME   ###==MANAGE GENERIC MANUAL INTERACTIONS==###
+    function doMotion (x, y, z, a, b, c) {                                     // ############################################
+        let err
+console.log("state: ", globals.G2_state,globals.G2_stat, debounce);        
+console.log("NEXT doMotion loc: " + x, y, z, a, b, c);
+      if (globals.G2_stat === 5 || debounce ==='ok') {                         // ... already in motion
+console.log('already moving') 
+            debounce = '';                                                     // ... moving now so reset debounce
+      } else {                                                                 // ... just getting started, so debounce              
+console.log('just starting') 
+            debounce = 'ok';
+      }  
+
+        var code = ['G1']
 
       if(x != undefined) {code.push('X' + x.toFixed(4));}
       if(y != undefined) {code.push('Y' + y.toFixed(4));}

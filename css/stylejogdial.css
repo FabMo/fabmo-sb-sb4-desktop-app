@@ -90,6 +90,20 @@ p {
   color: #76c7e7ed;
 }
 
+#jog_dial_location {
+  position: relative;
+  left: 0%x;
+  top: 60%;
+}
+
+#jog_dial_loc_trgt {
+  font-size: 2em;
+  text-align: center;
+  background: transparent;
+  outline: none;
+  color: #95c7ff;
+}
+
 #jog_dial_follower {
   position: relative;
   left: 0;

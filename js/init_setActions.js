@@ -4,7 +4,6 @@
  */
 
 let cmds = [];
-//let JOg_Pad_Open = false;
 
 // *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
 window.globals = {
@@ -273,13 +272,15 @@ $(document).ready(function() {
       globals.TOol_b = status.posb;
       globals.TOol_c = status.posc;
       globals.G2_state = status.state;
-//console.log(globals.G2_state);
+
+      globals.G2_stat = status.stat;                                           // 5 means "in motion"
+
       if (globals.DOne_first_status_ck === "false") {
         globals.DOne_first_status_ck = "true";
-        if (globals.G2_state === "manual") {fabmo.manualExit()}
+        if (globals.G2_state === "manual") {fabmo.manualExit()}                // #???
       }
 
-        JogDial.utils.update_loc();
+        JogDial.utils.update_loc();                                            // update Jog-Pad position
 //console.log(status.posx)
         const dispLen = 50;
         let lineDisplay = "";
@@ -362,15 +363,18 @@ $(document).ready(function() {
       console.log('G2_first_state>' + globals.G2_state);
     });
     
-    $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // #th Is it possible to miss opening and closing?
+    $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // ------------------- ON OPENING JOG PAD
       if ($(this).context.id==="wheelPad") {
+        let mod_loc = globals.TOol_x * (180 / Math.PI);                   //... get current knob position
+        dialOne.angle(mod_loc);                                           //... set set know 
+        $('#jog_dial_loc_trgt').val(globals.TOol_x.toFixed(3));           //... set loc display
         globals.JOg_pad_open = true;
         fabmo.manualEnter({hideKeypad:true, mode:'raw'});
 console.log('got wheelPad opening')
       }; 
     })
 
-    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
       if ($(this).context.id==="wheelPad") {
         globals.JOg_pad_open = false;
         fabmo.manualExit();
