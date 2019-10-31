@@ -425,21 +425,50 @@
 //         doMotion(undefined, undefined, MOveTo_z);                   // SEND a Z
 //     }
 
-let debounce = '';
+var debounce = '';
+var time_last_push = new Date();
+var dir_first_move
+var first_move
+var timerID
 //..................................... SEND DATA TO FABMO VIA livecode RUNTIME   ###==MANAGE GENERIC MANUAL INTERACTIONS==###
-    function doMotion (x, y, z, a, b, c) {                                     // ############################################
-        let err
-console.log("state: ", globals.G2_state,globals.G2_stat, debounce);        
+    function doMotion (x, y, z, a, b, c) {                                     // ################################ doJpadMotion ?
+      let err
+      let code = ['G1']
+//console.log("state: ", globals.G2_stat, debounce, globals.TOol_x);        
 console.log("NEXT doMotion loc: " + x, y, z, a, b, c);
-      if (globals.G2_stat === 5 || debounce ==='ok') {                         // ... already in motion
-console.log('already moving') 
-            debounce = '';                                                     // ... moving now so reset debounce
-      } else {                                                                 // ... just getting started, so debounce              
-console.log('just starting') 
-            debounce = 'ok';
-      }  
+      let dir_sel = Math.sign(x - globals.TOol_x);
 
-        var code = ['G1']
+      let time_since_last = Date.now() - time_last_push;                        // Debounce: don't allow a quick back and forth; do allow one step
+//console.log(time_since_last)       
+        if (time_since_last >= 500) {
+            debounce = '';
+            time_last_push = Date.now();
+//console.log('cleared on time')              
+            }
+        if (globals.G2_stat === 5 || debounce ==='ck') {                         // ... already in motion
+            if (debounce === 'ck') {
+                  clearTimeout(timerID);                                         // ... either taking the step here or not wanting to at all
+                  if (dir_sel === dir_first_move) {                              // ... if direction same
+                        fabmo.manualRunGCode(first_move);
+                        dir_ongoing = dir_sel;
+                    }
+                  debounce = '';
+              } else {
+                  if (dir_sel != dir_ongoing) {                              // ... if direction same
+                        return                                             // ... leave without making move if not going right direction
+                    }
+             }                                                            // ... moving now so turn debounce off
+          } else {                                                                 // ... just getting started, so debounce              
+console.log('got first skipping and waiting') 
+            dir_first_move = dir_sel;
+            first_move = 'G1X' + x.toFixed(4) + 'F180';                          // ... save first move ready to go
+            debounce = 'ck';
+            timerID = setTimeout(
+                  () => {
+                        doOne(first_move);
+                        }, 450
+            );return                                                               // ## leaving function early? skip first move initially
+         }  
 
       if(x != undefined) {code.push('X' + x.toFixed(4));}
       if(y != undefined) {code.push('Y' + y.toFixed(4));}
@@ -447,11 +476,19 @@ console.log('just starting')
       code.push('F180');
       //code.push('F60');
       fabmo.manualRunGCode(code.join(''))
+      time_last_push = Date.now();
       //fabmo.
       //fabmo.livecodeStart(x, y, z, (err));
       //PAnEvent = false;
     }
-// //..................................... Misc
+
+function doOne (a_move) {
+      fabmo.manualRunGCode(a_move);
+      debounce = '';
+console.log('did delayed first')      
+}    
+
+    // //..................................... Misc
 //     function getSnapLoc (loc, scale) {
 //       loc = Math.round(loc * scale);
 //       return loc/scale;

@@ -370,6 +370,7 @@ $(document).ready(function() {
         $('#jog_dial_loc_trgt').val(globals.TOol_x.toFixed(3));           //... set loc display
         globals.JOg_pad_open = true;
         fabmo.manualEnter({hideKeypad:true, mode:'raw'});
+        beep(20, 1800, 1);
 console.log('got wheelPad opening')
       }; 
     })

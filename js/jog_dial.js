@@ -220,11 +220,11 @@ console.log(JogDial.Defaults.degreeStartAt);
  
       update_loc: function () {                          // ---------------------------------- MOVE the FOLLOWER MARKER
         var new_rad = globals.TOol_x  // * Math.PI / 180;
-console.log("start", globals.TOol_x);
-console.log("first", new_rad);
+//console.log("start", globals.TOol_x);
+//console.log("first", new_rad);
             new_rad = new_rad - 1.6 //just to try and remove ~ 90 degree
             new_rad = (new_rad)%360
-console.log("second", new_rad);
+//console.log("second", new_rad);
         // * Math.PI / 180;
         var _x =  (Math.cos(new_rad) * 100) + 80,   //125
             _y =  (Math.sin(new_rad) * 100) -15;
@@ -232,7 +232,7 @@ console.log("second", new_rad);
       //degree = JogDial.utils.convertUnitToClock(radian);
           document.querySelector("#jog_dial_follower").style.left = _x + 'px';
           document.querySelector("#jog_dial_follower").style.top = _y + 'px';
-console.log('X-update-- ', globals.TOol_x, new_rad)
+//console.log('X-update-- ', globals.TOol_x, new_rad)
       }
 
     };
@@ -666,7 +666,7 @@ console.log("deg>  ", cur_deg)
         bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves // ##@th added for bar control???
   });
 
-  beep(20, 1800, 1);
+//  beep(20, 1800, 1);
     // beep(50, 100, 200);
 }
 
