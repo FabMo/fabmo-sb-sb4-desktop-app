@@ -375,6 +375,17 @@ console.log('got wheelPad opening')
       }; 
     })
 
+    //---------------------------------------------TOGGLE AXIS
+//    $("#jog_dial_sel_char").click(function(event) {
+  $('#jog_dial_sel_char').on('click.fndtn.reveal', '[data-reveal]', function (evt) { 
+//      $("#jog_dial_sel_char").on('click', function(evt){
+    console.log("got click",($('#jog_dial_sel_char')));
+    console.log(evt);
+  //  $("#jog_dial_sel_char").text("Z"); 
+});
+
+
+
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
       if ($(this).context.id==="wheelPad") {
         globals.JOg_pad_open = false;

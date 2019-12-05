@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DESKTOP</title>
   <link rel="stylesheet" href="css/normalize.css">
+<!-- Foundation 5.5.3 -->
   <link rel="stylesheet" href="css/foundation.min.css">
 <!--  <link rel="stylesheet" href="css/foundation.css" /> -->
 <link rel="stylesheet" href="css/style.css">
@@ -219,7 +220,6 @@
     <h2 id="modalTitle">File Ready to Run</h2>
     <p id="curfilename"></p>
     <p id="params"></p>
-
     <ul class="button-group">
       <li><a class="secondary button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
       <li><a class="secondary button" role="button" id="btn_cmd_quit">QUIT</a></li>
@@ -227,12 +227,21 @@
     </ul>
   </div>
 
-  <div id="wheelPad" class="reveal-modal-bg full dial" data-reveal data-options="close_on_background_click:false;close_on_esc:true;" style="display: none" role="dialog">
+  <div id="helpModal" class="reveal-modal" data-reveal role="dialog">
+    <h2>Config Values and Persistent Variables</h2>
+      <p>
+        <pre id="full-config">No configuration loaded yet.</pre>
+      </p>
+  </div>
+
+  <div id="wheelPad" class="reveal-modal-bg full dial" data-reveal data-options="close_on_background_click:true;close_on_esc:true;" style="display: none" role="dialog">
     <!--    <h2 id="modalTitle">JOG-PAD</h2> -->
     <!-- <div class="dial"> -->
 
+      <a id="jogClose" class="close-reveal-modal" aria-label="Close">&#215;</a>
+
       <div id="jog_dial_one">
-        <div id="jog_dial_axis_sel"><p id="jog_dial_sel_char">X</p></div>
+        <div id="jog_dial_axis_sel"><input id="jog_dial_sel_char" type="text" placeholder="X" tabindex="0"/></div>
         <div id="jog_dial_follower"></div>
         <div id="jog_dial_location"><input type="text" placeholder="0.000" id="jog_dial_loc_trgt"/></div>
         <div id="jog_dial_one_meter">
@@ -251,6 +260,7 @@
 
     <!-- </div> -->
   </div>
+
 </body>
 
   <script src="js/tool_config.js"></script>

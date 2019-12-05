@@ -185,8 +185,33 @@ function processCommandInput(command) {
         fabmo.notify('info', 'About: Sb4 Version 4.0.14');
         break;
       case "HC":
-console.log("triggered");
         getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
+        break;        
+      case "HL":
+console.log("triggered");
+        //getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
+
+    		var cachedConfig = null;
+		    // Get the configuration from the tool and update
+		    var updateConfig = function() {
+			    fabmo.getConfig(function(err, config) {
+            cachedConfig = config;
+console.log(config)            
+				    // // Update the tool info statement
+				    //     document.getElementById('tool-name').innerHTML = config.engine.profile;
+				    //     document.getElementById('envelope-x').innerHTML = config.machine.envelope.xmax - config.machine.envelope.xmin;
+				    //     document.getElementById('envelope-y').innerHTML = config.machine.envelope.ymax - config.machine.envelope.ymin;
+				    //     document.getElementById('tool-version').innerHTML = config.engine.version;
+				    //     document.getElementById('tool-units').innerHTML = config.machine.units;
+				    // // Update the configuration 
+				         document.getElementById('full-config').innerHTML = JSON.stringify(config, null, '   ');
+			    });			
+		    }
+        // Update it
+        $('#helpModal').foundation('reveal', 'open');
+        updateConfig();
+
+
         break;        
       case "HF":
         getUsrResource('https://handibot.com/forum/list.php?2', 'assets/docs/No_Internet.pdf');

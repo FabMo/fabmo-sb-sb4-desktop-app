@@ -32,6 +32,14 @@ p {
   border-radius: 100px;
 }
 
+#jogClose {
+  position: absolute;
+  right: 15px;
+  top: 1px;
+  font-size: 3em;
+  color: #76c7e7ed;
+}
+
 #jog_dial_one_knob {
   background: #95c7ff;
   -webkit-border-radius: 50px;

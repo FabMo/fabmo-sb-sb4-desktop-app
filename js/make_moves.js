@@ -466,13 +466,16 @@ console.log('got first skipping and waiting')
             timerID = setTimeout(
                   () => {
                         doOne(first_move);
-                        }, 450
+                        }, 450                                              // 450 a little less than 500???
             );return                                                               // ## leaving function early? skip first move initially
          }  
 
       if(x != undefined) {code.push('X' + x.toFixed(4));}
       if(y != undefined) {code.push('Y' + y.toFixed(4));}
       if(z != undefined) {code.push('Z' + z.toFixed(4));}
+      if(a != undefined) {code.push('A' + x.toFixed(4));}
+      if(b != undefined) {code.push('B' + y.toFixed(4));}
+      if(c != undefined) {code.push('C' + z.toFixed(4));}
       code.push('F180');
       //code.push('F60');
       fabmo.manualRunGCode(code.join(''))

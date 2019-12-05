@@ -4084,6 +4084,10 @@
       "cmd": "HC",
       "name": "Command Reference"
    },
+   "HL": {
+      "cmd": "HL",
+      "name": "List Configs and Variables"
+   },
    "HF": {
       "cmd": "HF",
       "name": "User Forum"

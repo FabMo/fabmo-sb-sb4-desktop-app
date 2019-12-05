@@ -5,6 +5,7 @@
 * Licensed under the MIT license
 * - generally used set up; upper functions
 * - added primarily lower functions ...
+* - ought to be redone from scratch now ...
 */
 
 
@@ -61,7 +62,7 @@ var JDbase = "";
       debug : false,
       touchMode : 'knob',  // knob | wheel  // $$means must engage knob
       knobSize : '30%',                     // $$how big know is relative to ... wheel ???
-      wheelSize : '500%',                   // ?? size of wheel relative too ??? ##Set large to be forgiving
+      wheelSize : '500%',                   // ?? size of wheel relative too ??? ##Set large to be forgiving of finger position during spinning
       zIndex : 9999,                        // ?? for ??
       degreeStartAt : ((globals.TOol_x - 1.6)%360),
       minDegree : null,  // (null) infinity
@@ -313,7 +314,7 @@ console.log("gotcall- ", data,deg, this.opt.maxDegree);
     self.info.snapshot.direction = null;
 
     JDbase = self.base;
-console.log("base", JDbase);    
+console.log("jog-base-initiated", JDbase);    
 
   };
 
@@ -418,6 +419,9 @@ console.log("base", JDbase);
     JogDial.utils.addEvent(document, JogDial.DomEvent.WHEEL, wheelEvent);
   
     function mouseDownEvent(e) {                    // mouseDownEvent (MOUSE_DOWN)
+
+console.log(e);
+
       switch (opt.touchMode) {
         case 'knob':
         default:
@@ -635,7 +639,7 @@ console.log("INJECT>>  ",dist, info.now.rotation + dist, sel_axis_multiplier, se
     doMotion(dist_x, dist_y, dist_z, dist_a, dist_b, dist_c);                 // ... generally compile
 console.log("X>  ",dist_x)    
     $('#jog_dial_loc_trgt').val(dist_x.toFixed(3));
-    
+    $('#jog_dial_sel_char').text = "zzz";
   }
 
   // UMD Wrapper pattern: Based on returnExports.js script from (https://github.com/umdjs/umd/blob/master/returnExports.js)
@@ -651,8 +655,8 @@ console.log("X>  ",dist_x)
       // Browser globals
       window.JogDial = JogDial;
   }
-
 //})(window);
+
 
 //---------------------------------------------ON-app LOAD  
 var dialOne;
@@ -666,9 +670,11 @@ console.log("deg>  ", cur_deg)
         bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves // ##@th added for bar control???
   });
 
-//  beep(20, 1800, 1);
-    // beep(50, 100, 200);
+  //  beep(20, 1800, 1);
+  // beep(50, 100, 200);
 }
+
+
 
 /*
 * - general idea; 10 turns of wheel to cover the axis, each turn 360 degree = 1/10 distance (e.g. .6 for handibotX)
