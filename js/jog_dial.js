@@ -456,7 +456,7 @@ console.log("jog-base-initiated", JDbase);
                 injectMove(self, info, dist);
               break;	
             case 40: // [down-arrow]
-                // ... to be next axis down
+                $('#jog_dial_sel_char').trigger('click');// ... to be next axis down
                 break;
             case 65:  //A
               break;
@@ -632,8 +632,10 @@ console.log("INJECT>>  ",dist, info.now.rotation + dist, sel_axis_multiplier, se
   }
 
   function _domotion(dist_x, dist_y, dist_z, dist_a, dist_b, dist_c) {        // =============== General call to motion generator
-    doMotion(globals.JOg_Axis, globals.TOol_x, dist_x);                 // ... generally compile
-console.log(globals.JOg_Axis + ">  ", globals.TOol_x, dist_x)    
+    let axis_start_str = "TOol_" +  (globals.JOg_Axis.toLowerCase());
+    
+    doMotion(globals.JOg_Axis, globals[axis_start_str], dist_x);                 // ... generally compile
+console.log(globals.JOg_Axis + ">  ", axis_start_str, globals[axis_start_str], dist_x)    
     $('#jog_dial_loc_trgt').val(dist_x.toFixed(3));
   }
 

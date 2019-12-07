@@ -22,6 +22,7 @@ window.globals = {
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
 let LIm_up = new Array(10)                       // x=1
 let LIm_dn = new Array(10)
+let excluded_axes_str = ""
 
 if (!window.Haptics)
 	alert("The haptics.js library is not loaded.");
@@ -106,7 +107,7 @@ $(document).ready(function() {
   
     updateSpeedsFromEngineConfig();
 
-//    getAxisLimits();
+    getAxisLimits();
   
     $('.opensbp_input').change(function() {  // Handle and Bind generic UI textboxes
       setConfig(this.id, this.value);
@@ -281,8 +282,8 @@ $(document).ready(function() {
         if (globals.G2_state === "manual") {fabmo.manualExit()}                // #???
       }
 
-        JogDial.utils.update_loc();                                            // update Jog-Pad position
-//console.log(status.posx)
+        JogDial.utils.update_loc();                                            // ##?? only if using update Jog-Pad position
+
         const dispLen = 50;
         let lineDisplay = "";
         if (status.nb_lines > 1) {           // If we're running a file ... greater than 1 to cover 2 commands in MS
@@ -295,6 +296,7 @@ $(document).ready(function() {
             $("#txt_area").text(lineDisplay);
             $('#cmd-input').val('>');
         }
+
         if (globals.G2_state === "running") {
             $('#cmd-input').val(' ');
         }    
@@ -306,10 +308,7 @@ $(document).ready(function() {
             $("#cmd-input").focus();             // ... and reset focus
         }
 
-        // Didn't figure out how to make this work ...
-        //fabmo.getWifiNetworks(function(err, networks) {
-        //  console.log("net: " + networks)});
-      });
+    });
       
     // ** Try to restore CMD focus when there is a shift back to app
     $(document).click(function(e){
@@ -366,9 +365,10 @@ $(document).ready(function() {
     
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // ------------------- ON OPENING JOG PAD
       if ($(this).context.id==="wheelPad") {
-        let mod_loc = globals.TOol_x * (180 / Math.PI);                   //... get current knob position
+        let axis_start_str = "TOol_" +  (globals.JOg_Axis.toLowerCase());
+        let mod_loc = globals[axis_start_str] * (180 / Math.PI);                   //... get current knob position
         dialOne.angle(mod_loc);                                           //... set now 
-        $('#jog_dial_loc_trgt').val(globals.TOol_x.toFixed(3));           //... set loc display
+        $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));           //... set loc display
         globals.JOg_pad_open = true;
         fabmo.manualEnter({hideKeypad:true, mode:'raw'});
         beep(20, 1800, 1);
@@ -376,25 +376,52 @@ console.log('got wheelPad opening')
       }; 
      
       $("#jog_dial_sel_char").click(function(evt) {                       //... toggle through AXES with click on selector
-        //  console.log("got click",($('#jog_dial_sel_char')));           //## need full axis sequencing, and coordination with keyinputs
+        //  console.log("got click",($('#jog_dial_sel_char')));           //... ## could make this a little more concise
           axis = $('#jog_dial_sel_char').text();
+          beep(30,3000, 30);
           switch (axis) {
             case "X":
-              $("#jog_dial_sel_char").text("Y");
-              globals.JOg_Axis = "Y"
-              break;
+              if (excluded_axes_str.indexOf("Y") == -1) {
+                $("#jog_dial_sel_char").text("Y");
+                globals.JOg_Axis = "Y"
+                break;
+              }
             case "Y":
-              $("#jog_dial_sel_char").text("Z");
-              globals.JOg_Axis = "Z"
-              break;
+              if (excluded_axes_str.indexOf("Z") == -1) {
+                $("#jog_dial_sel_char").text("Z");
+                globals.JOg_Axis = "Z"
+                break;
+              }
             case "Z":
-              $("#jog_dial_sel_char").text("X");
-              globals.JOg_Axis = "X"
-              break;
+              if (excluded_axes_str.indexOf("A") == -1) {
+                $("#jog_dial_sel_char").text("A");
+                globals.JOg_Axis = "A"
+                break;
+              }
+            case "A":
+              if (excluded_axes_str.indexOf("B") == -1) {
+                $("#jog_dial_sel_char").text("B");
+                globals.JOg_Axis = "B"
+                break;
+              }
+            case "B":
+              if (excluded_axes_str.indexOf("C") == -1) {
+                $("#jog_dial_sel_char").text("C");
+                globals.JOg_Axis = "C"
+                break;
+              }
+            case "C":
+              if (excluded_axes_str.indexOf("X") == -1) {
+                $("#jog_dial_sel_char").text("X");
+                globals.JOg_Axis = "X"
+                break;
+              }
             default:
               $("#jog_dial_sel_char").text("X");
               globals.JOg_Axis = "X"
           }
+          let axis_start_str = "TOol_" +  (globals.JOg_Axis.toLowerCase());
+          $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));           //... set loc display
       });
     })
 

@@ -42,44 +42,66 @@ function updateSpeedsFromEngineConfig() {
   });
 }
 
+// AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
 function getAxisLimits() {
   let axis, temp
   fabmo.getConfig(function(err, data) {
-    for (axis = 1; axis = 3; axis++) {
-//      temp = AXis[axis] + "max"
-//      LIm_up[axis] = data.machine.envelope.xmax
-    }
-console.log("testAxis",LIm_up[1],LIm_up[2])
+    let i = 1
+    do {
+      temp = AXis[i].toLowerCase();
+      LIm_up[i] = data.machine.envelope[(temp + "max")];
+      LIm_dn[i] = data.machine.envelope[(temp + "min")];
+      console.log("testAxis",temp,LIm_up[i],LIm_dn[i]);
+    } while(i++ < 6);
   });  
 }
 
-function getExcludedAxes(callback) {         //#th TODO get 6th Axis working right (linear and rotary???)
+function getExcludedAxes(callback) {         
     fabmo.getConfig(function(err, data) {
-      var excluded_axes_str="";
-      if(err) {
+//      let excluded_axes_str="";
+      let num_axes_str = "";
+      let axes_in_use = 6;
+        if(err) {
         console.error(err);
       } else {
-          var num_axes_str = "";
+        if (data.driver.xam == 0) {
+          excluded_axes_str = excluded_axes_str + "X";
+          num_axes_str = num_axes_str + "1";
+          axes_in_use--;
+        }
+        if (data.driver.yam == 0) {
+          excluded_axes_str = excluded_axes_str + "Y";
+          num_axes_str = num_axes_str + "2";
+          axes_in_use--;
+        }
+        if (data.driver.zam == 0) {
+          excluded_axes_str = excluded_axes_str + "Z";
+          num_axes_str = num_axes_str + "3";
+          axes_in_use--;
+        }
         if (data.driver.aam == 0) {
           excluded_axes_str = excluded_axes_str + "A";
           num_axes_str = num_axes_str + "4";
+          axes_in_use--;
         }
         if (data.driver.bam == 0) {
           excluded_axes_str = excluded_axes_str + "B";
           num_axes_str = num_axes_str + "5";
+          axes_in_use--;
         }
-//        if (data.driver.cam == 0) {
+        if (data.driver.cam == 0) {
           excluded_axes_str = excluded_axes_str + "C";
           num_axes_str = num_axes_str + "6";
-//        }
+          axes_in_use--;
+        }
         excluded_axes_str = excluded_axes_str + num_axes_str;
-        //console.log(data);
-        //console.log("axes - " + excluded_axes_str);
+        console.log(data);
+        console.log(axes_in_use);
+        console.log("axes - " + excluded_axes_str);
         callback(excluded_axes_str);
       }
     });
 }
-
 
 /**
  * id is of the form opensbp-configitem_name such as opensbp-movexy_speed, etc.
