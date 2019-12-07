@@ -15,7 +15,8 @@ window.globals = {
   TOol_c: 0,
   G2_state: "",
   DOne_first_status_ck: "false",
-  JOg_Pad_Open: "false" 
+  JOg_Pad_Open: "false",
+  JOg_Axis: "X" 
 }
 
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
@@ -366,25 +367,36 @@ $(document).ready(function() {
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // ------------------- ON OPENING JOG PAD
       if ($(this).context.id==="wheelPad") {
         let mod_loc = globals.TOol_x * (180 / Math.PI);                   //... get current knob position
-        dialOne.angle(mod_loc);                                           //... set set know 
+        dialOne.angle(mod_loc);                                           //... set now 
         $('#jog_dial_loc_trgt').val(globals.TOol_x.toFixed(3));           //... set loc display
         globals.JOg_pad_open = true;
         fabmo.manualEnter({hideKeypad:true, mode:'raw'});
         beep(20, 1800, 1);
 console.log('got wheelPad opening')
       }; 
+     
+      $("#jog_dial_sel_char").click(function(evt) {                       //... toggle through AXES with click on selector
+        //  console.log("got click",($('#jog_dial_sel_char')));           //## need full axis sequencing, and coordination with keyinputs
+          axis = $('#jog_dial_sel_char').text();
+          switch (axis) {
+            case "X":
+              $("#jog_dial_sel_char").text("Y");
+              globals.JOg_Axis = "Y"
+              break;
+            case "Y":
+              $("#jog_dial_sel_char").text("Z");
+              globals.JOg_Axis = "Z"
+              break;
+            case "Z":
+              $("#jog_dial_sel_char").text("X");
+              globals.JOg_Axis = "X"
+              break;
+            default:
+              $("#jog_dial_sel_char").text("X");
+              globals.JOg_Axis = "X"
+          }
+      });
     })
-
-    //---------------------------------------------TOGGLE AXIS
-//    $("#jog_dial_sel_char").click(function(event) {
-  $('#jog_dial_sel_char').on('click.fndtn.reveal', '[data-reveal]', function (evt) { 
-//      $("#jog_dial_sel_char").on('click', function(evt){
-    console.log("got click",($('#jog_dial_sel_char')));
-    console.log(evt);
-  //  $("#jog_dial_sel_char").text("Z"); 
-});
-
-
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
       if ($(this).context.id==="wheelPad") {

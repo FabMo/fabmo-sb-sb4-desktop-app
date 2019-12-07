@@ -238,10 +238,11 @@
     <!--    <h2 id="modalTitle">JOG-PAD</h2> -->
     <!-- <div class="dial"> -->
 
-      <a id="jogClose" class="close-reveal-modal" aria-label="Close">&#215;</a>
+      <a id="jogClose" class="close-reveal-modal" aria-label="Close" style="z-index:999">&#215;</a>
 
       <div id="jog_dial_one">
-        <div id="jog_dial_axis_sel"><input id="jog_dial_sel_char" type="text" placeholder="X" tabindex="0"/></div>
+        <div id="jog_dial_axis_sel"><p id="jog_dial_sel_char">X</p></div>
+      <!--  <div id="jog_dial_axis_sel"><input id="jog_dial_sel_char" type="text" placeholder="X" tabindex="0"/></div>-->
         <div id="jog_dial_follower"></div>
         <div id="jog_dial_location"><input type="text" placeholder="0.000" id="jog_dial_loc_trgt"/></div>
         <div id="jog_dial_one_meter">

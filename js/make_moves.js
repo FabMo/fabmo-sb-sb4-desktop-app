@@ -431,12 +431,13 @@ var dir_first_move
 var first_move
 var timerID
 //..................................... SEND DATA TO FABMO VIA livecode RUNTIME   ###==MANAGE GENERIC MANUAL INTERACTIONS==###
-    function doMotion (x, y, z, a, b, c) {                                     // ################################ doJpadMotion ?
+    function doMotion (axis, start, end) {                                     // ################################ doJpadMotion ?
+    //function doMotion (x, y, z, a, b, c) {                                     // ################################ doJpadMotion ?
       let err
-      let code = ['G1']
+      let code = ['G1 ']
 //console.log("state: ", globals.G2_stat, debounce, globals.TOol_x);        
-console.log("NEXT doMotion loc: " + x, y, z, a, b, c);
-      let dir_sel = Math.sign(x - globals.TOol_x);
+console.log("NEXT doMotion loc: " + axis, start, end);
+      let dir_sel = Math.sign(end - start);
 
       let time_since_last = Date.now() - time_last_push;                        // Debounce: don't allow a quick back and forth; do allow one step
 //console.log(time_since_last)       
@@ -450,7 +451,7 @@ console.log("NEXT doMotion loc: " + x, y, z, a, b, c);
                   clearTimeout(timerID);                                         // ... either taking the step here or not wanting to at all
                   if (dir_sel === dir_first_move) {                              // ... if direction same
                         fabmo.manualRunGCode(first_move);
-                        dir_ongoing = dir_sel;
+                        var dir_ongoing = dir_sel;
                     }
                   debounce = '';
               } else {
@@ -461,7 +462,7 @@ console.log("NEXT doMotion loc: " + x, y, z, a, b, c);
           } else {                                                                 // ... just getting started, so debounce              
 console.log('got first skipping and waiting') 
             dir_first_move = dir_sel;
-            first_move = 'G1X' + x.toFixed(4) + 'F180';                          // ... save first move ready to go
+            first_move = 'G1 ' + axis + end.toFixed(4) + 'F180';                          // ... save first move ready to go
             debounce = 'ck';
             timerID = setTimeout(
                   () => {
@@ -470,12 +471,12 @@ console.log('got first skipping and waiting')
             );return                                                               // ## leaving function early? skip first move initially
          }  
 
-      if(x != undefined) {code.push('X' + x.toFixed(4));}
-      if(y != undefined) {code.push('Y' + y.toFixed(4));}
-      if(z != undefined) {code.push('Z' + z.toFixed(4));}
-      if(a != undefined) {code.push('A' + x.toFixed(4));}
-      if(b != undefined) {code.push('B' + y.toFixed(4));}
-      if(c != undefined) {code.push('C' + z.toFixed(4));}
+      code.push(axis + end.toFixed(4));
+      //if(y != undefined) {code.push('Y' + y.toFixed(4));}
+      //if(z != undefined) {code.push('Z' + z.toFixed(4));}
+      //if(a != undefined) {code.push('A' + x.toFixed(4));}
+      //if(b != undefined) {code.push('B' + y.toFixed(4));}
+      //if(c != undefined) {code.push('C' + z.toFixed(4));}
       code.push('F180');
       //code.push('F60');
       fabmo.manualRunGCode(code.join(''))

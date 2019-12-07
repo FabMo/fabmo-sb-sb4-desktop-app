@@ -5,11 +5,10 @@
 * Licensed under the MIT license
 * - generally used set up; upper functions
 * - added primarily lower functions ...
-* - ought to be redone from scratch now ...
+* - ought to be re-done from scratch now ...
 */
 
 
-//var divider  //*
 //,,,,,,,,,,fix need to have this respond to axis choice
 var sel_axis = 1 //X
 var sel_axis_phy_distance = 24                                           // *needs to be tool size from config; dealing with metric???
@@ -63,7 +62,7 @@ var JDbase = "";
       touchMode : 'knob',  // knob | wheel  // $$means must engage knob
       knobSize : '30%',                     // $$how big know is relative to ... wheel ???
       wheelSize : '500%',                   // ?? size of wheel relative too ??? ##Set large to be forgiving of finger position during spinning
-      zIndex : 9999,                        // ?? for ??
+      zIndex : 99,                        // 9999?? for ??
       degreeStartAt : ((globals.TOol_x - 1.6)%360),
       minDegree : null,  // (null) infinity
       maxDegree : null   // (null) infinity
@@ -419,9 +418,6 @@ console.log("jog-base-initiated", JDbase);
     JogDial.utils.addEvent(document, JogDial.DomEvent.WHEEL, wheelEvent);
   
     function mouseDownEvent(e) {                    // mouseDownEvent (MOUSE_DOWN)
-
-console.log(e);
-
       switch (opt.touchMode) {
         case 'knob':
         default:
@@ -444,7 +440,7 @@ console.log(e);
     function keyDownEvent(e) {
       if (globals.JOg_pad_open) {
         let dist = 5;
-        e.preventDefault();  //#the does work on preventing key entry
+        e.preventDefault();  //#this does work on preventing key entry
         if (e.repeat) {
           return;
         } else {
@@ -636,10 +632,9 @@ console.log("INJECT>>  ",dist, info.now.rotation + dist, sel_axis_multiplier, se
   }
 
   function _domotion(dist_x, dist_y, dist_z, dist_a, dist_b, dist_c) {        // =============== General call to motion generator
-    doMotion(dist_x, dist_y, dist_z, dist_a, dist_b, dist_c);                 // ... generally compile
-console.log("X>  ",dist_x)    
+    doMotion(globals.JOg_Axis, globals.TOol_x, dist_x);                 // ... generally compile
+console.log(globals.JOg_Axis + ">  ", globals.TOol_x, dist_x)    
     $('#jog_dial_loc_trgt').val(dist_x.toFixed(3));
-    $('#jog_dial_sel_char').text = "zzz";
   }
 
   // UMD Wrapper pattern: Based on returnExports.js script from (https://github.com/umdjs/umd/blob/master/returnExports.js)
@@ -657,11 +652,10 @@ console.log("X>  ",dist_x)
   }
 //})(window);
 
-
 //---------------------------------------------ON-app LOAD  
 var dialOne;
 window.onload = function(){
-  var cur_deg = ((globals.TOol_x - 1.6)%360);                                 // start know at current location
+  var cur_deg = ((globals.TOol_x - 1.6)%360);                                 // start now at current location
 console.log("deg>  ", cur_deg)
   var bar = document.getElementById('jog_dial_one_meter_inner');
   dialOne = JogDial(document.getElementById('jog_dial_one'),
@@ -673,8 +667,6 @@ console.log("deg>  ", cur_deg)
   //  beep(20, 1800, 1);
   // beep(50, 100, 200);
 }
-
-
 
 /*
 * - general idea; 10 turns of wheel to cover the axis, each turn 360 degree = 1/10 distance (e.g. .6 for handibotX)
