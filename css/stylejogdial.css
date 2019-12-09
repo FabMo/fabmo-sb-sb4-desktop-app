@@ -127,3 +127,8 @@ p {
   -o-border-radius: 20px;
   border-radius: 20px;
 }
+
+#pad_icon_1 {
+    max-width:20%; 
+    height:auto; 
+}
