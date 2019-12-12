@@ -15,9 +15,9 @@ p {
 }
 
 #jog_dial_one {
-  position: relative;
-  left: 0;
-  top: 30%;
+  position: relative; 
+  left: -100px;
+  top:150px;
   width: 200px;
   height: 200px;
   margin: 10px auto;
@@ -34,8 +34,8 @@ p {
 
 #jogClose {
   position: absolute;
-  right: 15px;
-  top: 1px;
+  right: 75px;
+  top: 30px;
   font-size: 3em;
   color: #76c7e7ed;
 }
@@ -53,7 +53,7 @@ p {
   position: relative;
   left: 0;
   top: 60%;
-  width: 200px;
+  width: 190px;
   height: 10px;
   margin: 20px auto 30px;
   background: #95c7ff;
@@ -102,7 +102,7 @@ p {
 
 #jog_dial_location {
   position: relative;
-  left: 0%x;
+  left: 0%;
   top: 60%;
 }
 
@@ -129,6 +129,18 @@ p {
 }
 
 #pad_icon_1 {
-    max-width:20%; 
-    height:auto; 
+  position: relative;
+  left:0;
+}
+
+#pad_icon_2 {
+  position: relative;
+  left:0;
+  opacity: 0.5;
+}
+
+#pad_icon_3 {
+  position: relative;
+  left:0;
+  opacity: 0.5;
 }
