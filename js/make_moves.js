@@ -435,13 +435,13 @@ var timerID
     function doMotion (axis, start, end) {                                     // ################################ doJpadMotion ?
       let err
       let code = ['G1 ']
-console.log("NEXT doMotion loc: " + axis, start, end);
+//console.log("NEXT doMotion loc: " + axis, start, end);
       let dir_sel = Math.sign(end - start);
-
       code.push(axis + end.toFixed(4));
       code.push('F180');
       //code.push('F60');
       fabmo.manualRunGCode(code.join(''))
+console.log(code);
     }
 
 

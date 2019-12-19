@@ -477,20 +477,36 @@ console.log("jog-base-initiated", JDbase);
     //     }
     // };
 
-    function wheelEvent(e) {                                // MOUSE WHEEL SCROLLING
+// thinking about speed of spinning vs how long since last vector
+
+    let delta = 0;
+    let dist = 0;
+    let last_tic_time = 0;
+    function wheelEvent(e) {                                // MOUSE WHEEL SCROLLING ================================================
       if (globals.JOg_pad_open) {
 //        e.preventDefault();       // #does not seem to actually prevent scroll event at this point
-        let dist = 5;
         let move = 0;
-//console.log("wheel",e)
-        let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        let last_tic_dur = e.timeStamp - last_tic_time;
+console.log("wheel", last_tic_dur)
+//        let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
         //just template for using delta ...      myimage.style.width = Math.max(50, Math.min(800, myimage.width + (30 * delta))) + "px";
 //console.log(delta)
-          move = dist * delta;
-          injectMove(self, info, move);
+          if (last_tic_dur > 500) { 
+            delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+            dist = 0;
+          }   
+          if (last_tic_dur > 25) { 
+            if (last_tic_dur < 1000) {
+              dist = dist + 2;
+              move = dist * delta;
+              injectMove(self, info, move);
+            }  
+            last_tic_time = e.timeStamp
+          }
           // angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + move));
           // info.now.rotation += move;
-      }  
+          
+        }  
     };  
 
     //-------------------------------------------------------------------------------------------------------------------------------
@@ -604,18 +620,28 @@ console.log("jog-base-initiated", JDbase);
   //-------------------------------------------------------------------------// #################################################
   function injectMove(self, info, dist) {                                    // *** INJECT MOTION (with alternates to wheel drag)
                                                                              // #################################################
+console.log("self- ", self, info);
 console.log("INJECT>>  ",dist, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
-    angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation + dist));
-//console.log("self- ", self);
+
+info.now.rotation += dist;
+
+if (info.now.rotation > 6/sel_axis_multiplier) {
+  info.now.rotation = 6.000/sel_axis_multiplier;
+}
+if (info.now.rotation < 0) {
+  info.now.rotation = 0.000;
+}
+angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation));
     //beep(10, 400, 5);
     beep(20, 1800, 1);
-    info.now.rotation += dist;
-    info.old.rotation = (info.old.rotation + dist)%360
+
+//    info.old.rotation = (info.old.rotation + dist)%360
     var bar_width = Math.round((info.now.rotation/360)*10) + '%';             // size of indicator bar moves
     $("#jog_dial_one_meter_inner").css('width',bar_width);
     //============================================
     //      doMotion(info.now.rotation * Math.PI / 180,); // probably don't want to do this division
-      _domotion(sel_axis_multiplier * (info.now.rotation + dist),); 
+    _domotion(sel_axis_multiplier * (info.now.rotation)); 
+//    _domotion(sel_axis_multiplier * (info.now.rotation + dist)); 
     //============================================
 
     //console.log("injEvt: ", info.old.rotation, info.now.rotation);
@@ -631,12 +657,12 @@ console.log("INJECT>>  ",dist, info.now.rotation + dist, sel_axis_multiplier, se
     //              var lastRot = info.now.rotation;
   }
 
-  function _domotion(dist_x, dist_y, dist_z, dist_a, dist_b, dist_c) {        // =============== General call to motion generator
+  function _domotion(move_to) {        // =============== General call to motion generator
     let axis_start_str = "TOol_" +  (globals.JOg_Axis.toLowerCase());
     
-    doMotion(globals.JOg_Axis, globals[axis_start_str], dist_x);                 // ... generally compile
-console.log(globals.JOg_Axis + ">  ", axis_start_str, globals[axis_start_str], dist_x)    
-    $('#jog_dial_loc_trgt').val(dist_x.toFixed(3));
+    doMotion(globals.JOg_Axis, globals[axis_start_str], move_to);                 // ... generally compile
+//console.log(globals.JOg_Axis + ">  ", axis_start_str, globals[axis_start_str], move_to)    
+    $('#jog_dial_loc_trgt').val(move_to.toFixed(3));
   }
 
   // UMD Wrapper pattern: Based on returnExports.js script from (https://github.com/umdjs/umd/blob/master/returnExports.js)
