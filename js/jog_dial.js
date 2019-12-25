@@ -63,11 +63,9 @@ var JDbase = "";
       knobSize : '30%',                     // $$how big know is relative to ... wheel ???
       wheelSize : '500%',                   // ?? size of wheel relative too ??? ##Set large to be forgiving of finger position during spinning
       zIndex : 99,                        // 9999?? for ??
-      degreeStartAt : ((globals.TOol_x - 1.6)%360),
       minDegree : null,  // (null) infinity
       maxDegree : null   // (null) infinity
     };
-console.log(JogDial.Defaults.degreeStartAt);
 
     // Predefined rotation info
     JogDial.DegInfo = {
@@ -116,42 +114,36 @@ console.log(JogDial.Defaults.degreeStartAt);
         }
       },
 
-      //Calculating x and y coordinates                 // ?? SEEMS where action is; triggered by PRESS (403) or DRAG (429)
-                                                        //    .already only dragged or triggered if in AREA
-      getCoordinates: function (e) {
+                                                          // ==================================================================
+      //Calculating x and y coordinates                   // ?? SEEMS where action is; triggered by PRESS (403) or DRAG (429)
+      getCoordinates: function (e) {                      //    ... only dragged or triggered if in AREA
         e = e || window.event;
         var target = e.target || e.srcElement,
           rect   = target.getBoundingClientRect(),
           _x   = ((JogDial.MobileEvent) ? e.targetTouches[0].clientX : e.clientX) - rect.left,
           _y   = ((JogDial.MobileEvent) ? e.targetTouches[0].clientY : e.clientY) - rect.top;
-//console.log(target, e);
-//console.log("rect - ", rect.left, rect.top, e.clientX); 
-//console.log("calcCoord.util: ", _x, _y);                
         return {x:_x,y:_y};
       },
-
       // Return the current quadrant.
       // Note: JogDial's Cartesian plane is flipped, hence it's returning reversed value.
-      getQuadrant: function(x, y){
-        if (x>0 && y>0) return 4;
-        else if (x<0 && y>0) return 3;
+      getQuadrant: function(x, y){                         //            3  |  4
+        if (x>0 && y>0) return 4;                          //            ---+---
+        else if (x<0 && y>0) return 3;                     //            2  |  1
         else if (x<0 && y<0) return 2;
         else if (x>=0 && y<0) return 1;
       },
-
-      // Return the sum of rotation value
-      getRotation: function(self, quadrant, newDegree){
+      // Use quadrant to return the total rotation value adding or subtracting 360 if needed
+      getRotation: function(self, quadrant, newDegree){    //  **Key here is source of newDegree     
         var rotation, delta = 0, info = self.info;
-          if(quadrant == 1 && info.old.quadrant == 2){ //From 360 to 0
+          if(quadrant == 1 && info.old.quadrant == 2){     //From 360 to 0
             delta = 360;
           }
-          else if(quadrant == 2 && info.old.quadrant == 1){ //From 0 to 360
+          else if(quadrant == 2 && info.old.quadrant == 1){//From 0 to 360
             delta = -360;
           }
         rotation = newDegree + delta - info.old.rotation + info.now.rotation;
         info.old.rotation = newDegree; // return 0 ~ 360
         info.old.quadrant = quadrant; // return 1 ~ 4
-//console.log("calcRot.util: ", rotation);
         return rotation;
       },
 
@@ -218,21 +210,16 @@ console.log(JogDial.Defaults.degreeStartAt);
         return (n >= -180 && n < -90 ) ? 450+n : 90+n;
       },
  
+                                                         //============================================================
       update_loc: function () {                          // ---------------------------------- MOVE the FOLLOWER MARKER
-        var new_rad = globals.TOol_x  // * Math.PI / 180;
-//console.log("start", globals.TOol_x);
-//console.log("first", new_rad);
-            new_rad = new_rad - 1.6 //just to try and remove ~ 90 degree
-            new_rad = (new_rad)%360
-//console.log("second", new_rad);
-        // * Math.PI / 180;
-        var _x =  (Math.cos(new_rad) * 100) + 80,   //125
-            _y =  (Math.sin(new_rad) * 100) -15;
-      //quadrant = JogDial.utils.getQuadrant(_x, _y),
-      //degree = JogDial.utils.convertUnitToClock(radian);
+        var follow_radn = globals.TOol_x / sel_axis_multiplier;  // turn location to degrees
+        follow_radn = (follow_radn)%360;                         // place in current circle
+        follow_radn = follow_radn * Math.PI /180;                // make RADIAN
+        follow_radn = follow_radn - 1.5708                       // back up 90 deg
+        var _x =  (Math.cos(follow_radn) * 100) + 65,            // plot it ... kludged numbers
+            _y =  (Math.sin(follow_radn) * 100) - 25;
           document.querySelector("#jog_dial_follower").style.left = _x + 'px';
           document.querySelector("#jog_dial_follower").style.top = _y + 'px';
-//console.log('X-update-- ', globals.TOol_x, new_rad)
       }
 
     };
@@ -266,7 +253,7 @@ console.log(JogDial.Defaults.degreeStartAt);
     setEvents(this);
 
     // Set angle
-    angleTo(this, JogDial.utils.convertClockToUnit(this.opt.degreeStartAt));
+    //angleTo(this, JogDial.utils.convertClockToUnit(this.opt.degreeStartAt));
 
     return this;
   };
@@ -299,6 +286,7 @@ console.log(JogDial.Defaults.degreeStartAt);
       //var deg = (data > this.opt.maxDegree) ? this.opt.maxDegree : data;
 console.log("gotcall- ", data,deg, this.opt.maxDegree);      
       angleTo(this, JogDial.utils.convertClockToUnit(deg), deg);
+//      angleTo(this, JogDial.utils.convertClockToUnit(deg));
     }
   };
 
@@ -487,7 +475,6 @@ console.log("jog-base-initiated", JDbase);
 //        e.preventDefault();       // #does not seem to actually prevent scroll event at this point
         let move = 0;
         let last_tic_dur = e.timeStamp - last_tic_time;
-console.log("wheel", last_tic_dur)
 //        let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
         //just template for using delta ...      myimage.style.width = Math.max(50, Math.min(800, myimage.width + (30 * delta))) + "px";
 //console.log(delta)
@@ -559,10 +546,8 @@ console.log("wheel", last_tic_dur)
         });
         angleTo(self, radian);                           // Update ANGLE and Do MOTION
         if (Math.abs(lastRot - rotation) >= 10) {           // ##Appears to be our STEP TEST
-      //console.log("vib")
             Haptics.vibrate(5);                             // HAPTICS  & SOUND ACTION
-            //beep(10, 400, 5);
-            beep(20, 1400, 2);             //1800,1
+            beep(20, 1400, 2);            
             //============================================
               _domotion(rotation * Math.PI / 180,); // probably don't want to do this division
             //============================================
@@ -597,8 +582,7 @@ console.log("wheel", last_tic_dur)
         degree = JogDial.utils.convertUnitToClock(radian);
     self.knob.style.left = _x + 'px';
     self.knob.style.top = _y + 'px';
-    if(self.knob.rotation == undefined){
-      // Update JogDial data information
+    if(self.knob.rotation == undefined){    // Update JogDial data information for start
       JogDial.utils.extend(self.knob, {
         rotation: self.opt.degreeStartAt,
         degree: JogDial.utils.convertUnitToClock(radian)
@@ -613,15 +597,15 @@ console.log("wheel", last_tic_dur)
         degree: triggeredDegree%360
       });
     }
-    // Trigger move event
+    //Trigger move event
     JogDial.utils.triggerEvent(self.knob, JogDial.CustomEvent.MOUSE_MOVE);
   };
 
   //-------------------------------------------------------------------------// #################################################
   function injectMove(self, info, dist) {                                    // *** INJECT MOTION (with alternates to wheel drag)
                                                                              // #################################################
-console.log("self- ", self, info);
-console.log("INJECT>>  ",dist, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
+//console.log("self- ", self, info, dist);
+//console.log("INJECT>>  ",info.now.rotation, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
 
 info.now.rotation += dist;
 
@@ -631,6 +615,7 @@ if (info.now.rotation > 6/sel_axis_multiplier) {
 if (info.now.rotation < 0) {
   info.now.rotation = 0.000;
 }
+
 angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation));
     //beep(10, 400, 5);
     beep(20, 1800, 1);
@@ -683,11 +668,11 @@ angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation));
 //---------------------------------------------ON-app LOAD  
 var dialOne;
 window.onload = function(){
-  var cur_deg = ((globals.TOol_x - 1.6)%360);                                 // start now at current location
+  var cur_deg = ((globals.TOol_x - 1.5708)%360);                                 // start now at current location
 console.log("deg>  ", cur_deg)
   var bar = document.getElementById('jog_dial_one_meter_inner');
   dialOne = JogDial(document.getElementById('jog_dial_one'),
-        {minDegree:null, maxDegree:null, degreeStartAt: 120})
+        {minDegree:null, maxDegree:null})
   .on('mousemove', function(evt){
         bar.style.width = Math.round((evt.target.rotation/360)*10) + '%';   // size of indicator bar moves // ##@th added for bar control???
   });

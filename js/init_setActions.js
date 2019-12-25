@@ -366,13 +366,13 @@ $(document).ready(function() {
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // ------------------- ON OPENING JOG PAD
       if ($(this).context.id==="wheelPad") {
         let axis_start_str = "TOol_" +  (globals.JOg_Axis.toLowerCase());
-        let mod_loc = globals[axis_start_str] * (180 / Math.PI);                   //... get current knob position
-        dialOne.angle(mod_loc);                                           //... set now 
-        $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));           //... set loc display
+        let mod_loc = (globals[axis_start_str]/ .016666) %360;            //... get current knob position ##UPDATE to live
+        dialOne.angle(mod_loc);                                           //... set now (follower should already be set)
+        $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));  //... set loc display
         globals.JOg_pad_open = true;
         fabmo.manualEnter({hideKeypad:true, mode:'raw'});
         beep(20, 1800, 1);
-console.log('got wheelPad opening')
+        console.log('got wheelPad opening')
       }; 
      
       $("#jog_dial_sel_char").click(function(evt) {                       //... toggle through AXES with click on selector
@@ -429,7 +429,7 @@ console.log('got wheelPad opening')
       if ($(this).context.id==="wheelPad") {
         globals.JOg_pad_open = false;
         fabmo.manualExit();
-console.log('got wheelPad closing')
+        console.log('got wheelPad closing')
       }; 
     })
 
