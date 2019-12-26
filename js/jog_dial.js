@@ -60,7 +60,7 @@ var JDbase = "";
     JogDial.Defaults = {
       debug : false,
       touchMode : 'knob',  // knob | wheel  // $$means must engage knob
-      knobSize : '30%',                     // $$how big know is relative to ... wheel ???
+      knobSize : '20%',                     // $$how big know is relative to ... wheel ???
       wheelSize : '500%',                   // ?? size of wheel relative too ??? ##Set large to be forgiving of finger position during spinning
       zIndex : 99,                        // 9999?? for ??
       minDegree : null,  // (null) infinity
@@ -115,7 +115,7 @@ var JDbase = "";
       },
 
                                                           // ==================================================================
-      //Calculating x and y coordinates                   // ?? SEEMS where action is; triggered by PRESS (403) or DRAG (429)
+      //Calculating x and y coordinates                   // Action triggered by PRESS (403) or DRAG (429)
       getCoordinates: function (e) {                      //    ... only dragged or triggered if in AREA
         e = e || window.event;
         var target = e.target || e.srcElement,
@@ -215,9 +215,9 @@ var JDbase = "";
         var follow_radn = globals.TOol_x / sel_axis_multiplier;  // turn location to degrees
         follow_radn = (follow_radn)%360;                         // place in current circle
         follow_radn = follow_radn * Math.PI /180;                // make RADIAN
-        follow_radn = follow_radn - 1.5708                       // back up 90 deg
-        var _x =  (Math.cos(follow_radn) * 100) + 65,            // plot it ... kludged numbers
-            _y =  (Math.sin(follow_radn) * 100) - 25;
+        follow_radn = follow_radn - 1.5708                       // back up 90 deg  ##not clear where this 90 degree things comes and goes from
+        var _x =  (Math.cos(follow_radn) * 110) + 117,      // multiplier is scale factor + offset 115,65      
+            _y =  (Math.sin(follow_radn) * 110) + 29;       //25,-25
           document.querySelector("#jog_dial_follower").style.left = _x + 'px';
           document.querySelector("#jog_dial_follower").style.top = _y + 'px';
       }
@@ -337,17 +337,14 @@ console.log("jog-base-initiated", JDbase);
     KS.width = KS.height = opt.knobSize;
     WS.width = WS.height = opt.wheelSize;
 
-    //Set radius value
-    KRad = K.clientWidth/2;   //#### 2
-    WRad = W.clientWidth/2;   //#### 2; does seem to control rotation radius, rel loc, w/o outer sense dim
+    KRad = K.clientWidth/2;                 // Set Radius of WHEEL ?
+    WRad = W.clientWidth/2;   
 
-    //Set knob properties
-    K.setAttribute('id', BId + '_knob');
+    K.setAttribute('id', BId + '_knob');    // Set Knob Propeties
     KS.margin = -KRad + 'px 0 0 ' + -KRad + 'px';
     KS.zIndex = opt.zIndex;
 
-    //Set wheel properties
-    W.setAttribute('id', BId + '_wheel');
+    W.setAttribute('id', BId + '_wheel');   //Set wheel properties
     WMargnLT = (BW-W.clientWidth)/2;
     WMargnTP = (BH-W.clientHeight)/2;
     //WS.left = WS.top = 0;
@@ -355,13 +352,10 @@ console.log("jog-base-initiated", JDbase);
     WS.left = '-400px';
     WS.top = '-400px';
     WS.zIndex = opt.zIndex;
-
-    //set radius and center point value
 //    self.radius = WRad - KRad;
 //    self.center = {x:WRad+WMargnLT, y:WRad+WMargnTP};
-    self.radius = 100;                         //##
-    self.center = {x:65, y:65};                //## ... hard-coded fussing to get this located, probably a better way
-                                               //##Just over-ride these to set a forgiving sense area
+    self.radius = 110;                      //100## Set Radius and Center Point for KNOB rotation, hard-coded fussing; probably better way
+    self.center = {x:117, y:119};               
   };
 
   function setEvents(self) {
@@ -511,10 +505,17 @@ console.log("jog-base-initiated", JDbase);
         rotation;
         //Calculate the current rotation value based on pointer offset
         info.now.rotation = JogDial.utils.getRotation(self, (quadrant == undefined) ? info.old.quadrant : quadrant  , degree);
-        rotation = info.now.rotation;//Math.ceil(info.now.rotation);
+
+        if (info.now.rotation > 6/sel_axis_multiplier) {
+          info.now.rotation = 6.000/sel_axis_multiplier;
+        }
+        if (info.now.rotation < 0) {
+          info.now.rotation = 0.000;
+        }
+
+        rotation = info.now.rotation;
 
         if(opt.maxDegree != null && opt.maxDegree <= rotation){
-//console.log("FirstIF..");
           if(info.snapshot.direction == null){
             info.snapshot.direction = 'right';
             info.snapshot.now = JogDial.utils.extend({},info.now);
@@ -525,7 +526,6 @@ console.log("jog-base-initiated", JDbase);
             degree = JogDial.utils.convertUnitToClock(radian);
         }
         else if(opt.minDegree != null && opt.minDegree >= rotation){
-//console.log("SecondIF..");
           if(info.snapshot.direction == null){
             info.snapshot.direction = 'left';
             info.snapshot.now = JogDial.utils.extend({},info.now);
@@ -536,7 +536,6 @@ console.log("jog-base-initiated", JDbase);
             degree = JogDial.utils.convertUnitToClock(radian);
         }
         else if(info.snapshot.direction != null){
-//console.log("ELSE..");
           info.snapshot.direction = null;
         }
         
@@ -544,17 +543,22 @@ console.log("jog-base-initiated", JDbase);
           rotation: rotation,
           degree: degree
         });
-        angleTo(self, radian);                           // Update ANGLE and Do MOTION
+//        angleTo(self, radian);                           // Update ANGLE and Do MOTION
         if (Math.abs(lastRot - rotation) >= 10) {           // ##Appears to be our STEP TEST
+            lastRot = rotation;
             Haptics.vibrate(5);                             // HAPTICS  & SOUND ACTION
             beep(20, 1400, 2);            
+console.log('at DRAG- ', info.now.rotation, rotation, rotation * Math.PI / 180)
             //============================================
-              _domotion(rotation * Math.PI / 180,); // probably don't want to do this division
+            _domotion(sel_axis_multiplier * info.now.rotation,); // probably don't want to do this division
             //============================================
-            lastRot = rotation;
             var bar_width = Math.round((rotation/360)*10) + '%';   // size of indicator bar moves
             $("#jog_dial_one_meter_inner").css('width',bar_width);
         }
+        info.now.rotation = lastRot;
+        info.old.rotation = lastRot;
+        radian = JogDial.utils.convertClockToUnit(rotation);
+        angleTo(self, radian);                           // Update ANGLE and Do MOTION
 //console.log("dragEvt: ", degree, lastRot, rotation, info.old.rotation, info.now.rotation);
       }
     };
@@ -619,13 +623,12 @@ if (info.now.rotation < 0) {
 angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation));
     //beep(10, 400, 5);
     beep(20, 1800, 1);
-
-//    info.old.rotation = (info.old.rotation + dist)%360
+    info.old.rotation = info.now.rotation;
     var bar_width = Math.round((info.now.rotation/360)*10) + '%';             // size of indicator bar moves
     $("#jog_dial_one_meter_inner").css('width',bar_width);
     //============================================
     //      doMotion(info.now.rotation * Math.PI / 180,); // probably don't want to do this division
-    _domotion(sel_axis_multiplier * (info.now.rotation)); 
+    _domotion(sel_axis_multiplier * info.now.rotation,); 
 //    _domotion(sel_axis_multiplier * (info.now.rotation + dist)); 
     //============================================
 
