@@ -40,7 +40,6 @@ function getUsrResource(remote, local) {                      // ## mucking arou
       console.log("isOnline Error");
       return;         
     }
-console.log("seems online")    
     if(online) {
       //fabmo.navigate(remote,{target : '_blank'});    }
       fabmo.navigate(remote,{target : '_self'});    }
@@ -58,7 +57,15 @@ function postSbpAction(action) {
     $('#cmd-input').val('>');
 }
 
+function setSafeFocus() {                                     // Too easy to walk on Manual Keypad (not sure why?); so protect
+  if (globals.G2_state != "manual" ) {
+    //  console.log("got safe focus event");
+    $("#cmd-input").focus();
+  }
+}
+
 function processCommandInput(command) {
+console.log('got command')
   var command = command.trim().toUpperCase();
   if (command.length == 1) {
     switch (command) {
@@ -103,13 +110,13 @@ function processCommandInput(command) {
         $("#menu_help").click();
         break;
       default:
-        command = "";
+      command = "";
         event.preventDefault(); // ESC as a general clear and update tool
         curLine = ""; // Remove after sent or called
         $(".top-bar").click(); // ... and click to clear any dropdowns
         $("#txt_area").text("");
         $("#cmd-input").val(command);
-        $("#cmd-input").focus();
+        setSafeFocus();
         break;
     }
   } else if (command.length == 2) {
@@ -231,7 +238,7 @@ console.log(config)
       default:
         var newCommandString = command + ", ";
         $("#cmd-input").val(newCommandString);
-        $("#cmd-input").focus();
+        setSafeFocus();
         break;
     }
     return true;

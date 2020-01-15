@@ -20,9 +20,9 @@ window.globals = {
 }
 
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
-let LIm_up = new Array(10)                       // x=1
-let LIm_dn = new Array(10)
-let excluded_axes_str = ""
+let LIm_up = new Array(10);                       // x=1
+let LIm_dn = new Array(10);
+let excluded_axes_str = "";
 
 if (!window.Haptics)
 	alert("The haptics.js library is not loaded.");
@@ -71,7 +71,6 @@ $(document).ready(function() {
               case "C":
                 $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
                 cmds[key]=data[key];
-//console.log(cmds[key])
                 break;
               case "Z":
                 if (excluded_axes_str.indexOf(key.substring(1,2)) == -1) {
@@ -147,19 +146,16 @@ $(document).ready(function() {
       }
       console.log("changed speeds ...");
       updateSpeedsFromEngineConfig();
-      $("#cmd-input").focus();
+      setSafeFocus();
     });
   
     // ** Set-Up Response to Command Entry
-      //var xTriggered = 0; // ## used?
+      //var xTriggered = 0;       //^
     $("#cmd-input").keyup(function(event) {
-      // For Debug
-      //var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";
+      // For Debug ^
+      //var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";  //^
       var commandInputText = $("#cmd-input").val();
-      //xTriggered++;
-      //console.log(msg, "html");
-      //console.log(event);
-  
+      //xTriggered++;    //^
       switch (event.which) {
         case 13:
           sendCmd(); // On ENTER ... SEND the command
@@ -169,7 +165,7 @@ $(document).ready(function() {
           curLine = ""; // Remove after sent or called
           $(".top-bar").click(); // ... and click to clear any dropdowns
           $("#txt_area").text("");
-          $("#cmd-input").focus();
+          setSafeFocus();
           updateUIFromEngineConfig();
           updateSpeedsFromEngineConfig();
           break;
@@ -180,7 +176,7 @@ $(document).ready(function() {
           var ok = processCommandInput(commandInputText);
           if (ok) {
             $(".top-bar").click();
-            $("#cmd-input").focus();
+            setSafeFocus();
           }
           break;
       }
@@ -189,7 +185,6 @@ $(document).ready(function() {
     $("#cmd-input").keydown(function(event) {
       switch (event.which) {
         case 13:
-          // document.getElementById("cmd-input").value = ""; // remove after sent or called
           event.preventDefault();
           break;
         default:
@@ -274,12 +269,16 @@ $(document).ready(function() {
       globals.TOol_b = status.posb;
       globals.TOol_c = status.posc;
       globals.G2_state = status.state;
-
       globals.G2_stat = status.stat;                                           // 5 means "in motion"
 
       if (globals.DOne_first_status_ck === "false") {
         globals.DOne_first_status_ck = "true";
-        if (globals.G2_state === "manual") {fabmo.manualExit()}                // #???
+        if (globals.G2_state === "manual") {fabmo.manualExit()}                // #??? making sure we aren't stuck ??
+      } else {
+        $("#cmd-input").blur();
+        parent.focus();                                                        // this allows focus to work right when manual start
+        //$("body",parent.document).focus();
+        //setTimeout(function(){$("body").focus()}, 100);
       }
 
         JogDial.utils.update_loc();                                            // ##?? only if using update Jog-Pad position
@@ -305,36 +304,34 @@ $(document).ready(function() {
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
             $(".top-bar").click();               // ... and click to clear any dropdowns
-            $("#cmd-input").focus();             // ... and reset focus
+            setSafeFocus();
         }
 
     });
-      
+    
     // ** Try to restore CMD focus when there is a shift back to app
     $(document).click(function(e){
-      // Check if click was triggered on or within #menu_content
+        // Check if click was triggered on or within #menu_content
         if( $(e.target).closest("#speed-panel").length > 0 ) {
             return false;
         } else if($(e.target).closest("#speed-panel").length > 0) {
             return false;
         }
-        $("#cmd-input").focus();               // ... and reset focus
+        setSafeFocus();
     });
-  
     //... this only helps a little with focus
     $(document).mouseenter(function(e){
       // Check if click was triggered on or within #menu_content
-//console.log("MOUSE-ENTER")
-      // if( $(e.target).closest("#speed-panel").length > 0 ) {
-      //       return false;
-      //   } else if($(e.target).closest("#speed-panel").length > 0) {
-      //       return false;
-      //   }
-      $("#cmd-input").focus();               // ... and reset focus
+      if( $(e.target).closest("#speed-panel").length > 0 ) {
+            return false;
+        } else if($(e.target).closest("#speed-panel").length > 0) {
+            return false;
+        }
+        setSafeFocus();
     });
   
     // ** Process Macro Box Keys
-    $("#cut_part_call").click(function(event) {
+    $("#cut_part_call").click(function() {
       curFile="";                           // ... clear out after running
       curFilename = "";
       $("#curfilename").text("");
@@ -342,12 +339,12 @@ $(document).ready(function() {
       $('#file').trigger('click');
     });
 
-    $("#first_macro_button").click(function(event) {
+    $("#first_macro_button").click(function() {
       console.log('got firstMacro');
       sendCmd("C3");
     });
 
-    $("#second_macro_button").click(function(event) {
+    $("#second_macro_button").click(function() {
       console.log('got secondMacro');
       sendCmd("C2");
     });
@@ -375,7 +372,7 @@ $(document).ready(function() {
         console.log('got wheelPad opening')
       }; 
      
-      $("#jog_dial_sel_char").click(function(evt) {                       //... toggle through AXES with click on selector
+      $("#jog_dial_sel_char").click(function(e) {                       //... toggle through AXES with click on selector
         //  console.log("got click",($('#jog_dial_sel_char')));           //... ## could make this a little more concise
           axis = $('#jog_dial_sel_char').text();
           beep(30,3000, 30);

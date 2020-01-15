@@ -3,8 +3,9 @@
 * evolved from from JogDial.js - v 1.0
 * Copyright (c) 2014 Sean Oh (ohsiwon@gmail.com)
 * Licensed under the MIT license
-* - generally used set up; upper functions
-* - added primarily lower functions ...
+* - generally used set up; upper file functions
+* - added primarily lower file functions ...
+* - sorry about the conflicting use of "Jog"
 * - ought to be re-done from scratch now ...
 */
 
@@ -426,7 +427,6 @@ console.log("jog-base-initiated", JDbase);
         if (e.repeat) {
           return;
         } else {
-//console.log(e.keyCode)
           switch (e.keyCode) {
             case 37: // [left-arrow]
                injectMove(self, info, -1*dist);
@@ -448,6 +448,7 @@ console.log("jog-base-initiated", JDbase);
         };	
       }
     };  
+
     // function keyUpEvent(e) { 
     //     switch (e.keyCode) {
     //       case 65:  //A
@@ -463,15 +464,14 @@ console.log("jog-base-initiated", JDbase);
 
     let delta = 0;
     let dist = 0;
-    let last_tic_time = 0;
-    function wheelEvent(e) {                                // MOUSE WHEEL SCROLLING ================================================
-      if (globals.JOg_pad_open) {
+    let last_tic_time = 0;                                  // ###################################################################
+    function wheelEvent(e) {                                // MOUSE WHEEL SCROLLING MOTION
+      if (globals.JOg_pad_open) {                           // ###################################################################
 //        e.preventDefault();       // #does not seem to actually prevent scroll event at this point
         let move = 0;
         let last_tic_dur = e.timeStamp - last_tic_time;
 //        let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
         //just template for using delta ...      myimage.style.width = Math.max(50, Math.min(800, myimage.width + (30 * delta))) + "px";
-//console.log(delta)
           if (last_tic_dur > 500) { 
             delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
             dist = 0;
@@ -480,7 +480,7 @@ console.log("jog-base-initiated", JDbase);
             if (last_tic_dur < 1000) {
               dist = dist + 2;
               move = dist * delta;
-              injectMove(self, info, move);
+              injectMove(self, info, move);                 // <<=================
             }  
             last_tic_time = e.timeStamp
           }
