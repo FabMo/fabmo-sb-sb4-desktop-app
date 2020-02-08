@@ -422,7 +422,7 @@ console.log("jog-base-initiated", JDbase);
 
     function keyDownEvent(e) {
       if (globals.JOg_pad_open) {
-        let dist = 5;
+        let dist = .1;
         e.preventDefault();  //#this does work on preventing key entry
         if (e.repeat) {
           return;
@@ -478,9 +478,10 @@ console.log("jog-base-initiated", JDbase);
           }   
           if (last_tic_dur > 25) { 
             if (last_tic_dur < 1000) {
-              dist = dist + 2;
+              dist = dist + .5;
               move = dist * delta;
               injectMove(self, info, move);                 // <<=================
+                dist = 0;  //*** trying
             }  
             last_tic_time = e.timeStamp
           }
@@ -544,7 +545,8 @@ console.log("jog-base-initiated", JDbase);
           degree: degree
         });
 //        angleTo(self, radian);                           // Update ANGLE and Do MOTION
-        if (Math.abs(lastRot - rotation) >= 10) {           // ##Appears to be our STEP TEST
+//        if (Math.abs(lastRot - rotation) >= 10) {           // ##Appears to be our STEP TEST
+        if (Math.abs(lastRot - rotation) >= 2) {           // ##Appears to be our STEP TEST
             lastRot = rotation;
             Haptics.vibrate(5);                             // HAPTICS  & SOUND ACTION
             beep(20, 1400, 2);            
@@ -610,10 +612,10 @@ console.log('at DRAG- ', info.now.rotation, rotation, rotation * Math.PI / 180)
                                                                              // #################################################
 //console.log("self- ", self, info, dist);
 //console.log("INJECT>>  ",info.now.rotation, info.now.rotation + dist, sel_axis_multiplier, sel_axis_multiplier * (info.now.rotation + dist))
-
+console.log("distance now = ", dist);
 info.now.rotation += dist;
 
-if (info.now.rotation > 6/sel_axis_multiplier) {
+if (info.now.rotation > 6/sel_axis_multiplier) {                              // Maintain motion limits
   info.now.rotation = 6.000/sel_axis_multiplier;
 }
 if (info.now.rotation < 0) {
@@ -628,7 +630,7 @@ angleTo(self, JogDial.utils.convertClockToUnit(info.now.rotation));
     $("#jog_dial_one_meter_inner").css('width',bar_width);
     //============================================
     //      doMotion(info.now.rotation * Math.PI / 180,); // probably don't want to do this division
-    _domotion(sel_axis_multiplier * info.now.rotation,); 
+    _domotion((sel_axis_multiplier * info.now.rotation),); 
 //    _domotion(sel_axis_multiplier * (info.now.rotation + dist)); 
     //============================================
 

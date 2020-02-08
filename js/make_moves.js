@@ -438,10 +438,10 @@ var timerID
 //console.log("NEXT doMotion loc: " + axis, start, end);
       let dir_sel = Math.sign(end - start);
       code.push(axis + end.toFixed(4));
-      code.push('F180');
-      //code.push('F60');
+      //code.push('F180');
+      code.push('F60');
       fabmo.manualRunGCode(code.join(''))
-console.log(code);
+//console.log(code);
     }
 
 
