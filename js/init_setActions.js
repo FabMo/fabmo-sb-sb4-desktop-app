@@ -16,7 +16,8 @@ window.globals = {
   G2_state: "",
   DOne_first_status_ck: "false",
   JOg_Pad_Open: "false",
-  JOg_Axis: "X" 
+  JOg_Axis: "X",
+  ORigin: "" 
 }
 
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
@@ -42,11 +43,8 @@ $(document).ready(function() {
     // *** Let' Figure out where we are ...
     let pathname = window.location.pathname; // Returns path only (/path/example.html)
     let url      = window.location.href;     // Returns full URL (https://example.com/path/example.html)
-    let origin   = window.location.origin;   // Returns base URL (https://example.com)
-    //console.log("pathname- " + pathname);
-    //console.log("url- " + url);
-    //console.log("origin- " + origin);
-    $("#copyright").append("   [" + origin + "]");
+    window.globals.ORigin = window.location.origin;   // Returns base URL (https://example.com)
+    $("#copyright").append("   [" + window.globals.ORigin + "]");
 
     // *** Get MENUs Items from JSON file @initial load ***
     $.getJSON(     // ## never solved problem of getting into index.html for debug
@@ -84,6 +82,10 @@ $(document).ready(function() {
                 $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
                 break;
 
+              case "T":
+                $("#menu_tools").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                break;
+  
               case "D":
                 $("#menu_design").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
                 break;

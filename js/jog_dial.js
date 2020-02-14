@@ -433,6 +433,8 @@ console.log("jog-base-initiated", JDbase);
               break;	
             case 38: // [up-arrow]
                 // ... to be next axis up
+                // test inject g-code
+                
               break;
             case 39: // [right-arrow]
                 injectMove(self, info, dist);

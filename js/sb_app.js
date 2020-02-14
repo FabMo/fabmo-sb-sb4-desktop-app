@@ -101,6 +101,10 @@ console.log('got command')
         $("#cmd-input").val(command);
         $("#menu_values").click();
         break;
+      case "T":
+        $("#cmd-input").val(command);
+        $("#menu_tools").click();
+        break;
       case "D":
         $("#cmd-input").val(command);
         $("#menu_design").click();
@@ -177,8 +181,14 @@ console.log('got command')
           'language': 'sbp'
         });
         break;
-                                                                             // ## mucking around here with Easel and in calling routines
-      case "DE":                                                             // testing some design stuff ... *added to this sbp3_commands
+                                                                             // ## mucking around here with Easel and in calling routines &AND NODE-RED
+      case "TR":                                                             // testing some Node-Red stuff ... **added to this sbp3_commands
+        let tempip = window.globals.ORigin + ':1880/ui';
+console.log(tempip);        
+        getUsrResource(tempip, 'assets/docs/No_Internet.pdf');
+        break;        
+
+      case "DE":                                                             // testing some design stuff ... **added to this sbp3_commands
         getUsrResource('http://easel.inventables.com/users/sign_in', 'assets/docs/No_Internet.pdf');
         break;        
       case "DA":

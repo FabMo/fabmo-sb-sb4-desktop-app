@@ -4059,6 +4059,11 @@
       "name": "Install Control Box Firmware"
    },
 
+   "TR": {
+      "cmd": "TR",
+      "name": "Tool for Spindle RPM Control"
+   },
+
    "DE": {
       "cmd": "DE",
       "name": "Design with Inventables' EASEL"
