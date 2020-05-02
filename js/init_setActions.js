@@ -299,10 +299,9 @@ $(document).ready(function() {
         }
 
         if (globals.G2_state === "running") {
-            $('#cmd-input').val(' ');
+            $('#cmd-input').val("");
         }    
         if (globals.G2_state != "running") {
-            $('#cmd-input').val("");
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
             $(".top-bar").click();               // ... and click to clear any dropdowns
@@ -351,7 +350,22 @@ $(document).ready(function() {
       sendCmd("C2");
     });
     
-    // Just for testing stuff ... 
+    $("#third_macro_button").click(function() {
+      console.log('got thirdMacro');
+      sendCmd("C10");
+    });
+    
+    $("#fourth_macro_button").click(function() {
+      console.log('got fourthMacro');
+      sendCmd("C210");
+    });
+    
+    $("#fifth_macro_button").click(function() {
+      console.log('got fifthMacro');
+      sendCmd("C211");
+    });
+    
+// Just for testing stuff ... 
     $("#other").click(function() {
       console.log('got change');
       sendCmd("Command from Button Click");
@@ -438,7 +452,8 @@ console.log('got close click')
     });
 
     window.addEventListener("unload", function(event){
-      fabmo.manualExit();
+      if (globals.G2_state === "manual") {fabmo.manualExit()}                // #??? making sure we aren't stuck ??
+      //fabmo.manualExit();                                                  // **DONT CALL IF NOT NEEDED !!!mx
       console.log("unloaded!");        
     }, false);
 

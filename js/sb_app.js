@@ -5,30 +5,33 @@
 
 function sendCmd(command) {
   var thisCmd = command || $('#cmd-input').val();
+    $('#cmd-input').val('');    			 // remove after sent or called
     postSbpAction(thisCmd);
   // Some Commands Need 'SV' to make permanent; thus multiline version
   	var cmd_eval = thisCmd.substring(0,2);
         console.log(thisCmd);
-  		switch (cmd_eval) {
+
+        switch (cmd_eval) {
   			case "VS":
 		        var mult_cmds=[
         		thisCmd,
-          		'SV'						// Make Permanent
+          		'SV'						        // Make Permanent
           		].join("\n");
         		fabmo.runSBP(mult_cmds);	// SEND MULTI >>>  
   				break;
   			case "MS":
 		        var mult_cmds=[
         		thisCmd,
-          		'SV'						// Make Permanent
+          		'SV'						        // Make Permanent
           		].join("\n");
         		fabmo.runSBP(mult_cmds);	// SEND MULTI >>>  
   				break;
   			default:
-			    fabmo.runSBP(thisCmd);    	// SEND SIMPLE >>>
+          fabmo.runSBP(thisCmd);    	// SEND SIMPLE >>>
+   console.log('send SIMPLE')       
   				break;
   		}
-  $('#cmd-input').val('');    				// remove after sent or called
+//  $('#cmd-input').val('');    				// remove after sent or called
 }
 
 function getUsrResource(remote, local) {                      // ## mucking around here testing Easel
@@ -213,7 +216,7 @@ console.log("triggered");
 		    var updateConfig = function() {
 			    fabmo.getConfig(function(err, config) {
             cachedConfig = config;
-console.log(config)            
+// console.log(config)            
 				    // // Update the tool info statement
 				    //     document.getElementById('tool-name').innerHTML = config.engine.profile;
 				    //     document.getElementById('envelope-x').innerHTML = config.machine.envelope.xmax - config.machine.envelope.xmin;
@@ -227,7 +230,6 @@ console.log(config)
         // Update it
         $('#helpModal').foundation('reveal', 'open');
         updateConfig();
-
 
         break;        
       case "HF":
