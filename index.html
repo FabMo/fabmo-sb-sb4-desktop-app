@@ -1,29 +1,28 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DESKTOP</title>
-  <link rel="stylesheet" href="css/normalize.css">
-<!-- Foundation 5.5.3 -->
-  <link rel="stylesheet" href="css/foundation.min.css">
-<!--  <link rel="stylesheet" href="css/foundation.css" /> -->
-<link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DESKTOP</title>
+    <script src="js/lib/jquery.js"></script>
+    <!-- Foundation 5.5.3 -->
+    <script src="js/lib/foundation.min.js"></script>
+    <script src="js/lib/foundation.dropdown.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <script src="js/lib/modernizr.js"></script>
+    <script src="js/lib/fastclick.js"></script>
+    <script type="text/javascript" src="js/lib/haptics.js"></script>
+    <script src="js/lib/fabmo.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/stylejogdial.css">
+
+    <script> let fabmo = new FabMoDashboard(); </script>
+
 </head>
 
-<!--  <body style="background-color:rgb(192, 189, 186)">  -->
-  <body id="ab4app" style="background-color:rgb(151, 150, 150)">
-  <script src="js/lib/modernizr.js"></script>
-  <script src="js/lib/jquery.js"></script>
-  <script src="js/lib/foundation.min.js"></script>
-  <script src="js/lib/foundation.dropdown.js"></script>
-  <script src="js/lib/fastclick.js"></script>
-
-  <script type="text/javascript" src="js/lib/haptics.js"></script>
-
-  <script src="js/lib/fabmo.js"></script>
-  <script> let fabmo = new FabMoDashboard(); </script>
+<body id="sb4app" style="background-color:rgb(151, 150, 150)">
 
    <nav class="top-bar" data-topbar role="navigation" style="background-color:rgb(92, 90, 90)">
     <ul class="title-area">
@@ -203,21 +202,10 @@
     </div>
   </div>
 
-  <!--
-  <footer class="row">
-    <div class="large-12 columns">
-      <div class="row">
-        <div class="large-6 columns">
-          <p>[ Alt-F4 exits kiosk mode; Ctl-Tab switches windows ]</p>
-          <p>© Copyright ShopBot Tools 2019.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-  -->
+
 
   <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
-  <a href="#" data-reveal-id="wheelPad">MO-PAD Testing</a>
+  <a href="#" data-reveal-id="moPad">MO-PAD Testing</a>
 
  <!-- needed this setting here to prevent closing; left in later for redundancy -->
  <script>Foundation.libs.reveal.settings.close_on_background_click = false;</script>
@@ -250,10 +238,11 @@
             <img id="pad_icon_1" src="./assets/pad_icon_01.png">
             <img id="pad_icon_2" src="./assets/pad_icon_02.png">
             <img id="pad_icon_3" src="./assets/pad_icon_03.png">
+            <a id="padClose" class="close-reveal-modal" aria-label="Close" style="z-index:999">&#215;</a>
         </div>
 
         <div class="small-10 medium-10 large-10 columns">
-
+            <canvas id="rmanCanvas" resize="true" keepalive="true"></canvas>
         </div>
 
     </div>
@@ -263,6 +252,11 @@
 <script src="js/tool_config.js"></script>
 <script src="js/sb_app.js"></script>
 <script src="js/init_setActions.js"></script>
+<script src="js/motion.js"></script>
+
+<script type="text/javascript" src="js/lib/paper-full.min.js"></script>
+<!--Note that paperjs is not ES6; mo_pad is run in paperscript, not javascript-->
+<script type="text/paperscript" canvas="rmanCanvas" src="js/mo_pad.js"></script>
 
 </html>
 

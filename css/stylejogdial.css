@@ -14,31 +14,7 @@ p {
   color: #0f69cd;
 }
 
-#jog_dial_one {
-  position: relative; 
-  left: -100px;
-  top:100px;
-  width: 300px;
-  height: 300px;
-  margin: 10px auto;
-  border-width: 3px;
-  background: #0f68cd50;
-  border-style: solid;
-  border-color: #3a93f8;
-  -webkit-border-radius: 150px;
-  -moz-border-radius: 150px;
-  -ms-border-radius: 150px;
-  -o-border-radius: 150px;
-  border-radius: 150px;
-}
 
-#jogClose {
-  position: absolute;
-  right: 75px;
-  top: 30px;
-  font-size: 3em;
-  color: #76c7e7ed;
-}
 
 #jog_dial_one_knob {
   background: #95c7ff;
@@ -132,19 +108,3 @@ p {
   border-radius: 50px;
 }
 
-#pad_icon_1 {
-  position: relative;
-  left:0;
-}
-
-#pad_icon_2 {
-  position: relative;
-  left:0;
-  opacity: 0.5;
-}
-
-#pad_icon_3 {
-  position: relative;
-  left:0;
-  opacity: 0.5;
-}

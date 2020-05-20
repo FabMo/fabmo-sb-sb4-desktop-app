@@ -1,68 +1,75 @@
 body {
-	margin-top: 0px;
-	height: 400px;
-	overflow: auto;
+  margin-top: 0px;
+  height: 400px;
+  overflow: auto;
 }
-  
-#speed-panel, #cmd-panel, #macro-panel {
-	background-color:rgb(206, 207, 209);
-	border-radius:20px;
-	border-color:rgb(136, 171, 190); 
+
+#speed-panel,
+#cmd-panel,
+#macro-panel {
+  background-color: rgb(206, 207, 209);
+  border-radius: 20px;
+  border-color: rgb(136, 171, 190);
 }
 
 input.opensbp_input_formattedspeeds {
-	color:rgb(113, 233, 241);
-	background-color:rgb(143, 148, 150);
-	border-color:rgb(136, 171, 190);
-	border-radius:5px;
+  color: rgb(113, 233, 241);
+  background-color: rgb(143, 148, 150);
+  border-color: rgb(136, 171, 190);
+  border-radius: 5px;
 }
 
 input.cmds {
-	color:rgb(113, 233, 241);
-	background-color:rgb(117, 126, 128);
-	border-color:rgb(136, 171, 190);
-	border-radius:5px;
+  color: rgb(113, 233, 241);
+  background-color: rgb(117, 126, 128);
+  border-color: rgb(136, 171, 190);
+  border-radius: 5px;
 }
 
 input[type="text"]:focus {
-	color: rgb(221, 98, 10);
-	background: rgb(213, 214, 132);
-	font-weight: bolder;
+  color: rgb(221, 98, 10);
+  background: rgb(213, 214, 132);
+  font-weight: bolder;
 }
 
-label.speed-labels, .cmds {
-	color:#333;
+label.speed-labels,
+.cmds {
+  color: #333;
 }
 
 p.at-foot {
-	color:#333;
+  color: #333;
 }
 
 #txt_area {
-	background: #327C7E;
-	border: 1px solid #646464;
-	color: rgb(191, 196, 184);
-	overflow-wrap: none;
-	word-wrap: none;
-	overflow: hidden;
-	border-radius:5px;
+  background: #327c7e;
+  border: 1px solid #646464;
+  color: rgb(191, 196, 184);
+  overflow-wrap: none;
+  word-wrap: none;
+  overflow: hidden;
+  border-radius: 5px;
 }
 
 #cut_part_call {
-	border-radius:5px;
+  border-radius: 5px;
 }
 
-#first_macro_button, #second_macro_button {
-	border-radius:5px;
-	background-color: rgb(167, 165, 165);
+#first_macro_button,
+#second_macro_button {
+  border-radius: 5px;
+  background-color: rgb(167, 165, 165);
 }
 
-#third_macro_button, #fourth_macro_button, #fifth_macro_button {
-	border-radius:5px;
+#third_macro_button,
+#fourth_macro_button,
+#fifth_macro_button {
+  border-radius: 5px;
 }
 
-#first_macro_button:hover, #second_macro_button:hover {
-	background-color: rgb(146, 142, 142);
+#first_macro_button:hover,
+#second_macro_button:hover {
+  background-color: rgb(146, 142, 142);
 }
 
 /* #config-system-config {
@@ -70,3 +77,57 @@ p.at-foot {
 	word-wrap: break-word;
 } */
 
+/* Setting for Mo-Pad; derived from gopher and first-reach-manual */
+
+canvas[resize] {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#rmanCanvas {
+    position: relative; 
+    left: -100px;
+    top:100px;
+    width: 900px;
+    height: 500px;
+    margin: 10px auto;
+    border-width: 3px;
+    background: #0f68cd50;
+    border-style: solid;
+    border-color: #3a93f8;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    -ms-border-radius: 40px;
+    -o-border-radius: 40px;
+    border-radius: 40px;
+  }
+  
+
+#padClose {
+  position: absolute;
+  right: 75px;
+  top: 30px;
+  font-size: 3em;
+  color: #76c7e7ed;
+}
+
+
+
+
+#pad_icon_1 {
+  position: relative;
+  left: 0;
+}
+
+#pad_icon_2 {
+  position: relative;
+  left: 0;
+  opacity: 0.5;
+}
+
+#pad_icon_3 {
+  position: relative;
+  left: 0;
+  opacity: 0.5;
+}

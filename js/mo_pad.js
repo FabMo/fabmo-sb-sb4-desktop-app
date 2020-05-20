@@ -1,6 +1,7 @@
 // *th Experimenting with using first 2 CAps on my significant GLOBALS (to remind me!)===========================
 // Global position and tracking (to get in and out of paperScope)
-// Note that app uses paperjs/scripting; not current with ES6
+// Note that this file uses paperjs/scripting; so getting in and out must be global 
+// paperjs not current with ES6
 
 //var fabmo = new FabMoDashboard();
 var LIne_up, LIne_dn, LIne_full;               // motion direction transit lines, primary feature of app
@@ -161,101 +162,101 @@ var mTool = new Tool(6, 8, -1, 2, 0, 0.95, 45, 0.90, 45); // DEFINE A HANDIBOT =
     });
 
 // - Setup Option Displays (with tooltips)
-    function OptText (x_pos, y_pos, text, tip) {                            // Construct Option Objects
-      this.text = new PointText({
-        content: text,
-        point: new Point(20, y_pos),
-        fillColor: 'grey',
-        state: false
-      });
-      this.tip = tip;
-      this.tipPosition = new Point(x_pos, y_pos);
-      this.tipPosition = this.tipPosition + new Point(30, -16);
-      this.tooltipRect = new Rectangle(this.tipPosition, new Size((tip.length * 7), 28));
-      this.cornerSize = new Size(10, 10);
-      this.toolTip = new Path.Rectangle(this.tooltipRect, this.cornerSize);
-      this.toolTip.fillColor = 'beige';
-      this.toolTip.visible = false;
-      this.textTip = new PointText(this.tipPosition + (0, 17));
-      this.textTip.content = tip;
-      this.textTip.fillColor = 'brown';
-      this.textTip.visible = false;
-    }
-    OptText.prototype.turn_on = function () {
-         this.toolTip.visible = true;
-         this.textTip.visible = true;
-    }
-    OptText.prototype.turn_off = function () {
-         this.toolTip.visible = false;
-         this.textTip.visible = false;
-    }  //@th; can't figure out how to get the onMouseEnter into prototype; could be simpler, issues w/paperjs?
+//     function OptText (x_pos, y_pos, text, tip) {                            // Construct Option Objects
+//       this.text = new PointText({
+//         content: text,
+//         point: new Point(20, y_pos),
+//         fillColor: 'grey',
+//         state: false
+//       });
+//       this.tip = tip;
+//       this.tipPosition = new Point(x_pos, y_pos);
+//       this.tipPosition = this.tipPosition + new Point(30, -16);
+//       this.tooltipRect = new Rectangle(this.tipPosition, new Size((tip.length * 7), 28));
+//       this.cornerSize = new Size(10, 10);
+//       this.toolTip = new Path.Rectangle(this.tooltipRect, this.cornerSize);
+//       this.toolTip.fillColor = 'beige';
+//       this.toolTip.visible = false;
+//       this.textTip = new PointText(this.tipPosition + (0, 17));
+//       this.textTip.content = tip;
+//       this.textTip.fillColor = 'brown';
+//       this.textTip.visible = false;
+//     }
+//     OptText.prototype.turn_on = function () {
+//          this.toolTip.visible = true;
+//          this.textTip.visible = true;
+//     }
+//     OptText.prototype.turn_off = function () {
+//          this.toolTip.visible = false;
+//          this.textTip.visible = false;
+//     }  //@th; can't figure out how to get the onMouseEnter into prototype; could be simpler, issues w/paperjs?
 
-    // ... set up individual items here
-    // note: x value here is only for tooltip location, y sets both locations,
-    var zoomOpt = new OptText(65, 50,'ZOOM: ','Click for Reset to Full View; Ctl-Scroll to Zoom');        // Start Individual Options Here
-        zoomOpt.text.fillColor = 'green';
-    var snapOpt = new OptText(35, 70,'SNAP','SNAP to intersections');
-    var cycleOpt = new OptText(95, 90,'Cycle:  X-Y  [X-Y-Z]','Cycle between 2 or 3 axes on click/tap/space');
-        cycleOpt.text.state = true;
-    var smallOpt = new OptText(85, 110,'Smallest Moves: ', 'Set smallest move at normal Zoom');
-    var smallxyOpt = new OptText(35, 130,'    for XY=  [.025]  .010','');
-    var smallxyOpt = new OptText(35, 150,'    for   Z=  .010  [.005]  .001','');
+//     // ... set up individual items here
+//     // note: x value here is only for tooltip location, y sets both locations,
+//     var zoomOpt = new OptText(65, 50,'ZOOM: ','Click for Reset to Full View; Ctl-Scroll to Zoom');        // Start Individual Options Here
+//         zoomOpt.text.fillColor = 'green';
+//     var snapOpt = new OptText(35, 70,'SNAP','SNAP to intersections');
+//     var cycleOpt = new OptText(95, 90,'Cycle:  X-Y  [X-Y-Z]','Cycle between 2 or 3 axes on click/tap/space');
+//         cycleOpt.text.state = true;
+//     var smallOpt = new OptText(85, 110,'Smallest Moves: ', 'Set smallest move at normal Zoom');
+//     var smallxyOpt = new OptText(35, 130,'    for XY=  [.025]  .010','');
+//     var smallxyOpt = new OptText(35, 150,'    for   Z=  .010  [.005]  .001','');
 
-    zoomOpt.text.onMouseEnter = function(event) {                           // ... and their tool-tips
-         zoomOpt.turn_on();
-    }
-    zoomOpt.text.onMouseLeave = function(event) {
-         zoomOpt.turn_off();
-    }
-    snapOpt.text.onMouseEnter = function(event) {
-         snapOpt.turn_on();
-    }
-    snapOpt.text.onMouseLeave = function(event) {
-         snapOpt.turn_off();
-    }
-    cycleOpt.text.onMouseEnter = function(event) {
-         cycleOpt.turn_on();
-    }
-    cycleOpt.text.onMouseLeave = function(event) {
-         cycleOpt.turn_off();
-    }
-    smallOpt.text.onMouseEnter = function(event) {
-         smallOpt.turn_on();
-    }
-    smallOpt.text.onMouseLeave = function(event) {
-         smallOpt.turn_off();
-    }
+//     zoomOpt.text.onMouseEnter = function(event) {                           // ... and their tool-tips
+//          zoomOpt.turn_on();
+//     }
+//     zoomOpt.text.onMouseLeave = function(event) {
+//          zoomOpt.turn_off();
+//     }
+//     snapOpt.text.onMouseEnter = function(event) {
+//          snapOpt.turn_on();
+//     }
+//     snapOpt.text.onMouseLeave = function(event) {
+//          snapOpt.turn_off();
+//     }
+//     cycleOpt.text.onMouseEnter = function(event) {
+//          cycleOpt.turn_on();
+//     }
+//     cycleOpt.text.onMouseLeave = function(event) {
+//          cycleOpt.turn_off();
+//     }
+//     smallOpt.text.onMouseEnter = function(event) {
+//          smallOpt.turn_on();
+//     }
+//     smallOpt.text.onMouseLeave = function(event) {
+//          smallOpt.turn_off();
+//     }
 
- // - Command Buttons
-    function CmdButton (y_pos, width, txt, sm_txt) {                                // Construct Command Button Objects
-      this.shape = new Rectangle(new Point(20,(view.viewSize.height - y_pos)), new Size (width, 40));
-      this.cornerSize = new Size(20, 20);
-      this.rectangle = new Path.Rectangle(this.shape, this.cornerSize);
-      this.rectangle.strokeColor = 'green';
-      this.rectangle.applyMatrix = false;
-      this.rectangle.strokeScaling = false;
-      this.rectangle.strokeWidth = 2;
-      this.rectangle.fill = 'lightgreen';
-      this.rectangle.opacity = 0.6;
-      this.rectangle.insertAbove(gridGroup);
-      this.text = new PointText ({
-        point: new Point(30, (view.viewSize.height - (y_pos - 30))),
-        fontSize: 25,
-        content: txt,
-        fillColor: 'yellowgreen'
-      })
-      this.smalltext = new PointText({
-        point: new Point(40, (view.viewSize.height - (y_pos - 10))),
-        fontSize: 12,
-        content: sm_txt,
-        fillColor: 'yellowgreen'
-      })
-    }
-// ... set up individual buttons here
-var jobButton = new CmdButton(300, 150, "  next JOB", "goto");                 // Individual Buttons
-var zeroButton = new CmdButton(200, 150, "XYZ-ZERO", "set location");
-var homeButton = new CmdButton(150, 150, "    HOME", "move to");
-var centerButton = new CmdButton(100, 150, "  CENTER", "move to");
+//  // - Command Buttons
+//     function CmdButton (y_pos, width, txt, sm_txt) {                                // Construct Command Button Objects
+//       this.shape = new Rectangle(new Point(20,(view.viewSize.height - y_pos)), new Size (width, 40));
+//       this.cornerSize = new Size(20, 20);
+//       this.rectangle = new Path.Rectangle(this.shape, this.cornerSize);
+//       this.rectangle.strokeColor = 'green';
+//       this.rectangle.applyMatrix = false;
+//       this.rectangle.strokeScaling = false;
+//       this.rectangle.strokeWidth = 2;
+//       this.rectangle.fill = 'lightgreen';
+//       this.rectangle.opacity = 0.6;
+//       this.rectangle.insertAbove(gridGroup);
+//       this.text = new PointText ({
+//         point: new Point(30, (view.viewSize.height - (y_pos - 30))),
+//         fontSize: 25,
+//         content: txt,
+//         fillColor: 'yellowgreen'
+//       })
+//       this.smalltext = new PointText({
+//         point: new Point(40, (view.viewSize.height - (y_pos - 10))),
+//         fontSize: 12,
+//         content: sm_txt,
+//         fillColor: 'yellowgreen'
+//       })
+//     }
+// // ... set up individual buttons here
+// var jobButton = new CmdButton(300, 150, "  next JOB", "goto");                 // Individual Buttons
+// var zeroButton = new CmdButton(200, 150, "XYZ-ZERO", "set location");
+// var homeButton = new CmdButton(150, 150, "    HOME", "move to");
+// var centerButton = new CmdButton(100, 150, "  CENTER", "move to");
 
 // - Setup Tool-Markers' Appearance
 var zMark = new Path.Star([100, 100], 3, 20, 10);
@@ -522,7 +523,7 @@ function getZmove(screenY) {
         }
       var fixZ = zbox.bounds.bottom - (globals.TOol_z * mTool.zUnit) - zMark.position.y + mTool.zzeroOffset;
       zMark.position += new Point([zMark.position.x, fixZ]);
-      zoomOpt.text.content = 'ZOOM: ' + mTool.xyZoom.toFixed(2);
+    //  zoomOpt.text.content = 'ZOOM: ' + mTool.xyZoom.toFixed(2);
       fabmo.requestStatus();
     }
 
@@ -703,67 +704,62 @@ function motion_ln (startpt, endpt, dn_limit) {
           HAndledOther = false;
         }
 
-        zoomOpt.text.onClick = function(event) {           // Click ZOOM to restore to full size
-          HAndledOther = true;
-          mTool.xyZoom = 0.95;
-          onResize ();
-          getStart(setStart);                              // **KLUDGE for time
-        }
+        // zoomOpt.text.onClick = function(event) {           // Click ZOOM to restore to full size
+        //   HAndledOther = true;
+        //   mTool.xyZoom = 0.95;
+        //   onResize ();
+        //   getStart(setStart);                              // **KLUDGE for time
+        // }
 
-        snapOpt.text.onClick = function(event) {
-          HAndledOther = true;
-          if (this.state) {
-            this.state = false;
-            this.fillColor = 'grey';
-          } else {
-            this.state = true;
-            this.fillColor = 'darkblue';
-          }
-          onResize();
-        }
-        cycleOpt.text.onClick = function(event) {
-          HAndledOther = true;
-          if (this.state) {
-            this.state = false;
-            this.content = 'Cycle:  [X-Y]  X-Y-Z';
-          } else {
-            this.state = true;
-            this.content = 'Cycle:  X-Y  [X-Y-Z]';
-          }
-          onResize();
-        }
+        // snapOpt.text.onClick = function(event) {
+        //   HAndledOther = true;
+        //   if (this.state) {
+        //     this.state = false;
+        //     this.fillColor = 'grey';
+        //   } else {
+        //     this.state = true;
+        //     this.fillColor = 'darkblue';
+        //   }
+        //   onResize();
+        // }
+        // cycleOpt.text.onClick = function(event) {
+        //   HAndledOther = true;
+        //   if (this.state) {
+        //     this.state = false;
+        //     this.content = 'Cycle:  [X-Y]  X-Y-Z';
+        //   } else {
+        //     this.state = true;
+        //     this.content = 'Cycle:  X-Y  [X-Y-Z]';
+        //   }
+        //   onResize();
+        // }
 
-        jobButton.text.onClick = function(event) {
-          HAndledOther = true;
-          fabmo.launchApp('job-manager');
-        }
-        zeroButton.text.onClick = function(event) {
-          if (globals.FAbMo_state === "running") return;      // ?? testing blocking extra motion
-          HAndledOther = true;
-          fabmo.runSBP('C#,3');
-        }
-        homeButton.text.onClick = function(event) {
-          if (globals.FAbMo_state === "running") return;      // ?? testing blocking extra motion
-          HAndledOther = true;
-          fabmo.runSBP('MH,');
-        }
-        centerButton.text.onClick = function(event) {
-          if (globals.FAbMo_state === "running") return;      // ?? testing blocking extra motion
-          HAndledOther = true;
-          var new_x = 0.5 * mTool.width;
-          var new_y = 0.5 * mTool.height;
-          fabmo.runSBP('M2,' + new_x + ', ' + new_y);
-        }
+        // jobButton.text.onClick = function(event) {
+        //   HAndledOther = true;
+        //   fabmo.launchApp('job-manager');
+        // }
+        // zeroButton.text.onClick = function(event) {
+        //   if (globals.FAbMo_state === "running") return;      // ?? testing blocking extra motion
+        //   HAndledOther = true;
+        //   fabmo.runSBP('C#,3');
+        // }
+        // homeButton.text.onClick = function(event) {
+        //   if (globals.FAbMo_state === "running") return;      // ?? testing blocking extra motion
+        //   HAndledOther = true;
+        //   fabmo.runSBP('MH,');
+        // }
+        // centerButton.text.onClick = function(event) {
+        //   if (globals.FAbMo_state === "running") return;      // ?? testing blocking extra motion
+        //   HAndledOther = true;
+        //   var new_x = 0.5 * mTool.width;
+        //   var new_y = 0.5 * mTool.height;
+        //   fabmo.runSBP('M2,' + new_x + ', ' + new_y);
+        // }
 
 //========================================================================= FabMo Status Responses
 var gotOnce = false
-fabmo.on('status', function (status) {
-    globals.TOol_x = status.posx;
-    globals.TOol_y = status.posy;
-    globals.TOol_z = status.posz;
-    globals.TOol_a = status.posa;
-    globals.FAbMo_state = status.state;
-    globals.G2_stat = status.stat;
+globals.UPdateMoPadState = UPdateMoPadState;
+function UPdateMoPadState() {
     if (!gotOnce) {
         getStart(setStart);
         gotOnce = true;
@@ -811,105 +807,108 @@ fabmo.on('status', function (status) {
     zMark.insertAbove(z_gridGroup);                                          // don't lose Z mark display
     zMark.bringToFront();
     HAndledOther = false;
-});
+}
 
 //========================================================================= Get FabMo Config
 // wdith and height used as limits for X and Y
-fabmo.getConfig(function(err, cfg) {
-  try {
-    if(cfg.machine.envelope) {
-      //@th; need to deal with metric load!
-console.log("before config mToolwidth", mTool.width)
-      console.log("Envelope: " + cfg.machine.envelope.xmax + ', ' + cfg.machine.envelope.ymax + ', ' + cfg.machine.envelope.zmin + ', ' + cfg.machine.envelope.zmax)
-      console.log("Profile: " + cfg.engine.profile)
-      // Hard Code defaults
-      mTool.width = cfg.machine.envelope.xmax;
-      mTool.height = cfg.machine.envelope.ymax;
-      //mTool.zlo = cfg.machine.envelope.zmin;   // ... when available
-      //mTool.zhi = cfg.machine.envelope.zmax;
-      if (mTool.width > 5) {        // def Handibot
-        mTool.xyZoom = 0.95;
-        mTool.zZoom = 0.90;
-        mTool.zhi = 2;
-        mTool.type = 'handibot';
-      }
-      if (mTool.width === 24) {
-        mTool.xyZoom = 0.95;
-        mTool.zZoom = 0.90;
-        mTool.zhi = 2;          // *not working at 3
-        mTool.type = 'desktop';
-      }
-      if (mTool.width > 26) {
-        mTool.xyZoom = 0.95;
-        mTool.zZoom = 0.90;
-        mTool.zhi = 3;
-        mTool.type = 'max';
-      }
-      if (mTool.width > 40) {
-        mTool.xyZoom = 0.95;
-        mTool.zZoom = 0.90;
-        mTool.zhi = 5;
-        mTool.type = 'full';
-      }
-      // *dev over-rides
-         //make right for testing on HB
-          mTool.width = 6;
-          mTool.height = 8;
-          mTool.xyZoom = 0.95;
-          mTool.zZoom = 0.90;
-          mTool.zhi = 2;
- 
-      mTool.updateDisplays();
-      onResize();
-      console.log("mToolwidth after: ", mTool.width)
-      console.log("Probably: " + mTool.type);
-    }
-  } catch(e) {
-    console.error(e);
-  }
-});
+globals.GEtMoPadConfig = GEtMoPadConfig;
+function GEtMoPadConfig() {
+    fabmo.getConfig(function (err, cfg) {
+        try {
+            if (cfg.machine.envelope) {
+                //@th; need to deal with metric load!
+                console.log("before config mToolwidth", mTool.width)
+                console.log("Envelope: " + cfg.machine.envelope.xmax + ', ' + cfg.machine.envelope.ymax + ', ' + cfg.machine.envelope.zmin + ', ' + cfg.machine.envelope.zmax)
+                console.log("Profile: " + cfg.engine.profile)
+                // Hard Code defaults
+                mTool.width = cfg.machine.envelope.xmax;
+                mTool.height = cfg.machine.envelope.ymax;
+                //mTool.zlo = cfg.machine.envelope.zmin;   // ... when available
+                //mTool.zhi = cfg.machine.envelope.zmax;
+                if (mTool.width > 5) {        // def Handibot
+                    mTool.xyZoom = 0.95;
+                    mTool.zZoom = 0.90;
+                    mTool.zhi = 2;
+                    mTool.type = 'handibot';
+                }
+                if (mTool.width === 24) {
+                    mTool.xyZoom = 0.95;
+                    mTool.zZoom = 0.90;
+                    mTool.zhi = 2;          // *not working at 3
+                    mTool.type = 'desktop';
+                }
+                if (mTool.width > 26) {
+                    mTool.xyZoom = 0.95;
+                    mTool.zZoom = 0.90;
+                    mTool.zhi = 3;
+                    mTool.type = 'max';
+                }
+                if (mTool.width > 40) {
+                    mTool.xyZoom = 0.95;
+                    mTool.zZoom = 0.90;
+                    mTool.zhi = 5;
+                    mTool.type = 'full';
+                }
+                // *dev over-rides
+                //make right for testing on HB
+                mTool.width = 6;
+                mTool.height = 8;
+                mTool.xyZoom = 0.95;
+                mTool.zZoom = 0.90;
+                mTool.zhi = 2;
+
+                mTool.updateDisplays();
+                onResize();
+                console.log("mToolwidth after: ", mTool.width)
+                console.log("Probably: " + mTool.type);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    });
+}
 
 //========================================================================= messy timing stuff
-    function getStart(callback) {     // allow time for reporting / kludge
-      var timer = setTimeout(function () {
-      callback();
+function getStart(callback) {     // allow time for reporting / kludge
+    var timer = setTimeout(function () {
+        callback();
     }, 1000);
-    }
-    function getEnd(callback) {       // allow time for reporting / kludge
-      if (endtimer) {
+}
+function getEnd(callback) {       // allow time for reporting / kludge
+    if (endtimer) {
         clearTimeout(endtimer);
-      }
-      var endtimer = setTimeout(function () {
-      callback();
-      }, 2000);
     }
+    var endtimer = setTimeout(function () {
+        callback();
+    }, 2000);
+}
 
-    function getStopped(target, callback) {   // ... monitor G2 instead for a move completion, or nothing in queue
-      var timer = setTimeout(function () {    // ...... and maybe needs a Z handler too??
-      callback(target);
-      }, 2500);
-    }
-    function setStart() {
-        MOveTo_x = globals.TOol_x;    // set starting location for rolling motion ...
-        MOveTo_y = globals.TOol_y;    // set starting location for rolling motion ...
-        MOveTo_z = globals.TOol_z;    // set starting location for rolling motion ...
-        fabmo.requestStatus();        // Trigger reports from tool
-        onResize();
-        set_XYboxTransit();           // default start position and xy view !
-        textLOCATION.visible = true;
-        reSeedScrollFilters();
-    }
-    function setEnd(target){
-console.debug ('timed Out >> ');
-//        PAnEvent = false;
-    }
-    function atStop(target){
-        reset_BoxTransits(target);
-    }
-    function reSeedScrollFilters() {
-                MOtionFilt = [200,200,200,200,200];   // Running-Avg Filters,
-                MOtionFilt_avg = 1000;                // ... for stabilizing scrolling; seeded
-                DIrFilt = [1,1,1,-1,-1];
-                DIrFilt_avg = 1;
-                newTime = (new Date()).now;
-    }
+function getStopped(target, callback) {   // ... monitor G2 instead for a move completion, or nothing in queue
+    var timer = setTimeout(function () {    // ...... and maybe needs a Z handler too??
+        callback(target);
+    }, 2500);
+}
+function setStart() {
+    MOveTo_x = globals.TOol_x;    // set starting location for rolling motion ...
+    MOveTo_y = globals.TOol_y;    // set starting location for rolling motion ...
+    MOveTo_z = globals.TOol_z;    // set starting location for rolling motion ...
+    fabmo.requestStatus();        // Trigger reports from tool
+    onResize();
+    set_XYboxTransit();           // default start position and xy view !
+    textLOCATION.visible = true;
+    reSeedScrollFilters();
+}
+function setEnd(target) {
+    console.debug('timed Out >> ');
+    //        PAnEvent = false;
+}
+function atStop(target) {
+    reset_BoxTransits(target);
+}
+function reSeedScrollFilters() {
+    MOtionFilt = [200, 200, 200, 200, 200];   // Running-Avg Filters,
+    MOtionFilt_avg = 1000;                // ... for stabilizing scrolling; seeded
+    DIrFilt = [1, 1, 1, -1, -1];
+    DIrFilt_avg = 1;
+    newTime = (new Date()).now;
+}
