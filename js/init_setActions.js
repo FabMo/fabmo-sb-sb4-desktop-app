@@ -1,23 +1,20 @@
-/**
- * Initialize App on Document-Ready
- * Most Event Handling except KeyPad Stuff
- */
-
 let cmds = [];
 
 // *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
 window.globals = {
-  TOol_x: 0,                                     // REAL LOCATIONS OF TOOL from G2
-  TOol_y: 0,                                     // ... had to set as windows.globals to get to paperjs canvas
-  TOol_z: 0,
-  TOol_a: 0,
-  TOol_b: 0,
-  TOol_c: 0,
-  G2_state: "",
-  DOne_first_status_ck: "false",
-  JOg_Pad_Open: "false",
-  JOg_Axis: "X",
-  ORigin: "" 
+    TOol_x: 0,                                     // REAL LOCATIONS OF TOOL from G2
+    TOol_y: 0,                                     // ... had to set as windows.globals to get to paperjs canvas
+    TOol_z: 0,
+    TOol_a: 0,
+    TOol_b: 0,
+    TOol_c: 0,
+    FAbMo_state: "",
+    G2_stat: 0,
+    G2_killed: false,
+    DOne_first_status_ck: "false",
+    MO_Pad_Open: "false",
+    MO_Axis: "X",
+    ORigin: ""
 }
 
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
@@ -270,12 +267,12 @@ $(document).ready(function() {
       globals.TOol_a = status.posa;
       globals.TOol_b = status.posb;
       globals.TOol_c = status.posc;
-      globals.G2_state = status.state;
+      globals.FAbMo_state = status.state;
       globals.G2_stat = status.stat;                                           // 5 means "in motion"
 
       if (globals.DOne_first_status_ck === "false") {
         globals.DOne_first_status_ck = "true";
-        if (globals.G2_state === "manual") {fabmo.manualExit()}                // #??? making sure we aren't stuck ??
+        if (globals.FAbMo_state === "manual") {fabmo.manualExit()}                // #??? making sure we aren't stuck ??
       } else {
         $("#cmd-input").blur();
         parent.focus();                                                        // this allows focus to work right when manual start
@@ -283,7 +280,7 @@ $(document).ready(function() {
         //setTimeout(function(){$("body").focus()}, 100);
       }
 
-        JogDial.utils.update_loc();                                            // ##?? only if using update Jog-Pad position
+        //JogDial.utils.update_loc();                                            // ##?? only if using update Jog-Pad position
 
         const dispLen = 50;
         let lineDisplay = "";
@@ -298,10 +295,10 @@ $(document).ready(function() {
             $('#cmd-input').val('>');
         }
 
-        if (globals.G2_state === "running") {
+        if (globals.FAbMo_state === "running") {
             $('#cmd-input').val("");
         }    
-        if (globals.G2_state != "running") {
+        if (globals.FAbMo_state != "running") {
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
             $(".top-bar").click();               // ... and click to clear any dropdowns
@@ -373,7 +370,7 @@ $(document).ready(function() {
     });
   
     fabmo.requestStatus(function(err,status) {		// first call to get us started
-      console.log('G2_first_state>' + globals.G2_state);
+      console.log('FabMo_first_state>' + globals.FAbMo_state);
     });
     
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {    // ------------------- ON OPENING JOG PAD
@@ -382,7 +379,7 @@ $(document).ready(function() {
         let mod_loc = (globals[axis_start_str]/ .016666) %360;            //... get current knob position ##UPDATE to live
         dialOne.angle(mod_loc);                                           //... set now (follower should already be set)
         $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));  //... set loc display
-        globals.JOg_pad_open = true;
+        globals.MO_pad_open = true;
         fabmo.manualEnter({hideKeypad:true, mode:'raw'});
         beep(20, 1800, 1);
         console.log('got wheelPad opening')
@@ -439,22 +436,23 @@ $(document).ready(function() {
     })
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
-      if ($(this).context.id==="wheelPad") {
-        globals.JOg_pad_open = false;
-        fabmo.manualExit();
-        console.log('got wheelPad closing')
-      }; 
+        if ($(this).context.id === "moPad") {
+            globals.MO_pad_open = false;
+            fabmo.manualExit();
+            console.log('got moPad closing')
+        };
     })
 
-    $('#wheel_pad_close').click(function(event) {      //##testing close button
-console.log('got close click')
-      $('#modal').foundation('reveal', 'close');
+    $('#mo_pad_close').click(function (event) {
+        console.log('got close click')
+        $('#modal').foundation('reveal', 'close');
     });
 
-    window.addEventListener("unload", function(event){
-      if (globals.G2_state === "manual") {fabmo.manualExit()}                // #??? making sure we aren't stuck ??
-      //fabmo.manualExit();                                                  // **DONT CALL IF NOT NEEDED !!!mx
-      console.log("unloaded!");        
+    window.addEventListener("unload", function (event) {
+        if (globals.FAbMo_state === "manual") {
+            fabmo.manualExit()
+        }
+        console.log("unloaded!");
     }, false);
 
 });
