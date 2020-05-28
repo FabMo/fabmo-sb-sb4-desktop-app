@@ -1,8 +1,20 @@
-body {
-  margin-top: 0px;
+/*
   height: 400px;
+  margin-top: 0px;
   overflow: auto;
+*/
+body {
+    height: 100%;
 }
+
+/*
+    display: block;
+*/
+canvas[resize] {
+    width: 100%;
+    height: 60%;
+    display: block;
+}  
 
 #speed-panel,
 #cmd-panel,
@@ -72,48 +84,46 @@ p.at-foot {
   background-color: rgb(146, 142, 142);
 }
 
-/* #config-system-config {
-	font-family: monospace;
-	word-wrap: break-word;
-} */
 
 /* Setting for Mo-Pad; derived from gopher and first-reach-manual */
 
-canvas[resize] {
-  width: 100%;
-  height: 100%;
-  display: block;
+#canvasArea {
+    margin-top: 5%;
+    background-color: transparent;
+    border-width: 0px;
 }
-
-#rmanCanvas {
-    position: relative; 
+/*
     left: -100px;
     top:100px;
-    width: 900px;
-    height: 500px;
-    margin: 10px auto;
+    -webkit-border-radius: 5%;
+    -moz-border-radius: 5%;
+    -ms-border-radius: 5%;
+    -o-border-radius: 5%;
+    left: -10%;
+    width: 95%;
+    height: 65%;
+    top: 25%;
+    position: relative; 
+    margin: 2px auto;
+*/
+#rmanCanvas {
     border-width: 3px;
     background: #0f68cd50;
     border-style: solid;
     border-color: #3a93f8;
-    -webkit-border-radius: 40px;
-    -moz-border-radius: 40px;
-    -ms-border-radius: 40px;
-    -o-border-radius: 40px;
-    border-radius: 40px;
-  }
-  
-
-#padClose {
-  position: absolute;
-  right: 75px;
-  top: 30px;
-  font-size: 3em;
-  color: #76c7e7ed;
+    border-radius: 5%;
 }
 
-
-
+/*
+  top: -5%;
+  right: 15%;
+*/
+#padCloseX {
+  position: absolute;
+  margin-top: -25%;
+  font-size: 5em;
+  color: #76c7e7ed;
+}
 
 #pad_icon_1 {
   position: relative;
@@ -123,7 +133,7 @@ canvas[resize] {
 #pad_icon_2 {
   position: relative;
   left: 0;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 #pad_icon_3 {
@@ -131,3 +141,11 @@ canvas[resize] {
   left: 0;
   opacity: 0.5;
 }
+
+#pad_icon_4 {
+    transform: scale(.2);
+    top: 30%;
+    left: 90%;
+    opacity: .5;
+  }
+  

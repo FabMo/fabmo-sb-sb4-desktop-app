@@ -260,22 +260,6 @@ $(document).ready(function () {
         });
     });
 
-    //--------------------------------------------SOUNDS
-    const a = new AudioContext()
-    //console.log(a.baseLatency)
-    function beep(vol, freq, duration) {
-        v = a.createOscillator()
-        u = a.createGain()
-        v.connect(u)
-        v.frequency.value = freq
-        v.type = "square"
-        u.connect(a.destination)
-        u.gain.value = vol * 0.01
-        v.start(a.currentTime)
-        v.stop(a.currentTime + duration * 0.001)
-    }
-
-
     // ** STATUS: Report Ongoing and Clear Command Line after a status report is recieved    ## Need a clear after esc too
     fabmo.on('status', function (status) {
         globals.TOol_x = status.posx;                                            // get LOCATION GLOBALS
@@ -289,12 +273,16 @@ $(document).ready(function () {
 
         if (globals.DOne_first_status_ck === "false") {
             globals.DOne_first_status_ck = "true";
-            if (globals.FAbMo_state === "manual") { fabmo.manualExit() }                // #??? making sure we aren't stuck ??
+            if (globals.FAbMo_state === "manual") { fabmo.manualExit() }         // #??? making sure we aren't stuck ??
         } else {
             $("#cmd-input").blur();
-            parent.focus();                                                        // this allows focus to work right when manual start
+            parent.focus();                                                      // this allows focus to work right when manual start
             //$("body",parent.document).focus();
             //setTimeout(function(){$("body").focus()}, 100);
+        }
+
+        if (globals.MO_pad_open) {
+            globals.UPdateMoPadState();
         }
 
         const dispLen = 50;
@@ -382,7 +370,6 @@ $(document).ready(function () {
         document.addEventListener('DOMMouseScroll', stopWheel, false);
     }
 
-
     window.addEventListener("unload", function (e) {
         console.log("Unloaded WINDOW! Leave Manual if active!")
         if (globals.FAbMo_state === 'manual') {
@@ -431,27 +418,15 @@ $(document).ready(function () {
 
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {      // ------------------- ON OPENING JOG PAD
         if ($(this).context.id === "moPad") {
-            console.log('got moPad Open Call');
             let axis_start_str = "TOol_" + (globals.JOg_Axis.toLowerCase());
             //        $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));  //... set loc display
             globals.MO_pad_open = true;
             fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
             beep(20, 1800, 1);
-            console.log('got moPad opening')
-
-
-            fabmo.requestStatus();                                          // another update when we open pad
-
-            globals.GEtMoPadConfig();
-
-            //if (globals.MO_pad_open) {
-                globals.UPdateMoPadState();
-            //}
-    
-    
-
+            fabmo.requestStatus();                                                      // another update when we open pad
+            globals.UPdateMoPadState();
+            
             //fabmo.hideDRO();  **if needed?
-
 
             //   $("#jog_dial_sel_char").click(function(e) {                       //... toggle through AXES with click on selector
             //     //  console.log("got click",($('#jog_dial_sel_char')));           //... ## could make this a little more concise
@@ -504,25 +479,42 @@ $(document).ready(function () {
 
         }
 
-        $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
-            if ($(this).context.id === "moPad") {
-                globals.MO_pad_open = false;
-                gotOnce = false;
-                fabmo.manualExit();
-                console.log('got moPad closing; did Exit from manual')
-            };
-        })
-
-        $('#mo_pad_close').click(function (event) {
+        $('#padCloseX').click(function (event) {
             console.log('got close click')
             $('#modal').foundation('reveal', 'close');
         });
 
-        window.addEventListener("unload", function (event) {
-            if (globals.FAbMo_state === "manual") {
-                fabmo.manualExit()
-            }
-            console.log("unloaded WINDOW!");
-        }, false)
     })
+
+    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
+        if ($(this).context.id === "moPad") {
+            globals.MO_pad_open = false;
+            gotOnce = false;
+            fabmo.manualExit();
+            console.log('got moPad closing; did Exit from manual')
+        };
+    })
+
+    window.addEventListener("unload", function (event) {
+        if (globals.FAbMo_state === "manual") {
+            fabmo.manualExit()
+        }
+        console.log("unloaded WINDOW!");
+    }, false)
+
 })
+
+//--------------------------------------------------------------------------------------------------SOUNDS
+const a = new AudioContext()
+//console.log(a.baseLatency)
+function beep(vol, freq, duration) {
+    v = a.createOscillator()
+    u = a.createGain()
+    v.connect(u)
+    v.frequency.value = freq
+    v.type = "square"
+    u.connect(a.destination)
+    u.gain.value = vol * 0.01
+    v.start(a.currentTime)
+    v.stop(a.currentTime + duration * 0.001)
+}

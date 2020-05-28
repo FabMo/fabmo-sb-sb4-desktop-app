@@ -5,18 +5,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DESKTOP</title>
-    <script src="js/lib/jquery.js"></script>
     <!-- Foundation 5.5.3 -->
-    <script src="js/lib/foundation.min.js"></script>
-    <script src="js/lib/foundation.dropdown.js"></script>
     <link rel="stylesheet" href="css/foundation.min.css">
     <link rel="stylesheet" href="css/normalize.css">
-    <script src="js/lib/modernizr.js"></script>
-    <script src="js/lib/fastclick.js"></script>
-    <script type="text/javascript" src="js/lib/haptics.js"></script>
-    <script src="js/lib/fabmo.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/stylejogdial.css">
+    <!-- <link rel="stylesheet" href="css/stylejogdial.css"> -->
+
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/foundation.min.js"></script>
+    <script src="js/lib/foundation.dropdown.js"></script>
+    <script src="js/lib/modernizr.js"></script>
+    <script src="js/lib/fastclick.js" async></script>
+    <script src="js/lib/haptics.js"></script>
+    <script src="js/lib/fabmo.js"></script>
+    
+    <!--Note that paperjs is not ES6; mo_pad is run in paperscript, not javascript-->
+    <script src="js/lib/paper-full.min.js" defer></script>
+    <script type="text/paperscript" src="js/mo_pad.js" canvas="rmanCanvas" defer></script>
+
+    <script src="js/tool_config.js"></script>
+    <script src="js/sb_app.js"></script>
+    <script src="js/init_setActions.js"></script>
+    <script src="js/motion.js" defer></script>
 
     <script> let fabmo = new FabMoDashboard(); </script>
 
@@ -24,7 +34,7 @@
 
 <body id="sb4app" style="background-color:rgb(151, 150, 150)">
 
-   <nav class="top-bar" data-topbar role="navigation" style="background-color:rgb(92, 90, 90)">
+    <nav class="top-bar" data-topbar role="navigation" style="background-color:rgb(92, 90, 90)">
     <ul class="title-area">
       <li class="name"></li>
       <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
@@ -205,7 +215,7 @@
 
 
   <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
-  <a href="#" data-reveal-id="moPad">MO-PAD Testing</a>
+  <a href="#" data-reveal-id="moPad">MOtion-PAD beta</a>
 
  <!-- needed this setting here to prevent closing; left in later for redundancy -->
  <script>Foundation.libs.reveal.settings.close_on_background_click = false;</script>
@@ -235,28 +245,26 @@
         data-options="close_on_background_click:true;close_on_esc:true;" style="display: none" role="dialog">
 
         <div class="small-2 medium-2 large-2 columns">
-            <img id="pad_icon_1" src="./assets/pad_icon_01.png">
+            <!--<img id="pad_icon_1" src="./assets/pad_icon_01.png">-->
             <img id="pad_icon_2" src="./assets/pad_icon_02.png">
             <img id="pad_icon_3" src="./assets/pad_icon_03.png">
-            <a id="padClose" class="close-reveal-modal" aria-label="Close" style="z-index:999">&#215;</a>
+            <img id="pad_icon_4" src="./assets/pad_icon_04.png">
         </div>
 
-        <div class="small-10 medium-10 large-10 columns">
-            <canvas id="rmanCanvas" resize="true" keepalive="true"></canvas>
+        <div class="small-9 medium-9 large-9 columns">
+            <div class="panel" id="canvasArea"> 
+                <canvas id="rmanCanvas" resize="true" keepalive="true" resize></canvas>
+            </div>
+        </div>
+
+        <div class="small-1 medium-1 large-1 columns">
+            <a id="padCloseX" class="close-reveal-modal" aria-label="Close" style="z-index:999">&#215;</a>
         </div>
 
     </div>
 </div>
+
 </body>
-
-<script src="js/tool_config.js"></script>
-<script src="js/sb_app.js"></script>
-<script src="js/init_setActions.js"></script>
-<script src="js/motion.js"></script>
-
-<script type="text/javascript" src="js/lib/paper-full.min.js"></script>
-<!--Note that paperjs is not ES6; mo_pad is run in paperscript, not javascript-->
-<script type="text/paperscript" canvas="rmanCanvas" src="js/mo_pad.js"></script>
 
 </html>
 

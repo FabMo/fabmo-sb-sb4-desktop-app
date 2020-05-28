@@ -21,6 +21,18 @@ var newTime = new Date();
 var LAstTime = new Date();
 var PT_ct = 0, EV_ct = 0;                      // counters for user interaction used in filtering ... /?local
 
+
+var desiredWidth = $('#rmanCanvas').width(); // For instance: $(window).width();
+var desiredHeight =$('#rmanCanvas').height(); // For instance $('#canvasContainer').height();
+
+rmanCanvas.width = desiredWidth;
+rmanCanvas.height = desiredHeight 
+
+view.viewSize = new Size(desiredWidth, desiredHeight);
+view.draw();
+
+
+
 //=================================================================================================================
 
 function Tool(width, height, zlo, zhi, zsplit, xyZoom, xyUnit, zZoom, zUnit) {
@@ -64,168 +76,169 @@ var mTool = new Tool(6, 8, -1, 2, 0, 0.95, 45, 0.90, 45); // DEFINE A HANDIBOT =
 
 // - Setup XYBOX Work Area ..........................................................
   //@th; should redo all this display stuff as a better organized object
-    var xybox = new Path.Rectangle([0, 0, mTool.width, mTool.height]); // sets scale of boxes to be slightly smaller than view
-      var bwidth, bheight;
-        xybox.applyMatrix = false;
-        xybox.position = view.center;
-        xybox.strokeColor = '#999999';// '#808080';
-        xybox.strokeScaling = false;
-        xybox.strokeWidth = 1;
-        xybox.state = false;
-    //Grid Lines
-      var gridScale;
-      var gridGroup = new Group();
-      var gridGroupFine = new Group();
-        for (var i = 0; i <= mTool.width; i++) {                       // verticals
-            var xvert = i * mTool.xyUnit;
-            var topPoint = new Point(xvert, 0);
-            var bottomPoint = new Point(xvert, mTool.height * mTool.xyUnit);
-            var gridLine = new Path.Line(topPoint, bottomPoint);
-            gridLine.strokeColor = '#999999';//'#808080';
-            gridLine.strokeWidth = 1;
-            gridGroup.addChild(gridLine);
-          if (i < mTool.width) {                                       // ... fine verticals
-            for (var j = 1; j < 10; j++ ){
-                var xvert_fine = xvert + (j * 0.1 * mTool.xyUnit);
-                var topPoint_fine = new Point(xvert_fine, 0);
-                var bottomPoint_fine = new Point(xvert_fine, mTool.height * mTool.xyUnit);
-                var gridLineFine = new Path.Line(topPoint_fine, bottomPoint_fine);
-                gridLineFine.strokeColor = 'white';
-                gridLineFine.strokeWidth = 1;
-                gridGroupFine.addChild(gridLineFine);
-            }
-          }
+var xybox = new Path.Rectangle([0, 0, mTool.width, mTool.height]); // sets scale of boxes to be slightly smaller than view
+var bwidth, bheight;
+xybox.applyMatrix = false;
+xybox.position = view.center;
+xybox.strokeColor = '#999999';// '#808080';
+xybox.strokeScaling = false;
+xybox.strokeWidth = 1;
+xybox.state = false;
+
+//Grid Lines
+var gridScale;
+var gridGroup = new Group();
+var gridGroupFine = new Group();
+for (var i = 0; i <= mTool.width; i++) {                       // verticals
+    var xvert = i * mTool.xyUnit;
+    var topPoint = new Point(xvert, 0);
+    var bottomPoint = new Point(xvert, mTool.height * mTool.xyUnit);
+    var gridLine = new Path.Line(topPoint, bottomPoint);
+    gridLine.strokeColor = '#999999';//'#808080';
+    gridLine.strokeWidth = 1;
+    gridGroup.addChild(gridLine);
+    if (i < mTool.width) {                                       // ... fine verticals
+        for (var j = 1; j < 10; j++) {
+            var xvert_fine = xvert + (j * 0.1 * mTool.xyUnit);
+            var topPoint_fine = new Point(xvert_fine, 0);
+            var bottomPoint_fine = new Point(xvert_fine, mTool.height * mTool.xyUnit);
+            var gridLineFine = new Path.Line(topPoint_fine, bottomPoint_fine);
+            gridLineFine.strokeColor = 'white';
+            gridLineFine.strokeWidth = 1;
+            gridGroupFine.addChild(gridLineFine);
         }
-        for (var i = 0; i <= mTool.height; i++) {                      // horizontals
-            var xhorz = i * mTool.xyUnit;
-            var leftPoint = new Point(0, xhorz);
-            var rightPoint = new Point(mTool.width * mTool.xyUnit, xhorz);
-            var gridLine = new Path.Line(leftPoint, rightPoint);
-            gridLine.strokeColor = '#999999';//'#808080';
-            gridLine.strokeWidth = 1;
-            gridGroup.addChild(gridLine);
-          if (i < mTool.height) {
-            for (var j = 1; j < 10; j++ ){                             // ... fine horizontals
-                var xhorz_fine = xhorz + (j * 0.1 * mTool.xyUnit);
-                var leftPoint_fine = new Point(0, xhorz_fine);
-                var rightPoint_fine = new Point(mTool.width * mTool.xyUnit, xhorz_fine);
-                var gridLineFine = new Path.Line(leftPoint_fine, rightPoint_fine);
-                gridLineFine.strokeColor = 'white';
-                gridLineFine.strokeWidth = 1;
-                gridGroupFine.addChild(gridLineFine);
-            }
-          }
+    }
+}
+for (var i = 0; i <= mTool.height; i++) {                      // horizontals
+    var xhorz = i * mTool.xyUnit;
+    var leftPoint = new Point(0, xhorz);
+    var rightPoint = new Point(mTool.width * mTool.xyUnit, xhorz);
+    var gridLine = new Path.Line(leftPoint, rightPoint);
+    gridLine.strokeColor = '#999999';//'#808080';
+    gridLine.strokeWidth = 1;
+    gridGroup.addChild(gridLine);
+    if (i < mTool.height) {
+        for (var j = 1; j < 10; j++) {                             // ... fine horizontals
+            var xhorz_fine = xhorz + (j * 0.1 * mTool.xyUnit);
+            var leftPoint_fine = new Point(0, xhorz_fine);
+            var rightPoint_fine = new Point(mTool.width * mTool.xyUnit, xhorz_fine);
+            var gridLineFine = new Path.Line(leftPoint_fine, rightPoint_fine);
+            gridLineFine.strokeColor = 'white';
+            gridLineFine.strokeWidth = 1;
+            gridGroupFine.addChild(gridLineFine);
         }
-        gridGroupFine.visible = false;
-        gridScale = 1;  // 1 - baseunits, 1 - 10ths
-        gridGroupFine.insertAbove(xybox);
-        gridGroup.insertAbove(gridGroupFine);
+    }
+}
+gridGroupFine.visible = false;
+gridScale = 1;  // 1 - baseunits, 1 - 10ths
+gridGroupFine.insertAbove(xybox);
+gridGroup.insertAbove(gridGroupFine);
 
 // - Setup ZBOX Work Area ..........................................................
-    var zbox = new Path.Rectangle([0, 0, (view.viewSize.width * (1 - mTool.zZoom)), (view.viewSize.height * mTool.zZoom)]); // sets scale
-      mTool.zUnit = (view.viewSize.height * mTool.zZoom) / mTool.zRange;
-      zbox.applyMatrix = false;
-      zbox.strokeColor = 'grey';
-      zbox.strokeScaling = false;
-      zbox.strokeWidth = 1;
-      zbox.insertAbove(gridGroup);
-      zbox.state = false;
-      var z_gridGroup = new Group();                   // Create intervals with lines around a split
-        var ln_color;
-        for (var i = 0; i <= mTool.z_total -1; i++) {  // Just read in the lines for now ... too fussy
-            if (i < mTool.z_preSplit) {
-                ln_color = 'red';
-            } else if (i === mTool.z_preSplit) {
-                ln_color = 'darkgreen';
-            } else {
-                ln_color = '#999999';
-            }
-            var z_dispHeight = zbox.bounds.bottom - (i * 50);
-            var leftPoint = new Point(zbox.bounds.left, z_dispHeight);
-            var rightPoint = new Point(zbox.bounds.right, z_dispHeight);
-            var z_gridLine = new Path.Line(leftPoint, rightPoint);
-            z_gridLine.strokeColor = ln_color;
-            z_gridLine.strokeWidth = 1;
-            z_gridGroup.addChild(z_gridLine);
-        }
-      z_gridGroup.insertAbove(zbox);
-      mTool.updateDisplays();
+var zbox = new Path.Rectangle([0, 0, (view.viewSize.width * (1 - mTool.zZoom)), (view.viewSize.height * mTool.zZoom)]); // sets scale
+mTool.zUnit = (view.viewSize.height * mTool.zZoom) / mTool.zRange;
+zbox.applyMatrix = false;
+zbox.strokeColor = 'grey';
+zbox.strokeScaling = false;
+zbox.strokeWidth = 1;
+zbox.insertAbove(gridGroup);
+zbox.state = false;
+var z_gridGroup = new Group();                   // Create intervals with lines around a split
+var ln_color;
+for (var i = 0; i <= mTool.z_total - 1; i++) {  // Just read in the lines for now ... too fussy
+    if (i < mTool.z_preSplit) {
+        ln_color = 'red';
+    } else if (i === mTool.z_preSplit) {
+        ln_color = 'darkgreen';
+    } else {
+        ln_color = '#999999';
+    }
+    var z_dispHeight = zbox.bounds.bottom - (i * 50);
+    var leftPoint = new Point(zbox.bounds.left, z_dispHeight);
+    var rightPoint = new Point(zbox.bounds.right, z_dispHeight);
+    var z_gridLine = new Path.Line(leftPoint, rightPoint);
+    z_gridLine.strokeColor = ln_color;
+    z_gridLine.strokeWidth = 1;
+    z_gridGroup.addChild(z_gridLine);
+}
+z_gridGroup.insertAbove(zbox);
+mTool.updateDisplays();
 
 // - Setup LOCATION Display
-    var textLOCATION = new PointText({
-        content: '',
-        fillColor: '#ff9933', // '#ffb366',
-        fontSize: 50,
-        font: 'Courier New',
-        justification: 'right',
-        visible: false   // keep hidden til full load
-    });
+var textLOCATION = new PointText({
+    content: '',
+    fillColor: '#ff9933', // '#ffb366',
+    fontSize: 50,
+    font: 'Courier New',
+    justification: 'right',
+    visible: false   // keep hidden til full load
+});
 
 // - Setup Option Displays (with tooltips)
-//     function OptText (x_pos, y_pos, text, tip) {                            // Construct Option Objects
-//       this.text = new PointText({
-//         content: text,
-//         point: new Point(20, y_pos),
-//         fillColor: 'grey',
-//         state: false
-//       });
-//       this.tip = tip;
-//       this.tipPosition = new Point(x_pos, y_pos);
-//       this.tipPosition = this.tipPosition + new Point(30, -16);
-//       this.tooltipRect = new Rectangle(this.tipPosition, new Size((tip.length * 7), 28));
-//       this.cornerSize = new Size(10, 10);
-//       this.toolTip = new Path.Rectangle(this.tooltipRect, this.cornerSize);
-//       this.toolTip.fillColor = 'beige';
-//       this.toolTip.visible = false;
-//       this.textTip = new PointText(this.tipPosition + (0, 17));
-//       this.textTip.content = tip;
-//       this.textTip.fillColor = 'brown';
-//       this.textTip.visible = false;
-//     }
-//     OptText.prototype.turn_on = function () {
-//          this.toolTip.visible = true;
-//          this.textTip.visible = true;
-//     }
-//     OptText.prototype.turn_off = function () {
-//          this.toolTip.visible = false;
-//          this.textTip.visible = false;
-//     }  //@th; can't figure out how to get the onMouseEnter into prototype; could be simpler, issues w/paperjs?
+function OptText(x_pos, y_pos, text, tip) {                            // Construct Option Objects
+    this.text = new PointText({
+        content: text,
+        point: new Point(20, y_pos),
+        fillColor: 'grey',
+        state: false
+    });
+    this.tip = tip;
+    this.tipPosition = new Point(x_pos, y_pos);
+    this.tipPosition = this.tipPosition + new Point(30, -16);
+    this.tooltipRect = new Rectangle(this.tipPosition, new Size((tip.length * 7), 28));
+    this.cornerSize = new Size(10, 10);
+    this.toolTip = new Path.Rectangle(this.tooltipRect, this.cornerSize);
+    this.toolTip.fillColor = 'beige';
+    this.toolTip.visible = false;
+    this.textTip = new PointText(this.tipPosition + (0, 17));
+    this.textTip.content = tip;
+    this.textTip.fillColor = 'brown';
+    this.textTip.visible = false;
+}
+OptText.prototype.turn_on = function () {
+    this.toolTip.visible = true;
+    this.textTip.visible = true;
+}
+OptText.prototype.turn_off = function () {
+    this.toolTip.visible = false;
+    this.textTip.visible = false;
+}  //@th; can't figure out how to get the onMouseEnter into prototype; could be simpler, issues w/paperjs?
 
-//     // ... set up individual items here
-//     // note: x value here is only for tooltip location, y sets both locations,
-//     var zoomOpt = new OptText(65, 50,'ZOOM: ','Click for Reset to Full View; Ctl-Scroll to Zoom');        // Start Individual Options Here
-//         zoomOpt.text.fillColor = 'green';
-//     var snapOpt = new OptText(35, 70,'SNAP','SNAP to intersections');
-//     var cycleOpt = new OptText(95, 90,'Cycle:  X-Y  [X-Y-Z]','Cycle between 2 or 3 axes on click/tap/space');
-//         cycleOpt.text.state = true;
-//     var smallOpt = new OptText(85, 110,'Smallest Moves: ', 'Set smallest move at normal Zoom');
-//     var smallxyOpt = new OptText(35, 130,'    for XY=  [.025]  .010','');
-//     var smallxyOpt = new OptText(35, 150,'    for   Z=  .010  [.005]  .001','');
+// ... set up individual items here
+// note: x value here is only for tooltip location, y sets both locations,
+var zoomOpt = new OptText(65, 50, 'ZOOM: ', 'Click for Reset to Full View; Ctl-Scroll to Zoom');        // Start Individual Options Here
+zoomOpt.text.fillColor = 'green';
+var snapOpt = new OptText(35, 70, 'SNAP', 'SNAP to intersections');
+var cycleOpt = new OptText(95, 90, 'Cycle:  X-Y  [X-Y-Z]', 'Cycle between 2 or 3 axes on click/tap/space');
+cycleOpt.text.state = true;
+var smallOpt = new OptText(85, 110, 'Smallest Moves: ', 'Set smallest move at normal Zoom');
+var smallxyOpt = new OptText(35, 130, '    for XY=  [.025]  .010', '');
+var smallxyOpt = new OptText(35, 150, '    for   Z=  .010  [.005]  .001', '');
 
-//     zoomOpt.text.onMouseEnter = function(event) {                           // ... and their tool-tips
-//          zoomOpt.turn_on();
-//     }
-//     zoomOpt.text.onMouseLeave = function(event) {
-//          zoomOpt.turn_off();
-//     }
-//     snapOpt.text.onMouseEnter = function(event) {
-//          snapOpt.turn_on();
-//     }
-//     snapOpt.text.onMouseLeave = function(event) {
-//          snapOpt.turn_off();
-//     }
-//     cycleOpt.text.onMouseEnter = function(event) {
-//          cycleOpt.turn_on();
-//     }
-//     cycleOpt.text.onMouseLeave = function(event) {
-//          cycleOpt.turn_off();
-//     }
-//     smallOpt.text.onMouseEnter = function(event) {
-//          smallOpt.turn_on();
-//     }
-//     smallOpt.text.onMouseLeave = function(event) {
-//          smallOpt.turn_off();
-//     }
+zoomOpt.text.onMouseEnter = function (event) {                           // ... and their tool-tips
+    zoomOpt.turn_on();
+}
+zoomOpt.text.onMouseLeave = function (event) {
+    zoomOpt.turn_off();
+}
+snapOpt.text.onMouseEnter = function (event) {
+    snapOpt.turn_on();
+}
+snapOpt.text.onMouseLeave = function (event) {
+    snapOpt.turn_off();
+}
+cycleOpt.text.onMouseEnter = function (event) {
+    cycleOpt.turn_on();
+}
+cycleOpt.text.onMouseLeave = function (event) {
+    cycleOpt.turn_off();
+}
+smallOpt.text.onMouseEnter = function (event) {
+    smallOpt.turn_on();
+}
+smallOpt.text.onMouseLeave = function (event) {
+    smallOpt.turn_off();
+}
 
 //  // - Command Buttons
 //     function CmdButton (y_pos, width, txt, sm_txt) {                                // Construct Command Button Objects
@@ -259,7 +272,7 @@ var mTool = new Tool(6, 8, -1, 2, 0, 0.95, 45, 0.90, 45); // DEFINE A HANDIBOT =
 // var centerButton = new CmdButton(100, 150, "  CENTER", "move to");
 
 // - Setup Tool-Markers' Appearance
-var zMark = new Path.Star([100, 100], 3, 20, 10);
+var zMark = new Path.Star([100, 100], 3, 20, 10); // z is a triangle
 zMark.strokeColor = "black";
 zMark.fillColor = "white;"
 zMark.rotate(-30);
@@ -295,17 +308,17 @@ $('#rmanCanvas').on('mousewheel DOMMouseScroll MozMousePixelScroll', function (e
     } else {                                                        // ** MOTION ** =====================
 
         if (globals.G2_killed) {
-console.log('skip on KILLED state,G2_stat ', globals.FAbMo_state, globals.G2_stat);
+            console.log('skip on KILLED state,G2_stat ', globals.FAbMo_state, globals.G2_stat);
             return false;
         }
 
         newTime = Date.now();
         var interval = newTime - LAstTime;                          // Running-average filters
-//                  if (interval > 2000) {reSeedScrollFilters()}    // ... reseed filter if a time gap
+        //                  if (interval > 2000) {reSeedScrollFilters()}    // ... reseed filter if a time gap
         clearTimeout(quickStop);
 
         if (globals.G2_stat == 5 && !(globals.G2_killed)) {
-console.log('already moving --> start TimeOut!');
+            console.log('already moving --> start TimeOut!');
             quickStop = setTimeout(killMotion, 1000);
         }
 
@@ -318,7 +331,7 @@ console.log('already moving --> start TimeOut!');
         EV_ct++;
         if (EV_ct > 4) EV_ct = 0;
         if (Math.sign(DIrFilt_avg) !== Math.sign(delta)) {          // CK directionFilter; SKIP unexpected
-             return false;
+            return false;
         }
         if (MOtionFilt_avg < 800) {                                 // Interval Filter
             mult = 0.010;                                           // TABLE .......................
@@ -333,7 +346,7 @@ console.log('already moving --> start TimeOut!');
         } else {
             mult = 0.01;
         }
-        LAstTime = newTime; 
+        LAstTime = newTime;
 
         if (xybox.state) {
             setMotionXY(mult, DIrFilt_avg);                         // * SET MOTION XY or Z *
@@ -429,7 +442,6 @@ function getSnapLoc(loc, scale) {
 function setMotionXY(mult, dir) {
     mult = mult / mTool.xyZoom;                                         // Adjust move to ZOOM scale
     var addedSeg =  mult * mTool.xyUnit * dir;                          // New Segment = unit * delta * mult = (how soon * how far)
-console.log('seg= ', addedSeg, mult, dir);
     RUn_dist += addedSeg;   
     if (RUn_dist > LIne_full.length) {                                  // ... limit
         RUn_dist = LIne_full.length;
@@ -443,7 +455,6 @@ console.log('seg= ', addedSeg, mult, dir);
 }
 
 function setMotionZ(mult, delta) {
-    console.log('cmz')
     RUn_dist += mult * mTool.zUnit * delta * 0.5;                       // Accum running distance transit w/#FUDGE
     if (RUn_dist > LIne_full.length) {                                  // ... but don't go beyond length
         RUn_dist = LIne_full.length;
@@ -467,43 +478,43 @@ function getZmove(screenY) {
   
 //=========================================================== APP PAD MANAGEMENT
 //---------------------------drawing
-    function onResize () {
-    // - Update WorkArea Boxes and Tool Markers ... complicated by inverted tool location and independent resize
-     //console.debug('#GOT PAN in onResize >>' + PAnEvent);
-      if ((view.viewSize.height / view.viewSize.width) < mTool.prop) {     // Working area bound by X or Y ?
-        bheight = view.viewSize.height * mTool.xyZoom;                    // =Tall ... bounded by height
-        bwidth = (view.viewSize.height / mTool.prop) * mTool.xyZoom;
-      } else {
-        bheight = view.viewSize.width * mTool.xyZoom;                     // =Squat ... bounded by width
-        bwidth = (view.viewSize.width / mTool.prop) * mTool.xyZoom;
-      }
-      var lastScale = xybox.scaling.x;                    // Get current scale (transform)
-      var bsize = new Size(bwidth, bheight);              // Then RESIZE of xyBox and zBox
-      var zsize = new Size(view.viewSize.width * (1 - mTool.zZoom), view.viewSize.height * mTool.zZoom);
-      xybox.bounds = bsize;
-      zbox.bounds = zsize;
-      mTool.updateDisplays();
+function onResize() {
+    if (globals.MO_pad_open) {
+        // - Update WorkArea Boxes and Tool Markers ... complicated by inverted tool location and independent resize
+        if ((view.viewSize.height / view.viewSize.width) < mTool.prop) {     // Working area bound by X or Y ?
+            bheight = view.viewSize.height * mTool.xyZoom;                    // =Tall ... bounded by height
+            bwidth = (view.viewSize.height / mTool.prop) * mTool.xyZoom;
+        } else {
+            bheight = view.viewSize.width * mTool.xyZoom;                     // =Squat ... bounded by width
+            bwidth = (view.viewSize.width / mTool.prop) * mTool.xyZoom;
+        }
+//        var lastScale = xybox.scaling.x;                  // Get current scale (transform)
+        var bsize = new Size(bwidth, bheight);              // Then RESIZE of xyBox and zBox
+        var zsize = new Size(view.viewSize.width * (1 - mTool.zZoom), view.viewSize.height * mTool.zZoom);
+        xybox.bounds = bsize;
+        zbox.bounds = zsize;
+        mTool.updateDisplays();
 
-      if (mTool.xyZoom > 1.5) {                          // Zooming IN - Center on Tool
-          xybox.position.x = view.center.x - ((globals.TOol_x * mTool.xyUnit) - (bwidth / 2));
-          xybox.position.y = view.center.y + ((globals.TOol_y * mTool.xyUnit) - (bheight / 2));
-          zbox.position.y = view.center.y;
-          zbox.position.x = view.viewSize.width - (0.8 * zbox.bounds.width);
-          gridGroupFine.visible = true;
-          gridScale = 10;
-      } else {                                            // Zooming OUT - Center Grid
-          xybox.position = view.center;
-          zbox.position.y = view.center.y;
-          zbox.position.x = view.viewSize.width - (0.8 * zbox.bounds.width);
-          gridGroupFine.visible = false;
-          gridScale = 1;
-      }
+        if (mTool.xyZoom > 1.5) {                          // Zooming IN - Center on Tool
+            xybox.position.x = view.center.x - ((globals.TOol_x * mTool.xyUnit) - (bwidth / 2));
+            xybox.position.y = view.center.y + ((globals.TOol_y * mTool.xyUnit) - (bheight / 2));
+            zbox.position.y = view.center.y;
+            zbox.position.x = view.viewSize.width - (0.8 * zbox.bounds.width);
+            gridGroupFine.visible = true;
+            gridScale = 10;
+        } else {                                            // Zooming OUT - Center Grid
+            xybox.position = view.center;
+            zbox.position.y = view.center.y;
+            zbox.position.x = view.viewSize.width - (0.8 * zbox.bounds.width);
+            gridGroupFine.visible = false;
+            gridScale = 1;
+        }
 
-      var dX = xybox.bounds.left + (globals.TOol_x * mTool.xyUnit) - xyMark.position.x;
-      var dY = xybox.bounds.bottom - (globals.TOol_y * mTool.xyUnit) - xyMark.position.y;
-      xyMark.position += new Point([dX,dY]);
-      gridGroup.fitBounds(xybox.bounds);                  // XY update grids
-      gridGroupFine.fitBounds(xybox.bounds);
+        var dX = xybox.bounds.left + (globals.TOol_x * mTool.xyUnit) - xyMark.position.x;
+        var dY = xybox.bounds.bottom - (globals.TOol_y * mTool.xyUnit) - xyMark.position.y;
+        xyMark.position += new Point([dX, dY]);
+        gridGroup.fitBounds(xybox.bounds);                  // XY update grids
+        gridGroupFine.fitBounds(xybox.bounds);
 
         //@th; scope j and issue with limit for this loop?
         //@th; not particularly well coordinated with definition above -- but works at moment
@@ -511,26 +522,26 @@ function getZmove(screenY) {
         var uptHeight;
         for (var i = 0; i <= (mTool.z_postSplit - 1); i = Math.round((i + adder) * 10) / 10) {
             if (i < 1) {
-              adder = 0.1;
-              uptHeight = zbox.bounds.bottom - ((i + adder) * zbox.bounds.height * 0.5);
+                adder = 0.1;
+                uptHeight = zbox.bounds.bottom - ((i + adder) * zbox.bounds.height * 0.5);
             } else {
-              adder = 1;
-              uptHeight = zbox.position.y - ((i + adder + mTool.zlo) * (zbox.bounds.height * 0.5 / mTool.z_postSplit));
+                adder = 1;
+                uptHeight = zbox.position.y - ((i + adder + mTool.zlo) * (zbox.bounds.height * 0.5 / mTool.z_postSplit));
             }
             z_gridGroup.children[j].firstSegment.point = new Point(zbox.bounds.left, uptHeight);
             z_gridGroup.children[j].lastSegment.point = new Point(zbox.bounds.right, uptHeight);
             j++;
         }
-      var fixZ = zbox.bounds.bottom - (globals.TOol_z * mTool.zUnit) - zMark.position.y + mTool.zzeroOffset;
-      zMark.position += new Point([zMark.position.x, fixZ]);
-    //  zoomOpt.text.content = 'ZOOM: ' + mTool.xyZoom.toFixed(2);
-      fabmo.requestStatus();
+        var fixZ = zbox.bounds.bottom - (globals.TOol_z * mTool.zUnit) - zMark.position.y + mTool.zzeroOffset;
+        zMark.position += new Point([zMark.position.x, fixZ]);
+        //  zoomOpt.text.content = 'ZOOM: ' + mTool.xyZoom.toFixed(2);
+        fabmo.requestStatus();
     }
+}
 
     //--------------------------- request standard transits
 function reset_BoxTransits(cur_point) {
     // if (PAnEvent) {
-    //  console.debug('#GOT PAN in reset_Transits >> ' + PAnEvent + ', ' + event);
     //   getEnd(setEnd);
     //   return;
     // }
@@ -542,11 +553,15 @@ function reset_BoxTransits(cur_point) {
 }
 function set_XYboxTransit() {
     xybox.state = true;
-    xybox.fillColor = '#e6e6e6'; // 90%
-    zbox.fillColor = 'white';
+    xybox.fillColor = '#0f68cd';//'#e6e6e6'; // 90%
+    xybox.opacity = .8;
+    zbox.fillColor = '#0f68cd';//'white';
+    zbox.opacity = .4;
     zbox.state = false;
     if (LIne_up) LIne_up.remove();
     if (LIne_dn) LIne_dn.remove();
+    zMark.fillColor = "black";
+    xyMark.fillColor = "white";
     if (FOcalAxis === 1) {
         motion_ln(xyMark.position, new Point(xybox.bounds.right, xyMark.position.y), new Point(xybox.bounds.left, xyMark.position.y));
         FOcalAxis = 1;
@@ -557,9 +572,13 @@ function set_XYboxTransit() {
 }
 function set_ZboxTransit() {
     zbox.state = true;
-    zbox.fillColor = '#e6e6e6';
-    xybox.fillColor = 'white';
+    zbox.fillColor = '#0f68cd';//'#e6e6e6';
+    xybox.opacity = .4;
+    xybox.fillColor = '#0f68cd';//'white';
+    zbox.opacity = .8;
     xybox.state = false;
+    zMark.fillColor = "white";
+    xyMark.fillColor = "black";
     FOcalAxis = 3;
     if (LIne_up) LIne_up.remove();
     if (LIne_dn) LIne_dn.remove();
@@ -567,65 +586,64 @@ function set_ZboxTransit() {
 }
 
 //---------------------------request user drawn transit
-        xyMark.onMouseDrag = function(event) {                            // DRAG for Motion Lines (up_line & dn_line)
-          if(xybox.contains(event.point)) {                               // Make sure drag is within xybox
-            LIne_up.scale(5, xyMark.position);                            // ... extend up_line length a bit
-            LIne_dn.scale(5, xyMark.position);                            // ... extend dn_line length a bit
-            LIne_full.scale(5, xyMark.position);
-            motion_ln(xyMark.position, event.point, null);                // Initialize MOTION LINE
-              var intersects_up = LIne_up.getIntersections(xybox);        // now LIMIT up_line to xybox
-              var hitOptions = {bounds: true};                            // ... only detect xybox bounds
-              var int_pts = 0;
-                if (xybox.hitTest(xyMark.position, hitOptions)) {         // ...is tool on box border?
-                    int_pts += 1;                                         // ......special: now at second intersect
-                }
-              if (intersects_up.length > int_pts) {                       // ...only 1 intersect beyond possible border
-                  LIne_up.segments[1].point = intersects_up[int_pts].point;
-              }
-              var intersects_dn = LIne_dn.getIntersections(xybox);       // and now LIMIT dn_line
-              if (intersects_dn.length > 0) {
-                  LIne_dn.segments[1].point = intersects_dn[0].point;
-              }
-                LIne_up.removeOn ({                        // ... removing line on next touch
-                  drag: true,
-                  down: true
-                });
-                LIne_dn.removeOn ({
-                  drag: true,
-                  down: true
-                });
-          }
+xyMark.onMouseDrag = function (event) {                            // DRAG for Motion Lines (up_line & dn_line)
+    if (xybox.contains(event.point)) {                               // Make sure drag is within xybox
+        LIne_up.scale(5, xyMark.position);                            // ... extend up_line length a bit
+        LIne_dn.scale(5, xyMark.position);                            // ... extend dn_line length a bit
+        LIne_full.scale(5, xyMark.position);
+        motion_ln(xyMark.position, event.point, null);                // Initialize MOTION LINE
+        var intersects_up = LIne_up.getIntersections(xybox);        // now LIMIT up_line to xybox
+        var hitOptions = { bounds: true };                            // ... only detect xybox bounds
+        var int_pts = 0;
+        if (xybox.hitTest(xyMark.position, hitOptions)) {         // ...is tool on box border?
+            int_pts += 1;                                         // ......special: now at second intersect
         }
+        if (intersects_up.length > int_pts) {                       // ...only 1 intersect beyond possible border
+            LIne_up.segments[1].point = intersects_up[int_pts].point;
+        }
+        var intersects_dn = LIne_dn.getIntersections(xybox);       // and now LIMIT dn_line
+        if (intersects_dn.length > 0) {
+            LIne_dn.segments[1].point = intersects_dn[0].point;
+        }
+        LIne_up.removeOn({                        // ... removing line on next touch
+            drag: true,
+            down: true
+        });
+        LIne_dn.removeOn({
+            drag: true,
+            down: true
+        });
+    }
+}
 //---------------------------make the transit
-function motion_ln (startpt, endpt, dn_limit) {
+function motion_ln(startpt, endpt, dn_limit) {
     if (LIne_up) LIne_up.remove();
     if (LIne_dn) LIne_dn.remove();
-            RUn_dist = 0;                                   // zero out any incrementing moveTo distance
-            LIne_up = new Path.Line(startpt, endpt);       // create UPward going direction line
-            LIne_up.strokeColor = 'green';
-            LIne_up.strokeWidth = 4;
-                // LIne_up.removeOn ({                        // ... removing line on next touch
-                //   drag: true,
-                //   down: true
-                // });
-            var vector = endpt - startpt;                   // and DNward going direction line
-            vector = startpt - vector;                      // ... by reversing direction
-            if (dn_limit !== null) vector = dn_limit;       // ... or just substitute new endpt for vert/horiz
-            LIne_dn = new Path.Line(startpt, vector);
-            LIne_dn.strokeColor = 'yellow';
-            LIne_dn.strokeWidth = 2;
-                // LIne_dn.removeOn ({
-                //   drag: true,
-                //   down: true
-                // });
+    RUn_dist = 0;                                   // zero out any incrementing moveTo distance
+    LIne_up = new Path.Line(startpt, endpt);       // create UPward going direction line
+    LIne_up.strokeColor = 'green';
+    LIne_up.strokeWidth = 4;
+    // LIne_up.removeOn ({                        // ... removing line on next touch
+    //   drag: true,
+    //   down: true
+    // });
+    var vector = endpt - startpt;                   // and DNward going direction line
+    vector = startpt - vector;                      // ... by reversing direction
+    if (dn_limit !== null) vector = dn_limit;       // ... or just substitute new endpt for vert/horiz
+    LIne_dn = new Path.Line(startpt, vector);
+    LIne_dn.strokeColor = 'yellow';
+    LIne_dn.strokeWidth = 2;
+    // LIne_dn.removeOn ({
+    //   drag: true,
+    //   down: true
+    // });
 
-            LIne_full = new Path.Line(vector, endpt);       // This is phantom continuous line used to move tool
-                LIne_full.removeOn ({
-                  drag: true,
-                  down: true
-                });
-            RUn_dist = LIne_full.getOffsetOf(startpt);      // Starting location on transit line for incrementing
-//console.log('mkLn- ' + RUn_dist + "," + startpt + "," + vector + "," + endpt);
+    LIne_full = new Path.Line(vector, endpt);       // This is phantom continuous line used to move tool
+    LIne_full.removeOn({
+        drag: true,
+        down: true
+    });
+    RUn_dist = LIne_full.getOffsetOf(startpt);      // Starting location on transit line for incrementing
 }
 
 //---------------------------options / HANDLE CLICKS
@@ -676,7 +694,6 @@ function motion_ln (startpt, endpt, dn_limit) {
         }
 
         view.onDoubleClick = function(event) {             // ON DOUBLE CLICK >> Make Positioning Move
-//         console.debug('#GOT PAN in 2CLICK >>' + PAnEvent);
           if (globals.FAbMo_state === "running") return;      // @th?? testing blocking extra motion
           HAndledDouble = true;
           var lastAxis = FOcalAxis;                        // @th?? necessary or complicating??
@@ -765,16 +782,24 @@ function UPdateMoPadState() {
         gotOnce = true;
     }
 
-    if (globals.FAbMo_state === "manual") {  // clear a persisting flag
+    if (globals.FAbMo_state === "manual" && globals.G2_killed) {  // clear a persisting flag  **needed?
         globals.G2_killed = false;
+        console.log('manual >>> cleared Killed')
     }
-    //let's try simply forcing back to manual if we've been knocked out  
-    if (globals.FAbMo_state != "manual"|| globals.G2_stat === 4) {
+    // **Something in fabmo setting us to idle after a kill??? NOT WORKING RIGHT!!
+    if (globals.FAbMo_state === "idle") {  
         fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
-        console.log('forcing MANUAL ===>>');
-    };
+        globals.G2_killed = false;
+        console.log('idle >>> reset manual')
+    }
 
-    console.debug('LastSTATE >> to currentSTATE (stat)', LAstTime, globals.FAbMo_state, globals.G2_stat);
+
+    //let's try simply forcing back to manual if we've been knocked out  
+    // if (globals.FAbMo_state != "manual"|| globals.G2_stat === 4) {
+    //     fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
+    //     console.log('forcing MANUAL ===>>');
+    // };
+
     LAstState = globals.FAbMo_state;
 
     xyMark.position.x = xybox.bounds.left + (globals.TOol_x * mTool.xyUnit); // POSITION XY MARKER
@@ -798,7 +823,6 @@ function UPdateMoPadState() {
         if (LIne_dn) LIne_dn.remove();
         if (LIne_full) LIne_full.remove();
     }
-    //console.debug('RESETS in fabmo.on> ' );
     textLOCATION.content = globals.TOol_x.toFixed(3) + 'x' + '\n' + globals.TOol_y.toFixed(3) + 'y' + '\n' + globals.TOol_z.toFixed(3) + 'z';
     textLOCATION.position = new Point([view.viewSize.width - 150, 100]);     // fix the location
     zMark.points = 3;        // re-assert shape ??? {{## don't know why needed}}
@@ -817,9 +841,6 @@ function GEtMoPadConfig() {
         try {
             if (cfg.machine.envelope) {
                 //@th; need to deal with metric load!
-                console.log("before config mToolwidth", mTool.width)
-                console.log("Envelope: " + cfg.machine.envelope.xmax + ', ' + cfg.machine.envelope.ymax + ', ' + cfg.machine.envelope.zmin + ', ' + cfg.machine.envelope.zmax)
-                console.log("Profile: " + cfg.engine.profile)
                 // Hard Code defaults
                 mTool.width = cfg.machine.envelope.xmax;
                 mTool.height = cfg.machine.envelope.ymax;
@@ -858,9 +879,6 @@ function GEtMoPadConfig() {
                 mTool.zhi = 2;
 
                 mTool.updateDisplays();
-                onResize();
-                console.log("mToolwidth after: ", mTool.width)
-                console.log("Probably: " + mTool.type);
             }
         } catch (e) {
             console.error(e);
@@ -868,11 +886,12 @@ function GEtMoPadConfig() {
     });
 }
 
-//========================================================================= messy timing stuff
+
+//========================================================================= messy timing stuff for startup
 function getStart(callback) {     // allow time for reporting / kludge
     var timer = setTimeout(function () {
         callback();
-    }, 1000);
+    }, 150);
 }
 function getEnd(callback) {       // allow time for reporting / kludge
     if (endtimer) {
@@ -893,18 +912,26 @@ function setStart() {
     MOveTo_y = globals.TOol_y;    // set starting location for rolling motion ...
     MOveTo_z = globals.TOol_z;    // set starting location for rolling motion ...
     fabmo.requestStatus();        // Trigger reports from tool
-    onResize();
-    set_XYboxTransit();           // default start position and xy view !
     textLOCATION.visible = true;
+    // reSeedScrollFilters();
+    var evt = window.document.createEvent('UIEvents');
+    evt.initUIEvent('resize', true, false, window, 0);
+    window.dispatchEvent(evt);
     reSeedScrollFilters();
+    onResize();
+    mTool.updateDisplays();
+    set_XYboxTransit();           // default start position and xy view !
 }
+
 function setEnd(target) {
     console.debug('timed Out >> ');
     //        PAnEvent = false;
 }
+
 function atStop(target) {
     reset_BoxTransits(target);
 }
+
 function reSeedScrollFilters() {
     MOtionFilt = [200, 200, 200, 200, 200];   // Running-Avg Filters,
     MOtionFilt_avg = 1000;                // ... for stabilizing scrolling; seeded
@@ -912,3 +939,5 @@ function reSeedScrollFilters() {
     DIrFilt_avg = 1;
     newTime = (new Date()).now;
 }
+
+globals.GEtMoPadConfig();
