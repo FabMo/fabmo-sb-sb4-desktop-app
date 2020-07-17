@@ -1,5 +1,7 @@
 let cmds = [];
 
+// Initialize and Set Actions for Full App; BOTH the Regular Sb4 stuff and the MOtion-Pad stuff
+
 // *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
 window.globals = {
     TOol_x: 0,                                     // REAL LOCATIONS OF TOOL from G2

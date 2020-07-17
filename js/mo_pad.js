@@ -71,15 +71,16 @@ Tool.prototype.updateDisplays = function () {
 }
     //@th; next a total kludge here just to satisfy out or order stuff ...
 //    var mTool = new Tool();
-var mTool = new Tool(6, 8, -1, 2, 0, 0.95, 45, 0.90, 45); // DEFINE A HANDIBOT =====*
+var mTool = new Tool(36, 24, -1, 2, 0, 0.80, 45, 0.90, 45); // DEFINE A HANDIBOT =====*
 //    var mTool = new Tool(24, 18, -1, 2, 0, 0.95, 45, 0.90, 45); // DEFINE A DT =====*
 
 // - Setup XYBOX Work Area ..........................................................
   //@th; should redo all this display stuff as a better organized object
-var xybox = new Path.Rectangle([0, 0, mTool.width, mTool.height]); // sets scale of boxes to be slightly smaller than view
+var xybox = new Path.Rectangle([0, 0, mTool.width, mTool.height]); // later set scale of boxes to be slightly smaller than view
 var bwidth, bheight;
 xybox.applyMatrix = false;
-xybox.position = view.center;
+xybox.position.x = view.center.x - (xybox.bounds.width * 0.1)
+xybox.position.y = view.center.y;
 xybox.strokeColor = '#999999';// '#808080';
 xybox.strokeScaling = false;
 xybox.strokeWidth = 1;
@@ -333,22 +334,23 @@ $('#rmanCanvas').on('mousewheel DOMMouseScroll MozMousePixelScroll', function (e
         if (Math.sign(DIrFilt_avg) !== Math.sign(delta)) {          // CK directionFilter; SKIP unexpected
             return false;
         }
-        if (MOtionFilt_avg < 800) {                                 // Interval Filter
-            mult = 0.010;                                           // TABLE .......................
-        } else if (MOtionFilt_avg < 300) {
-            mult = 0.35;
-        } else if (MOtionFilt_avg < 200) {
-            mult = 0.65;
+
+        if (MOtionFilt_avg < 50) {                                  // SPEED MULTIPLIER TABLE
+            mult = .25;
         } else if (MOtionFilt_avg < 100) {
-            mult = 5;
-        } else if (MOtionFilt_avg < 50) {
-            mult = 20;
+            mult = .1;
+        } else if (MOtionFilt_avg < 200) {
+            mult = 0.05;
+        } else if (MOtionFilt_avg < 300) {
+            mult = 0.02;
         } else {
-            mult = 0.01;
+            mult = 0.010;
         }
+
         LAstTime = newTime;
 
         if (xybox.state) {
+console.log('1-mult>',mult);
             setMotionXY(mult, DIrFilt_avg);                         // * SET MOTION XY or Z *
         } else if (zbox.state) {
             setMotionZ(mult, delta);
@@ -441,6 +443,7 @@ function getSnapLoc(loc, scale) {
 
 function setMotionXY(mult, dir) {
     mult = mult / mTool.xyZoom;                                         // Adjust move to ZOOM scale
+console.log('2-mult> ',mult);
     var addedSeg =  mult * mTool.xyUnit * dir;                          // New Segment = unit * delta * mult = (how soon * how far)
     RUn_dist += addedSeg;   
     if (RUn_dist > LIne_full.length) {                                  // ... limit
@@ -503,7 +506,8 @@ function onResize() {
             gridGroupFine.visible = true;
             gridScale = 10;
         } else {                                            // Zooming OUT - Center Grid
-            xybox.position = view.center;
+            xybox.position.x = view.center.x - (xybox.bounds.width * 0.1)
+            xybox.position.y = view.center.y;
             zbox.position.y = view.center.y;
             zbox.position.x = view.viewSize.width - (0.8 * zbox.bounds.width);
             gridGroupFine.visible = false;
@@ -859,7 +863,7 @@ function GEtMoPadConfig() {
                     mTool.type = 'desktop';
                 }
                 if (mTool.width > 26) {
-                    mTool.xyZoom = 0.95;
+                    mTool.xyZoom = 0.80;
                     mTool.zZoom = 0.90;
                     mTool.zhi = 3;
                     mTool.type = 'max';
@@ -872,12 +876,12 @@ function GEtMoPadConfig() {
                 }
                 // *dev over-rides
                 //make right for testing on HB
-                mTool.width = 6;
-                mTool.height = 8;
-                mTool.xyZoom = 0.95;
-                mTool.zZoom = 0.90;
+                //mTool.width = 6;
+                //mTool.height = 8;
+                // mTool.xyZoom = 0.95;
+                // mTool.zZoom = 0.90;
                 mTool.zhi = 2;
-
+console.log(mTool.type,mTool.width,mTool.height)
                 mTool.updateDisplays();
             }
         } catch (e) {

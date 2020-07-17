@@ -1,3 +1,5 @@
+//*th NOW here for transition to different scroll MOtion-Pad graphic ...
+
 //* jog_dial.js ... change to jog_pad
 /*
 * evolved from from JogDial.js - v 1.0
