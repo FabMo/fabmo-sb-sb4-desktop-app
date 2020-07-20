@@ -61,9 +61,12 @@ function postSbpAction(action) {
 }
 
 function setSafeFocus() {                                     // Too easy to walk on Manual Keypad (not sure why?); so protect
-  if (globals.G2_state != "manual" ) {
-    //  console.log("got safe focus event");
-    $("#cmd-input").focus();
+  if (globals.G2_state != "manual" || !globals.STream_box_open) {
+      //  console.log("got safe focus event");
+      $("#cmd-input").focus();
+  }
+  if (globals.STream_box_open) {
+      $("#insert-input").focus();
   }
 }
 

@@ -27,6 +27,7 @@
     <script src="js/sb_app.js"></script>
     <script src="js/init_setActions.js"></script>
     <script src="js/motion.js" defer></script>
+    <script src="js/message_g2.js" defer></script>
 
     <script> let fabmo = new FabMoDashboard(); </script>
 
@@ -215,7 +216,8 @@
 
 
   <a href="#" data-reveal-id="myModal">Fill-In Work</a><br>
-  <a href="#" data-reveal-id="moPad">MOtion-PAD beta</a>
+  <a href="#" data-reveal-id="moPad">MOtion-PAD beta</a><br>
+  <a href="#" data-reveal-id="insertStream">INSERT console beta</a>
 
  <!-- needed this setting here to prevent closing; left in later for redundancy -->
  <script>Foundation.libs.reveal.settings.close_on_background_click = false;</script>
@@ -239,6 +241,10 @@
       </p>
   </div>
 
+  <div id="insertStream" class="reveal-modal" data-reveal role="dialog">
+    <h2 id="modalTitle">Insert Command Into G2 Stream:</h2>
+        <input class="inserts" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="insert-input" font-weight="bold" placeholder="RAW: g2 json command OR g-code" value="" />
+  </div>
 
 <div class="row">
     <div id="moPad" class="reveal-modal-bg full" data-reveal

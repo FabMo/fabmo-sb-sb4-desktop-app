@@ -38,6 +38,13 @@ input.cmds {
   border-radius: 5px;
 }
 
+#insert-input {
+  color: rgb(113, 233, 241);
+  background-color: rgb(143, 148, 150);
+  border-color: rgb(136, 171, 190);
+  border-radius: 5px;
+}
+
 input[type="text"]:focus {
   color: rgb(221, 98, 10);
   background: rgb(213, 214, 132);

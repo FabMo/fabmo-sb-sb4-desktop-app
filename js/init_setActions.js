@@ -15,6 +15,7 @@ window.globals = {
     G2_killed: false,
     DOne_first_status_ck: false,
     MO_Pad_Open: false,
+    STream_box_open: false,
     MO_Axis: "X",
     JOg_Axis: "X",                                // **switch to above when implementing
     ORigin: ""
@@ -110,7 +111,7 @@ $(document).ready(function () {
 
     getAxisLimits();
 
-    $('.opensbp_input').change(function () {  // Handle and Bind generic UI textboxes
+    $('.opensbp_input').change(function () {                  // Handle and Bind generic UI textboxes
         setConfig(this.id, this.value);
     });
 
@@ -317,11 +318,14 @@ $(document).ready(function () {
         // Check if click was triggered on or within #menu_content
         if ($(e.target).closest("#speed-panel").length > 0) {
             return false;
-        } else if ($(e.target).closest("#speed-panel").length > 0) {
+        // } else if ($(e.target).closest("#speed-panel").length > 0) {  //duplicate
+        //     return false;
+        } else if ($(e.target).closest("#insert-input").length > 0) {    //experimental to keep cursor in insert box
             return false;
         }
         setSafeFocus();
     });
+
     //... this only helps a little with focus
     $(document).mouseenter(function (e) {
         // Check if click was triggered on or within #menu_content
@@ -414,6 +418,11 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    $("#insert-input").change(function () {                                 // Inserted Message Direct to G2 Stream
+        sendG2message(this.value)
+        this.value = "";
+    });
+
     fabmo.requestStatus(function (err, status) {		                    // a first call to get us started
         console.log('FabMo_first_state>' + globals.FAbMo_state);
     });
@@ -481,6 +490,14 @@ $(document).ready(function () {
 
         }
 
+        if ($(this).context.id === "insertStream") {                                            // Open G2-Stream Box
+            fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
+            globals.STream_box_open = true;
+            beep(20, 1800, 1);
+            beep(20, 1800, 1);
+            fabmo.requestStatus();
+        }    
+
         $('#padCloseX').click(function (event) {
             console.log('got close click')
             $('#modal').foundation('reveal', 'close');
@@ -494,6 +511,11 @@ $(document).ready(function () {
             gotOnce = false;
             fabmo.manualExit();
             console.log('got moPad closing; did Exit from manual')
+        };
+        if ($(this).context.id === "insertStream") {
+            globals.STream_box_open = false;
+            fabmo.manualExit();
+            console.log('got insertStream closing; did Exit from manual')
         };
     })
 
