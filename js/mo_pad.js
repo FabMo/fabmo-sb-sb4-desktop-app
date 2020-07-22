@@ -313,12 +313,11 @@ $('#rmanCanvas').on('mousewheel DOMMouseScroll MozMousePixelScroll', function (e
 
         newTime = Date.now();
         var interval = newTime - LAstTime;                          // Running-average filters
-        //                  if (interval > 2000) {reSeedScrollFilters()}    // ... reseed filter if a time gap
         clearTimeout(quickStop);
 
         if (globals.G2_stat == 5 && !(globals.G2_killed)) {
             console.log('already moving --> start TimeOut!');
-            quickStop = setTimeout(killMotion, 1000);
+            quickStop = setTimeout(killMotion, 1000);  //250 produces interesting lock ...
         }
 
         DIrFilt_avg = DIrFilt_avg - DIrFilt[EV_ct];                 // ... filtering direction (and tics)
@@ -440,19 +439,19 @@ function getSnapLoc(loc, scale) {
 }
 
 function setMotionXY(mult, dir) {
-    mult = mult / mTool.xyZoom;                                         // Adjust move to ZOOM scale
+    mult = mult / mTool.xyZoom;                                         // First, adjust move-multiplier to ZOOM scale
 console.log('2-mult> ',mult);
-    var addedSeg =  mult * mTool.xyUnit * dir;                          // New Segment = unit * delta * mult = (how soon * how far)
+    var addedSeg =  mult * mTool.xyUnit * dir;                          // Determine new Segment = unit * delta * mult = (how soon * how far)
     RUn_dist += addedSeg;   
-    if (RUn_dist > LIne_full.length) {                                  // ... limit
+    if (RUn_dist > LIne_full.length) {                                  // Check against limits
         RUn_dist = LIne_full.length;
     } else if (RUn_dist < 0) {
         RUn_dist = 0;
     }
-    var nextPt = LIne_full.getLocationAt(RUn_dist).point;               // Set POSITION on TRANSIT; read on status
-    MOveTo_x = (nextPt.x - xybox.bounds.left) * mTool.xyRunit;          // ...and new real x
-    MOveTo_y = (xybox.bounds.bottom - nextPt.y) * mTool.xyRunit;        // ...and new real y
-    doMotion(MOveTo_x, MOveTo_y, undefined, 240);                            // SEND an XY
+    var nextPt = LIne_full.getLocationAt(RUn_dist).point;               // Get new POSITION on TRANSIT
+    MOveTo_x = (nextPt.x - xybox.bounds.left) * mTool.xyRunit;          // ...new real x from grid units
+    MOveTo_y = (xybox.bounds.bottom - nextPt.y) * mTool.xyRunit;        // ...new real y from grid units
+    doMotion(MOveTo_x, MOveTo_y, undefined, 240);                       // SEND new desired XY
 }
 
 function setMotionZ(mult, delta) {
@@ -915,7 +914,6 @@ function setStart() {
     MOveTo_z = globals.TOol_z;    // set starting location for rolling motion ...
     fabmo.requestStatus();        // Trigger reports from tool
     textLOCATION.visible = true;
-    // reSeedScrollFilters();
     var evt = window.document.createEvent('UIEvents');
     evt.initUIEvent('resize', true, false, window, 0);
     window.dispatchEvent(evt);
@@ -936,7 +934,7 @@ function atStop(target) {
 
 function reSeedScrollFilters() {
     MOtionFilt = [200, 200, 200, 200, 200];   // Running-Avg Filters,
-    MOtionFilt_avg = 1000;                // ... for stabilizing scrolling; seeded
+    MOtionFilt_avg = 1000;                    // ... for stabilizing scrolling; seeded
     DIrFilt = [1, 1, 1, -1, -1];
     DIrFilt_avg = 1;
     newTime = (new Date()).now;
