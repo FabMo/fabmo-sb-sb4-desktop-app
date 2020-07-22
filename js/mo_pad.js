@@ -1,5 +1,3 @@
-// *th Experimenting with using first 2 CAps on my significant GLOBALS (to remind me!)===========================
-// Global position and tracking (to get in and out of paperScope)
 // Note that this file uses paperjs/scripting; so getting in and out must be global 
 // paperjs not current with ES6
 
@@ -454,7 +452,7 @@ console.log('2-mult> ',mult);
     var nextPt = LIne_full.getLocationAt(RUn_dist).point;               // Set POSITION on TRANSIT; read on status
     MOveTo_x = (nextPt.x - xybox.bounds.left) * mTool.xyRunit;          // ...and new real x
     MOveTo_y = (xybox.bounds.bottom - nextPt.y) * mTool.xyRunit;        // ...and new real y
-    doMotion(MOveTo_x, MOveTo_y, undefined);                            // SEND an XY
+    doMotion(MOveTo_x, MOveTo_y, undefined, 240);                            // SEND an XY
 }
 
 function setMotionZ(mult, delta) {
@@ -466,7 +464,7 @@ function setMotionZ(mult, delta) {
     }
     var nextPt = LIne_full.getLocationAt(RUn_dist).point;               // Set POSITION on TRANSIT
     MOveTo_z = getZmove(nextPt.y);
-    doMotion(undefined, undefined, MOveTo_z);                           // SEND a Z
+    doMotion(undefined, undefined, MOveTo_z, 120);                           // SEND a Z
 }
 
 function getZmove(screenY) {
@@ -710,7 +708,7 @@ function motion_ln(startpt, endpt, dn_limit) {
                 if (snapOpt.text.state) {
                   nextZ = getSnapLoc(nextZ, 10);
                 }
-                doMotion(undefined, undefined, nextZ);
+                doMotion(undefined, undefined, nextZ, 240);
               } else if (event.point.isInside(xybox.bounds)) {    // XY Move
                 nextX = (event.point.x - xybox.bounds.left) * mTool.xyRunit;
                 nextY = (xybox.bounds.bottom - event.point.y) * mTool.xyRunit;
@@ -718,7 +716,7 @@ function motion_ln(startpt, endpt, dn_limit) {
                   nextX = getSnapLoc(nextX, gridScale);
                   nextY = getSnapLoc(nextY, gridScale);
                 }
-                doMotion(nextX, nextY, undefined);
+                doMotion(nextX, nextY, undefined, 240);
               }
           FOcalAxis = lastAxis;
           getStopped(event.point, atStop);                 // **more KLUDGE

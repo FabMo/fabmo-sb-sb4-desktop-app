@@ -61,10 +61,10 @@ function postSbpAction(action) {
 }
 
 function setSafeFocus() {                                     // Too easy to walk on Manual Keypad (not sure why?); so protect
-    if (globals.FAbMo_state != "manual" && !globals.STream_box_open) {
+    if (globals.FAbMo_state != "manual" && !globals.INject_inputbox_open) {
       $("#cmd-input").focus();
   }
-  if (globals.STream_box_open) {
+  if (globals.INject_inputbox_open) {
       $("#insert-input").focus();
   }
 }

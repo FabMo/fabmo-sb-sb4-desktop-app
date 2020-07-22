@@ -15,9 +15,10 @@ window.globals = {
     G2_killed: false,
     DOne_first_status_ck: false,
     MO_Pad_Open: false,
-    STream_box_open: false,
+    MO_Dir: 0,
     MO_Axis: "X",
-    JOg_Axis: "X",                                // **switch to above when implementing
+    JOg_Axis: "X",                                
+    INject_inputbox_open: false,
     ORigin: ""
 }
 
@@ -492,7 +493,7 @@ $(document).ready(function () {
 
         if ($(this).context.id === "insertStream") {                                            // Open G2-Stream Box
             fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
-            globals.STream_box_open = true;
+            globals.INject_inputbox_open = true;
             beep(20, 1800, 1);
             beep(20, 1800, 1);
             fabmo.requestStatus();
@@ -513,7 +514,7 @@ $(document).ready(function () {
             console.log('got moPad closing; did Exit from manual')
         };
         if ($(this).context.id === "insertStream") {
-            globals.STream_box_open = false;
+            globals.INject_inputbox_open = false;
             fabmo.manualExit();
             console.log('got insertStream closing; did Exit from manual')
         };
