@@ -60,13 +60,16 @@ function postSbpAction(action) {
     $('#cmd-input').val('>');
 }
 
-function setSafeFocus() {                                     // Too easy to walk on Manual Keypad (not sure why?); so protect
-    if (globals.FAbMo_state != "manual" && !globals.INject_inputbox_open) {
-      $("#cmd-input").focus();
-  }
-  if (globals.INject_inputbox_open) {
-      $("#insert-input").focus();
-  }
+function setSafeCmdFocus(site) {                                     // Too easy to walk on Manual Keypad (not sure why?); so protect
+//console.log("got safeCheck",site)         ////## don't need site ... all calls in init_set ...
+    if (globals.FAbMo_state === "manual") {
+        return;
+    }
+    if (globals.INject_inputbox_open) {
+        $("#insert-input").focus();
+    } else {
+        $("#cmd-input").focus();
+    }
 }
 
 function processCommandInput(command) {
@@ -119,13 +122,13 @@ console.log('got command')
         $("#menu_help").click();
         break;
       default:
-      command = "";
+        command = "";
         event.preventDefault(); // ESC as a general clear and update tool
         curLine = ""; // Remove after sent or called
         $(".top-bar").click(); // ... and click to clear any dropdowns
         $("#txt_area").text("");
         $("#cmd-input").val(command);
-        setSafeFocus();
+        setSafeCmdFocus();
         break;
     }
   } else if (command.length == 2) {
@@ -149,6 +152,7 @@ console.log('got command')
       case "Z4":
       case "Z5":
       case "Z6":
+      case "ZT":    
       case "C2":
       case "C3":
         sendCmd(command);
@@ -189,7 +193,6 @@ console.log('got command')
                                                                              // ## mucking around here with Easel and in calling routines &AND NODE-RED
       case "TR":                                                             // testing some Node-Red stuff ... **added to this sbp3_commands
         let tempip = window.globals.ORigin + ':1880/ui';
-console.log(tempip);        
         getUsrResource(tempip, 'assets/docs/No_Internet.pdf');
         break;        
 
@@ -210,7 +213,6 @@ console.log(tempip);
         getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
         break;        
       case "HL":
-console.log("triggered");
         //getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf', 'assets/docs/ComRef.pdf')       
 
     		var cachedConfig = null;
@@ -252,7 +254,7 @@ console.log("triggered");
       default:
         var newCommandString = command + ", ";
         $("#cmd-input").val(newCommandString);
-        setSafeFocus();
+        setSafeCmdFocus();
         break;
     }
     return true;

@@ -21,14 +21,21 @@ function doMotion (x, y, z, speed) {
     //PAnEvent = false;
 }
 
+// TODO: Implement jerk change from slow abrupt to smoother ... ramp up with manual speed feed ... not changing jerk before stop
 function changeJerk (x, y, z) {
 
 }
 
 function killMotion () {                                                   // Send KILL if Moving ...
     if (globals.G2_stat === 5) {
-        fabmo.manualRunGCode('\x04\n');
-        globals.G2_killed = true;
-        console.log('KILL-motion!');
+        console.log('#### KILL INITIALTED IN APP! from timer if moving ... ####');
+        fabmo.manualStop();
+    
+        //fabmo.manualRunGCode('\x04\n');
+    
+        //fabmo.manualRunGCode('\x04\n M0\n');
+        //fabmo.manualRunGCode('M100.1({zl:0})\n M0\n G90\n');
+        //fabmo.manualRunGCode('M100({gc:"M0"})');
     }
+    globals.G2_killed = true;
 }

@@ -303,7 +303,7 @@ $('#rmanCanvas').on('mousewheel DOMMouseScroll MozMousePixelScroll', function (e
         }
         onResize();
         set_XYboxTransit();                                         // ... reset to right location
-        // 
+ 
     } else {                                                        // ** MOTION ** =====================
 
         if (globals.G2_killed) {
@@ -317,7 +317,8 @@ $('#rmanCanvas').on('mousewheel DOMMouseScroll MozMousePixelScroll', function (e
 
         if (globals.G2_stat == 5 && !(globals.G2_killed)) {
             console.log('already moving --> start TimeOut!');
-            quickStop = setTimeout(killMotion, 1000);  //250 produces interesting lock ...
+            quickStop = setTimeout(killMotion, 500);  //250 produces interesting lock ...
+            //quickStop = setTimeout(setToKill, 500);  //250 produces interesting lock ...
         }
 
         DIrFilt_avg = DIrFilt_avg - DIrFilt[EV_ct];                 // ... filtering direction (and tics)
@@ -355,6 +356,7 @@ console.log('1-mult>',mult);
         return false;
     }
 });
+
 
 //------------------------------------------------------------------------- touch / MOTION & ZOOM
 //     function touchStart(ev){
@@ -433,10 +435,10 @@ console.log('1-mult>',mult);
 //--------------------------- MOTION PRIMITIVES (trying to make everything work similarly)
 //..................................... Misc
 
-function getSnapLoc(loc, scale) {
-    loc = Math.round(loc * scale);
-    return loc / scale;
-}
+// function setToKill() {
+// console.log("==> set KILL flag")    
+//     globals.SEtToKillState = true;
+// }
 
 function setMotionXY(mult, dir) {
     mult = mult / mTool.xyZoom;                                         // First, adjust move-multiplier to ZOOM scale
@@ -789,9 +791,11 @@ function UPdateMoPadState() {
     }
     // **Something in fabmo setting us to idle after a kill??? NOT WORKING RIGHT!!
     if (globals.FAbMo_state === "idle") {  
-        fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
-        globals.G2_killed = false;
-        console.log('idle >>> reset manual')
+// //        fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
+//         fabmo.manualEnter({ hideKeypad: true, mode: 'enter' });
+//         globals.G2_killed = false;
+//        console.log('idle >>> reset manual')
+        console.log('idle >>> only noted ...')
     }
 
 

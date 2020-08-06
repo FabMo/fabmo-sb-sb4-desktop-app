@@ -806,7 +806,7 @@ FabMoDashboard.prototype.manualHeartbeat = function() {
  *
  * @method manualStop
  */
-FabMoDashboard.prototype.manualStop = function() {
+FabMoDashboard.prototype.manualStop = function(callback) {
 	this._call("manualStop",{}, callback);
 }
 

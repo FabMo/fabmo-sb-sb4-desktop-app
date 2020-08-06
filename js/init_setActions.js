@@ -13,6 +13,7 @@ window.globals = {
     FAbMo_state: "",
     G2_stat: 0,
     G2_killed: false,
+//    SEtToKillState: false,
     DOne_first_status_ck: false,
     MO_Pad_Open: false,
     MO_Dir: 0,
@@ -150,7 +151,7 @@ $(document).ready(function () {
         }
         console.log("changed speeds ...");
         updateSpeedsFromEngineConfig();
-        setSafeFocus();
+        setSafeCmdFocus(1);
     });
 
     // ** Set-Up Response to Command Entry
@@ -169,7 +170,7 @@ $(document).ready(function () {
                 curLine = ""; // Remove after sent or called
                 $(".top-bar").click(); // ... and click to clear any dropdowns
                 $("#txt_area").text("");
-                setSafeFocus();
+                setSafeCmdFocus(2);
                 updateUIFromEngineConfig();
                 updateSpeedsFromEngineConfig();
                 break;
@@ -180,7 +181,7 @@ $(document).ready(function () {
                 var ok = processCommandInput(commandInputText);
                 if (ok) {
                     $(".top-bar").click();
-                    setSafeFocus();
+                    setSafeCmdFocus(3);
                 }
                 break;
         }
@@ -275,6 +276,12 @@ $(document).ready(function () {
         globals.FAbMo_state = status.state;
         globals.G2_stat = status.stat;                                           // 5 means "in motion"
 
+//         if (globals.SEtToKillState) {
+// console.log("sent kill");            
+//             killMotion();
+//             globals.SEtToKillState = false;
+//         }
+        
         if (globals.DOne_first_status_ck === "false") {
             globals.DOne_first_status_ck = "true";
             if (globals.FAbMo_state === "manual") { fabmo.manualExit() }         // #??? making sure we aren't stuck ??
@@ -309,12 +316,12 @@ $(document).ready(function () {
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
             $(".top-bar").click();               // ... and click to clear any dropdowns
-            setSafeFocus();
+            setSafeCmdFocus(4);
         }
 
     });
 
-    // ** Try to restore CMD focus when there is a shift back to app
+    //** Try to restore CMD focus when there is a shift back to app
     $(document).click(function (e) {
         // Check if click was triggered on or within #menu_content
         if ($(e.target).closest("#speed-panel").length > 0) {
@@ -324,7 +331,7 @@ $(document).ready(function () {
         } else if ($(e.target).closest("#insert-input").length > 0) {    //experimental to keep cursor in insert box
             return false;
         }
-        setSafeFocus();
+        setSafeCmdFocus(5);
     });
 
     //... this only helps a little with focus
@@ -335,7 +342,7 @@ $(document).ready(function () {
         } else if ($(e.target).closest("#speed-panel").length > 0) {
             return false;
         }
-        setSafeFocus();
+        setSafeCmdFocus(6);
     });
 
     // ** Process Macro Box Keys
