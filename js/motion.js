@@ -29,7 +29,7 @@ function changeJerk (x, y, z) {
 
 function killMotion () {                                                   // Send KILL if Moving ...
     if (globals.G2_stat === 5) {
-        console.log('#### KILL INITIALTED! from timer if moving');
+        console.log('#### KILL INITIATED! from timer if moving');
         fabmo.manualStop();
     
         //fabmo.manualRunGCode('\x04\n');
