@@ -12,7 +12,7 @@ window.globals = {
     TOol_c: 0,
     FAbMo_state: "",
     G2_stat: 0,
-    G2_killed: false,
+//    G2_killed: false,
 //    SEtToKillState: false,
     DOne_first_status_ck: false,
     MO_Pad_Open: false,

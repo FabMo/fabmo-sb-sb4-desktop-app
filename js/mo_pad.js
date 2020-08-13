@@ -304,21 +304,17 @@ $('#rmanCanvas').on('mousewheel DOMMouseScroll MozMousePixelScroll', function (e
         onResize();
         set_XYboxTransit();                                         // ... reset to right location
  
-    } else {                                                        // ** MOTION ** =====================
-
-        if (globals.G2_killed) {
-            console.log('skip on KILLED state,G2_stat ', globals.FAbMo_state, globals.G2_stat);
-            return false;
-        }
+    } else {                                                        // ** MOTION ** ====================
+    ////## TODO: After any kind of a stop we should throughly delete all stuff ...    
 
         newTime = Date.now();
         var interval = newTime - LAstTime;                          // Running-average filters
         clearTimeout(quickStop);
 
-        if (globals.G2_stat == 5 && !(globals.G2_killed)) {
-            console.log('already moving --> start TimeOut!');
+        //if (globals.G2_stat == 5 && !(globals.G2_killed)) {
+        if (globals.G2_stat === 5) {
+            console.log('already moving --> re-start TimeOut!');
             quickStop = setTimeout(killMotion, 500);  //250 produces interesting lock ...
-            //quickStop = setTimeout(setToKill, 500);  //250 produces interesting lock ...
         }
 
         DIrFilt_avg = DIrFilt_avg - DIrFilt[EV_ct];                 // ... filtering direction (and tics)
@@ -434,11 +430,6 @@ console.log('1-mult>',mult);
 //     }
 //--------------------------- MOTION PRIMITIVES (trying to make everything work similarly)
 //..................................... Misc
-
-// function setToKill() {
-// console.log("==> set KILL flag")    
-//     globals.SEtToKillState = true;
-// }
 
 function setMotionXY(mult, dir) {
     mult = mult / mTool.xyZoom;                                         // First, adjust move-multiplier to ZOOM scale
@@ -785,26 +776,6 @@ function UPdateMoPadState() {
         gotOnce = true;
     }
 
-    if (globals.FAbMo_state === "manual" && globals.G2_killed) {  // clear a persisting flag  **needed?
-        globals.G2_killed = false;
-        console.log('manual >>> cleared Killed')
-    }
-    // **Something in fabmo setting us to idle after a kill??? NOT WORKING RIGHT!!
-    if (globals.FAbMo_state === "idle") {  
-// //        fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
-//         fabmo.manualEnter({ hideKeypad: true, mode: 'enter' });
-//         globals.G2_killed = false;
-//        console.log('idle >>> reset manual')
-        console.log('idle >>> only noted ...')
-    }
-
-
-    //let's try simply forcing back to manual if we've been knocked out  
-    // if (globals.FAbMo_state != "manual"|| globals.G2_stat === 4) {
-    //     fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
-    //     console.log('forcing MANUAL ===>>');
-    // };
-
     LAstState = globals.FAbMo_state;
 
     xyMark.position.x = xybox.bounds.left + (globals.TOol_x * mTool.xyUnit); // POSITION XY MARKER
@@ -817,14 +788,14 @@ function UPdateMoPadState() {
     }
     if (globals.FAbMo_state != "running") {
         if (xybox.state) {
-            if (LIne_up) LIne_up.segments[0].point = xyMark.position;            // Update position on transit in XY or Z box
+            if (LIne_up) LIne_up.segments[0].point = xyMark.position;        // Update position on transit in XY or Z box
             if (LIne_dn) LIne_dn.segments[0].point = xyMark.position;
         } else if (zbox.state) {
             if (LIne_up) LIne_up.segments[0].point = zMark.position;
             if (LIne_dn) LIne_dn.segments[0].point = zMark.position;
         }
     } else {
-        if (LIne_up) LIne_up.remove();                                         // ... clear any existing transits
+        if (LIne_up) LIne_up.remove();                                       // ... clear any existing transits
         if (LIne_dn) LIne_dn.remove();
         if (LIne_full) LIne_full.remove();
     }
@@ -858,7 +829,7 @@ function GEtMoPadConfig() {
                     mTool.type = 'handibot';
                 }
                 if (mTool.width === 24) {
-                    mTool.xyZoom = 0.95;
+                    mTool.xyZoom = 0.85;
                     mTool.zZoom = 0.90;
                     mTool.zhi = 2;          // *not working at 3
                     mTool.type = 'desktop';
@@ -945,3 +916,31 @@ function reSeedScrollFilters() {
 }
 
 globals.GEtMoPadConfig();
+
+
+
+    // if (globals.FAbMo_state === "manual" && globals.G2_killed) {  // clear a persisting flag  **needed?
+    //     globals.G2_killed = false;
+    //     console.log('manual >>> cleared Killed')
+    // }
+    // **Something in fabmo setting us to idle after a kill??? NOT WORKING RIGHT!!
+    // if (globals.FAbMo_state === "idle") {  
+// //        fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
+//         fabmo.manualEnter({ hideKeypad: true, mode: 'enter' });
+//         globals.G2_killed = false;
+//        console.log('idle >>> reset manual')
+        // console.log('idle >>> only noted ...')
+    // }
+
+
+    //let's try simply forcing back to manual if we've been knocked out  
+    // if (globals.FAbMo_state != "manual"|| globals.G2_stat === 4) {
+    //     fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
+    //     console.log('forcing MANUAL ===>>');
+    // };
+
+        // if (globals.G2_killed) {
+        //     console.log('skip on KILLED state,G2_stat ', globals.FAbMo_state, globals.G2_stat);
+        //     return false;
+        // }
+
