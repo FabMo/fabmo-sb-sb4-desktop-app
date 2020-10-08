@@ -117,7 +117,7 @@ p.at-foot {
     border-width: 3px;
     background: #156ed350;
     border-style: solid;
-    border-color: #499cfa;
+    border-color: #7ab6fc;
     border-radius: 5%;
 }
 
@@ -149,10 +149,23 @@ p.at-foot {
   opacity: 0.5;
 }
 
-#pad_icon_4 {
+#infoIcon {
+    position: relative;
+    margin-top: 25%;
+    top: 50%;
+    left: 35%;
+    opacity: .5;
+  }
+
+  #settingsIcon {
+    position: relative;
+    margin-top: 25%;
+    top: 50%;
+    left: 35%;
+    opacity: .5;
+  }
+/*
     transform: scale(.2);
     top: 30%;
     left: 90%;
-    opacity: .5;
-  }
-  
+*/  
