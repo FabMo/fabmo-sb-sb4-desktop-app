@@ -286,8 +286,10 @@ $(document).ready(function () {
             globals.DOne_first_status_ck = "true";
             if (globals.FAbMo_state === "manual") { fabmo.manualExit() }         // #??? making sure we aren't stuck ??
         } else {
-            $("#cmd-input").blur();
-            parent.focus();                                                      // this allows focus to work right when manual start
+            if (!globals.INject_inputbox_open) {
+                  $("#cmd-input").blur();
+                parent.focus();
+            }                                                      // this allows focus to work right when manual start
             //$("body",parent.document).focus();
             //setTimeout(function(){$("body").focus()}, 100);
         }
