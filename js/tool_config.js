@@ -34,11 +34,9 @@ function updateSpeedsFromEngineConfig() {
   fabmo.getConfig(function(err, data) {
     $('#formatted_movexy_speed').val(data.opensbp.movexy_speed.toFixed(2));
     $('#formatted_movez_speed').val(data.opensbp.movez_speed.toFixed(2));
-  // note that jog speeds are handled differently than move speeds (they are from G2 velocity max)
-    temp = data.driver.xvm / 60;
-    $('#formatted_jogxy_speed').val(temp.toFixed(2));
-    temp = data.driver.zvm / 60;
-    $('#formatted_jogz_speed').val(temp.toFixed(2));
+    // Note that for g2, jog speeds are handled differently than move speeds (they are drived from G2 velocity max)
+    $('#formatted_jogxy_speed').val(data.opensbp.jogxy_speed.toFixed(2));
+    $('#formatted_jogz_speed').val(data.opensbp.jogz_speed.toFixed(2));
   });
 }
 
