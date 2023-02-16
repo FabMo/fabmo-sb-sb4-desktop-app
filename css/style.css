@@ -47,7 +47,7 @@ input.cmds {
 
 input[type="text"]:focus {
   color: rgb(221, 98, 10);
-  background: rgb(213, 214, 132);
+  background: rgb(245, 235, 189);
   font-weight: bolder;
 }
 
@@ -58,6 +58,7 @@ label.speed-labels,
 
 p.at-foot {
   color: #333;
+  font-size: .75rem;
 }
 
 #txt_area {

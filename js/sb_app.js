@@ -1,13 +1,14 @@
 /**
- * Main js file for SB4 // SB4 application starts here afte initialize_ready  
+ * Main js file for SB4 // SB4 application starts here after initialize_ready  
  * Includes the document ready event
  **/
 
-function sendCmd(command) {
+function sendCmd(command, callback) {
   var thisCmd = command || $('#cmd-input').val();
     $('#cmd-input').val('');    			 // remove after sent or called
     postSbpAction(thisCmd);
-  // Some Commands Need 'SV' to make permanent; thus multiline version
+
+    // Some Commands Need 'SV' to make permanent; thus multiline version
   	var cmd_eval = thisCmd.substring(0,2);
         console.log(thisCmd);
 
@@ -27,14 +28,20 @@ function sendCmd(command) {
         		fabmo.runSBP(mult_cmds);	// SEND MULTI >>>  
   				break;
   			default:
-          fabmo.runSBP(thisCmd);    	// SEND SIMPLE >>>
-   console.log('send SIMPLE')       
+                fabmo.runSBP(thisCmd);    	// SEND SIMPLE >>>
   				break;
   		}
-//  $('#cmd-input').val('');    				// remove after sent or called
+
+        // $("#cmd-input").focus(function () {
+        //     $("#cmd-input").val("");
+        // });
+    
+    
+    callback($('#cmd-input').val(''));    			// Remove after sent or called
+    
 }
 
-function getUsrResource(remote, local) {                      // ## mucking around here testing Easel
+function getUsrResource(remote, local) {                ////## mucking around here testing Easel
   // temporarily only getting local because not detecting error on raspi tablets 
   //    fabmo.navigate(local,{target : '_blank'});
 
@@ -57,7 +64,6 @@ function postSbpAction(action) {
   setTimeout(function() { 
     $("#txt_area").text("-------Running:" + '\n' + "    " + action); }, 
     200);
-    $('#cmd-input').val('>');
 }
 
 function setSafeCmdFocus(site) {                                     // Too easy to walk on Manual Keypad (not sure why?); so protect
@@ -77,10 +83,6 @@ console.log('got command')
   var command = command.trim().toUpperCase();
   if (command.length == 1) {
     switch (command) {
-      case "K":
-      	command = "SK";
-      	command.length = 2;
-      	break;
       case "F":
         $("#cmd-input").val(command);
         $("#menu_files").click();
@@ -153,35 +155,41 @@ console.log('got command')
       case "Z5":
       case "Z6":
       case "ZT":    
+      case "C1":
       case "C2":
       case "C3":
         sendCmd(command);
         break;
-      case "CN":
-      	command = "C#";
+    //   case "CN":
+    //   	command = "C#";
+    //     break;
       case "FP":
+        curFile = "";                           // ... clear out after running
+        curFilename = "";
+        $("#curfilename").text("");
         $("#cmd-input").val(command);
+        $('#file').val('');
         $('#file').trigger('click');
         break;
 
-    ////For Testing Fill-In; temporarily turned off
-    //   case "CC":
-    //     let display, parameters="";
-    //     $("#cmd-input").val(command);
-    //     //console.log(cmds[command].params);
-    //     cmds[command].params.forEach(function(entry) {
-    //       console.log("an entry> " + entry.name);
-    //       parameters += "{" + entry.name + "}, ";
-    //     });  
-    //       console.log(parameters)          
-    //       display = command + ": " + cmds[command].name
-    //       $('#params').append(parameters);
-    //       $('#curfilename').append("Parameters for Command");
-    //       $('#modalTitle').empty();
-    //       $('#modalTitle').append(display);
-    //       $('#myModal').foundation('reveal', 'open');
-    //     console.log('ready to call CMD')
-    //     break;
+    //For Testing Fill-In; temporarily turned off
+      case "CC":
+        let display, parameters="";
+        $("#cmd-input").val(command);
+        //console.log(cmds[command].params);
+        cmds[command].params.forEach(function(entry) {
+          console.log("an entry> " + entry.name);
+          parameters += "{" + entry.name + "}, ";
+        });  
+          console.log(parameters)          
+          display = command + ": " + cmds[command].name
+          $('#params').append(parameters);
+          $('#curfilename').append("Parameters for Command");
+          $('#modalTitle').empty();
+          $('#modalTitle').append(display);
+          $('#myModal').foundation('reveal', 'open');
+        console.log('ready to call CMD')
+        break;
 
       case "SI":
       case "FN":
@@ -249,9 +257,6 @@ console.log('got command')
       case "HS":
         getUsrResource('http://docs.handibot.com/doc-output/Handibot2_Safety.pdf', 'assets/docs/Handibot 2 MANUAL Safe Use Source_v002.pdf');
         break;        
-      case "SK":
-      	//need "K" call
-      	break;
       default:
         var newCommandString = command + ", ";
         $("#cmd-input").val(newCommandString);

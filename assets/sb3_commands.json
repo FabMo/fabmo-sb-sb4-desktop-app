@@ -1982,11 +1982,11 @@
    },
    "CN": {
       "cmd": "CN",
-      "name": "Custom Number",
+      "name": "Custom Macro Number",
       "params": [
          {
-            "name": "Custom Cut Number",
-            "desc": "Number of this Custom Cut; In PartFile use [CN, number] or [C#, number], if lower than 10 can be just [C2]",
+            "name": "Custom Macro Number (Cn if n < 10)",
+            "desc": "Number of this Custom Macro; In PartFile use [CN, number] or [C#, number], if n < 10 can be just [Cn]",
             "abrev": "num",
             "typeext": 0,
             "default": "1",
@@ -2001,11 +2001,11 @@
    },
    "C#": {
       "cmd": "C#",
-      "name": "Custom Number #",
+      "name": "Custom Macro # (Number)",
       "params": [
          {
-            "name": "Custom Cut Number",
-            "desc": "Number of this Custom Cut; In PartFile use [CN, number] or [C#, number], if lower than 10 can be just [C2]",
+            "name": "Custom Macro Number",
+            "desc": "Number of this Custom Macro; In PartFile use [CN, number] or [C#, number], if n < 10 can be just [Cn]",
             "abrev": "num",
             "typeext": 0,
             "default": "1",

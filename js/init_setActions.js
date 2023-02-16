@@ -32,7 +32,7 @@ if (!window.Haptics)
     alert("The haptics.js library is not loaded.");
 
 $(document).ready(function () {
-    $(document).foundation({            // Start and customize foundation
+    $(document).foundation({              // Start and customize foundation
         tooltip: {
             disable_for_touch: true
         },
@@ -50,7 +50,7 @@ $(document).ready(function () {
     $("#copyright").append("   [" + window.globals.ORigin + "]");
 
     // *** Get MENUs Items from JSON file @initial load ***
-    $.getJSON(     // ## never solved problem of getting into index.html for debug
+    $.getJSON(     
         'assets/sb3_commands.json',       // Originally from 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json'
         function (data) {                  // ... now using local copy with lots of mods and updates
             getExcludedAxes(function (excluded_axes_str) {
@@ -154,19 +154,19 @@ $(document).ready(function () {
         setSafeCmdFocus(1);
     });
 
-    // ** Set-Up Response to Command Entry
-    //var xTriggered = 0;       //^
+    // ** Set-Up Response to Command Entry; first key management 
     $("#cmd-input").keyup(function (event) {
-        // For Debug ^
-        //var msg = "Handler for .keyup() called " + xTriggered + " time(s). (Key = " + event.which + ")";  //^
         var commandInputText = $("#cmd-input").val();
-        //xTriggered++;    //^
         switch (event.which) {
+            case 75:          // "K" key for keypad
+                fabmo.manualEnter({ hideKeypad: false, mode: 'data' });
+                $("#cmd-input").val("");
+                break                
             case 13:
-                sendCmd(); // On ENTER ... SEND the command
+                sendCmd();    // On ENTER ... SEND the command
                 break;
-            case 27:
-                event.preventDefault(); // ESC as a general clear and update tool
+            case 27:          // ESC as a general clear and update tool
+                event.preventDefault();
                 curLine = ""; // Remove after sent or called
                 $(".top-bar").click(); // ... and click to clear any dropdowns
                 $("#txt_area").text("");
@@ -174,8 +174,8 @@ $(document).ready(function () {
                 updateUIFromEngineConfig();
                 updateSpeedsFromEngineConfig();
                 break;
-            case 8:
-            case 46:
+            case 8:           // backspace
+            case 46:          // delete
                 break;
             default:
                 var ok = processCommandInput(commandInputText);
@@ -197,15 +197,24 @@ $(document).ready(function () {
         }
     });
 
-    // ** Final run CALL for FP command; first clears anything in JogQueue then Runs and puts file in JobManager history then clears file remnants
+    // ** Final run CALL for FP command; first clears anything in JobQueue then Runs and puts file in JobManager history then clears file remnants
     let curFilename, curFile
     let lines = new Array()
+    let lastLn = 0;
+    let upDating = false;
+
     $('#file').change(function (evt) {
         //document.getElementById('file').addEventListener('input', function(evt) {
         evt.preventDefault();
+        $("#cmd-input").val("");
+
+        lastLn = 0;
+        upDating = false;
+    
         console.log("got entry");
         console.log(evt);
         console.log("file- " + curFile);
+        lastLn = 0;
         let file = document.getElementById("file").files[0];
         let fileReader = new FileReader();
         fileReader.onload = function (fileLoadedEvent) {
@@ -222,7 +231,7 @@ $(document).ready(function () {
     })
 
     $("#btn_ok_run").click(function (event) {
-        //console.log(curFilename);
+        console.log(curFilename, curFile);
         $('#myModal').foundation('reveal', 'close');
         fabmo.clearJobQueue(function (err, data) {
             if (err) {
@@ -240,6 +249,7 @@ $(document).ready(function () {
             }
         });
     });
+
     $("#btn_cmd_quit").click(function (event) {      // QUIT
         console.log("Not Run");
         $('#myModal').foundation('reveal', 'close');
@@ -247,6 +257,7 @@ $(document).ready(function () {
         curFilename = "";
         $("#curfilename").text("");
     });
+
     $("#btn_prev_file").click(function (event) {    // ADVANCED
         console.log("Advanced - curFilename");
         $('#myModal').foundation('reveal', 'close');
@@ -276,12 +287,6 @@ $(document).ready(function () {
         globals.FAbMo_state = status.state;
         globals.G2_stat = status.stat;                                           // 5 means "in motion"
 
-//         if (globals.SEtToKillState) {
-// console.log("sent kill");            
-//             killMotion();
-//             globals.SEtToKillState = false;
-//         }
-        
         if (globals.DOne_first_status_ck === "false") {
             globals.DOne_first_status_ck = "true";
             if (globals.FAbMo_state === "manual") { fabmo.manualExit() }         // #??? making sure we aren't stuck ??
@@ -289,7 +294,7 @@ $(document).ready(function () {
             if (!globals.INject_inputbox_open) {
                   $("#cmd-input").blur();
                 parent.focus();
-            }                                                      // this allows focus to work right when manual start
+            }                                                                    // this allows focus to work right when manual start
             //$("body",parent.document).focus();
             //setTimeout(function(){$("body").focus()}, 100);
         }
@@ -298,26 +303,35 @@ $(document).ready(function () {
             globals.UPdateMoPadState();
         }
 
-        const dispLen = 50;
-        let lineDisplay = "";
-        if (status.nb_lines > 1) {           // If we're running a file ... greater than 1 to cover 2 commands in MS
-            lineDisplay = "=======Running:  " + curFilename + '\n'
-            lineDisplay += "  " + (status.line - 2) + "  " + lines[status.line - 2].substring(0, dispLen) + '\n'
-            lineDisplay += "  " + (status.line - 1) + "  " + lines[status.line - 1].substring(0, dispLen) + '\n'
-            lineDisplay += "> " + status.line + "  " + lines[status.line].substring(0, dispLen) + '\n'
-            lineDisplay += "  " + (status.line + 1) + "  " + lines[status.line + 1].substring(0, dispLen) + '\n'
-            lineDisplay += "  " + (status.line + 2) + "  " + lines[status.line + 2].substring(0, dispLen) + '\n'
-            $("#txt_area").text(lineDisplay);
-            $('#cmd-input').val('>');
+        if (status.nb_lines > 2 && status.line > 19 ) {                          // ... only if we're running a file (e.g. greater than 1 or 2 commands)
+            const dispLen = 50;
+            let computedLn = 0;
+            computedLn = status.line - 19;
+            lastLn = status.nb_lines;
+            let startLn = computedLn;
+            if (computedLn > 3) {startLn = computedLn - 2};
+            let endLn = computedLn + 12; 
+            if (computedLn + 12 > lastLn) {endLn = lastLn};
+            let lineDisplay = "";
+
+            // update the fileline display
+            for (let i = startLn; i < endLn; i++) {
+                if (i === computedLn) {
+                    lineDisplay += "> " + (i) + "  " + lines[i - 1].substring(0, dispLen) + '\n';
+                } else {
+                    lineDisplay += "  " + (i) + "  " + lines[i - 1].substring(0, dispLen) + '\n';
+                }
+            }
+            $("#txt_area").text(lineDisplay);   ////## could make line number and width adjustable
         }
 
         if (globals.FAbMo_state === "running") {
             $('#cmd-input').val("");
         }
-        if (globals.FAbMo_state != "running") {
+        if (globals.FAbMo_state != "running" && globals.FAbMo_state != "paused") {
             $("#txt_area").text("");
             updateSpeedsFromEngineConfig();
-            $(".top-bar").click();               // ... and click to clear any dropdowns
+            $(".top-bar").click();    // click to clear any dropdowns
             setSafeCmdFocus(4);
         }
 
@@ -328,8 +342,6 @@ $(document).ready(function () {
         // Check if click was triggered on or within #menu_content
         if ($(e.target).closest("#speed-panel").length > 0) {
             return false;
-        // } else if ($(e.target).closest("#speed-panel").length > 0) {  //duplicate
-        //     return false;
         } else if ($(e.target).closest("#insert-input").length > 0) {    //experimental to keep cursor in insert box
             return false;
         }
@@ -345,6 +357,18 @@ $(document).ready(function () {
             return false;
         }
         setSafeCmdFocus(6);
+    });
+
+    //** Try to restore CMD focus when there is a shift back to app
+    $(document).keydown(function (e) {
+        switch (event.which) {
+            case 27:
+                $('#cmd-input').val("");
+            //event.preventDefault();
+                break;
+            default:
+                break;
+        }
     });
 
     // ** Process Macro Box Keys
@@ -386,12 +410,13 @@ $(document).ready(function () {
         document.addEventListener('DOMMouseScroll', stopWheel, false);
     }
 
-    window.addEventListener("unload", function (e) {
-        console.log("Unloaded WINDOW! Leave Manual if active!")
-        if (globals.FAbMo_state === 'manual') {
-            fabmo.manualExit();
-        }
-    }, false);
+////## removed because it was being hit twice at startups
+// window.addEventListener("unload", function (e) {
+//     console.log("Unloaded WINDOW! Leave Manual if active!")
+//     if (globals.FAbMo_state === 'manual') {
+//         fabmo.manualExit();
+//     }
+// }, false);
 
     // $(window).focusout(function () {
     //     console.log("Lost FOCUS! Leave Manual if pad not open!")
@@ -539,16 +564,16 @@ $(document).ready(function () {
 })
 
 //--------------------------------------------------------------------------------------------------SOUNDS
-const a = new AudioContext()
-//console.log(a.baseLatency)
-function beep(vol, freq, duration) {
-    v = a.createOscillator()
-    u = a.createGain()
-    v.connect(u)
-    v.frequency.value = freq
-    v.type = "square"
-    u.connect(a.destination)
-    u.gain.value = vol * 0.01
-    v.start(a.currentTime)
-    v.stop(a.currentTime + duration * 0.001)
-}
+// const a = new AudioContext()
+// //console.log(a.baseLatency)
+// function beep(vol, freq, duration) {
+//     v = a.createOscillator()
+//     u = a.createGain()
+//     v.connect(u)
+//     v.frequency.value = freq
+//     v.type = "square"
+//     u.connect(a.destination)
+//     u.gain.value = vol * 0.01
+//     v.start(a.currentTime)
+//     v.stop(a.currentTime + duration * 0.001)
+// }
