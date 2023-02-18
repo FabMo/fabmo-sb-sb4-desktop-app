@@ -71,7 +71,7 @@ $(document).ready(function () {
                             break;
                         case "C":
                             $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-                            cmds[key] = data[key];
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V
                             break;
                         case "Z":
                             if (excluded_axes_str.indexOf(key.substring(1, 2)) == -1) {
@@ -80,9 +80,11 @@ $(document).ready(function () {
                             break;
                         case "S":
                             $("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V
                             break;
                         case "V":
                             $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V
                             break;
 
                         case "T":
@@ -227,12 +229,12 @@ $(document).ready(function () {
         fileReader.readAsText(file, "UTF-8");
         curFilename = evt.target.files[0].name;
         $("#curfilename").text(curFilename);
-        $('#myModal').foundation('reveal', 'open');
+        $('#fill-in-modal').foundation('reveal', 'open');
     })
 
     $("#btn_ok_run").click(function (event) {
         console.log(curFilename, curFile);
-        $('#myModal').foundation('reveal', 'close');
+        $('#fill-in-modal').foundation('reveal', 'close');
         fabmo.clearJobQueue(function (err, data) {
             if (err) {
                 cosole.log(err);
@@ -252,7 +254,7 @@ $(document).ready(function () {
 
     $("#btn_cmd_quit").click(function (event) {      // QUIT
         console.log("Not Run");
-        $('#myModal').foundation('reveal', 'close');
+        $('#fill-in-modal').foundation('reveal', 'close');
         curFile = "";
         curFilename = "";
         $("#curfilename").text("");
@@ -260,7 +262,7 @@ $(document).ready(function () {
 
     $("#btn_prev_file").click(function (event) {    // ADVANCED
         console.log("Advanced - curFilename");
-        $('#myModal').foundation('reveal', 'close');
+        $('#fill-in-modal').foundation('reveal', 'close');
         fabmo.clearJobQueue(function (err, data) {
             if (err) {
                 cosole.log(err);

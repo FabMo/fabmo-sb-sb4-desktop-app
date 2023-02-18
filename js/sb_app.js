@@ -125,15 +125,17 @@ console.log('got command')
         break;
       default:
         command = "";
-        event.preventDefault(); // ESC as a general clear and update tool
-        curLine = ""; // Remove after sent or called
-        $(".top-bar").click(); // ... and click to clear any dropdowns
+        event.preventDefault();   // ESC as a general clear and update tool
+        curLine = "";             // Remove after sent or called
+        $(".top-bar").click();    // ... and click to clear any dropdowns
         $("#txt_area").text("");
         $("#cmd-input").val(command);
         setSafeCmdFocus();
         break;
     }
   } else if (command.length == 2) {
+
+    // HANDLE COMMAND: First do direct action key single commands                                        
     switch (command) {
       case "JH":
       case "MH":
@@ -158,11 +160,14 @@ console.log('got command')
       case "C1":
       case "C2":
       case "C3":
+      case "C4":  
+      case "C5":  
+      case "C6":  
+      case "C7":  
+      case "C8":  
+      case "C9":  
         sendCmd(command);
         break;
-    //   case "CN":
-    //   	command = "C#";
-    //     break;
       case "FP":
         curFile = "";                           // ... clear out after running
         curFilename = "";
@@ -171,27 +176,40 @@ console.log('got command')
         $('#file').val('');
         $('#file').trigger('click');
         break;
+    }
 
-    //For Testing Fill-In; temporarily turned off
-      case "CC":
-        let display, parameters="";
-        $("#cmd-input").val(command);
-        //console.log(cmds[command].params);
-        cmds[command].params.forEach(function(entry) {
-          console.log("an entry> " + entry.name);
-          parameters += "{" + entry.name + "}, ";
-        });  
-          console.log(parameters)          
-          display = command + ": " + cmds[command].name
-          $('#params').append(parameters);
-          $('#curfilename').append("Parameters for Command");
-          $('#modalTitle').empty();
-          $('#modalTitle').append(display);
-          $('#myModal').foundation('reveal', 'open');
-        console.log('ready to call CMD')
-        break;
-
-      case "SI":
+    // HANDLE COMMAND: Then do commands with a fill-in sheet
+    switch (Array.from(command)[0]) {
+        case "C":
+            if (command === "CN" || command === "C#") {  // let these two filter on through
+                break;
+            }
+        case "S":
+        case "V":        
+            let display, parameters="";
+            $("#cmd-input").val(command);
+            console.log(cmds[command].params);
+            cmds[command].params.forEach(function(entry) {
+               console.log("an entry> " + entry.name);
+               parameters += "{" + entry.name + "}, ";
+            });  
+            console.log(parameters)          
+            display = command + ": " + cmds[command].name
+            $('#params').empty();
+//          $('#params').append(parameters);
+            $('#params').attr("placeholder", parameters);
+            $('#curfilename').empty();
+            $('#curfilename').append("Parameters for Command: details in <a href='assets/docs/ComRef.pdf'>Command Reference</a>, see Help");
+            $('#modalTitle').empty();
+            $('#modalTitle').append(display);
+            $('#fill-in-modal').foundation('reveal', 'open');
+            console.log('ready to call CMD')
+            break;
+    }    
+    
+    // HANDLE COMMAND: Then do all the misc special commands
+    switch (command) {
+      case "SI": // obsolete
       case "FN":
         fabmo.launchApp('editor', {
           'new': true,

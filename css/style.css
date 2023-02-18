@@ -14,14 +14,42 @@ canvas[resize] {
     width: 100%;
     height: 60%;
     display: block;
-}  
+}
+
+/*.macros {
+    padding-top: -25%;
+}*/
+
+div {
+    padding: 0px;
+}
+
+div.row {
+    padding: 5px;
+}
 
 #speed-panel,
 #cmd-panel,
 #macro-panel {
   background-color: rgb(206, 207, 209);
-  border-radius: 20px;
+  border-radius: 10px;
   border-color: rgb(136, 171, 190);
+  padding: 10px;
+  margin-bottom: 7px;
+  /*margin: 8px;*/
+}
+
+#fill-in-modal {
+    background-color: rgb(240,235, 189);
+    border-radius: 10px;
+    border-color: rgb(136, 171, 190);
+}
+
+.reveal-modal-bg {
+    position: fixed;
+}
+.reveal-modal {
+    top: 150px !important;
 }
 
 input.opensbp_input_formattedspeeds {
@@ -53,12 +81,13 @@ input[type="text"]:focus {
 
 label.speed-labels,
 .cmds {
-  color: #333;
+  color: #4D4D4D;
 }
 
 p.at-foot {
-  color: #333;
+  color: #4D4D4D;
   font-size: .75rem;
+  margin-bottom: 0rem;
 }
 
 #txt_area {
@@ -72,7 +101,8 @@ p.at-foot {
 }
 
 #cut_part_call {
-  border-radius: 5px;
+    background: #008000;
+    border-radius: 5px;
 }
 
 #first_macro_button,
