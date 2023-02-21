@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DESKTOP</title>
     <!-- Foundation 5.5.3 -->
-    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/foundation.min.css"> 
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="css/stylejogdial.css"> -->
@@ -103,7 +103,7 @@
         <li class="divider"></li>
 
         <li class="has-dropdown">
-          <a style="background-color:rgb(92, 90, 90)" title="Use a web-base CAD/CAM Design program"><strong>D</strong>esign</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Use a web-based CAD/CAM Design program"><strong>D</strong>esign</a>
           <ul class="dropdown" id="menu_design">
             <li></li>
           </ul>
@@ -137,12 +137,12 @@
             <div class="callout panel" id="macro-panel">
               <!-- Buttons (actions) -->
               <div class="macros">
-              <label data-tooltip class="show-for-medium-up" title="Normal sequence for starting up and running a Part File"><strong>Standard Work Flow</strong></label>
+              <label data-tooltip class="show-for-medium-up" title="Normal sequence for starting up your tool and running a Part File"><strong>Standard Work Flow</strong></label>
               <button type="button" class="secondary button small medium-expanded" id="first_macro_button" >Home X & Y [C3]</button>
               <button type="button" class="secondary button small medium-expanded" id="second_macro_button" >Set Z Zero [C2]</button>
               <button type="button" class="success button small medium-expanded" id="cut_part_call"><strong> = CUT PART [FP] =  </strong></button>
               </div>
-              <label class="show-for-medium-up" title="Access other Custom macros; User configurable in ...">Other useful commands</label>
+              <label data-tooltip class="show-for-medium-up" title="Access other macros; User configurable in ..."><strong>Other Custom Macros</strong></label>
               <button type="button" class="secondary button small medium-expanded" id="third_macro_button" >Square Gantry (C10)</button>
               <button type="button" class="secondary button small medium-expanded" id="fourth_macro_button" >Test Cut (C210)</button>
               <button type="button" class="secondary button small medium-expanded" id="fifth_macro_button" >First Project - Bit Holder (C211)</button>
@@ -189,7 +189,7 @@
                     <div class="large-12 columns">
                             <div class="small-6 medium-4 large-4 columns">
 <!--                                <label title="Default feed rates and rapid speeds"><strong>Default Speeds</strong></label>-->
-                                <img data-tooltip class="top" tabindex="1" title="This app is ShopBot's classic CNC interface for cutting Part Files and sending Commands in the OpenSBP language. Use Menu or 2-letter Commands followed by optional parameters followed by ENTER. See HELP > Cmd Reference for info on OpenSBP language." src="./assets/image6b_transparent.png">
+                                <img data-tooltip class="top" tabindex="1" title="This app is ShopBot's CNC interface for setting up your tool and cutting Part Files (left panel). You can also send Individual Commands in the OpenSBP language (right panel). See HELP > Cmd Reference for info on OpenSBP language." src="./assets/image6b_transparent.png">
                                 <p> </p>
                                 <p class="small show-for-medium-up text-left at-foot">[ F11 (or right-click) exits fullscreen; Ctl-Tab switches window; 'K' opens Keypad; ESC backs out ]</p>
 <!--                                <p class="small text-left at-foot" id="copyright">© Copyright ShopBot Tools 2023.</p>
@@ -229,8 +229,6 @@
 
     </div>
 
-<!--  <a href="#" data-reveal-id="fill-in-modal">Fill-In Work</a><br>
--->
   <a href="#" data-reveal-id="moPad">beta MOtion-PAD</a><br>
   <a href="#" data-reveal-id="insertStream">beta INSERT</a>
 
@@ -238,32 +236,36 @@
  <script>Foundation.libs.reveal.settings.close_on_background_click = false;</script>
  <script>Foundation.libs.reveal.settings.close_on_esc = true;</script>
 
-  <div id="fill-in-modal" class="reveal-modal" data-reveal role="dialog">
-    <h2 id="modalTitle">File Ready to Run</h2>
-    <p id="curfilename"></p>
- <!--   <p id="params"></p> -->
-    <input type="text" placeholder="" id="params" />
+    <!-- Fill-In Sheet -->
+    <div id="fill-in-modal" class="reveal-modal" data-reveal role="dialog">
+      <form>
+        <h2 id="modalTitle">File Ready to Run</h2>
+        <p id="curfilename"></p>
  
-    <ul class="button-group">
-      <li><a class="secondary button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
-      <li><a class="secondary button" role="button" id="btn_cmd_quit">QUIT</a></li>
-      <li><a class="secondary button" role="button" id="btn_prev_file" title="in Job Manager; such as Preview, Edit, Scale, etc..">Advanced Functions</a></li>
-    </ul>
-  </div>
+        <textarea rows="4" cols="50" placeholder="" id="fi_params" ></textarea>
+        
+        <ul class="button-group">
+            <li><a class="secondary button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
+            <li><a class="secondary button" role="button" id="btn_prev_file" title="in Job Manager; such as Preview, Edit, Scale, etc..">Advanced Functions</a></li>
+            <li><a class="secondary button" role="button" id="btn_cmd_quit">Close</a></li>
+        </ul>
+      </form>
+    </div>
 
-  <div id="helpModal" class="reveal-modal" data-reveal role="dialog">
-    <h2>Config Values and Persistent Variables</h2>
-      <p>
-        <pre id="full-config">No configuration loaded yet.</pre>
-      </p>
-  </div>
+    <!-- Provide Info Sheets in Help -->
+    <div id="helpModal" class="reveal-modal" data-reveal role="dialog">
+        <h2>Config Values and Persistent Variables</h2>
+        <p> <pre id="full-config">No configuration loaded yet.</pre> </p>
+    </div>
 
-  <div id="insertStream" class="reveal-modal" data-reveal role="dialog">
-    <h2 id="modalTitle">Insert Command Into G2 Stream:</h2>
+    <!-- INSERT BETA -->
+    <div id="insertStream" class="reveal-modal" data-reveal role="dialog">
+        <h2 id="modalTitle">Insert Command Into G2 Stream:</h2>
         <input class="inserts" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="insert-input" font-weight="bold" placeholder="RAW: g2 json OR g-code (& = end-line; ^ = kill; # = reset-G2)" value="" />
-  </div>
+    </div>
 
-<div class="row">
+    <!-- MOTION PAD BETA -->
+    <div class="row">
     <div id="moPad" class="reveal-modal-bg full" data-reveal
         data-options="close_on_background_click:true;close_on_esc:true;" style="display: none" role="dialog">
 

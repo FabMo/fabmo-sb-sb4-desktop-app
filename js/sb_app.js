@@ -66,9 +66,12 @@ function postSbpAction(action) {
     200);
 }
 
-function setSafeCmdFocus(site) {                                     // Too easy to walk on Manual Keypad (not sure why?); so protect
+function setSafeCmdFocus(site) {                   // Too easy to walk on Manual Keypad (not sure why?); so protect
 //console.log("got safeCheck",site)         ////## don't need site ... all calls in init_set ...
     if (globals.FAbMo_state === "manual") {
+        return;
+    }
+    if (globals.FIll_In_Open === true) {    // let fill-in keep focus
         return;
     }
     if (globals.INject_inputbox_open) {
@@ -76,6 +79,19 @@ function setSafeCmdFocus(site) {                                     // Too easy
     } else {
         $("#cmd-input").focus();
     }
+}
+
+function displayFillIn(parameters, display) {
+    console.log(parameters, display)          
+    $('#fi_params').val("");
+    $('#fi_params').val(parameters);
+    $('#curfilename').empty();
+    $('#curfilename').append("Parameters for Command: details in <a href='assets/docs/ComRef.pdf'>Command Reference</a>, see Help");
+    $('#modalTitle').empty();
+    $('#modalTitle').append(display);
+    $('#fill-in-modal').trigger("reset");
+    $('#fill-in-modal').foundation('reveal', 'open');
+    globals.FIll_In_Open = true;
 }
 
 function processCommandInput(command) {
@@ -186,24 +202,24 @@ console.log('got command')
             }
         case "S":
         case "V":        
-            let display, parameters="";
+            let display="", parameters="";
             $("#cmd-input").val(command);
             console.log(cmds[command].params);
             cmds[command].params.forEach(function(entry) {
-               console.log("an entry> " + entry.name);
-               parameters += "{" + entry.name + "}, ";
+                console.log("entry> ", entry.name, entry.disptype);
+                if (entry.disptype === "2") {
+                    parameters += " " + entry.name + "*, ";
+                } else if (entry.default != "") {
+                    parameters += entry.default + " { (def)" + entry.name + "}, ";
+                } else {
+                    parameters += "{" + entry.name + "}, ";
+                }
             });  
             console.log(parameters)          
             display = command + ": " + cmds[command].name
-            $('#params').empty();
-//          $('#params').append(parameters);
-            $('#params').attr("placeholder", parameters);
-            $('#curfilename').empty();
-            $('#curfilename').append("Parameters for Command: details in <a href='assets/docs/ComRef.pdf'>Command Reference</a>, see Help");
-            $('#modalTitle').empty();
-            $('#modalTitle').append(display);
-            $('#fill-in-modal').foundation('reveal', 'open');
-            console.log('ready to call CMD')
+
+            displayFillIn(parameters, display);
+
             break;
     }    
     
@@ -227,6 +243,7 @@ console.log('got command')
         getUsrResource('http://easel.inventables.com/users/sign_in', 'assets/docs/No_Internet.pdf');
         break;        
       case "DA":
+        getUsrResource('https://www.inventables.com/technologies/easel', 'assets/docs/No_Internet.pdf');
         break;
       case "DT":
         //getUsrResource('https://www.tinkercad.com/dashboard', 'assets/docs/No_Internet.pdf'); // also '/join' or '/login'

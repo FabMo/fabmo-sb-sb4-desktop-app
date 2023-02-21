@@ -27,20 +27,32 @@ div {
 div.row {
     padding: 5px;
 }
-
-#speed-panel,
+#macro-panel,
 #cmd-panel,
+#speed-panel {
+    background-color: rgb(206, 207, 209);
+    border-radius: 10px;
+    border-color: rgb(136, 171, 190);
+}
+
 #macro-panel {
-  background-color: rgb(206, 207, 209);
-  border-radius: 10px;
-  border-color: rgb(136, 171, 190);
-  padding: 10px;
-  margin-bottom: 7px;
-  /*margin: 8px;*/
+    padding: 15px;
+    margin-bottom: 7px;
+}
+
+#cmd-panel {
+    padding: 0px;
+    margin-bottom: 5px;
+}
+
+#speed-panel {
+    padding: 2px;
+    margin-bottom: 5px;
 }
 
 #fill-in-modal {
-    background-color: rgb(240,235, 189);
+    background-color: rgb(255,250, 203);
+/*    background-color: rgb(240,235, 189); */
     border-radius: 10px;
     border-color: rgb(136, 171, 190);
 }
@@ -49,7 +61,7 @@ div.row {
     position: fixed;
 }
 .reveal-modal {
-    top: 150px !important;
+    top: 170px !important;
 }
 
 input.opensbp_input_formattedspeeds {

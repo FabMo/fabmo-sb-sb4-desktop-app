@@ -15,6 +15,7 @@ window.globals = {
 //    G2_killed: false,
 //    SEtToKillState: false,
     DOne_first_status_ck: false,
+    FIll_In_Open: false,
     MO_Pad_Open: false,
     MO_Dir: 0,
     MO_Axis: "X",
@@ -365,6 +366,7 @@ $(document).ready(function () {
     $(document).keydown(function (e) {
         switch (event.which) {
             case 27:
+                if (globals.FIll_In_Open === true) {$('#fill-in-modal').foundation('reveal', 'close')}
                 $('#cmd-input').val("");
             //event.preventDefault();
                 break;
@@ -448,6 +450,16 @@ $(document).ready(function () {
 
     };
 
+    // Allow editing of parameters and paste usably into Command Line
+    $('#fi_params').on('input', function (evt) {
+        console.log("at fill in change - ", $("#fi_params").val());
+        // const pattern = /{.*?\}/g;
+        let thisFullCmd = ($("#fi_params").val()).replaceAll(/{.*?\}/g, "");
+        console.log(thisFullCmd);
+        let thisCurCmd = ($("#cmd-input").val()).substring(0,3);
+        $("#cmd-input").val(thisCurCmd + thisFullCmd);
+    });
+
     // Just for testing stuff ... 
     $("#other").click(function () {
         console.log('got change');
@@ -465,12 +477,16 @@ $(document).ready(function () {
     });
 
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {      // ------------------- ON OPENING JOG PAD
+        if ($(this).context.id === "fill-in-modal") {
+            globals.FIll_In_Open = true;
+        }
+
         if ($(this).context.id === "moPad") {
             let axis_start_str = "TOol_" + (globals.JOg_Axis.toLowerCase());
             //        $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));  //... set loc display
             globals.MO_pad_open = true;
             fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
-            beep(20, 1800, 1);
+            // beep(20, 1800, 1);
             fabmo.requestStatus();                                                      // another update when we open pad
             globals.UPdateMoPadState();
             
@@ -530,8 +546,8 @@ $(document).ready(function () {
         if ($(this).context.id === "insertStream") {                                            // Open G2-Stream Box
             fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
             globals.INject_inputbox_open = true;
-            beep(20, 1800, 1);
-            beep(20, 1800, 1);
+            // beep(20, 1800, 1);
+            // beep(20, 1800, 1);
             fabmo.requestStatus();
         }    
 
@@ -543,6 +559,11 @@ $(document).ready(function () {
     })
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
+        if ($(this).context.id === "fill-in-modal") {
+            globals.FIll_In_Open = false;
+            $('#fi_params').value = "";
+            console.log('got Fill-In closing; did Exit from manual')
+        };
         if ($(this).context.id === "moPad") {
             globals.MO_pad_open = false;
             gotOnce = false;
