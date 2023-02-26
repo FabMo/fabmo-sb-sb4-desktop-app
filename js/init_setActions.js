@@ -497,7 +497,7 @@ $(document).ready(function () {
     $('#fi_params').keypress(function (e) {
         if (e.which == 13) {
             $('#btn_ok_run').click();
-            return false;    //<---- Add this line
+            //return false;    //<---- Add this line
         }
     });
        

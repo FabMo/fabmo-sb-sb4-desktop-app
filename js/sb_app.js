@@ -329,7 +329,8 @@ function processCommandInput(command) {
         }
     }
 
-//     if (command.length > 2) {
-    return true;
+    if (command.length > 2) {
+        return true;
+    }    
 
 }
