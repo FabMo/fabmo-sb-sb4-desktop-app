@@ -492,6 +492,14 @@ $(document).ready(function () {
         let location = "assets/docs/ComRef.pdf#" + thisCmd;
         fabmo.navigate(location, { target: '_blank' });
     });
+
+    // ** If enter key hit in #fi_params, then click the Run button 
+    $('#fi_params').keypress(function (e) {
+        if (e.which == 13) {
+            $('#btn_ok_run').click();
+            return false;    //<---- Add this line
+        }
+    });
        
     // ** Allow editing of Fill-In parameters and paste usably into Command Line
     $('#fi_params').on('input', function (evt) {   // pull things in as we change them

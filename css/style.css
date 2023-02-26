@@ -3,6 +3,17 @@
   margin-top: 0px;
   overflow: auto;
 */
+#sb4app {
+    height: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    overflow-x: hidden;
+}
+
+#sb4app::-webkit-scrollbar { 
+    display: none;
+}
+
 body {
     height: 100%;
 }
@@ -106,7 +117,9 @@ input.cmds {
 }
 
 .move-speed-box {
+    margin-top: -5px;
     padding-top: .25rem;
+    padding-bottom: .35rem;
 }
 
 #fill-in-modal, #fi_params {
