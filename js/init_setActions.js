@@ -21,7 +21,8 @@ window.globals = {
     MO_Axis: "X",
     JOg_Axis: "X",                                
     INject_inputbox_open: false,
-    ORigin: ""
+    ORigin: "",
+    LIcmds: []
 }
 
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W"]
@@ -44,7 +45,18 @@ $(document).ready(function () {
         }
     });
 
-    // *** Let' Figure out where we are ...
+    // *** Make a quick LIst of all the commands in the JSON file to use for validations later ***
+    $.getJSON( 
+        'assets/sb3_commands.json', 
+        function (data) {
+            for (key in data) {
+                globals.LIcmds.push(key);
+            }
+            //console.log("LIcmds: " + globals.LIcmds);
+        }
+    );     
+
+    // *** Let' Figure out where we are URL wise ***
     let pathname = window.location.pathname; // Returns path only (/path/example.html)
     let url = window.location.href;     // Returns full URL (https://example.com/path/example.html)
     window.globals.ORigin = window.location.origin;   // Returns base URL (https://example.com)
@@ -172,7 +184,7 @@ $(document).ready(function () {
                 event.preventDefault();
                 curLine = ""; // Remove after sent or called
                 $(".top-bar").click(); // ... and click to clear any dropdowns
-                $("#txt_area").text("");
+                $("#file_txt_area").text("");
                 setSafeCmdFocus(2);
                 updateUIFromEngineConfig();
                 updateSpeedsFromEngineConfig();
@@ -210,6 +222,7 @@ $(document).ready(function () {
         //document.getElementById('file').addEventListener('input', function(evt) {
         evt.preventDefault();
         $("#cmd-input").val("");
+        $("#cmd-input").blur();
 
         lastLn = 0;
         upDating = false;
@@ -229,28 +242,37 @@ $(document).ready(function () {
         };
         fileReader.readAsText(file, "UTF-8");
         curFilename = evt.target.files[0].name;
-        $("#curfilename").text(curFilename);
-        $('#fill-in-modal').foundation('reveal', 'open');
+        //$('#modalTitle').empty();
+        //$('#modalTitle').append("File Ready to Run");
+        //$("#cur_fi_info").text(curFilename);
+        //$('#fill-in-modal').foundation('reveal', 'open');
+         displayFillIn("", "File Ready to Run", curFilename);
     })
 
     $("#btn_ok_run").click(function (event) {
-        console.log(curFilename, curFile);
+        let ckFile = $('#modalTitle').text().substring(0,4);
         $('#fill-in-modal').foundation('reveal', 'close');
-        fabmo.clearJobQueue(function (err, data) {
-            if (err) {
-                cosole.log(err);
-            } else {
-                fabmo.submitJob({
-                    file: curFile,
-                    name: curFilename,
-                    description: '... called from Sb4'
-                }, { stayHere: true },
-                    function () {
-                        fabmo.runNext();
-                    }
-                );
-            }
-        });
+        if (ckFile === "File") {    // handle as file
+            fabmo.clearJobQueue(function (err, data) {
+                if (err) {
+                    cosole.log(err);
+                } else {
+                    fabmo.submitJob({
+                        file: curFile,
+                        name: curFilename,
+                        description: '... called from Sb4'
+                    }, { stayHere: true },
+                        function () {
+                            fabmo.runNext();
+                        }
+                    );
+                }
+            });
+        } else {                     // its a command with parameters from fill in
+            setSafeCmdFocus();
+            sendCmd();
+    }
+    
     });
 
     $("#btn_cmd_quit").click(function (event) {      // QUIT
@@ -258,7 +280,7 @@ $(document).ready(function () {
         $('#fill-in-modal').foundation('reveal', 'close');
         curFile = "";
         curFilename = "";
-        $("#curfilename").text("");
+        $("#cur_fi_info").text("");
     });
 
     $("#btn_prev_file").click(function (event) {    // ADVANCED
@@ -325,19 +347,20 @@ $(document).ready(function () {
                     lineDisplay += "  " + (i) + "  " + lines[i - 1].substring(0, dispLen) + '\n';
                 }
             }
-            $("#txt_area").text(lineDisplay);   ////## could make line number and width adjustable
+            $("#file_txt_area").text(lineDisplay);   ////## could make line number and width adjustable
         }
 
         if (globals.FAbMo_state === "running") {
             $('#cmd-input').val("");
+            $("#cmd-help").css("visibility","hidden");
         }
+
         if (globals.FAbMo_state != "running" && globals.FAbMo_state != "paused") {
-            $("#txt_area").text("");
+            $("#file_txt_area").text("");
             updateSpeedsFromEngineConfig();
             $(".top-bar").click();    // click to clear any dropdowns
             setSafeCmdFocus(4);
         }
-
     });
 
     //** Try to restore CMD focus when there is a shift back to app
@@ -368,7 +391,8 @@ $(document).ready(function () {
             case 27:
                 if (globals.FIll_In_Open === true) {$('#fill-in-modal').foundation('reveal', 'close')}
                 $('#cmd-input').val("");
-            //event.preventDefault();
+                $("#cmd-help").css("visibility","hidden");
+                //event.preventDefault();
                 break;
             default:
                 break;
@@ -379,9 +403,19 @@ $(document).ready(function () {
     $("#cut_part_call").click(function () {
         curFile = "";                           // ... clear out after running
         curFilename = "";
-        $("#curfilename").text("");
+        $("#cur_fi_info").text("");
         $('#file').val('');
         $('#file').trigger('click');
+    });
+
+    $("#cmd_button1").click(function () {
+        console.log('got first cmd');
+        sendCmd("JH");
+    });
+
+    $("#cmd_button2").click(function () {
+        console.log('got second cmd');
+        sendCmd("ZZ");
     });
 
     $("#first_macro_button").click(function () {
@@ -450,14 +484,48 @@ $(document).ready(function () {
 
     };
 
-    // Allow editing of parameters and paste usably into Command Line
-    $('#fi_params').on('input', function (evt) {
-        console.log("at fill in change - ", $("#fi_params").val());
-        // const pattern = /{.*?\}/g;
+    // ** Help for Command
+
+    $("#cmd-help").click(function () {
+        console.log('got cmd-help');
+        let thisCmd = $("#cmd-input").val().substring(0, 2);
+        let location = "assets/docs/ComRef.pdf#" + thisCmd;
+        fabmo.navigate(location, { target: '_blank' });
+    });
+       
+    // ** Allow editing of Fill-In parameters and paste usably into Command Line
+    $('#fi_params').on('input', function (evt) {   // pull things in as we change them
         let thisFullCmd = ($("#fi_params").val()).replaceAll(/{.*?\}/g, "");
-        console.log(thisFullCmd);
         let thisCurCmd = ($("#cmd-input").val()).substring(0,3);
         $("#cmd-input").val(thisCurCmd + thisFullCmd);
+    });
+
+    $.fn.setSelectionRange = function (start, end) {    ////## Time to move away from this jquery stuff!
+        if (this.length == 0) return this;
+        input = this[0];
+        if (input.createTextRange) {
+            var selRange = input.createTextRange();
+            selRange.collapse(true);
+            selRange.moveStart('character', start);
+            selRange.moveEnd('character', end);
+            selRange.select();
+        } else if (input.setSelectionRange) {
+            input.focus();
+            input.setSelectionRange(start, end);
+        }
+        return this;
+    };
+
+    $('#fi_params').dblclick(function (evt) {    // double click to select full field to typeover  
+        evt.preventDefault();
+        let cursorPosition =  $("#fi_params")[0].selectionStart;
+        let thisFullCmd = $("#fi_params").val();
+        let thisStart = thisFullCmd.lastIndexOf(",", cursorPosition);
+        if (thisStart < 0) {thisStart = 0};
+        let thisEnd = thisFullCmd.indexOf(",", thisStart + 1);
+        if (thisStart > -1 && thisEnd > -1) {
+            $("#fi_params").setSelectionRange(thisStart + 1, thisEnd);
+        }
     });
 
     // Just for testing stuff ... 
@@ -475,6 +543,8 @@ $(document).ready(function () {
     fabmo.requestStatus(function (err, status) {		                    // a first call to get us started
         console.log('FabMo_first_state>' + globals.FAbMo_state);
     });
+
+
 
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {      // ------------------- ON OPENING JOG PAD
         if ($(this).context.id === "fill-in-modal") {

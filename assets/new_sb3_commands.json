@@ -1,42 +1,4 @@
 {
-   "_A": {
-      "cmd": "_A",
-      "name": "TEMPORARY SYSTEM to call macro by aliased name (currently hardcoded)",
-      "params": [
-         {
-            "name": "macro alias",
-            "desc": "allows easy name for use in SBP macro programming",
-            "abrev": "_aM",
-            "type": "str"
-         }
-      ]
-   },
-   "SC": {
-   "cmd": "SC",
-   "name":"Set Coordinate System",
-   "params":[
-   {
-            "name": "Coordinate System",
-            "desc": "The coordinate system to set as the current coordinate system.",
-            "abrev": "coord",
-            "typeext": 0,
-            "default": "1",
-            "default_desc": "User Coordinates",
-            "opts": [
-               {
-                  "value": 0,
-                  "desc": "Table Base Coordinates"
-               },
-               {
-                  "value": 1,
-                  "desc": "User Coordinates"
-               }
-            ],
-            "sysvar": "0",
-            "type": "opt"
-         }
-   ]
-   },
    "FP": {
       "cmd": "FP",
       "name": "PART FILE LOAD"
@@ -50,6 +12,7 @@
             "desc": "Part Files have a .sbp extension",
             "abrev": "fNm",
             "typeext": 0,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -64,6 +27,237 @@
       "cmd": "FN",
       "name": "New blank part file"
    },
+   "FG": {
+      "cmd": "FG",
+      "name": "Goto line / single step",
+      "params": [
+         {
+            "name": "Part File Name",
+            "desc": "Part Files have a .sbp extension",
+            "abrev": "fNm",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "Proportion X",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pX",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "0.00",
+               "100.00"
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "Proportion Y",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pY",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "0.00",
+               "100.00"
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "Proportion Z",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pZ",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "0.00",
+               "100.00"
+            ],
+            "type": "int"
+         },
+         {
+            "name": "Repetitions",
+            "desc": "Number of Repeats with Plunge in template files",
+            "abrev": "Rp",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "opt"
+         },
+         {
+            "name": "Offset in 2D or 3D",
+            "desc": "Treat starting location as temporary 0 in X&Y or XY&Z",
+            "abrev": "Ofst",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "default_desc": "No Offset",
+            "opts": [
+               {
+                  "value": "1",
+                  "desc": "3D Offset"
+               },
+               {
+                  "value": "2",
+                  "desc": "2D Offset"
+               }
+            ],
+            "sysvar": "0",
+            "type": "dist"
+         },
+         {
+            "name": "Plunge (per repetition)",
+            "desc": "Use for plunging in template files without Z movements",
+            "abrev": "plg",
+            "typeext": 3,
+            "disptype": "1",
+            "default": "-0.00",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "ck"
+         },
+         {
+            "name": "Tabbing",
+            "desc": "Activate ShopBot's automatic tabbing feature",
+            "abrev": "Tb",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "default_desc": "Off",
+            "opts": [],
+            "sysvar": "0",
+            "type": "ck"
+         },
+         {
+            "name": "Plunge from 0",
+            "desc": "Plunge from Z zero in template files, not from current Z location",
+            "abrev": "z0",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "default_desc": "Off",
+            "opts": [],
+            "sysvar": "0",
+            "type": "axis"
+         },
+         {
+            "name": "Proportion A",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pA",
+            "typeext": 4,
+            "disptype": "1",
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "-100.00",
+               "100.00"
+            ],
+            "type": "axis"
+         },
+         {
+            "name": "Proportion B",
+            "desc": "How much to scale the axis. 1.00 = Normal Size; 2.00 = Twice Normal",
+            "abrev": "pB",
+            "typeext": 5,
+            "disptype": "1",
+            "default": "1.00",
+            "sysvar": 0,
+            "range": [
+               "-100.00",
+               "100.00"
+            ],
+            "type": "partfile"
+         }
+      ]
+   },
+   "FC": {
+      "cmd": "FC",
+      "name": "file Conversions",
+      "params": [
+         {
+            "name": "Name of File to Convert",
+            "desc": "Select File to Convert; extension defines type of conversion, or select type",
+            "abrev": "fNm",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         }
+      ]
+   },
+   "FS": {
+      "cmd": "FS",
+      "name": "file Set part file folder",
+      "params": [
+         {
+            "name": "Part File Path & Folder",
+            "desc": "Specify a different active Part File Folder by defining full Path",
+            "abrev": "path",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "c:\\SbParts",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "obs"
+         },
+         {
+            "name": "File Mask",
+            "desc": "",
+            "abrev": "",
+            "typeext": 0,
+            "disptype": "0",
+            "default": " ",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "Custom File Path & Folder",
+            "desc": "Specify a different active Custom File Folder by defining full Path; location of Custom Cuts",
+            "abrev": "Cpath",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "c:\\SbParts\\Custom",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "dist"
+         }
+      ]
+   },
    "MX": {
       "cmd": "MX",
       "name": "move X axis",
@@ -73,6 +267,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvX",
             "typeext": 2,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -92,6 +287,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvY",
             "typeext": 2,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -111,68 +307,12 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvZ",
             "typeext": 2,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
                null,
                "Table limits Z"
-            ],
-            "type": "dist"
-         }
-      ]
-   },
-   "MA": {
-      "cmd": "MA",
-      "name": "move A axis",
-      "params": [
-         {
-            "name": "New A location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvA",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits A"
-            ],
-            "type": "dist"
-         }
-      ]
-   },
-   "MB": {
-      "cmd": "MB",
-      "name": "move B axis",
-      "params": [
-         {
-            "name": "New B location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvB",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits B"
-            ],
-            "type": "dist"
-         }
-      ]
-   },
-   "MC": {
-      "cmd": "MC",
-      "name": "move C axis",
-      "params": [
-         {
-            "name": "New C location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvC",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits C"
             ],
             "type": "dist"
          }
@@ -187,6 +327,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvX",
             "typeext": 2,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -200,6 +341,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -219,6 +361,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvX",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -232,6 +375,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -245,11 +389,104 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvZ",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
                null,
                "Table limits Z"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "MD": {
+      "cmd": "MD",
+      "name": "move Distance at Angle",
+      "params": [
+         {
+            "name": "Distance to Move",
+            "desc": "Distance to go at the specified angle",
+            "abrev": "mvDst",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "Angle",
+            "desc": "Direction to go in degrees, relative degrees (use R or L), clock (4:30), or compass (WSW)",
+            "abrev": "mvDir",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "dist"
+         },
+         {
+            "name": "Z Move",
+            "desc": "New Z location at end or move, or Relative Z change during move (use U or D)",
+            "abrev": "mvZr",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "MH": {
+      "cmd": "MH",
+      "name": "move Home (X and Y; Z Safe Height)"
+   },
+   "MA": {
+      "cmd": "MA",
+      "name": "move A axis",
+      "params": [
+         {
+            "name": "New A location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvA",
+            "typeext": 2,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits A"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "MB": {
+      "cmd": "MB",
+      "name": "move B axis",
+      "params": [
+         {
+            "name": "New B location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "mvB",
+            "typeext": 2,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits B"
             ],
             "type": "dist"
          }
@@ -264,6 +501,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvX",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -277,6 +515,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -290,6 +529,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvZ",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -303,6 +543,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvA",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -322,6 +563,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvX",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -335,6 +577,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -348,6 +591,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvZ",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -361,6 +605,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvA",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -374,6 +619,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "mvB",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -384,112 +630,80 @@
          }
       ]
    },
-   "M6": {
-      "cmd": "M6",
-      "name": "move in 6 axes",
+   "MN": {
+      "cmd": "MN",
+      "name": "move Nudge"
+   },
+   "MI": {
+      "cmd": "MI",
+      "name": "move Indexer or Oscillate",
       "params": [
          {
-            "name": "New X location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvX",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits X"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New Y location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvY",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits Y"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New Z location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvZ",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits Z"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New A location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvA",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits A"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New B location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvB",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits B"
-            ],
-            "type": "ops"
-         },
+            "name": "Axis to Rotate or Oscillate",
+            "desc": "Rotational/Ocillatory Axis; 0 to Turn OFF",
+            "abrev": "mvAx",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "B",
+            "default_desc": "Axis",
+            "opts": [
                {
-            "name": "New C location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "mvC",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits C"
+                  "value": "A",
+                  "desc": "Axis"
+               },
+               {
+                  "value": "C",
+                  "desc": "Axis"
+               },
+               {
+                  "value": "Z",
+                  "desc": "Axis"
+               },
+               {
+                  "value": "O",
+                  "desc": "OFF"
+               }
             ],
-            "type": "ops"
-         }
-      ]
-   },
-   "MD": {
-      "cmd": "MD",
-      "name": "move Distance at Angle",
-      "params": [
+            "sysvar": "0",
+            "type": "opt"
+         },
          {
-            "name": "Distance to Move",
-            "desc": "Distance to go at the specified angle",
-            "abrev": "mvDst",
+            "name": "Rotation Direction",
+            "desc": "Direction for Rotation",
+            "abrev": "Dr",
             "typeext": 0,
+            "disptype": "1",
+            "default": "1",
+            "default_desc": "clockwise",
+            "opts": [
+               {
+                  "value": "-1",
+                  "desc": "counterclockwise"
+               }
+            ],
+            "sysvar": "0",
+            "type": "int"
+         },
+         {
+            "name": "Rotary Speed",
+            "desc": "Approx Range in RPM (range 3 to 500); not used for Oscillate; min max depend on motor and resolution ",
+            "abrev": "spR",
+            "typeext": 0,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
                null,
                null
             ],
-            "type": "str"
+            "type": "sng"
          },
          {
-            "name": "Angle",
-            "desc": "Direction to go in degrees, relative degrees (use R or L), clock (4:30), or compass (WSW)",
-            "abrev": "mvDir",
+            "name": "Frequency of Oscillation",
+            "desc": "(.5 - 100; But actual MIN and MAX based on Motor Capability and Length of Move)",
+            "abrev": "spC",
             "typeext": 0,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -499,23 +713,20 @@
             "type": "dist"
          },
          {
-            "name": "Z Move",
-            "desc": "New Z location at end or move, or Relative Z change during move (use U or D)",
-            "abrev": "mvZr",
+            "name": "Distance of Oscillation",
+            "desc": "(How far to Move in Each Oscillation)",
+            "abrev": "diC",
             "typeext": 0,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
                null,
                null
             ],
-            "type": "dist"
+            "type": "distm"
          }
       ]
-   },
-   "MH": {
-      "cmd": "MH",
-      "name": "move Home (X and Y; Z Safe Height)"
    },
    "M0": {
       "cmd": "M0",
@@ -534,6 +745,7 @@
             "desc": "Move (Cutting) Speed in Current Units for X & Y Axis Movements ",
             "abrev": "msXY",
             "typeext": 0,
+            "disptype": "1",
             "default": "3",
             "sysvar": 72,
             "range": [
@@ -547,6 +759,7 @@
             "desc": "Move (Cutting) Speed in Current Units for Z Axis Movements ",
             "abrev": "msZ",
             "typeext": 0,
+            "disptype": "1",
             "default": "1",
             "sysvar": 73,
             "range": [
@@ -560,6 +773,7 @@
             "desc": "Move (Cutting) Speed in Current Units for A Axis Movements ",
             "abrev": "msA",
             "typeext": 0,
+            "disptype": "1",
             "default": "",
             "sysvar": 74,
             "range": [
@@ -573,21 +787,9 @@
             "desc": "Move (Cutting) Speed in Current Units for B Axis [default for Indexer]",
             "abrev": "msB",
             "typeext": 0,
+            "disptype": "1",
             "default": "",
             "sysvar": 75,
-            "range": [
-               null,
-               null
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "C Move Speed",
-            "desc": "Move (Cutting) Speed in Current Units for C Axis",
-            "abrev": "msC",
-            "typeext": 0,
-            "default": "",
-            "sysvar": 146,
             "range": [
                null,
                null
@@ -605,6 +807,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jX",
             "typeext": 2,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -624,6 +827,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jY",
             "typeext": 2,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -643,68 +847,12 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jZ",
             "typeext": 2,
+            "disptype": "2",
             "default": "",
             "sysvar": 0,
             "range": [
                null,
                "Table limits Z"
-            ],
-            "type": "dist"
-         }
-      ]
-   },
-   "JA": {
-      "cmd": "JA",
-      "name": "jog A axis",
-      "params": [
-         {
-            "name": "New A location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jA",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits A"
-            ],
-            "type": "dist"
-         }
-      ]
-   },
-   "JB": {
-      "cmd": "JB",
-      "name": "jog B axis",
-      "params": [
-         {
-            "name": "New B location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jB",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits B"
-            ],
-            "type": "dist"
-         }
-      ]
-   },
-   "JC": {
-      "cmd": "JC",
-      "name": "jog C axis",
-      "params": [
-         {
-            "name": "New C location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jC",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits C"
             ],
             "type": "dist"
          }
@@ -719,6 +867,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jX",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -732,6 +881,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -751,6 +901,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jX",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -764,6 +915,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -777,6 +929,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jZ",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -791,6 +944,46 @@
       "cmd": "JH",
       "name": "jog Home (X and Y; Z Safe Height)"
    },
+   "JA": {
+      "cmd": "JA",
+      "name": "jog A axis",
+      "params": [
+         {
+            "name": "New A location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "jA",
+            "typeext": 2,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits A"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
+   "JB": {
+      "cmd": "JB",
+      "name": "jog B axis",
+      "params": [
+         {
+            "name": "New B location",
+            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
+            "abrev": "jB",
+            "typeext": 2,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               "Table limits B"
+            ],
+            "type": "dist"
+         }
+      ]
+   },
    "J4": {
       "cmd": "J4",
       "name": "jog in 4 axes",
@@ -800,6 +993,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jX",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -813,6 +1007,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -826,6 +1021,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jZ",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -839,6 +1035,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jA",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -858,6 +1055,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jX",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -871,6 +1069,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jY",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -884,6 +1083,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jZ",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -897,6 +1097,7 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jA",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -910,95 +1111,12 @@
             "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
             "abrev": "jB",
             "typeext": 2,
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
                null,
                "Table limits B"
-            ],
-            "type": "distm"
-         }
-      ]
-   },
-   "J6": {
-      "cmd": "J6",
-      "name": "jog in 6 axes",
-      "params": [
-         {
-            "name": "New X location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jX",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits X"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New Y location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jY",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits Y"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New Z location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jZ",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits Z"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New A location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jA",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits A"
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "New B location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jB",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits B"
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "New C location",
-            "desc": "If in Absolute Mode, this is the move-to location; in Relative Mode, this is the distance-to-go",
-            "abrev": "jC",
-            "typeext": 2,
-            "default": "",
-            "sysvar": 0,
-            "range": [
-               null,
-               "Table limits C"
             ],
             "type": "distm"
          }
@@ -1013,6 +1131,7 @@
             "desc": "Jog (Rapid) Speed in Current Units for X & Y Axis Movements; Do Not Set Above Default Without Safety Precautions!",
             "abrev": "jsXY",
             "typeext": 0,
+            "disptype": "1",
             "default": "12",
             "sysvar": 77,
             "range": [
@@ -1026,47 +1145,37 @@
             "desc": "Jog (Rapid) Speed in Current Units for Z Axis Movements ",
             "abrev": "jsZ",
             "typeext": 0,
+            "disptype": "1",
             "default": "3",
             "sysvar": 78,
             "range": [
                ".05",
                "20"
             ],
-            "type": "distm"
+            "type": "distma"
          },
          {
             "name": "A Jog Speed",
             "desc": "Jog (Rapid) Speed in Current Units for A Axis Movements ",
             "abrev": "jsA",
             "typeext": 0,
+            "disptype": "1",
             "default": "",
             "sysvar": 79,
             "range": [
                null,
                null
             ],
-            "type": "distm"
+            "type": "distmb"
          },
          {
             "name": "B Jog Speed",
             "desc": "Jog (Rapid) Speed in Current Units for B Axis Movements [default for Indexer] ",
             "abrev": "jsB",
             "typeext": 0,
+            "disptype": "1",
             "default": "",
             "sysvar": 80,
-            "range": [
-               null,
-               null
-            ],
-            "type": "dist"
-         },
-         {
-            "name": "C Jog Speed",
-            "desc": "Jog (Rapid) Speed in Current Units for C Axis Movements ",
-            "abrev": "jsC",
-            "typeext": 0,
-            "default": "",
-            "sysvar": 147,
             "range": [
                null,
                null
@@ -2081,13 +2190,17 @@
          }
       ]
    },
+   "CS": {
+      "cmd": "CS",
+      "name": "Setup custom cuts"
+   },
    "CN": {
       "cmd": "CN",
-      "name": "Custom Macro Number",
+      "name": "Custom Number",
       "params": [
          {
-            "name": "Custom Macro Number (Cn if n < 10)",
-            "desc": "Number of this Custom Macro; In PartFile use [CN, number] or [C#, number], if n < 10 can be just [Cn]",
+            "name": "Custom Cut Number",
+            "desc": "Number of this Custom Cut; In PartFile use [CN, number] or [C#, number], if lower than 10 can be just [C2]",
             "abrev": "num",
             "typeext": 0,
             "disptype": "1",
@@ -2103,11 +2216,11 @@
    },
    "C#": {
       "cmd": "C#",
-      "name": "Custom Macro # (Number)",
+      "name": "Custom Number #",
       "params": [
          {
-            "name": "Custom Macro Number",
-            "desc": "Number of this Custom Macro; In PartFile use [CN, number] or [C#, number], if n < 10 can be just [Cn]",
+            "name": "Custom Cut Number",
+            "desc": "Number of this Custom Cut; In PartFile use [CN, number] or [C#, number], if lower than 10 can be just [C2]",
             "abrev": "num",
             "typeext": 0,
             "disptype": "0",
@@ -2133,18 +2246,6 @@
       "cmd": "ZZ",
       "name": "zero Z axis"
    },
-   "ZA": {
-      "cmd": "ZA",
-      "name": "zero A axis"
-   },
-   "ZB": {
-      "cmd": "ZB",
-      "name": "zero B axis"
-   },
-   "ZC": {
-      "cmd": "ZC",
-      "name": "zero C axis"
-   },
    "Z2": {
       "cmd": "Z2",
       "name": "zero 2 axes (X and Y)"
@@ -2152,6 +2253,14 @@
    "Z3": {
       "cmd": "Z3",
       "name": "zero 3 axes (X, Y and Z)"
+   },
+   "ZA": {
+      "cmd": "ZA",
+      "name": "zero A axis"
+   },
+   "ZB": {
+      "cmd": "ZB",
+      "name": "zero B axis"
    },
    "Z4": {
       "cmd": "Z4",
@@ -2161,10 +2270,6 @@
       "cmd": "Z5",
       "name": "zero 5 axes"
    },
-   "Z6": {
-      "cmd": "Z6",
-      "name": "zero 6 axes"
-   },
    "ZT": {
       "cmd": "ZT",
       "name": "zero Table base coordinates"
@@ -2172,6 +2277,33 @@
    "SA": {
       "cmd": "SA",
       "name": "set to Absolute mode"
+   },
+   "SC": {
+      "cmd": "SC",
+      "name": "set Continuous",
+      "params": [
+         {
+            "name": "Continuous Move Settings",
+            "desc": "",
+            "abrev": "set",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "default_desc": "No Stack",
+            "opts": [
+               {
+                  "value": "1",
+                  "desc": "Cont/Stack"
+               },
+               {
+                  "value": "2",
+                  "desc": "Break Here"
+               }
+            ],
+            "sysvar": "0",
+            "type": "ck"
+         }
+      ]
    },
    "SF": {
       "cmd": "SF",
@@ -2191,6 +2323,152 @@
          }
       ]
    },
+   "SI": {
+      "cmd": "SI",
+      "name": "send Command LInes { I }",
+      "params": [
+         {
+            "name": "1- (Command & Params)",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run; I is shortcut)",
+            "abrev": "c1",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "2-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c2",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "3-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c3",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "4-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c4",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "5-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c5",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "6-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c6",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "7-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c7",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "8-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c8",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "9-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c9",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "10-",
+            "desc": "Command (up to 10 lines; ShopBot or G-code; Click OK to Run)",
+            "abrev": "c10",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "int"
+         }
+      ]
+   },
    "SK": {
       "cmd": "SK",
       "name": "set to KeyPad control w/ arrow keys { K }"
@@ -2198,6 +2476,10 @@
    "SL": {
       "cmd": "SL",
       "name": "cLear User Variables"
+   },
+   "SM": {
+      "cmd": "SM",
+      "name": "set to Move/Cut mode"
    },
    "SO": {
       "cmd": "SO",
@@ -2208,7 +2490,7 @@
             "desc": "Select the Output to Turn ON or OFF (1 - 12)",
             "abrev": "sw",
             "typeext": 0,
-            "disptype": "2",
+            "disptype": "1",
             "default": "",
             "sysvar": 0,
             "range": [
@@ -2231,289 +2513,71 @@
          }
       ]
    },
+   "SP": {
+      "cmd": "SP",
+      "name": "set to Preview mode"
+   },
    "SR": {
       "cmd": "SR",
       "name": "set to Relative mode"
+   },
+   "SS": {
+      "cmd": "SS",
+      "name": "set Window Size and location to defaults"
    },
    "ST": {
       "cmd": "ST",
       "name": "set to Table base coordinates"
    },
-   "SU": {
-      "cmd": "SU",
-      "name": "Set Units",
-      "params": [
-         {
-            "name": "Units",
-            "desc": "Set the units for the current file (inch/mm)",
-            "abrev": "in/mm",
-            "typeext": 0,
-            "default": "in",
-            "default_desc": "inch",
-            "opts": [
-               {
-                  "value": "in",
-                  "desc": "Inches"
-               },
-               {
-                  "value": "mm",
-                  "desc": "Millimeters"
-               }
-            ],
-            "sysvar": "0",
-            "type": "opt"
-         }
-      ]
+   "SV": {
+      "cmd": "SV",
+      "name": "set Values"
    },
-   "PX": {
-      "cmd": "PX",
-      "name": "Probe X",
+   "SW": {
+      "cmd": "SW",
+      "name": "set Warning duration",
       "params": [
          {
-            "name": "Search Distance",
-            "desc": "Distance to search while probing",
-            "abrev": "pxDist",
+            "name": "Duration of Warning",
+            "desc": "Sets the duration of warning before movement begins (seconds)",
+            "abrev": "dur",
             "typeext": 0,
-            "default": "1",
+            "disptype": "1",
+            "default": "2",
+            "sysvar": 24,
             "range": [
-               null,
-               null
+               "0",
+               "30"
             ],
-            "type": "distm"
+            "type": "str"
          },
          {
-            "name": "Search Speed",
-            "desc": "Travel Speed for Probe Search ",
-            "abrev": "pxSpd",
+            "name": "(temp Packet Size)",
+            "desc": "Sets temporary Packet Size for improving Probing efficiancy, special use only (20-340)",
+            "abrev": "ps",
             "typeext": 0,
+            "disptype": "0",
             "default": "",
+            "sysvar": 0,
             "range": [
                null,
                null
             ],
-            "type": "distm"
+            "type": "str"
          },
          {
-            "name": "Input",
-            "desc": "Input channel to use as the probe.",
-            "abrev": "pxI",
+            "name": "(temp Packet Buffer Number)",
+            "desc": "Sets temporary Packet Buffer Number for improving Probing efficiancy, special use only (3-12)",
+            "abrev": "pn",
             "typeext": 0,
-            "default": "1",
-            "range": [
-               "1",
-               "16"
-            ],
-            "type": "ck"
-         }
-      ]
-   },
-   "PY": {
-      "cmd": "PY",
-      "name": "Probe Y",
-      "params": [
-         {
-            "name": "Search Distance",
-            "desc": "Distance to search while probing",
-            "abrev": "pxDist",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Search Speed",
-            "desc": "Travel Speed for Probe Search ",
-            "abrev": "pxSpd",
-            "typeext": 0,
+            "disptype": "0",
             "default": "",
+            "sysvar": 0,
             "range": [
                null,
                null
             ],
             "type": "distm"
-         },
-         {
-            "name": "Input",
-            "desc": "Input channel to use as the probe.",
-            "abrev": "pxI",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               "1",
-               "16"
-            ],
-            "type": "ck"
-         }
-      ]
-   },
-   "PZ": {
-      "cmd": "PZ",
-      "name": "Probe Z",
-      "params": [
-         {
-            "name": "Search Distance",
-            "desc": "Distance to search while probing",
-            "abrev": "pxDist",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Search Speed",
-            "desc": "Travel Speed for Probe Search ",
-            "abrev": "pxSpd",
-            "typeext": 0,
-            "default": "",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Input",
-            "desc": "Input channel to use as the probe.",
-            "abrev": "pxI",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               "1",
-               "16"
-            ],
-            "type": "ck"
-         }
-      ]
-   },
-   "PA": {
-      "cmd": "PA",
-      "name": "Probe A",
-      "params": [
-         {
-            "name": "Search Distance",
-            "desc": "Distance to search while probing",
-            "abrev": "pxDist",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Search Speed",
-            "desc": "Travel Speed for Probe Search ",
-            "abrev": "pxSpd",
-            "typeext": 0,
-            "default": "",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Input",
-            "desc": "Input channel to use as the probe.",
-            "abrev": "pxI",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               "1",
-               "16"
-            ],
-            "type": "ck"
-         }
-      ]
-   },
-   "PB": {
-      "cmd": "PB",
-      "name": "Probe B",
-      "params": [
-         {
-            "name": "Search Distance",
-            "desc": "Distance to search while probing",
-            "abrev": "pxDist",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Search Speed",
-            "desc": "Travel Speed for Probe Search ",
-            "abrev": "pxSpd",
-            "typeext": 0,
-            "default": "",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Input",
-            "desc": "Input channel to use as the probe.",
-            "abrev": "pxI",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               "1",
-               "16"
-            ],
-            "type": "ck"
-         }
-      ]
-   },
-   "PC": {
-      "cmd": "PC",
-      "name": "Probe C",
-      "params": [
-         {
-            "name": "Search Distance",
-            "desc": "Distance to search while probing",
-            "abrev": "pxDist",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Search Speed",
-            "desc": "Travel Speed for Probe Search ",
-            "abrev": "pxSpd",
-            "typeext": 0,
-            "default": "",
-            "range": [
-               null,
-               null
-            ],
-            "type": "distm"
-         },
-         {
-            "name": "Input",
-            "desc": "Input channel to use as the probe.",
-            "abrev": "pxI",
-            "typeext": 0,
-            "default": "1",
-            "range": [
-               "1",
-               "16"
-            ],
-            "type": "ck"
          }
       ]
    },
@@ -2692,6 +2756,192 @@
          }
       ]
    },
+   "VP": {
+      "cmd": "VP",
+      "name": "Preview screen values",
+      "params": [
+         {
+            "name": "Grid Size",
+            "desc": "Spacing of Grid Line displayed on Table (in current units)",
+            "abrev": "grid",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "6",
+            "sysvar": 0,
+            "range": [
+               "1",
+               "100"
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "Table Size X Axis",
+            "desc": "Size of the Table in the X dimension",
+            "abrev": "tblX",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "96",
+            "sysvar": 0,
+            "range": [
+               "4",
+               "360"
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "Table Size Y Axis",
+            "desc": "Size of the Table in the Y dimension",
+            "abrev": "tblY",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "48",
+            "sysvar": 0,
+            "range": [
+               "4",
+               "120"
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "Table Size Z Axis",
+            "desc": "Size of the Table in the Z dimension",
+            "abrev": "tblZ",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "6",
+            "sysvar": 0,
+            "range": [
+               "2",
+               "36"
+            ],
+            "type": "ck"
+         },
+         {
+            "name": "Cutting Simulations",
+            "desc": "Set startup state for whether part simulation shows process of cutting",
+            "abrev": "sim",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "default_desc": "Off",
+            "opts": [],
+            "sysvar": "0",
+            "type": "ck"
+         },
+         {
+            "name": "Draw Tool",
+            "desc": "Set startup conditions of whether wire frame of tool shape is drawn in simulations and step-throughs",
+            "abrev": "rot",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "default_desc": "Off",
+            "opts": [],
+            "sysvar": "0",
+            "type": "ck"
+         },
+         {
+            "name": "Start at Real Position",
+            "desc": "Set whether Preview starts from position of real tool",
+            "abrev": "strt",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1",
+            "default_desc": "On",
+            "opts": [],
+            "sysvar": "0",
+            "type": "ck"
+         },
+         {
+            "name": "Draw Jogs",
+            "desc": "Set whether tool path lines for jogs are drawn (in red)",
+            "abrev": "jog",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1",
+            "default_desc": "On",
+            "opts": [],
+            "sysvar": "0",
+            "type": "opt"
+         },
+         {
+            "name": "Left Panel Behavior",
+            "desc": "Left panel behavior when file sent to Preview",
+            "abrev": "lp",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "-1",
+            "default_desc": "Leave as is",
+            "opts": [
+               {
+                  "value": "1",
+                  "desc": "Force open"
+               },
+               {
+                  "value": "0",
+                  "desc": "Force closed"
+               }
+            ],
+            "sysvar": "0",
+            "type": "opt"
+         },
+         {
+            "name": "Right Panel Behavior",
+            "desc": "Right panel behavior when file sent to Preview",
+            "abrev": "rp",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "-1",
+            "default_desc": "Leave as is",
+            "opts": [
+               {
+                  "value": "1",
+                  "desc": "Force open"
+               },
+               {
+                  "value": "0",
+                  "desc": "Force closed"
+               }
+            ],
+            "sysvar": "0",
+            "type": "str"
+         }
+      ]
+   },
+   "VV": {
+      "cmd": "VV",
+      "name": "define Variable values",
+      "params": [
+         {
+            "name": "Variable Name",
+            "desc": "Variable name starting with '&' (e.g. &MyVariableName)",
+            "abrev": "name",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "&variable_1",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "Value",
+            "desc": "Value for this variable, number or text",
+            "abrev": "val",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "distm"
+         }
+      ]
+   },
    "VS": {
       "cmd": "VS",
       "name": "Speed values",
@@ -2753,20 +3003,6 @@
             "type": "distm"
          },
          {
-            "name": "C Move Speed",
-            "desc": "Move (Cutting) Speed in Current Units for C Axis",
-            "abrev": "msC",
-            "typeext": 0,
-            "disptype": "1",
-            "default": "50",
-            "sysvar": 146,
-            "range": [
-               "0.01",
-               "5000"
-            ],
-            "type": "distm"
-         },
-         {
             "name": "XY Jog Speed",
             "desc": "Jog (Rapid) Speed in Current Units for X & Y Axis Movements; Do Not Set Above Default Without Safety Precautions!",
             "abrev": "jsXY",
@@ -2821,20 +3057,6 @@
                "5000"
             ],
             "type": "distm"
-         },
-         {
-            "name": "C Jog Speed",
-            "desc": "Jog (Rapid) Speed in Current Units for C Axis Movements ",
-            "abrev": "jsC",
-            "typeext": 0,
-            "disptype": "1",
-            "default": "100",
-            "sysvar": 147,
-            "range": [
-               "0.01",
-               "5000"
-            ],
-            "type": "distm"
          }
       ]
    },
@@ -2876,7 +3098,7 @@
             "abrev": "mrA",
             "typeext": 0,
             "disptype": "1",
-            "default": ".4",
+            "default": "",
             "sysvar": 84,
             "range": [
                ".05",
@@ -2890,7 +3112,7 @@
             "abrev": "mrB",
             "typeext": 0,
             "disptype": "1",
-            "default": ".4",
+            "default": "",
             "sysvar": 85,
             "range": [
                ".05",
@@ -2903,6 +3125,7 @@
             "desc": "Ramp Starting Speed in Current Units for XY Jogs ",
             "abrev": "jrXY",
             "typeext": 0,
+            "disptype": "1",
             "default": ".4",
             "sysvar": 86,
             "range": [
@@ -2931,7 +3154,7 @@
             "abrev": "jrA",
             "typeext": 0,
             "disptype": "1",
-            "default": ".4",
+            "default": "",
             "sysvar": 89,
             "range": [
                ".05",
@@ -2945,7 +3168,7 @@
             "abrev": "jrB",
             "typeext": 0,
             "disptype": "1",
-            "default": ".4",
+            "default": "",
             "sysvar": 90,
             "range": [
                ".05",
@@ -3001,7 +3224,7 @@
             "abrev": "minD",
             "typeext": 0,
             "disptype": "1",
-            "default": ".10",
+            "default": ".15",
             "sysvar": 0,
             "range": [
                ".001",
@@ -3028,7 +3251,7 @@
             "desc": "",
             "abrev": "fStop",
             "typeext": 0,
-            "disptype": "1",
+            "disptype": "0",
             "default": "0",
             "sysvar": 0,
             "range": [
@@ -3042,7 +3265,7 @@
             "desc": "",
             "abrev": "thStop",
             "typeext": 0,
-            "disptype": "1",
+            "disptype": "0",
             "default": "0",
             "sysvar": 0,
             "range": [
@@ -3064,8 +3287,130 @@
                "2"
             ],
             "type": "distm"
+         },
+         {
+            "name": "Small Circle Def (OBS)",
+            "desc": "Obsolete",
+            "abrev": "SmCir",
+            "typeext": 1,
+            "disptype": "1",
+            "default": ".25",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "distm"
          }
       ]
+   },
+   "VB": {
+      "cmd": "VB",
+      "name": "taBbing values",
+      "params": [
+         {
+            "name": "Distance to Pull Up",
+            "desc": "How high up the Z axis comes during a tab",
+            "abrev": "up",
+            "typeext": 0,
+            "disptype": "1",
+            "default": ".1",
+            "sysvar": 41,
+            "range": [
+               "-1",
+               "1"
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "Distance to Next Tab",
+            "desc": "How far appart the tabs are",
+            "abrev": "nxt",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "4.0",
+            "sysvar": 42,
+            "range": [
+               ".001",
+               "50"
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "Size of the Tab",
+            "desc": "How long the tab up length is",
+            "abrev": "sz",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1.0",
+            "sysvar": 43,
+            "range": [
+               ".001",
+               "100"
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "Distance of leads",
+            "desc": "How long the move up and move down are",
+            "abrev": "lds",
+            "typeext": 0,
+            "disptype": "1",
+            "default": ".5",
+            "sysvar": 44,
+            "range": [
+               ".001",
+               "20"
+            ],
+            "type": "str"
+         },
+         {
+            "name": "ON - OFF",
+            "desc": "Turn ON or OFF tabbing in a file",
+            "abrev": "tog",
+            "typeext": 0,
+            "disptype": "0",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "int"
+         },
+         {
+            "name": "Number of Tabs",
+            "desc": "Number of tabs after tabbing turned on in a Part File",
+            "abrev": "num",
+            "typeext": 0,
+            "disptype": "0",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "Distance to First Tab",
+            "desc": "Distance to first tab after tabbing turned on in a Part File",
+            "abrev": "dist",
+            "typeext": 0,
+            "disptype": "0",
+            "default": "",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "distm"
+         }
+      ]
+   },
+   "VT": {
+      "cmd": "VT",
+      "name": "Tolerance values"
    },
    "VA": {
       "cmd": "VA",
@@ -3335,6 +3680,7 @@
             "abrev": "",
             "typeext": 0,
             "disptype": "0",
+            "default": "",
             "sysvar": 0,
             "range": [
                null,
@@ -3343,18 +3689,18 @@
             "type": "obs"
          },
          {
-            "name": "Small Circle Def (OBS)",
-            "desc": "Obsolete",
-            "abrev": "SmCir",
-            "typeext": 1,
+            "name": "prevSmallCir",
+            "desc": " ",
+            "abrev": "",
+            "typeext": 0,
             "disptype": "0",
-            "default": ".25",
+            "default": "",
             "sysvar": 0,
             "range": [
                null,
                null
             ],
-            "type": "dobs"
+            "type": "distrb"
          },
          {
             "name": "B Unit Value",
@@ -3452,21 +3798,21 @@
                "1",
                "100"
             ],
-            "type": "obs"
+            "type": "int"
          },
          {
-            "name": "C Unit Value",
-            "desc": "Sets number of steps per measurement Unit (inches or mm or deg)",
-            "abrev": "unC",
+            "name": "Disable Res Shifting",
+            "desc": "Set to 1 to DISABLE Electronic Gear-Shifting in PRSalphas; will decrease max Jog Speed",
+            "abrev": "disX",
             "typeext": 0,
             "disptype": "1",
-            "default": "",
-            "sysvar": 148,
+            "default": "0",
+            "sysvar": 0,
             "range": [
                null,
                null
             ],
-            "type": "int"
+            "type": "obs"
          }
       ]
    },
@@ -3949,6 +4295,7 @@
             "desc": "Define how many axes to check",
             "abrev": "lmNm",
             "typeext": 0,
+            "disptype": "1",
             "default": "5",
             "sysvar": 30,
             "range": [
@@ -3958,6 +4305,14 @@
             "type": "int"
          }
       ]
+   },
+   "VE": {
+      "cmd": "VE",
+      "name": "End angle for circle"
+   },
+   "VK": {
+      "cmd": "VK",
+      "name": "bacKlash values"
    },
    "VI": {
       "cmd": "VI",
@@ -4892,6 +5247,113 @@
          }
       ]
    },
+   "VH": {
+      "cmd": "VH",
+      "name": "torch Height or laser",
+      "params": [
+         {
+            "name": "Activate Control",
+            "desc": "Turn On or Off Torch, Lasers, or Controllers (normally used in PartFile - enable specific system in [VN])",
+            "abrev": "actH",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "default_desc": "Off",
+            "opts": [
+               {
+                  "value": "1",
+                  "desc": "On"
+               }
+            ],
+            "sysvar": "0",
+            "type": "sng"
+         },
+         {
+            "name": "Plasma Height Rate",
+            "desc": "Sets fractional responsiveness of Z in relation to steps in X & Y ",
+            "abrev": "spd",
+            "typeext": 0,
+            "disptype": "1",
+            "default": ".25",
+            "sysvar": 0,
+            "range": [
+               ".01",
+               "1.00"
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "PWM % Low",
+            "desc": "Sets lower or starting PWM rate (0% or higher)",
+            "abrev": "loPWM",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "sysvar": 0,
+            "range": [
+               "0",
+               "100"
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "PWM % High",
+            "desc": "Sets higher or ending PWM rate (100% or lower)",
+            "abrev": "hiPWM",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "sysvar": 0,
+            "range": [
+               "0",
+               "100"
+            ],
+            "type": "sng"
+         },
+         {
+            "name": "PWM Pulse Freq (KHz)",
+            "desc": "Enter New Value to change base PWM freq (0.5 to 40; default = 5.4)",
+            "abrev": "hz",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "5.4",
+            "sysvar": 0,
+            "range": [
+               ".5",
+               "40"
+            ],
+            "type": "int"
+         },
+         {
+            "name": "Low Cycle Time",
+            "desc": "Proportion time at low PWM (1 to 10 integer)",
+            "abrev": "tmlo",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "3",
+            "sysvar": 0,
+            "range": [
+               "1",
+               "10"
+            ],
+            "type": "int"
+         },
+         {
+            "name": "Set Temperature",
+            "desc": "Threshold temperature (deg C; integer)",
+            "abrev": "tmpt",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "0",
+            "sysvar": 0,
+            "range": [
+               "0",
+               "400"
+            ],
+            "type": "opt"
+         }
+      ]
+   },
    "VO": {
       "cmd": "VO",
       "name": "temporary tool Offset",
@@ -4999,6 +5461,98 @@
          }
       ]
    },
+   "T1": {
+      "cmd": "T1",
+      "name": "virtual tool #1"
+   },
+   "RR": {
+      "cmd": "RR",
+      "name": "replay Recent commands",
+      "params": [
+         {
+            "name": "Number Commands back",
+            "desc": "Set how many of the most recent Commands to run",
+            "abrev": "nmBk",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "int"
+         },
+         {
+            "name": "Repetitions",
+            "desc": "Number of times to repeat the selected Commands",
+            "abrev": "reps",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "1",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "partfile"
+         }
+      ]
+   },
+   "RP": {
+      "cmd": "RP",
+      "name": "rePlay all commands"
+   },
+   "RS": {
+      "cmd": "RS",
+      "name": "Save recorded commands",
+      "params": [
+         {
+            "name": "Part File Name",
+            "desc": "Name of Part File to Save Recorded Commands to",
+            "abrev": "fNm",
+            "typeext": 0,
+            "disptype": "2",
+            "default": "Record.sbp",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "str"
+         },
+         {
+            "name": "Number Commands back",
+            "desc": "Set how many of the most recent Commands to save",
+            "abrev": "nmBk",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "All",
+            "sysvar": 0,
+            "range": [
+               null,
+               null
+            ],
+            "type": "partfile"
+         }
+      ]
+   },
+   "RA": {
+      "cmd": "RA",
+      "name": "Activate command recording"
+   },
+   "RI": {
+      "cmd": "RI",
+      "name": "Inactivate command recording"
+   },
+   "RZ": {
+      "cmd": "RZ",
+      "name": "Zero (clear) command record"
+   },
+   "UU": {
+      "cmd": "UU",
+      "name": "calcUlator"
+   },
    "UL": {
       "cmd": "UL",
       "name": "List current variables"
@@ -5020,6 +5574,7 @@
             "desc": "Create a custom file with all current settings; can be run like Part File to re-establish current settings",
             "abrev": "fNm",
             "typeext": 0,
+            "disptype": "2",
             "default": "CustomSettings.sbd",
             "sysvar": 0,
             "range": [
@@ -5029,6 +5584,10 @@
             "type": "partfile"
          }
       ]
+   },
+   "UN": {
+      "cmd": "UN",
+      "name": "Name of editor"
    },
    "UZ": {
       "cmd": "UZ",
@@ -5046,52 +5605,72 @@
       "cmd": "UI",
       "name": "Install Control Box Firmware"
    },
-
-   "TR": {
-      "cmd": "TR",
-      "name": "Tool for Spindle RPM Control"
-   },
-
-   "DE": {
-      "cmd": "DE",
-      "name": "Design with Inventables' EASEL"
-   },
-   "DA": {
-      "cmd": "DA",
-      "name": "... get info on EASEL and Inventables; using with Fabmo ...?"
-   },
-   "DT": {
-      "cmd": "DT",
-      "name": "Design with Autodesk's TinkerCAD"
-   },
-
-   "HS": {
-      "cmd": "HS",
-      "name": "SAFETY !"
-   },
    "HQ": {
       "cmd": "HQ",
-      "name": "Quick Launch for beginners"
+      "name": "Quick Start for beginning ShopBotters"
    },
    "HC": {
       "cmd": "HC",
       "name": "Command Reference"
    },
-   "HL": {
-      "cmd": "HL",
-      "name": "List Configs and Variables"
+   "HU": {
+      "cmd": "HU",
+      "name": "User's Guide"
+   },
+   "HR": {
+      "cmd": "HR",
+      "name": "Quick Ref to Command Summary"
+   },
+   "HE": {
+      "cmd": "HE",
+      "name": "Quick Ref for Editing Part Files"
+   },
+   "HK": {
+      "cmd": "HK",
+      "name": "Keyboard Shortcuts"
+   },
+   "HS": {
+      "cmd": "HS",
+      "name": "Squaring the X Car"
+   },
+   "HZ": {
+      "cmd": "HZ",
+      "name": "Zeroing and Table Base Coordinates"
    },
    "HF": {
       "cmd": "HF",
-      "name": "User Forum"
+      "name": "ShopBot User Forum"
    },
    "HW": {
       "cmd": "HW",
       "name": "ShopBot Website"
    },
+   "HP": {
+      "cmd": "HP",
+      "name": "Programming and Developer Resources"
+   },
+   "HD": {
+      "cmd": "HD",
+      "name": "ShopBot User Data Files (view)"
+   },
+   "HN": {
+      "cmd": "HN",
+      "name": "Notes on Software Diagnostics (UD)"
+   },
+   "HI": {
+      "cmd": "HI",
+      "name": "Info on Control Card Diagnostic LEDs"
+   },
+   "HX": {
+      "cmd": "HX",
+      "name": "ShopBot Tech Support Request FormX"
+   },
+   "HM": {
+      "cmd": "HM",
+      "name": "Remote PC Help from ShopBot Support"
+   },
    "HA": {
       "cmd": "HA",
       "name": "help About"
    }
-
 }

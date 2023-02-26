@@ -127,9 +127,9 @@
 
   <!-- Grid Layout -->
   <div class="row">
-    <p> </p>
+<!--    <p> </p> -->
     <div class="small-12 medium-12 large-12 columns">
-      <div class="row medium-collapse large-uncollapse">
+      <div class="row main-row medium-collapse large-uncollapse">
 
         <!-- LEFT SIDE  -->
         <!-- Macro Button Panel  -->
@@ -137,15 +137,19 @@
             <div class="callout panel" id="macro-panel">
               <!-- Buttons (actions) -->
               <div class="macros">
-              <label data-tooltip class="show-for-medium-up" title="Normal sequence for starting up your tool and running a Part File"><strong>Standard Work Flow</strong></label>
-              <button type="button" class="secondary button small medium-expanded" id="first_macro_button" >Home X & Y [C3]</button>
-              <button type="button" class="secondary button small medium-expanded" id="second_macro_button" >Set Z Zero [C2]</button>
-              <button type="button" class="success button small medium-expanded" id="cut_part_call"><strong> = CUT PART [FP] =  </strong></button>
+              <label data-tooltip class="panel-label show-for-medium-up" title="Normal sequence for starting up your tool and running a Part File"><strong>Standard Work Flow</strong></label>
+              <button type="button" class="macro-button secondary button small medium-expanded" id="first_macro_button">Home X & Y [C3]</button>
+              <button type="button" class="macro-button secondary button small medium-expanded" id="second_macro_button">Set Z Zero [C2]</button>
+              <button type="button" class="macro-button success button small medium-expanded" id="cut_part_call"><strong> = CUT PART [FP] =  </strong></button>
               </div>
-              <label data-tooltip class="show-for-medium-up" title="Access other macros; User configurable in ..."><strong>Other Custom Macros</strong></label>
-              <button type="button" class="secondary button small medium-expanded" id="third_macro_button" >Square Gantry (C10)</button>
-              <button type="button" class="secondary button small medium-expanded" id="fourth_macro_button" >Test Cut (C210)</button>
-              <button type="button" class="secondary button small medium-expanded" id="fifth_macro_button" >First Project - Bit Holder (C211)</button>
+              <div class="other-macros">
+              <label data-tooltip class="panel-label show-for-medium-up" title="Access other helpful macros and quick command calls; User configurable in ..."><strong>Other Helpful Macros</strong></label>
+              <button type="button" class="cmd-button secondary button small medium-expanded" id="cmd_button1" title="Jog Home (X and Y; Z Safe Height)">JH</button>
+              <button type="button" class="cmd-button secondary button small medium-expanded" id="cmd_button2" title="zero Z axis">ZZ</button>
+              <button type="button" class="macro-button secondary button small medium-expanded" id="third_macro_button">Square Gantry (C10)</button>
+              <button type="button" class="macro-button secondary button small medium-expanded" id="fourth_macro_button">Test Cut (C210)</button>
+              <button type="button" class="macro-button secondary button small medium-expanded" id="fifth_macro_button">First Project - Bit Holder (C211)</button>
+              </div>
             </div>
         </div>  
 
@@ -156,14 +160,17 @@
             <div class="callout panel" id="cmd-panel">
                 <form>
                 <div class="row">
-                    <div class="large-12 columns">
+                    <div class="medium-11 large-11 columns">
                     <label class="show-for-small-only">Cmd</label>
-                    <label class="show-for-medium-up cmds"><strong>Individual Command Input</strong> (select from menu above or type Commands directly here)</label>
+                    <label  data-tooltip class="panel-label show-for-medium-up cmds" title="Run specific OpenSBP Commands. Select from menu above or type directly here. See Command Reference in > Help"><strong>Individual Command Input</strong></label>
                     <form><strong>
-                        <input class="cmds show-for-medium-up" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" font-weight="bold" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
+                        <input class="cmds" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" font-weight="bold" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
                 <!--      <input class="show-for-medium-up cmds" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
                         <input class="show-for-small-only cmds" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="{2-Letters...}" value="" /> -->
                     </strong></form>
+                    </div>
+                    <div class="medium-1 large-1 columns">
+                        <button data-tooltip type="button" class="secondary button small hide-for-small-only medium-expanded" title="Get Command Help in OpenSBP Reference." id="cmd-help">?--</button>
                     </div>
                 </div>
                 
@@ -173,7 +180,7 @@
                     <label id="running" value="" placeholder="  "> </label>
                     <label></label>
                     <!--<textarea class="show-for-small-only" rows="2" cols="50" name="textarea_filedisplay"></textarea>-->
-                    <textarea class="show-for-medium-up running" rows="6" cols="50" name="textarea_filedisplay" id="txt_area" readonly no-scroll no-wrap style="font-family:'Courier New', Courier, monospace"></textarea>
+                    <textarea class="show-for-medium-up running" rows="6" cols="50" name="textarea_filedisplay" id="file_txt_area" readonly no-scroll no-wrap style="font-family:'Courier New', Courier, monospace"></textarea>
                     </div>
                 </div>
                 </form>
@@ -187,35 +194,40 @@
                 <form>
                 <div class="row">
                     <div class="large-12 columns">
-                            <div class="small-6 medium-4 large-4 columns">
-<!--                                <label title="Default feed rates and rapid speeds"><strong>Default Speeds</strong></label>-->
-                                <img data-tooltip class="top" tabindex="1" title="This app is ShopBot's CNC interface for setting up your tool and cutting Part Files (left panel). You can also send Individual Commands in the OpenSBP language (right panel). See HELP > Cmd Reference for info on OpenSBP language." src="./assets/image6b_transparent.png">
-                                <p> </p>
-                                <p class="small show-for-medium-up text-left at-foot">[ F11 (or right-click) exits fullscreen; Ctl-Tab switches window; 'K' opens Keypad; ESC backs out ]</p>
-<!--                                <p class="small text-left at-foot" id="copyright">© Copyright ShopBot Tools 2023.</p>
--->                            </div> 
-                                <div class="small-8 medium-8 large-8 columns">
-                                <div class="row">
-                                    <div class="large-6 medium-6 columns">
-                                        <label class="right speed-labels">Default Move Speed X / Y</label>
-                                        <input type="text" placeholder="0.00" id="formatted_movexy_speed" class=" text-right opensbp_input_formattedspeeds" />
-                                    </div>
-                                    <div class="large-6 medium-6 columns">
-                                        <label class="right speed-labels"> Default Move Speed Z &nbsp;&nbsp;</label>
-                                        <input type="text" placeholder="0.00" id="formatted_movez_speed" class="text-right opensbp_input_formattedspeeds" />
-                                    </div>
+
+                        <div class="logo-box small-6 medium-4 large-4 columns">
+                            <img panel-label data-tooltip class="top" tabindex="1" id="sb-logo" title="This app is ShopBot's CNC interface for setting up your tool and cutting Part Files (left panel). You can also send Individual Commands in the OpenSBP language (right panel). See HELP > Cmd Reference for info on OpenSBP language." src="./assets/image6b_transparent.png">
+                            <p class="small show-for-medium-up text-left at-foot">[ F11 (or right-click) exits fullscreen; Ctl-Tab switches window; 'K' opens Keypad; ESC backs out ]</p>
+                        </div> 
+
+                        <div class="move-speed-box small-8 medium-8 large-8 columns">
+                            <div class="row">
+                                <div class="large-6 medium-6 columns">
+                                    <label class="right speed-labels show-for-large-only">Default Move Speed X / Y</label>
+                                    <label class="right speed-labels show-for-medium-down">Move Speed X/Y</label>
+                                    <input type="text" placeholder="0.00" id="formatted_movexy_speed" class=" text-right opensbp_input_formattedspeeds" />
                                 </div>
-                                <div class="row">
-                                    <div class="large-6 medium-6 columns">
-                                        <label class="right speed-labels"> Default Jog Speed X / Y</label>
-                                        <input type="text" placeholder="0.00" id="formatted_jogxy_speed" class="text-right opensbp_input_formattedspeeds" />
-                                    </div>
-                                    <div class="large-6 medium-6 columns">
-                                        <label class="right speed-labels"> Default Jog Speed Z &nbsp;&nbsp;</label>
-                                        <input type="text" placeholder="0.00" id="formatted_jogz_speed" class="text-right opensbp_input_formattedspeeds" />
-                                    </div>
+                                <div class="large-6 medium-6 columns">
+                                    <label class="right speed-labels show-for-large-only"> Default Move Speed Z &nbsp;&nbsp;</label>
+                                    <label class="right speed-labels show-for-medium-down">Move Speed Z</label>
+                                    <input type="text" placeholder="0.00" id="formatted_movez_speed" class="text-right opensbp_input_formattedspeeds" />
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="large-6 medium-6 columns">
+                                    <label class="right speed-labels show-for-large-only"> Default Jog Speed X / Y</label>
+                                    <label class="right speed-labels show-for-medium-down">Jog Speed X/Y</label>
+                                    <input type="text" placeholder="0.00" id="formatted_jogxy_speed" class="text-right opensbp_input_formattedspeeds" />
+                                </div>
+                                <div class="large-6 medium-6 columns">
+                                    <label class="right speed-labels show-for-large-only"> Default Jog Speed Z &nbsp;&nbsp;</label>
+                                    <label class="right speed-labels show-for-medium-down">Jog Speed Z</label>
+                                    <input type="text" placeholder="0.00" id="formatted_jogz_speed" class="text-right opensbp_input_formattedspeeds" />
+                                </div>
+                            </div>
+                        </div>
+
                             <p class="small text-left at-foot show-for-medium-up" id="copyright">© Copyright ShopBot Tools 2023.</p>
                     </div>
                 </div>    
@@ -239,15 +251,15 @@
     <!-- Fill-In Sheet -->
     <div id="fill-in-modal" class="reveal-modal" data-reveal role="dialog">
       <form>
-        <h2 id="modalTitle">File Ready to Run</h2>
-        <p id="curfilename"></p>
+        <h3 class="fi_title" id="modalTitle">File Ready to Run</h3>
+        <p class="fi_title" id="cur_fi_info"></p>
  
         <textarea rows="4" cols="50" placeholder="" id="fi_params" ></textarea>
         
         <ul class="button-group">
-            <li><a class="secondary button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
-            <li><a class="secondary button" role="button" id="btn_prev_file" title="in Job Manager; such as Preview, Edit, Scale, etc..">Advanced Functions</a></li>
-            <li><a class="secondary button" role="button" id="btn_cmd_quit">Close</a></li>
+            <li><a class="secondary button fi_button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
+            <li><a class="secondary button fi_button" data-tooltip role="button" id="btn_prev_file" title="handle in Job Manager; Queue, Preview, Edit, Scale, etc..">Advanced Functions</a></li>
+            <li><a class="secondary button fi_button" role="button" id="btn_cmd_quit">Close</a></li>
         </ul>
       </form>
     </div>
