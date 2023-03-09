@@ -485,7 +485,6 @@ $(document).ready(function () {
     };
 
     // ** Help for Command
-
     $("#cmd-help").click(function () {
         console.log('got cmd-help');
         let thisCmd = $("#cmd-input").val().substring(0, 2);

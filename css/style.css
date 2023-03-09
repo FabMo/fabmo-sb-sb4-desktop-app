@@ -3,11 +3,21 @@
   margin-top: 0px;
   overflow: auto;
 */
+
 #sb4app {
     height: 100%;
-    margin-top: 0px;
+/*    margin-top: 0px;
     margin-bottom: 0px;
+*/
     overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+/* Removes default dropdown arrow from menu buttons so better collapse behavior */
+@media only screen and (min-width: 40.0625em) {
+.top-bar-section .has-dropdown>a {
+    padding-right: 0.9375rem !important;
+}
 }
 
 #sb4app::-webkit-scrollbar { 
@@ -162,7 +172,6 @@ input.opensbp_input_formattedspeeds {
   border-radius: 5px;
   margin-bottom: .25rem;
 }
-
 
 #insert-input {
   color: rgb(113, 233, 241);
