@@ -1,4 +1,5 @@
 let cmds = [];
+let fI_dispArray = [];
 
 // Initialize and Set Actions for Full App; BOTH the Regular Sb4 stuff and the MOtion-Pad stuff
 
