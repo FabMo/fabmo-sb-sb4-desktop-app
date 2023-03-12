@@ -33,7 +33,7 @@ function sendCmd(command) {
 
 }
 
-function getUsrResource(remote, local) {                ////## mucking around here testing Easel
+function getUsrResource(remote, local) {                ////## mucking around here for testing Easel
   // temporarily only getting local because not detecting error on raspi tablets 
   //    fabmo.navigate(local,{target : '_blank'});
 
@@ -74,10 +74,8 @@ function setSafeCmdFocus(site) {     // too easy to walk on Manual Keypad (not s
     }
 }
 
-
-
 function displayFillIn(parameters, title, info) {
-    if (title.substring(0,4) === "File") {    // handle as file
+    if (title.substring(0,4) === "File") {    // handle an FP run file case
         $('#btn_prev_file').show();
         $('#btn_ok_run').text("OK-Run")
     } else {
@@ -86,51 +84,24 @@ function displayFillIn(parameters, title, info) {
     }
 
     $(".fi-listing").empty();
-    // html = [
-    //     '<tr class="fi-install-row">',
-    //     '<td colspan="4" class="app-install-text noselect">Click here to install an app</td>',
-    //     '</tr>'
-    // ].join('');
-    // $(".fi-listing").prepend(html);
-
-
    // go through fI_dispArray by index and get values for each field 
     // 1. name, 2. disptype, 3. units, 4. default, 5. min, 6. max, 7. step, 8. help, 9. required, 10. optional, 11. value
     fI_dispArray.forEach (function (item, index) {
-        console.log(index, item.name, item.disptype, item.units, item.default, item.min, item.max, item.step, item.help, item.required, item.optional, item.value);
-
+        //console.log(index, item.name, item.disptype, item.units, item.default, item.min, item.max, item.step, item.help, item.required, item.optional, item.value);
         let dispSymbol = "";
-        if (item.disptype ==="2") {dispSymbol = "=Required="} ;  
+        if (item.disptype ==="2") {dispSymbol = "*"} ;
+        let setVal = "";
+        if (item.default) {setVal = item.default} ;
+        let str_colon = dispSymbol + " : ";
 
         html = [
-            '<tr class="fi_params">',
-                '<td><input class="fi_params_name" value="' + item.name +'"></td>',
-                '<td><input class="fi_params_disptype" value="' + dispSymbol +'"></td>',
-                '<td><input class="fi_params_val" value="' + item.value +'"></td>',
+            '<tr">',
+                '<td class="fi_params" title="tool-tip"><input class="fi_name noselect" value="' + item.name + str_colon + '"></td>',
+                '<td class="fi_params"><input class="fi_val" id="fi_' + index + '" value="' + setVal + '"></td>',
             '</tr>'
         ].join('');
         $(".fi-listing").append(html);
-
-
-    // javascript read each line of array into fields in form 
-// $(".fi_params_name").val(item.name); 
-// $(".fi_params_disptype").val(item.disptype);
-    // $("#fi_params_units").val(fI_dispArray.units); 
-    // $("#fi_params_default").val(fI_dispArray.default);
-    // $("#fi_params_min").val(fI_dispArray.min);
-    // $("#fi_params_max").val(fI_dispArray.max);
-    // $("#fi_params_step").val(fI_dispArray.step);
-    // $("#fi_params_help").val(fI_dispArray.help);
-    // $("#fi_params_required").val(fI_dispArray.required);
-    // $("#fi_params_optional").val(fI_dispArray.optional);
-    // $("#fi_params_value").val(fI_dispArray.value);
-});
-
-// javascript to add html rows to lines of input form 
-// 1. name, 2. disptype, 3. units, 4. default, 5. min, 6. max, 7. step, 8. help, 9. required, 10. optional, 11. value
-//  <tr><td><input type="text" id="fi_params_name" value="*Required*"></td>
-
-
+    });
 
     $('#cur_fi_info').empty();
     if (info === "") {
@@ -144,9 +115,7 @@ function displayFillIn(parameters, title, info) {
     $('#fill-in-modal').trigger("reset");
     $('#fill-in-modal').foundation('reveal', 'open');
     globals.FIll_In_Open = true;
-
 }
-
 
 
 function processCommandInput(command) {
@@ -259,47 +228,23 @@ function processCommandInput(command) {
             case "S":
             case "V":        
                 let titleCmd = "", parameters = "";
+                fI_dispArray = [];
                 $("#cmd-input").val(command);
-                console.log(cmds[command].params); // reparsing here to be able to arrange
 
                 param_num = 0;
                 cmds[command].params.forEach(function(entry) {
-                    console.log("entry> ", entry.name, entry.disptype);
                     param_num++;
 
                     fI_dispArray.push({ name: entry.name, disptype: entry.disptype, default: entry.default });
+                
+                })
 
-    //                 if (entry.disptype === "2") {
-    //                     parameters += " *" + entry.name + "*, ";
-    //                 } else if (entry.disptype === "1" && entry.default != "") {
-    // //                    parameters += entry.default + " {<-def| " + entry.name + "}, ";
-    //                     parameters +=  " {" + entry.name + " <def>} " + entry.default +",";
-    //                 } else if (entry.disptype === "1") {               // ignore disptype ""
-    //                     parameters += " {" + entry.name + "}, ";
-    //                 }
-                });  
-
-
-    //             cmds[command].params.forEach(function(entry) {
-    //                 console.log("entry> ", entry.name, entry.disptype);
-    //                 if (entry.disptype === "2") {
-    //                     parameters += " *" + entry.name + "*, ";
-    //                 } else if (entry.disptype === "1" && entry.default != "") {
-    // //                    parameters += entry.default + " {<-def| " + entry.name + "}, ";
-    //                     parameters +=  " {" + entry.name + " <def>} " + entry.default +",";
-    //                 } else if (entry.disptype === "1") {               // ignore disptype ""
-    //                     parameters += " {" + entry.name + "}, ";
-    //                 }
-    //             });  
-                console.log(fI_dispArray);
-
-                titleCmd = command + ": " + cmds[command].name
-
+                titleCmd = command + ": " + cmds[command].name;
                 displayFillIn(parameters, titleCmd, "");
 
                 break;
-        }    
-        
+        }
+
         // HANDLE COMMAND: Then do all the misc special commands
         switch (command) {
             case "SI": // obsolete

@@ -252,13 +252,13 @@
 
     <!-- Fill-In Sheet -->
     <div id="fill-in-modal" class="reveal-modal" data-reveal role="dialog">
-      <form>
+      <form autocomplete="off">
         <h3 class="fi_title" id="modalTitle">File Ready to Run</h3>
         <p class="fi_title" id="cur_fi_info"></p>
   
         
-        <div>
-            <table id="fill-in-table">
+        <div id="fi-container">
+            <div id="fill-in-table"><table>
     <!--      <div rows="4" cols="50"> -->
     <!--        <tr class="fi_params">
             <thead>
@@ -271,9 +271,8 @@
     -->
                 <tbody class="fi_params fi-listing"></tbody>
     <!--      </div> -->      
-        </table>
+        </table></div>
       </div>
-
 
         <ul class="button-group">
             <li><a class="secondary button fi_button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
@@ -288,6 +287,7 @@
         <h2>Config Values and Persistent Variables</h2>
         <p> <pre id="full-config">No configuration loaded yet.</pre> </p>
     </div>
+
 
     <!-- INSERT BETA -->
     <div id="insertStream" class="reveal-modal" data-reveal role="dialog">

@@ -493,48 +493,36 @@ $(document).ready(function () {
         fabmo.navigate(location, { target: '_blank' });
     });
 
+
+
+
     // ** If enter key hit in #fi_params, then click the Run button 
     $('#fi_params').keypress(function (e) {
         if (e.which == 13) {
             $('#btn_ok_run').click();
-            //return false;    //<---- Add this line
+            return false;    //<---- Add this line ?
         }
     });
-       
-    // ** Allow editing of Fill-In parameters and paste usably into Command Line
-    $('#fi_params').on('input', function (evt) {   // pull things in as we change them
-        let thisFullCmd = ($("#fi_params").val()).replaceAll(/{.*?\}/g, "");
+
+    
+    // ** Allow editing of Fill-In parameters and paste usably into Command Line ready to run
+    $('#fi-container').on('change', '.fi_val', function (evt) { // re-enter parameters into command on each change
         let thisCurCmd = ($("#cmd-input").val()).substring(0,3);
-        $("#cmd-input").val(thisCurCmd + thisFullCmd);
+        let thisFullCmd = "";
+        //console.log(evt);
+
+        fI_dispArray.forEach (function (item, index) {
+            //console.log(index, item.name, item.disptype, item.units, item.default, item.min, item.max, item.step, item.help, item.required, item.optional, item.value);
+            let thisValue = "";
+            let theFieldName = ("fi_" + index) ;  // can also get from id
+            if ($("#" + theFieldName).val()) {thisValue = $("#" + theFieldName).val()};     
+            thisFullCmd += thisValue + ", ";
+        });
+
+        $("#cmd-input").val(thisCurCmd + thisFullCmd);  // updated command line
     });
 
-    $.fn.setSelectionRange = function (start, end) {    ////## Time to move away from this jquery stuff!
-        if (this.length == 0) return this;
-        input = this[0];
-        if (input.createTextRange) {
-            var selRange = input.createTextRange();
-            selRange.collapse(true);
-            selRange.moveStart('character', start);
-            selRange.moveEnd('character', end);
-            selRange.select();
-        } else if (input.setSelectionRange) {
-            input.focus();
-            input.setSelectionRange(start, end);
-        }
-        return this;
-    };
 
-    $('#fi_params').dblclick(function (evt) {    // double click to select full field to typeover  
-        evt.preventDefault();
-        let cursorPosition =  $("#fi_params")[0].selectionStart;
-        let thisFullCmd = $("#fi_params").val();
-        let thisStart = thisFullCmd.lastIndexOf(",", cursorPosition);
-        if (thisStart < 0) {thisStart = 0};
-        let thisEnd = thisFullCmd.indexOf(",", thisStart + 1);
-        if (thisStart > -1 && thisEnd > -1) {
-            $("#fi_params").setSelectionRange(thisStart + 1, thisEnd);
-        }
-    });
 
     // Just for testing stuff ... 
     $("#other").click(function () {

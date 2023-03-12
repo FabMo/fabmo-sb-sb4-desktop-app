@@ -135,6 +135,13 @@ input.cmds {
 
 
 
+.reveal-modal {
+    top: 130px !important;
+}
+
+.reveal-modal-bg {
+    position: fixed;
+}
 
 #fill-in-modal {
     background-color: rgb(255,250, 203);
@@ -143,15 +150,57 @@ input.cmds {
     border-color: rgb(136, 171, 190);
     padding-top: .3rem;
     padding-bottom: .4rem;
+    max-width: 700px;
+    max-height: 700px;
 }
 
-#fill-in-table {
-    background-color: green;
-    row-gap: 0px;
+#fi-container {
+    display: flex;
+    flex-direction: column;
     padding: 0px;
-    max-height: 300px;
-    overflow-y:scroll;
 }
+
+#fill-in-table,
+#fill-in-table table {
+    background-color: rgb(255,250, 203);
+    align-self: center;
+    margin-top: 5px;
+    width: 400px;
+    max-height: 280px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-bottom: 20px;
+}
+
+.fi_params,
+.fi_params input,
+.fi_params td {
+    background-color: rgb(255,250, 203);
+    border: none;
+    border-bottom-width: thin;
+    border-bottom-color: cadetblue;
+    height: 50%;
+    padding: 0rem;
+    margin: 2px;
+}
+
+.fi_name {
+    text-align: right;
+/*    cursor: pointer;    */
+}
+
+.fi_val {
+
+    text-align: center;
+    color:#7ab6fc
+}
+
+.fi_name input,
+.fi_val input {
+    margin: 0px;
+    border: none;
+}
+
 
 table tr td {
     padding: 0px;
@@ -168,6 +217,7 @@ table tr td {
     color: #327c7e;
 }
 
+/*
 .fi_button {
     margin-top:.5rem;
     margin-bottom: .4rem;
@@ -180,13 +230,23 @@ table tr td {
     height: 2.5rem;
 }
 
+input .fi_params {
+    height: 50%;
+    background-color: rgb(255,250, 203);
+    border-radius: 10px;
+    border-color: rgb(136, 171, 190);
+}
+
 .fi_params {
     background-color: rgb(255,250, 203);
     border-radius: 10px;
     border-color: rgb(136, 171, 190);
-    height: 60%;
+}
+
+tr .fi_params {
     width: fit-content;
     margin-left: 1rem;
+    padding: 0rem;
 }
 
 td .fi_params {
@@ -194,42 +254,28 @@ td .fi_params {
     padding: 0rem;
 }
 
-tr .fi_params {
-/*    height: 50%;   */
-    width: fit-content;
-    margin-left: 1rem;
-    padding: 0rem;
-}
-
-td .fi_params_name {
+#fi_params_name {
     color:red;
     padding: 0rem;
     height: 50%;
     margin-bottom: 0px;
 }
 
-td .fi_params_disptype {
+#fi_params_disptype {
     padding: 0rem;
     height: 50%;
     margin-bottom: 0px;
 }
 
-td .fi_params_val {
+#fi_params_val {
     padding: 0rem;
     height: 50%;
     margin-bottom: 0px;
 }
 
+*/
 
 
-
-.reveal-modal-bg {
-    position: fixed;
-}
-
-.reveal-modal {
-    top: 170px !important;
-}
 
 input.opensbp_input_formattedspeeds {
   color: rgb(113, 233, 241);
