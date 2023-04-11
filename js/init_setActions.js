@@ -1,5 +1,5 @@
 let cmds = [];
-let fI_dispArray = [];
+//let fI_dispArray = [];
 
 // Initialize and Set Actions for Full App; BOTH the Regular Sb4 stuff and the MOtion-Pad stuff
 
@@ -243,16 +243,16 @@ $(document).ready(function () {
         };
         fileReader.readAsText(file, "UTF-8");
         curFilename = evt.target.files[0].name;
-        //$('#modalTitle').empty();
-        //$('#modalTitle').append("File Ready to Run");
-        //$("#cur_fi_info").text(curFilename);
-        //$('#fill-in-modal').foundation('reveal', 'open');
+        //$('#fi_modal_title').empty();
+        //$('#fi_modal_title').append("File Ready to Run");
+        //$("#fi_cur_info").text(curFilename);
+        //$('#fi-modal').foundation('reveal', 'open');
          displayFillIn("", "File Ready to Run", curFilename);
     })
 
     $("#btn_ok_run").click(function (event) {
-        let ckFile = $('#modalTitle').text().substring(0,4);
-        $('#fill-in-modal').foundation('reveal', 'close');
+        let ckFile = $('#fi_modal_title').text().substring(0,4);
+        $('#fi-modal').foundation('reveal', 'close');
         if (ckFile === "File") {    // handle as file
             fabmo.clearJobQueue(function (err, data) {
                 if (err) {
@@ -278,15 +278,15 @@ $(document).ready(function () {
 
     $("#btn_cmd_quit").click(function (event) {      // QUIT
         console.log("Not Run");
-        $('#fill-in-modal').foundation('reveal', 'close');
+        $('#fi-modal').foundation('reveal', 'close');
         curFile = "";
         curFilename = "";
-        $("#cur_fi_info").text("");
+        $("#fi_cur_info").text("");
     });
 
     $("#btn_prev_file").click(function (event) {    // ADVANCED
         console.log("Advanced - curFilename");
-        $('#fill-in-modal').foundation('reveal', 'close');
+        $('#fi-modal').foundation('reveal', 'close');
         fabmo.clearJobQueue(function (err, data) {
             if (err) {
                 cosole.log(err);
@@ -390,7 +390,7 @@ $(document).ready(function () {
     $(document).keydown(function (e) {
         switch (event.which) {
             case 27:
-                if (globals.FIll_In_Open === true) {$('#fill-in-modal').foundation('reveal', 'close')}
+                if (globals.FIll_In_Open === true) {$('#fi-modal').foundation('reveal', 'close')}
                 $('#cmd-input').val("");
                 $("#cmd-help").css("visibility","hidden");
                 //event.preventDefault();
@@ -404,7 +404,7 @@ $(document).ready(function () {
     $("#cut_part_call").click(function () {
         curFile = "";                           // ... clear out after running
         curFilename = "";
-        $("#cur_fi_info").text("");
+        $("#fi_cur_info").text("");
         $('#file').val('');
         $('#file').trigger('click');
     });
@@ -496,8 +496,8 @@ $(document).ready(function () {
 
 
 
-    // ** If enter key hit in #fi_params, then click the Run button 
-    $('#fi_params').keypress(function (e) {
+    // ** If enter key hit in #fi-params, then click the Run button 
+    $('#fi-params').keypress(function (e) {
         if (e.which == 13) {
             $('#btn_ok_run').click();
             return false;    //<---- Add this line ?
@@ -506,20 +506,20 @@ $(document).ready(function () {
 
     
     // ** Allow editing of Fill-In parameters and paste usably into Command Line ready to run
-    $('#fi-container').on('change', '.fi_val', function (evt) { // re-enter parameters into command on each change
-        let thisCurCmd = ($("#cmd-input").val()).substring(0,3);
+    $('#fi_container').on('change', '.fi_val', function () { // re-enter on each change in fill-in box
+        let thisCurCmd = ($("#cmd-input").val()).substring(0,2);
         let thisFullCmd = "";
-        //console.log(evt);
 
-        fI_dispArray.forEach (function (item, index) {
-            //console.log(index, item.name, item.disptype, item.units, item.default, item.min, item.max, item.step, item.help, item.required, item.optional, item.value);
+        for (let index = 1; index <= cmds[thisCurCmd].params.length; index++) {
             let thisValue = "";
             let theFieldName = ("fi_" + index) ;  // can also get from id
             if ($("#" + theFieldName).val()) {thisValue = $("#" + theFieldName).val()};     
             thisFullCmd += thisValue + ", ";
-        });
+        };
 
-        $("#cmd-input").val(thisCurCmd + thisFullCmd);  // updated command line
+        console.log(thisCurCmd + ", " + thisFullCmd);
+
+        $("#cmd-input").val(thisCurCmd + ", " + thisFullCmd);  // updated command line
     });
 
 
@@ -543,7 +543,7 @@ $(document).ready(function () {
 
 
     $(document).on('open.fndtn.reveal', '[data-reveal]', function () {      // ------------------- ON OPENING JOG PAD
-        if ($(this).context.id === "fill-in-modal") {
+        if ($(this).context.id === "fi-modal") {
             globals.FIll_In_Open = true;
         }
 
@@ -625,9 +625,9 @@ $(document).ready(function () {
     })
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
-        if ($(this).context.id === "fill-in-modal") {
+        if ($(this).context.id === "fi-modal") {
             globals.FIll_In_Open = false;
-            $('#fi_params').value = "";
+            $('#fi-params').value = "";
             console.log('got Fill-In closing; did Exit from manual')
         };
         if ($(this).context.id === "moPad") {

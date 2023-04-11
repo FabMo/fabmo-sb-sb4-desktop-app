@@ -2,9 +2,10 @@
  ***** Main js functionality for SB4 Commands *****  
  **/
 
-function sendCmd(command) {
+// Main Entry for 2-Letter Commands from the Sb4 Console
+ function sendCmd(command) {
   var thisCmd = command || $('#cmd-input').val();
-    $('#cmd-input').val('');    			 // remove after sent or called
+    $('#cmd-input').val('');    // remove after sent or called
     $("#cmd-help").css("visibility","hidden");
     postSbpAction(thisCmd);
 
@@ -17,22 +18,22 @@ function sendCmd(command) {
         		thisCmd,
           		'SV'						        // Make Permanent
           		].join("\n");
-        		fabmo.runSBP(mult_cmds);	// SEND MULTI >>>  
+        		fabmo.runSBP(mult_cmds);	        // SEND MULTI >>>  
   				break;
   			case "MS":
 		        var mult_cmds=[
         		thisCmd,
           		'SV'						        // Make Permanent
           		].join("\n");
-        		fabmo.runSBP(mult_cmds);	// SEND MULTI >>>  
+        		fabmo.runSBP(mult_cmds);	        // SEND MULTI >>>  
   				break;
   			default:
-                fabmo.runSBP(thisCmd);    	// SEND SIMPLE >>>
+                fabmo.runSBP(thisCmd);    	        // SEND SIMPLE >>>
   				break;
   		}
-
 }
 
+// Get some Needed info, etc ...
 function getUsrResource(remote, local) {                ////## mucking around here for testing Easel
   // temporarily only getting local because not detecting error on raspi tablets 
   //    fabmo.navigate(local,{target : '_blank'});
@@ -53,12 +54,14 @@ function getUsrResource(remote, local) {                ////## mucking around he
   $('#cmd-input').val('');
 }
 
+// Display after entry of simple Command in Console
 function postSbpAction(action) {
   setTimeout(function() { 
     $("#file_txt_area").text("-------Running:" + '\n' + "    " + action); }, 
     200);
 }
 
+// Try and Keep Focus in the Command Input Box
 function setSafeCmdFocus(site) {     // too easy to walk on Manual Keypad (not sure why?); so protect
   console.log("got safeCheck", site) // site for debugging flow
     if (globals.FAbMo_state === "manual") {
@@ -74,50 +77,68 @@ function setSafeCmdFocus(site) {     // too easy to walk on Manual Keypad (not s
     }
 }
 
-function displayFillIn(parameters, title, info) {
+
+// Display Fill-In Dialog Box for certain Commands
+function displayFillIn(command, title, info) {
+    $(".fi-listing").empty();
+    $("#fill_in_table").css("overflow-y", "scroll");
+
+
     if (title.substring(0,4) === "File") {    // handle an FP run file case
+        $("#fill_in_table").css("overflow-y", "hidden");
         $('#btn_prev_file').show();
         $('#btn_ok_run').text("OK-Run")
     } else {
+        $("#fill_in_table").css("overflow-y", "scroll");
         $('#btn_prev_file').hide();
         $('#btn_ok_run').text("Run Command")
+    
+        console.log(cmds[command])
+        param_num = 0;
+        cmds[command].params.forEach(function(entry) {
+            let dispSymbol = "";
+            if (entry.disptype ==="2") {dispSymbol = "*"} ;
+            let setVal = "";
+            if (entry.default) {setVal = entry.default} ;
+            let str_colon = dispSymbol + " : ";
+            param_num += 1;
+            // get itemInfo for tooltip to display all the value: and desc: from opts array when either type:= "opt" or type:= "ck" 
+            let itemInfo = "";
+            if (entry.type === "opt" || entry.type === "ck" || entry.type === "sng") {
+                if (entry.opts) {
+                    entry.opts.forEach(function(item) {
+                        itemInfo += item.value + " = " + item.desc + "\n";
+                    });
+                    if (entry.type === "ck" && itemInfo === "") {
+                        itemInfo = "0 = No\n1 = Yes\n";
+                    }
+                }        
+            }
+            html = [
+                '<tr>',
+                    '<td class="fi_name" title="' + entry.desc + '"><input value="' + entry.name + str_colon + '"></td>',
+                    '<td class="fi_val" title="' + itemInfo + '"><input id="fi_' + param_num + '" value="' + setVal + '"></td>',
+                '</tr>'
+            ].join('');
+            $(".fi-listing").append(html);
+        });
     }
 
-    $(".fi-listing").empty();
-   // go through fI_dispArray by index and get values for each field 
-    // 1. name, 2. disptype, 3. units, 4. default, 5. min, 6. max, 7. step, 8. help, 9. required, 10. optional, 11. value
-    fI_dispArray.forEach (function (item, index) {
-        //console.log(index, item.name, item.disptype, item.units, item.default, item.min, item.max, item.step, item.help, item.required, item.optional, item.value);
-        let dispSymbol = "";
-        if (item.disptype ==="2") {dispSymbol = "*"} ;
-        let setVal = "";
-        if (item.default) {setVal = item.default} ;
-        let str_colon = dispSymbol + " : ";
-
-        html = [
-            '<tr">',
-                '<td class="fi_params" title="tool-tip"><input class="fi_name noselect" value="' + item.name + str_colon + '"></td>',
-                '<td class="fi_params"><input class="fi_val" id="fi_' + index + '" value="' + setVal + '"></td>',
-            '</tr>'
-        ].join('');
-        $(".fi-listing").append(html);
-    });
-
-    $('#cur_fi_info').empty();
+    $('#fi_cur_info').empty();
     if (info === "") {
-        $('#cur_fi_info').append("To edit Parameters: double-click the desired field, replace *Required*, over-write defaults as needed, or provide {optional} values.")
+        $('#fi_cur_info').append("Editing Parameters: complete required(*) fields; over-write defaults as needed; and/or provide {optional} values.")
         // Command details in <a href='assets/docs/ComRef.pdf'>Command Reference</a>, from Help");
     } else {
-        $('#cur_fi_info').append(info);
+        $('#fi_cur_info').append(info);
     }
-    $('#modalTitle').empty();
-    $('#modalTitle').append(title);
-    $('#fill-in-modal').trigger("reset");
-    $('#fill-in-modal').foundation('reveal', 'open');
+    $('#fi_modal_title').empty();
+    $('#fi_modal_title').append(title);
+    $('#fi-modal').trigger("reset");
+    $('#fi-modal').foundation('reveal', 'open');
     globals.FIll_In_Open = true;
 }
 
-
+// MAIN COMMAND HANDLER for 2-Letter Commands
 function processCommandInput(command) {
     console.log('got command')
     var command = command.trim().toUpperCase();
@@ -176,7 +197,7 @@ function processCommandInput(command) {
 
 //    } else if ((command.length == 2) && (globals.LIcmds).includes(command)) {
     } else if (command.length == 2) {
-        // HANDLE COMMAND: First do direct action key single commands                                        
+        // HANDLE COMMANDS (that are direct action single commands; NO STOP for ENTER)                                        
         switch (command) {
         case "JH":
         case "MH":
@@ -212,14 +233,14 @@ function processCommandInput(command) {
         case "FP":
             // curFile = "";                           // ... clear out after running
             // curFilename = "";
-            $("#cur_fi_info").text("");
+            $("#fi_cur_info").text("");
             $("#cmd-input").val(command);
             $('#file').val('');
             $('#file').trigger('click');
             break;
         }
 
-        // HANDLE COMMAND: Then do commands with a FILL-IN sheet
+        // HANDLE COMMANDS (with a FILL-IN sheet)
         switch (Array.from(command)[0]) {
             case "C":
                 if (command === "CN" || command === "C#") {  // let these two filter on through
@@ -228,24 +249,12 @@ function processCommandInput(command) {
             case "S":
             case "V":        
                 let titleCmd = "", parameters = "";
-                fI_dispArray = [];
-                $("#cmd-input").val(command);
-
-                param_num = 0;
-                cmds[command].params.forEach(function(entry) {
-                    param_num++;
-
-                    fI_dispArray.push({ name: entry.name, disptype: entry.disptype, default: entry.default });
-                
-                })
-
                 titleCmd = command + ": " + cmds[command].name;
-                displayFillIn(parameters, titleCmd, "");
-
+                displayFillIn(command, titleCmd, "");
                 break;
         }
 
-        // HANDLE COMMAND: Then do all the misc special commands
+        // HANDLE COMMANDS (misc special command filtering)
         switch (command) {
             case "SI": // obsolete
             case "FN":

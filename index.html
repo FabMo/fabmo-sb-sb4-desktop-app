@@ -73,21 +73,21 @@
         </li>
         <li class="divider"></li>
         <li class="has-dropdown">
-          <a style="background-color:rgb(92, 90, 90)" title="Set the Current Location of Axes to Zero"><strong>Z</strong>ero</a>
+          <a style="background-color:rgb(92, 90, 90)" title="Zero an Axis or Axes at its Current Location"><strong>Z</strong>ero</a>
           <ul class="dropdown" id="menu_zero">
             <li></li>
           </ul>
         </li>
-        <li class="divider"></li>
-        <li class="has-dropdown">
-          <a style="background-color:rgb(92, 90, 90)" title="Input or Change a Setting"><strong>S</strong>ettings</a>
+        <li class="divider hide-for-large-down"></li>
+        <li class="has-dropdown hide-for-large-down">
+          <a style="background-color:rgb(92, 90, 90)" class="hide-for-large-down" title="Input or Change a Setting"><strong>S</strong>ettings</a>
           <ul class="dropdown" id="menu_settings">
             <li></li>
           </ul>
         </li>
-        <li class="divider"></li>
-        <li class="has-dropdown">
-          <a style="background-color:rgb(92, 90, 90)" title="Set or Change Current Configuration Values"><strong>V</strong>alues</a>
+        <li class="divider hide-for-large-down"></li>
+        <li class="has-dropdown hide-for-large-down">
+          <a style="background-color:rgb(92, 90, 90)" class="hide-for-large-down" title="Set or Change Current Configuration Values"><strong>V</strong>alues</a>
           <ul class="dropdown" id="menu_values">
             <li></li>
           </ul>
@@ -179,14 +179,10 @@
                     <div class="large-12 columns">
                     <label id="running" value="" placeholder="  "> </label>
                     <label></label>
-                    <!--<textarea class="show-for-small-only" rows="2" cols="50" name="textarea_filedisplay"></textarea>-->
                     <textarea class="show-for-medium-up running" rows="6" cols="50" name="textarea_filedisplay" id="file_txt_area" readonly no-scroll no-wrap style="font-family:'Courier New', Courier, monospace"></textarea>
                     </div>
                 </div>
                 </form>
-                <!--      
-                <p class="show-for-medium-up"><strong data-tooltip class="top" tabindex="2" title="Enter Commands followed by optional parameters and then ENTER. Click HELP for more information on the open-syntax OpenSBP language."> A basic CNC interface for cutting Part Files and sending Commands in the OpenSBP language.</strong> Use <strong>FP</strong> to run Part Files or click CUT PART.</p>
-                -->
             </div>
 
             <!-- Speed and Copyright Panel  -->
@@ -241,46 +237,36 @@
 
     </div>
 
-<!--    
+    
   <a href="#" data-reveal-id="moPad">beta MOtion-PAD</a><br>
   <a href="#" data-reveal-id="insertStream">beta INSERT</a>
--->
+
 
  <!-- needed this setting here to prevent closing; left in later for redundancy -->
  <script>Foundation.libs.reveal.settings.close_on_background_click = false;</script>
  <script>Foundation.libs.reveal.settings.close_on_esc = true;</script>
 
+
     <!-- Fill-In Sheet -->
-    <div id="fill-in-modal" class="reveal-modal" data-reveal role="dialog">
+    <div id="fi-modal" class="reveal-modal" data-reveal role="dialog">
       <form autocomplete="off">
-        <h3 class="fi_title" id="modalTitle">File Ready to Run</h3>
-        <p class="fi_title" id="cur_fi_info"></p>
-  
+        <h3 class="fi-title" id="fi_modal_title">File Ready to Run</h3>
+        <p class="fi-title" id="fi_cur_info"></p>
         
-        <div id="fi-container">
-            <div id="fill-in-table"><table>
-    <!--      <div rows="4" cols="50"> -->
-    <!--        <tr class="fi_params">
-            <thead>
-                <th>test head 1</th>
-                <th>test head 2</th>
-                <td><input type="text" class="fi_params_name" value="*Required*"></td>
-                <td><input type="text" class="fi_params_disptype" value="*Required*"></td>
-            </tr>
-            </thead>
-    -->
-                <tbody class="fi_params fi-listing"></tbody>
-    <!--      </div> -->      
-        </table></div>
-      </div>
+        <div id="fi_container">
+            <div id="fill_in_table"><table>
+                <tbody class="fi-params fi-listing"></tbody>
+            </table></div>
+        </div>
 
         <ul class="button-group">
-            <li><a class="secondary button fi_button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
-            <li><a class="secondary button fi_button" data-tooltip role="button" id="btn_prev_file" title="handle in Job Manager; Queue, Preview, Edit, Scale, etc..">Advanced Functions</a></li>
-            <li><a class="secondary button fi_button" role="button" id="btn_cmd_quit">Close</a></li>
+            <li><a class="secondary button fi-button" role="button" id="btn_ok_run" tabindex="0" style="background-color:green; color:white">OK-RUN</a></li>
+            <li><a class="secondary button fi-button" data-tooltip role="button" id="btn_prev_file" title="handle in Job Manager; Queue, Preview, Edit, Scale, etc..">Advanced Functions</a></li>
+            <li><a class="secondary button fi-button" role="button" id="btn_cmd_quit">Close</a></li>
         </ul>
       </form>
     </div>
+
 
     <!-- Provide Info Sheets in Help -->
     <div id="helpModal" class="reveal-modal" data-reveal role="dialog">
@@ -291,7 +277,7 @@
 
     <!-- INSERT BETA -->
     <div id="insertStream" class="reveal-modal" data-reveal role="dialog">
-        <h2 id="modalTitle">Insert Command Into G2 Stream:</h2>
+        <h2 id="fi_modal_title">Insert Command Into G2 Stream:</h2>
         <input class="inserts" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="insert-input" font-weight="bold" placeholder="RAW: g2 json OR g-code (& = end-line; ^ = kill; # = reset-G2)" value="" />
     </div>
 

@@ -3078,7 +3078,6 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 1,
             "range": [
                null,
                "Table limits X"
@@ -3092,7 +3091,6 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 2,
             "range": [
                null,
                "Table limits Y"
@@ -3106,12 +3104,11 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 3,
             "range": [
                null,
                "Table limits Z"
             ],
-            "type": "distma"
+            "type": "distm"
          },
          {
             "name": "New A location",
@@ -3120,12 +3117,11 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 4,
             "range": [
                null,
                "Table limits A"
             ],
-            "type": "distmb"
+            "type": "distm"
          },
          {
             "name": "New B location",
@@ -3134,10 +3130,22 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 5,
             "range": [
                null,
                "Table limits B"
+            ],
+            "type": "distm"
+         },
+         {
+            "name": "New C location",
+            "desc": "Reset the Value of the Current C Location",
+            "abrev": "locC",
+            "typeext": 0,
+            "disptype": "1",
+            "default": "",
+            "range": [
+               null,
+               "Table limits C"
             ],
             "type": "distm"
          },
@@ -3148,7 +3156,6 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 6,
             "range": [
                null,
                "Table limits X"
@@ -3162,7 +3169,6 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 7,
             "range": [
                null,
                "Table limits Y"
@@ -3176,12 +3182,11 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 8,
             "range": [
                null,
                "Table limits Z"
             ],
-            "type": "distma"
+            "type": "distm"
          },
          {
             "name": "New A Table Base",
@@ -3190,12 +3195,11 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 9,
             "range": [
                null,
                "Table limits A"
             ],
-            "type": "distmb"
+            "type": "distm"
          },
          {
             "name": "New B Table Base",
@@ -3204,26 +3208,11 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 10,
             "range": [
                null,
                "Table limits B"
             ],
-            "type": "distmb"
-         },
-         {
-            "name": "New C location",
-            "desc": "Reset the Value of the Current C Location",
-            "abrev": "locC",
-            "typeext": 0,
-            "disptype": "1",
-            "default": "",
-            "sysvar": 144,
-            "range": [
-               null,
-               "Table limits C"
-            ],
-            "type": "distmb"
+            "type": "distm"
          },
          {
             "name": "New C Table Base",
@@ -3232,12 +3221,11 @@
             "typeext": 0,
             "disptype": "1",
             "default": "",
-            "sysvar": 145,
             "range": [
                null,
                "Table limits C"
             ],
-            "type": "distr"
+            "type": "distmb"
          }
       ]
    },

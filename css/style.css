@@ -10,7 +10,7 @@
     margin-bottom: 0px;
 */
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
 /* Removes default dropdown arrow from menu buttons so better collapse behavior */
@@ -143,7 +143,7 @@ input.cmds {
     position: fixed;
 }
 
-#fill-in-modal {
+#fi-modal {
     background-color: rgb(255,250, 203);
 /*    background-color: rgb(240,235, 189); */
     border-radius: 10px;
@@ -154,126 +154,85 @@ input.cmds {
     max-height: 700px;
 }
 
-#fi-container {
+#fi_container {
     display: flex;
     flex-direction: column;
     padding: 0px;
 }
 
-#fill-in-table,
-#fill-in-table table {
+#fill_in_table,
+#fill_in_table table {
     background-color: rgb(255,250, 203);
     align-self: center;
-    margin-top: 5px;
-    width: 400px;
+    width: 350px;
     max-height: 280px;
     overflow-y: scroll;
     overflow-x: hidden;
     margin-bottom: 20px;
+    border:none;
+    border-left: 2px double rgb(231, 85, 27);
 }
 
-.fi_params,
-.fi_params input,
-.fi_params td {
+.fi-params,
+.fi-params td {
     background-color: rgb(255,250, 203);
     border: none;
-    border-bottom-width: thin;
-    border-bottom-color: cadetblue;
     height: 50%;
     padding: 0rem;
-    margin: 2px;
 }
 
-.fi_name {
-    text-align: right;
-/*    cursor: pointer;    */
-}
-
-.fi_val {
-
-    text-align: center;
-    color:#7ab6fc
-}
-
-.fi_name input,
-.fi_val input {
-    margin: 0px;
+.fi_name,
+.fi_name td {
     border: none;
+    float: right;
 }
 
+.fi_name input {
+    margin: 2px;
+    padding: 0rem;
+    height: 50%;
+    border: none;
+    text-align: right;
+    background-color: rgb(255,250, 203);
+    border-bottom: 2px solid cadetblue;
+    box-shadow: none;
+    pointer-events: none;
+}
 
-table tr td {
+.fi_val input {
+    margin: 2px;
+    padding: 0rem;
+    height: 50%;
+    border-top-style: hidden;
+    border-left-style: hidden;
+    border-right-style: hidden;
+    text-align: center;
+    color:#4e3cf2;
+    background-color: rgb(255,250, 203);
+    border-bottom: 2px solid cadetblue;
+    box-shadow: none;
+}
+
+table td tr {
     padding: 0px;
     margin: 0px;
+    background-color: rgb(255,250, 203);
 }
 
-.fi_title {
+table tr:nth-of-type(even) {
+    background: rgb(255,250, 203);
+}
+
+.fi-title {
     color: rgb(221, 98, 10);
     margin-top:.1rem;
     margin-bottom: .25rem;
 }
 
-#cur_fi_info {
+#fi_cur_info {
     color: #327c7e;
 }
 
-/*
-.fi_button {
-    margin-top:.5rem;
-    margin-bottom: .4rem;
-    border-radius: 5px;
-}
-
-#fi_sheet {
-    background-color: rgb(255,250, 203);
-    border-color: rgb(136, 171, 190);
-    height: 2.5rem;
-}
-
-input .fi_params {
-    height: 50%;
-    background-color: rgb(255,250, 203);
-    border-radius: 10px;
-    border-color: rgb(136, 171, 190);
-}
-
-.fi_params {
-    background-color: rgb(255,250, 203);
-    border-radius: 10px;
-    border-color: rgb(136, 171, 190);
-}
-
-tr .fi_params {
-    width: fit-content;
-    margin-left: 1rem;
-    padding: 0rem;
-}
-
-td .fi_params {
-    height: 50%;
-    padding: 0rem;
-}
-
-#fi_params_name {
-    color:red;
-    padding: 0rem;
-    height: 50%;
-    margin-bottom: 0px;
-}
-
-#fi_params_disptype {
-    padding: 0rem;
-    height: 50%;
-    margin-bottom: 0px;
-}
-
-#fi_params_val {
-    padding: 0rem;
-    height: 50%;
-    margin-bottom: 0px;
-}
-
-*/
 
 
 
@@ -379,20 +338,7 @@ p.at-foot {
     background-color: transparent;
     border-width: 0px;
 }
-/*
-    left: -100px;
-    top:100px;
-    -webkit-border-radius: 5%;
-    -moz-border-radius: 5%;
-    -ms-border-radius: 5%;
-    -o-border-radius: 5%;
-    left: -10%;
-    width: 95%;
-    height: 65%;
-    top: 25%;
-    position: relative; 
-    margin: 2px auto;
-*/
+
 #rmanCanvas {
     border-width: 3px;
     background: #156ed350;
@@ -401,10 +347,6 @@ p.at-foot {
     border-radius: 5%;
 }
 
-/*
-  top: -5%;
-  right: 15%;
-*/
 #padCloseX {
   position: absolute;
   margin-top: -25%;
@@ -435,17 +377,12 @@ p.at-foot {
     top: 50%;
     left: 35%;
     opacity: .5;
-  }
+}
 
-  #settingsIcon {
+#settingsIcon {
     position: relative;
     margin-top: 25%;
     top: 50%;
     left: 35%;
     opacity: .5;
-  }
-/*
-    transform: scale(.2);
-    top: 30%;
-    left: 90%;
-*/  
+}
