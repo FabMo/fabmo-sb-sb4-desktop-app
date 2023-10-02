@@ -29,6 +29,8 @@
     <script src="js/motion.js" defer></script>
     <script src="js/message_g2.js" defer></script>
 
+<!--    <script src="js/video.js"></script> -->  <!-- for video streaming -->
+
     <script> let fabmo = new FabMoDashboard(); </script>
 
 </head>
@@ -162,7 +164,8 @@
                 <div class="row">
                     <div class="small-11 medium-11 large-11 columns">
                     <label class="show-for-small-only"><strong>Cmd</strong></label>
-                    <label  data-tooltip class="panel-label show-for-medium-up cmds" title="Run specific OpenSBP Commands. Select from menu above or type directly here. See Command Reference in > Help"><strong>Individual Command Input</strong></label>
+                    <label data-tooltip class="panel-label show-for-medium-up cmds" title="Run specific OpenSBP Commands. Select from menu above or type directly here. See Command Reference in > Help"><strong>Individual Command Input</strong></label>
+                    <img class="right vid-button-off" id="vid-button" title="Toggle Camera" style="height:20px; width:20px; position:absolute; top:5px; right:-40px" src="./assets/icon_video.png">
                     <form><strong>
                         <input class="cmds" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" font-weight="bold" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
                 <!--      <input class="show-for-medium-up cmds" type="text" autocomplete="off" autocorrect="off" autofill="off" spellcheck ="false" id="cmd-input" placeholder="2-Letter OpenSBP Command, {followed by parameters ...}" value="" />
@@ -177,14 +180,34 @@
                 <!-- display panel  -->
                 <div class="row">
                     <div class="large-12 columns">
-                    <label id="running" value="" placeholder="  "> </label>
-                    <label></label>
-                    <textarea class="show-for-medium-up running" rows="6" cols="50" name="textarea_filedisplay" id="file_txt_area" readonly no-scroll no-wrap style="font-family:'Courier New', Courier, monospace"></textarea>
+
+
+
+                        <div class="video-container show-for-medium-up running" rows="6" cols="50" no-scroll no-wrap>
+                            <img src="" id="video" alt="Video"/><img src="" id="video1" alt="Video1"/> 
+
+                            <div class="content">
+                                <textarea class="show-for-medium-up running" name="textarea_filedisplay" id="file_txt_area" readonly no-scroll no-wrap style="font-family:'Courier New', Courier, monospace"></textarea>
+                            </div>
+                        </div>
+                    
+                        <!-- Load your video.js script -->
+                        <script src="js/video.js"></script>
+                    
+
+
+
+
+
+                        <!--                    <textarea class="show-for-medium-up running" rows="6" cols="50" name="textarea_filedisplay" id="file_txt_area" readonly no-scroll no-wrap style="font-family:'Courier New', Courier, monospace"></textarea> -->
                     </div>
                 </div>
                 </form>
             </div>
 
+<!-- <script src="js/video.js"></script> -->
+<!--        <img id="video"/>  -->
+ 
             <!-- Speed and Copyright Panel  -->
             <div class="callout panel" id="speed-panel">
                 <form>

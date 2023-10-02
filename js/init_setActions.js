@@ -364,6 +364,22 @@ $(document).ready(function () {
         }
     });
 
+    $("#vid-button").click(function () {      // Toggle video
+        // Check for toggle state and change if video present 
+        if ($("#vid-button").hasClass("vid-button-on")) {
+            $("#vid-button").removeClass("vid-button-on");
+            $("#vid-button").addClass("vid-button-off");
+            $("#video").css("visibility", "hidden");
+            $("#file_txt_area").css("background", "#327c7e");
+        }
+        else {
+            $("#vid-button").removeClass("vid-button-off");
+            $("#vid-button").addClass("vid-button-on");
+            $("#video").css("visibility", "visible");
+            $("#file_txt_area").css("background", "transparent");
+        }
+    });
+
     //** Try to restore CMD focus when there is a shift back to app
     $(document).click(function (e) {
         // Check if click was triggered on or within #menu_content

@@ -281,16 +281,78 @@ p.at-foot {
   margin-bottom: 0rem;
 }
 
+#vid-button {
+    position: absolute;
+    z-index: 1;
+    top: 5px; 
+    right: -40px;
+    height: 20px;
+    width: 20px;
+}
+
+.video-container {
+    position: relative;
+/*    width: 100%;
+    height: 100vh; */
+    resize: both;
+    overflow: hidden;
+    overflow-wrap: none;
+    word-wrap: none;
+    border-radius: 5px;
+  
+}
+
+.video-container video {
+    visibility: hidden;
+    opacity: .5;
+    position: absolute;
+/*    min-width: 100%;
+    height: 100%;  */
+    object-fit: cover;
+    z-index: -1;
+    border-radius: 5px;
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    display: flex;
+    align-items: left;
+    justify-content: top;
+    background-color: transparent;
+    border-radius: 5px;
+}
+
 #file_txt_area {
-  background: #327c7e;
+  width: 100%;
+  height: 100%; 
+  box-sizing: border-box;  
+  background: transparent;
+  border: 1px solid #646464;
+  /*color: rgb(191, 196, 184);*/
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  overflow-wrap: none;
+  word-wrap: none;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+
+/*#file_txt_area {
+  background: rgb(255,250, 203, 0.1);
   border: 1px solid #646464;
   color: rgb(191, 196, 184);
   overflow-wrap: none;
   word-wrap: none;
   overflow: hidden;
   border-radius: 5px;
-  
-}
+}*/
+
 
 #cut_part_call {
     background: #008000;
