@@ -290,6 +290,12 @@ p.at-foot {
     width: 20px;
 }
 
+#sbp-container {
+    resize: both;
+    overflow: hidden;
+    overflow-wrap: none;
+}
+
 .video-container {
     position: relative;
 /*    width: 100%;

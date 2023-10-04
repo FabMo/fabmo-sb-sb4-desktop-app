@@ -4,7 +4,6 @@
  * eg: opensbp-movexy_speed, opensbp-jogxy_speed
  * and populates it from the corresponding value in the opensbp configuration, read from the engine.
  **/
-
 function updateUIFromEngineConfig() {
     // getting config values for OpenSBP and G2; note that move speeds is OpenSBP, but jogs are in G2
     fabmo.getConfig(function(err, data) {
@@ -125,3 +124,36 @@ function setConfig(id, value) {
 	  updateUIFromEngineConfig();
 	});
 }
+
+// ** Manage App Config and Variables
+function updateAppState() {
+    fabmo.getAppConfig(function (err, config) {
+        if (err) {
+            console.error(err);
+        } else {
+            if (config["cont-height"]) {
+                window.globals.COnt_Height = config["cont-height"];
+            } else {
+                window.globals.COnt_Height = "200px";
+            }
+            if (config["cont-width"]) {
+                window.globals.COnt_Width = config["cont-width"];
+            } else {
+                window.globals.COnt_Width = "400px";
+            }   
+            console.log(config);
+            // with current size reset the container
+            $("#sbp-container").css("height", window.globals.COnt_Height);
+            $("#sbp-container").css("width", window.globals.COnt_Width);
+        }
+    });
+}
+
+function resetAppConfig() {
+    fabmo.setAppConfig({
+        "name": "Sb4",
+        "description": "A simple SBP sender for FabMo",
+        "cont-height":  window.globals.COnt_Height,
+        "cont-width":  window.globals.COnt_Width
+    });
+}    

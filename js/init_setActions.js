@@ -23,7 +23,9 @@ window.globals = {
     JOg_Axis: "X",                                
     INject_inputbox_open: false,
     ORigin: "",
-    LIcmds: []
+    LIcmds: [],
+    COnt_Height: "200px",
+    COnt_Width: "400px"
 }
 
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W"]
@@ -128,6 +130,21 @@ $(document).ready(function () {
     updateSpeedsFromEngineConfig();
 
     getAxisLimits();
+
+    updateAppState();
+
+    // Manage video container size
+    // ... using click to pick up the resize for the moment
+    $('#sbp-container').on('click', function () {
+        console.log("got resize");
+        window.globals.COnt_Width = $(this).width();
+        window.globals.COnt_Height = $(this).height();
+        console.log("width: " + window.globals.COnt_Width + " height: " + window.globals.COnt_Height);
+        resetAppConfig();
+    });
+
+
+    // ** Set-Up Response to Command Entry; first key management
 
     $('.opensbp_input').change(function () {                  // Handle and Bind generic UI textboxes
         setConfig(this.id, this.value);
