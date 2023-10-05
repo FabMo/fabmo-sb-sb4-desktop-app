@@ -41,15 +41,19 @@ function updateSpeedsFromEngineConfig() {
 
 // AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
 function getAxisLimits() {
-  let axis, temp
+  let temp
   fabmo.getConfig(function(err, data) {
-    let i = 1
-    do {
-      temp = AXis[i].toLowerCase();
-      LIm_up[i] = data.machine.envelope[(temp + "max")];
-      LIm_dn[i] = data.machine.envelope[(temp + "min")];
-      console.log("testAxis",temp,LIm_up[i],LIm_dn[i]);
-    } while(i++ < 6);
+    if (err) {
+        console.error(err);
+    } else {
+        let i = 1
+        do {
+        temp = AXis[i].toLowerCase();
+        LIm_up[i] = data.machine.envelope[(temp + "max")];
+        LIm_dn[i] = data.machine.envelope[(temp + "min")];
+        console.log("testAxis",temp,LIm_up[i],LIm_dn[i]);
+        } while(i++ < 6);
+    }
   });  
 }
 
@@ -132,19 +136,49 @@ function updateAppState() {
             console.error(err);
         } else {
             if (config["cont-height"]) {
-                window.globals.COnt_Height = config["cont-height"];
+                g.COnt_Height = config["cont-height"];
             } else {
-                window.globals.COnt_Height = "200px";
+                g.COnt_Height = "200px";
             }
             if (config["cont-width"]) {
-                window.globals.COnt_Width = config["cont-width"];
+                g.COnt_Width = config["cont-width"];
             } else {
-                window.globals.COnt_Width = "400px";
+                g.COnt_Width = "400px";
             }   
-            console.log(config);
             // with current size reset the container
-            $("#sbp-container").css("height", window.globals.COnt_Height);
-            $("#sbp-container").css("width", window.globals.COnt_Width);
+            $("#sbp-container").css("height", g.COnt_Height);
+            $("#sbp-container").css("width", g.COnt_Width);
+            if (config["vi-display"] === null || config["vi-display"] === 0) {
+                g.VI_display = 0;
+            } else {
+                g.VI_display = config["vi-display"];
+            }   
+        }
+        // Video state, read from local app storage
+        // ... if we have no feed
+        if (localStorage.getItem("videos") === null || localStorage.getItem("videos") === "0") {
+            $("#file_txt_area").css("background", "#327c7e");
+            $("#vid-button").removeClass("vid-button-on");
+            $("#vid-button").removeClass("vid-button-off");
+            $("#vid-button").addClass("vid-button-disabled");
+            g.VI_display = 0;
+        } else {
+            // ... if we have a feed, look at state of the video toggle button
+            if (g.VI_display !== 0) {
+                $("#video").css("visibility", "visible");
+                $("#file_txt_area").css("background", "transparent");
+                $("#vid-button").addClass("vid-button-on");
+                $("#vid-button").removeClass("vid-button-off");
+                $("#vid-button").removeClass("vid-button-disabled");
+                g.VI_display = 3; // assume both feeds at moment
+            } else {
+                $("#file_txt_area").css("background", "#327c7e");
+                $("#video").css("visibility", "hidden");
+                $("#vid-button").removeClass("vid-button-on");
+                $("#vid-button").addClass("vid-button-off");
+                $("#vid-button").removeClass("vid-button-disabled");
+                g.VI_display = 0;
+            }
         }
     });
 }
@@ -152,8 +186,9 @@ function updateAppState() {
 function resetAppConfig() {
     fabmo.setAppConfig({
         "name": "Sb4",
-        "description": "A simple SBP sender for FabMo",
-        "cont-height":  window.globals.COnt_Height,
-        "cont-width":  window.globals.COnt_Width
+        "description": "Standard ShopBot App",
+        "cont-height":  g.COnt_Height,
+        "cont-width":  g.COnt_Width,
+        "vi-display": g.VI_display
     });
 }    

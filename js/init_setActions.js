@@ -24,9 +24,11 @@ window.globals = {
     INject_inputbox_open: false,
     ORigin: "",
     LIcmds: [],
+    VI_display: 0,
     COnt_Height: "200px",
     COnt_Width: "400px"
 }
+let g = window.globals;                            // ... and a short cut to it
 
 let AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W"]
 let LIm_up = new Array(10);                       // x=1
@@ -133,13 +135,15 @@ $(document).ready(function () {
 
     updateAppState();
 
+    initVideo();
+
     // Manage video container size
     // ... using click to pick up the resize for the moment
     $('#sbp-container').on('click', function () {
         console.log("got resize");
-        window.globals.COnt_Width = $(this).width();
-        window.globals.COnt_Height = $(this).height();
-        console.log("width: " + window.globals.COnt_Width + " height: " + window.globals.COnt_Height);
+        g.COnt_Width = $(this).width();
+        g.COnt_Height = $(this).height();
+        console.log("width: " + g.COnt_Width + " height: " + g.COnt_Height);
         resetAppConfig();
     });
 
@@ -388,13 +392,16 @@ $(document).ready(function () {
             $("#vid-button").addClass("vid-button-off");
             $("#video").css("visibility", "hidden");
             $("#file_txt_area").css("background", "#327c7e");
+            g.VI_display = 0;
         }
         else {
             $("#vid-button").removeClass("vid-button-off");
             $("#vid-button").addClass("vid-button-on");
             $("#video").css("visibility", "visible");
             $("#file_txt_area").css("background", "transparent");
+            g.VI_display = 3;
         }
+        resetAppConfig();
     });
 
     //** Try to restore CMD focus when there is a shift back to app
