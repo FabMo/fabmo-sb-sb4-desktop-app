@@ -129,12 +129,15 @@ function setConfig(id, value) {
 	});
 }
 
-// ** Manage App Config and Variables
+/**
+ *  Manage App Config and Variables
+ **/ 
 function updateAppState() {
     fabmo.getAppConfig(function (err, config) {
         if (err) {
             console.error(err);
         } else {
+            console.log("App Config", config);
             if (config["cont-height"]) {
                 g.COnt_Height = config["cont-height"];
             } else {
@@ -145,7 +148,6 @@ function updateAppState() {
             } else {
                 g.COnt_Width = "400px";
             }   
-            // with current size reset the container
             $("#sbp-container").css("height", g.COnt_Height);
             $("#sbp-container").css("width", g.COnt_Width);
             if (config["vi-display"] === null || config["vi-display"] === 0) {
@@ -154,8 +156,7 @@ function updateAppState() {
                 g.VI_display = config["vi-display"];
             }   
         }
-        // Video state, read from local app storage
-        // ... if we have no feed
+        // Video state, read from local app storage ... if we have no feed
         if (localStorage.getItem("videos") === null || localStorage.getItem("videos") === "0") {
             $("#file_txt_area").css("background", "#327c7e");
             $("#vid-button").removeClass("vid-button-on");
@@ -170,7 +171,10 @@ function updateAppState() {
                 $("#vid-button").addClass("vid-button-on");
                 $("#vid-button").removeClass("vid-button-off");
                 $("#vid-button").removeClass("vid-button-disabled");
-                g.VI_display = 3; // assume both feeds at moment
+                g.VI_display = 3;                                    // Assume both feeds at moment
+                localStorage.setItem("videos", 2);                   // ... redundant to system; needs to be generated
+                localStorage.setItem("fabmo-sb4-has-video", true);   // ... inform system for transparent keypad
+                $("#sbp-container").click();                         // ... refresh the form; a hack, but it works
             } else {
                 $("#file_txt_area").css("background", "#327c7e");
                 $("#video").css("visibility", "hidden");
@@ -178,13 +182,16 @@ function updateAppState() {
                 $("#vid-button").addClass("vid-button-off");
                 $("#vid-button").removeClass("vid-button-disabled");
                 g.VI_display = 0;
+                localStorage.setItem("fabmo-sb4-has-video", false);
+                $("#sbp-container").click();
             }
         }
     });
 }
 
-function resetAppConfig() {
+function resetAppConfig() {                                          // Note that this info in stored in the app, approot/approot/generatedName/config.json
     fabmo.setAppConfig({
+        "id": "fabmo-sb4",
         "name": "Sb4",
         "description": "Standard ShopBot App",
         "cont-height":  g.COnt_Height,

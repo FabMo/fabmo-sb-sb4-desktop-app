@@ -1,7 +1,7 @@
 let cmds = [];
 //let fI_dispArray = [];
 
-// Initialize and Set Actions for Full App; BOTH the Regular Sb4 stuff and the MOtion-Pad stuff
+// Initialize and Set Actions for Full App; BOTH the Regular Sb4 stuff and the beta MOtion-Pad and INSERT stuff
 
 // *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
 window.globals = {
@@ -13,8 +13,6 @@ window.globals = {
     TOol_c: 0,
     FAbMo_state: "",
     G2_stat: 0,
-//    G2_killed: false,
-//    SEtToKillState: false,
     DOne_first_status_ck: false,
     FIll_In_Open: false,
     MO_Pad_Open: false,
@@ -62,8 +60,8 @@ $(document).ready(function () {
     );     
 
     // *** Let' Figure out where we are URL wise ***
-    let pathname = window.location.pathname; // Returns path only (/path/example.html)
-    let url = window.location.href;     // Returns full URL (https://example.com/path/example.html)
+    let pathname = window.location.pathname;          // Returns path only (/path/example.html)
+    let url = window.location.href;                   // Returns full URL (https://example.com/path/example.html)
     window.globals.ORigin = window.location.origin;   // Returns base URL (https://example.com)
     $("#copyright").append("   [" + window.globals.ORigin + "]");
 
@@ -137,10 +135,15 @@ $(document).ready(function () {
 
     initVideo();
 
+//    resetAppConfig();
+
     // Manage video container size
     // ... using click to pick up the resize for the moment
     $('#sbp-container').on('click', function () {
-        console.log("got resize");
+        console.log("got resize click");
+        // ... then define a max-width that is 5% less than full width of "#cmd-panel"
+        var maxWidth = $("#cmd-panel").width() * 0.95;  
+        if ($(this).width() > maxWidth) { $(this).width() = maxWidth };
         g.COnt_Width = $(this).width();
         g.COnt_Height = $(this).height();
         console.log("width: " + g.COnt_Width + " height: " + g.COnt_Height);
@@ -488,29 +491,6 @@ $(document).ready(function () {
     if (document.addEventListener) { /* Chrome, Safari, Firefox */
         document.addEventListener('DOMMouseScroll', stopWheel, false);
     }
-
-////## removed because it was being hit twice at startups
-// window.addEventListener("unload", function (e) {
-//     console.log("Unloaded WINDOW! Leave Manual if active!")
-//     if (globals.FAbMo_state === 'manual') {
-//         fabmo.manualExit();
-//     }
-// }, false);
-
-    // $(window).focusout(function () {
-    //     console.log("Lost FOCUS! Leave Manual if pad not open!")
-    //     if (!globals.MO_Pad_Open && globals.FAbMo_state === 'manual') {
-    //         fabmo.manualExit();
-    //     }
-    // });
-
-    // $(window).focusin(function () {
-    //     console.log("Got focus back!")
-    //     if (globals.MO_Pad_Open && globals.FAbMo_state != 'manual') {
-    //         console.log("in pad so restarting manual")    
-    //         fabmo.manualEnter({ hideKeypad: true, mode: 'raw' });
-    //     }
-    // });
 
     function stopWheel(e) {
         //        if(!e){ e = window.event; } /* IE7, IE8, Chrome, Safari */
