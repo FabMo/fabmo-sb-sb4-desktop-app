@@ -162,6 +162,7 @@ function updateAppState() {
             $("#vid-button").removeClass("vid-button-on");
             $("#vid-button").removeClass("vid-button-off");
             $("#vid-button").addClass("vid-button-disabled");
+            localStorage.setItem("fabmo_sb4_has_video", "false");
             g.VI_display = 0;
         } else {
             // ... if we have a feed, look at state of the video toggle button
@@ -173,7 +174,7 @@ function updateAppState() {
                 $("#vid-button").removeClass("vid-button-disabled");
                 g.VI_display = 3;                                    // Assume both feeds at moment
                 localStorage.setItem("videos", 2);                   // ... redundant to system; needs to be generated
-                localStorage.setItem("fabmo-sb4-has-video", true);   // ... inform system for transparent keypad
+                localStorage.setItem("fabmo_sb4_has_video", "true");   // ... inform system for transparent keypad
                 $("#sbp-container").click();                         // ... refresh the form; a hack, but it works
             } else {
                 $("#file_txt_area").css("background", "#327c7e");
@@ -182,7 +183,7 @@ function updateAppState() {
                 $("#vid-button").addClass("vid-button-off");
                 $("#vid-button").removeClass("vid-button-disabled");
                 g.VI_display = 0;
-                localStorage.setItem("fabmo-sb4-has-video", false);
+                localStorage.setItem("fabmo_sb4_has_video", "false");
                 $("#sbp-container").click();
             }
         }

@@ -135,8 +135,6 @@ $(document).ready(function () {
 
     initVideo();
 
-//    resetAppConfig();
-
     // Manage video container size
     // ... using click to pick up the resize for the moment
     $('#sbp-container').on('click', function () {
@@ -396,6 +394,7 @@ $(document).ready(function () {
             $("#video").css("visibility", "hidden");
             $("#file_txt_area").css("background", "#327c7e");
             g.VI_display = 0;
+            localStorage.setItem("fabmo_sb4_has_video", "false");
         }
         else {
             $("#vid-button").removeClass("vid-button-off");
@@ -403,6 +402,7 @@ $(document).ready(function () {
             $("#video").css("visibility", "visible");
             $("#file_txt_area").css("background", "transparent");
             g.VI_display = 3;
+            localStorage.setItem("fabmo_sb4_has_video", "true");
         }
         resetAppConfig();
     });
