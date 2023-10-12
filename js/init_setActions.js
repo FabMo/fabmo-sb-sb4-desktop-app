@@ -452,6 +452,11 @@ $(document).ready(function () {
         $('#file').trigger('click');
     });
 
+    $("#to_job_manager").click(function () {
+        // launch the fabmo job manager app
+        fabmo.launchApp('job-manager', {});
+    });
+
     $("#cmd_button1").click(function () {
         console.log('got first cmd');
         sendCmd("JH");
