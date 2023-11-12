@@ -227,17 +227,18 @@ function processCommandInput(command) {
         case "C6":  
         case "C7":  
         case "C8":  
-        case "C9":  
+        case "C9":
+        case "FP":      
             sendCmd(command);
             break;
-        case "FP":
-            // curFile = "";                           // ... clear out after running
-            // curFilename = "";
-            $("#fi_cur_info").text("");
-            $("#cmd-input").val(command);
-            $('#file').val('');
-            $('#file').trigger('click');
-            break;
+        // case "FP":
+        //     // curFile = "";                           // ... clear out after running
+        //     // curFilename = "";
+        //     $("#fi_cur_info").text("");
+        //     $("#cmd-input").val(command);
+        //     $('#file').val('');
+        //     $('#file').trigger('click');
+        //     break;
         }
 
         // HANDLE COMMANDS (with a FILL-IN sheet)

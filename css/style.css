@@ -404,7 +404,7 @@ p.at-foot {
 
 #to_job_manager .icon {
     display: inline-block;
-    position:aboslute;
+    position:absolute;
     margin-top: -8.5%;
     margin-left: -15%;
     width: 10%;
