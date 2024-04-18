@@ -48,6 +48,9 @@ $(document).ready(function () {
         }
     });
 
+    // Just testing the positioning of this ...
+    $(".spindle-display").css("visibility", "hidden");
+
     // *** Make a quick LIst of all the commands in the JSON file to use for validations later ***
     $.getJSON( 
         'assets/sb3_commands.json', 
@@ -66,6 +69,7 @@ $(document).ready(function () {
     $("#copyright").append("   [" + window.globals.ORigin + "]");
 
     // *** Get MENUs Items from JSON file @initial load ***
+    // ... note that additional line is required to capture details for fill-ins, currently for C, S, V, T
     $.getJSON(     
         'assets/sb3_commands.json',       // Originally from 'https://raw.githubusercontent.com/FabMo/FabMo-Engine/master/runtime/opensbp/sb3_commands.json'
         function (data) {                  // ... now using local copy with lots of mods and updates
@@ -96,15 +100,16 @@ $(document).ready(function () {
                             break;
                         case "S":
                             $("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T
                             break;
                         case "V":
                             $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T
                             break;
 
                         case "T":
                             $("#menu_tools").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T
                             break;
 
                         case "D":
@@ -378,12 +383,34 @@ $(document).ready(function () {
             $("#cmd-help").css("visibility","hidden");
         }
 
+        // Check the DOM to see if the FabMo DRO is visible and update the spindle speed if it is visible and the spindle is on or commanded on 
+        var droClosed = localStorage.getItem('pinRight');
+        if (droClosed === 'true') {
+            console.log("The DRO pane is not visible");
+            $(".spindle-display").css("visibility", "visible");
+            if (status.spindle) {
+                if (status.spindle.vfdAchvFreq > 0) {
+                    $("#spindle-speed").css("color", "rgb(113, 233, 241)");
+                    $("#spindle-speed").val(status.spindle.vfdAchvFreq.toFixed(0));
+                } else {
+                    $("#spindle-speed").val(status.spindle.vfdDesgFreq.toFixed(0));
+                    $("#spindle-speed").css("color", "rgb(90, 90, 90)");
+                }
+            }
+        } else {
+            console.log("The DRO pane is visible");
+            $(".spindle-display").css("visibility", "hidden");
+        }
+
+        // Show spindle-speed if DRO is visible and spindle is present in status object and is on (vfdAchvFreq > 0) or is commanded on (vfdDesgFreq > 0) 
+
         if (globals.FAbMo_state != "running" && globals.FAbMo_state != "paused") {
             $("#file_txt_area").text("");
-            updateSpeedsFromEngineConfig();
+            updateSpeedsFromEngineConfig();   //#### also testing checking on &HOMED status
             $(".top-bar").click();    // click to clear any dropdowns
             setSafeCmdFocus(4);
         }
+   
     });
 
     $("#vid-button").click(function () {      // Toggle video
@@ -467,6 +494,11 @@ $(document).ready(function () {
         sendCmd("ZZ");
     });
 
+    $("#cmd_button3").click(function () {
+        console.log('got second cmd');
+        sendCmd("C79");
+    });
+
     $("#first_macro_button").click(function () {
         console.log('got firstMacro');
         sendCmd("C3");
@@ -535,7 +567,8 @@ $(document).ready(function () {
         let thisCurCmd = ($("#cmd-input").val()).substring(0,2);
         let thisFullCmd = "";
 
-        for (let index = 1; index <= cmds[thisCurCmd].params.length; index++) {
+        for (let index = 1; index < cmds[thisCurCmd].params.length; index++) {   //try to fix extra cmd
+        //for (let index = 1; index <= cmds[thisCurCmd].params.length; index++) {
             let thisValue = "";
             let theFieldName = ("fi_" + index) ;  // can also get from id
             if ($("#" + theFieldName).val()) {thisValue = $("#" + theFieldName).val()};     
@@ -563,6 +596,13 @@ $(document).ready(function () {
 
     fabmo.requestStatus(function (err, status) {		                    // a first call to get us started
         console.log('FabMo_first_state>' + globals.FAbMo_state);
+    });
+
+    // Set up response to changes in the localStorage state (this updates the spindl-RPM display as apporpriate)
+    window.addEventListener('storage', function (e) {
+        if (e.key === 'pinRight') {
+            fabmo.requestStatus()
+        }
     });
 
 

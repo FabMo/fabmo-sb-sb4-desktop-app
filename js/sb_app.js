@@ -77,7 +77,6 @@ function setSafeCmdFocus(site) {     // too easy to walk on Manual Keypad (not s
     }
 }
 
-
 // Display Fill-In Dialog Box for certain Commands
 function displayFillIn(command, title, info) {
     $(".fi-listing").empty();
@@ -228,17 +227,17 @@ function processCommandInput(command) {
         case "C7":  
         case "C8":  
         case "C9":
-        case "FP":      
-            sendCmd(command);
-            break;
-        // case "FP":
-        //     // curFile = "";                           // ... clear out after running
-        //     // curFilename = "";
-        //     $("#fi_cur_info").text("");
-        //     $("#cmd-input").val(command);
-        //     $('#file').val('');
-        //     $('#file').trigger('click');
+        // case "FP":      
+        //     sendCmd(command);
         //     break;
+        case "FP":
+            // curFile = "";                           // ... clear out after running
+            // curFilename = "";
+            $("#fi_cur_info").text("");
+            $("#cmd-input").val(command);
+            $('#file').val('');
+            $('#file').trigger('click');
+            break;
         }
 
         // HANDLE COMMANDS (with a FILL-IN sheet)
@@ -247,6 +246,7 @@ function processCommandInput(command) {
                 if (command === "CN" || command === "C#") {  // let these two filter on through
                     break;
                 }
+            case "T":
             case "S":
             case "V":        
                 let titleCmd = "", parameters = "";
@@ -266,10 +266,11 @@ function processCommandInput(command) {
                 });
                 break;
                                                                                     // ## mucking around here with Easel and in calling routines &AND NODE-RED
-            case "TR":                                                             // testing some Node-Red stuff ... **added to this sbp3_commands
-                let tempip = window.globals.ORigin + ':1880/ui';
-                getUsrResource(tempip, 'assets/docs/No_Internet.pdf');
-                break;        
+            // INTERESTING POSSIBLE USE of call to another local server
+            //                                                                        // case "TR":                                                             // testing some Node-Red stuff ... **added to this sbp3_commands
+            //     let tempip = window.globals.ORigin + ':1880/ui';
+            //     getUsrResource(tempip, 'assets/docs/No_Internet.pdf');
+            //     break;        
 
             case "DE":                                                             // testing some design stuff ... **added to this sbp3_commands
                 getUsrResource('http://easel.inventables.com/users/sign_in', 'assets/docs/No_Internet.pdf');

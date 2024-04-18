@@ -66,7 +66,21 @@ row.large-uncollapse>.columns {
 
 .panel-label {
     margin-top: .4rem;
+    background-color: rgb(206, 207, 209);
+    border-radius: 10px;
+    border-color: rgb(136, 171, 190);
+
 }
+
+#macro-panel-label {
+    color: #4D4D4D;
+    font-size: 0.875rem;
+    font-weight: normal;
+    line-height: 1.5;
+    margin-bottom: 0;
+    
+}
+
 #macro-panel,
 #cmd-panel,
 #speed-panel {
@@ -96,6 +110,27 @@ row.large-uncollapse>.columns {
     margin-bottom: 8px;
 }
 
+/* =============================================== MENU WORK */
+
+.spindle-display {
+    position: absolute;
+    right: 120px;
+}
+input#spindle-speed {
+    position: absolute;
+    display: flex;
+    left: 100px;
+    width: 100px;
+    margin-top: -1px;
+    margin-bottom: 0px;
+    background-color: rgb(151, 150, 150);
+    border-color: rgb(151, 50, 50);
+    border-radius: 3px;
+    border-width: 0px;
+    font-weight:bold;
+}
+
+
 /*#cmd-panel .row.medium-collapse {
     margin-bottom: 0px;
 }*/
@@ -117,6 +152,9 @@ input.cmds {
 }
 
 #sb-logo {
+    position: absolute;
+    top: 15px;
+    left: 0px;
     margin-bottom: .25rem;
     opacity: 0.85;
 }
@@ -133,6 +171,7 @@ input.cmds {
 }
 
 
+/* ============================================== FILL-IN STYLE WORK */
 
 
 .reveal-modal {
@@ -273,17 +312,26 @@ input[type="text"]:focus {
 label.speed-labels,
 .cmds {
   color: #4D4D4D;
+  cursor: default;
 }
 
 p.at-foot {
+  position: relative;
+  top: 35px;
   color: #4D4D4D;
   font-size: .75rem;
   margin-bottom: 0rem;
+}
+#copyright {
+    position: relative;
+    left: -250px;
+    top: 0px;
 }
 
 #vid-button {
     position: absolute;
     z-index: 1;
+    cursor: pointer;
     top: 5px; 
     right: -40px;
     height: 20px;
@@ -389,19 +437,11 @@ p.at-foot {
     border-radius: 5px;
     width: -webkit-fill-available;
 }
-
-#cut_part_call:hover {
-    color:rgb(255,250, 203);
-    background: #014101; 
-
-}
-
 #to_job_manager {
     background: #a3c2a3;
     border-radius: 5px;
     width: -webkit-fill-available;
 }
-
 #to_job_manager .icon {
     display: inline-block;
     position:absolute;
@@ -418,31 +458,41 @@ p.at-foot {
     background: #014101; 
 
 }
-
 .cmd-button.button.small {
     border-radius: 5px;
     padding: .7rem;
     margin: .3rem;
     width: auto;
 }
-
 #first_macro_button,
 #second_macro_button {
   border-radius: 5px;
-  background-color: rgb(167, 165, 165);
+  background-color: rgb(235 202 47);
+  opacity: .70;
   width: -webkit-fill-available;
 }
 
 #third_macro_button,
 #fourth_macro_button,
 #fifth_macro_button {
-  border-radius: 5px;
-  width: -webkit-fill-available;
+    border-radius: 5px;
+    width: -webkit-fill-available;
+}
+
+#cut_part_call,
+#to_job_manager {
+    opacity: .65;
+    border-radius: 5px;
+    width: -webkit-fill-available;
 }
 
 #first_macro_button:hover,
-#second_macro_button:hover {
-  background-color: rgb(146, 142, 142);
+#second_macro_button:hover,
+#cut_part_call:hover,
+#to_job_manager:hover {
+    opacity: 1.0;
+    filter: brightness(1.1);
+    /*background-color: rgb(146, 142, 142);*/
 }
 
 

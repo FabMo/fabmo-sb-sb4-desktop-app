@@ -36,6 +36,11 @@ function updateSpeedsFromEngineConfig() {
     // Note that for g2, jog speeds are handled differently than move speeds (they are drived from G2 velocity max)
     $('#formatted_jogxy_speed').val(data.opensbp.jogxy_speed.toFixed(2));
     $('#formatted_jogz_speed').val(data.opensbp.jogz_speed.toFixed(2));
+    $('#formatted_joga_speed').val(data.opensbp.joga_speed.toFixed(2));
+    var xyHomedStatus = data.opensbp.tempVariables.HOMED;
+    if (!xyHomedStatus || xyHomedStatus == "false") {
+        $('#first_macro_button').css('filter', 'brightness(1.2)');
+    }
   });
 }
 
