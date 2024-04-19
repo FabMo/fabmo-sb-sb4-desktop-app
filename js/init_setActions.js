@@ -78,6 +78,7 @@ $(document).ready(function () {
                     switch (key.substring(0, 1)) {
                         case "F":
                             $("#menu_files").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T, F
                             break;
                         case "M":
                             if (excluded_axes_str.indexOf(key.substring(1, 2)) == -1) {
@@ -91,7 +92,7 @@ $(document).ready(function () {
                             break;
                         case "C":
                             $("#menu_cuts").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T, F
                             break;
                         case "Z":
                             if (excluded_axes_str.indexOf(key.substring(1, 2)) == -1) {
@@ -100,11 +101,11 @@ $(document).ready(function () {
                             break;
                         case "S":
                             $("#menu_settings").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T, F
                             break;
                         case "V":
                             $("#menu_values").append('<li class="menuDD" id="' + key + '"><a >' + key + ' - ' + data[key]["name"] || "Unnamed" + '</a></li>');
-                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T
+                            cmds[key] = data[key]; // only getting descriptive details for fill-ins for C, S, V, T, F
                             break;
 
                         case "T":
@@ -205,9 +206,10 @@ $(document).ready(function () {
                 fabmo.manualEnter({ hideKeypad: false, mode: 'data' });
                 $("#cmd-input").val("");
                 break                
-            case 13:
-                sendCmd();    // On ENTER ... SEND the command
-                break;
+            //case 13:
+            //    processCommandInput(commandInputText("FK");
+            //                sendCmd();    // On ENTER ... SEND the command
+            //    break;
             case 27:          // ESC as a general clear and update tool
                 event.preventDefault();
                 curLine = ""; // Remove after sent or called

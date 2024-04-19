@@ -39,12 +39,42 @@
    },
    "FP": {
       "cmd": "FP",
-      "name": "PART FILE LOAD"
+      "name": "PART FILE LOAD",
+      "params": [
+        {
+           "name": "New settings file",
+           "desc": "Create a custom file with all current settings; can be run like Part File to re-establish current settings",
+           "abrev": "fNm",
+           "typeext": 0,
+           "default": "CustomSettings.sbd",
+           "sysvar": 0,
+           "range": [
+              null,
+              null
+           ],
+           "type": "partfile"
+        }
+     ]
    },
-   
+
    "FL": {
       "cmd": "FL",
-      "name": "re-load File Last run"
+      "name": "reload File Last run",
+      "params": [
+        {
+           "name": "New settings file",
+           "desc": "Create a custom file with all current settings; can be run like Part File to re-establish current settings",
+           "abrev": "fNm",
+           "typeext": 0,
+           "default": "CustomSettings.sbd",
+           "sysvar": 0,
+           "range": [
+              null,
+              null
+           ],
+           "type": "partfile"
+        }
+     ]
    },
    
    "FE": {

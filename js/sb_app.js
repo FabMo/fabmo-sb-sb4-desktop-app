@@ -87,6 +87,10 @@ function displayFillIn(command, title, info) {
         $("#fill_in_table").css("overflow-y", "hidden");
         $('#btn_prev_file').show();
         $('#btn_ok_run').text("OK-Run")
+    } else if (title.substring(0,5) === "Rerun") {    // handle an FL run last file case
+        $("#fill_in_table").css("overflow-y", "hidden");
+        $('#btn_prev_file').show();
+        $('#btn_ok_run').text("OK-Run")
     } else {
         $("#fill_in_table").css("overflow-y", "scroll");
         $('#btn_prev_file').hide();
@@ -246,6 +250,7 @@ function processCommandInput(command) {
                 if (command === "CN" || command === "C#") {  // let these two filter on through
                     break;
                 }
+//            case "F":
             case "T":
             case "S":
             case "V":        
@@ -258,14 +263,24 @@ function processCommandInput(command) {
         // HANDLE COMMANDS (misc special command filtering)
         switch (command) {
             case "SI": // obsolete
+            case "FL": 
+                let titleCmd = "Rerun Last File", parameters = "";
+                titleCmd = "FL" + ": " + cmds[command].name;
+                displayFillIn(command, titleCmd, "");
+                break;
             case "FN":
                 fabmo.launchApp('editor', {
-                'new': true,
-                'content': "' Create an OpenSBP job here ...",
-                'language': 'sbp'
+                    'new': true,
+                    'content': "' Create a new OpenSBP part file here ... (change Language for Gcode)",
+                    'language': 'sbp'
                 });
                 break;
-                                                                                    // ## mucking around here with Easel and in calling routines &AND NODE-RED
+            case "FR":
+                fabmo.launchApp('job-manager', {
+                    'tab': "nav-history"
+                });
+                break;
+                                                                                        // ## mucking around here with Easel and in calling routines &AND NODE-RED
             // INTERESTING POSSIBLE USE of call to another local server
             //                                                                        // case "TR":                                                             // testing some Node-Red stuff ... **added to this sbp3_commands
             //     let tempip = window.globals.ORigin + ':1880/ui';
@@ -341,7 +356,7 @@ function processCommandInput(command) {
                 $("#cmd-help").css("visibility","visible");
                 break;
         }
-        if ((globals.LIcmds).includes(command)) {  // and if we still have something that is in out list
+        if ((globals.LIcmds).includes(command)) {  // and if we still have something that is in our list
             return true;
         } else {
             // HANDLE COMMAND: Deal with incorrect second Command key
@@ -350,6 +365,14 @@ function processCommandInput(command) {
             return false
         }
     }
+
+    // if (command.length == 0) {  // If nothing entered, take a shot at this being a rerun of the last file
+    //     command = "FL";
+    //     let titleCmd = "", parameters = "";
+    //     titleCmd = command + ": " + cmds[command].name;
+    //     displayFillIn(command, titleCmd, "");
+    //     return true;
+    // }
 
     if (command.length > 2) {
         return true;
