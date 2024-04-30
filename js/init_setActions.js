@@ -206,10 +206,9 @@ $(document).ready(function () {
                 fabmo.manualEnter({ hideKeypad: false, mode: 'data' });
                 $("#cmd-input").val("");
                 break                
-            //case 13:
-            //    processCommandInput(commandInputText("FK");
-            //                sendCmd();    // On ENTER ... SEND the command
-            //    break;
+            case 13:
+               sendCmd();    // On ENTER ... SEND the command
+               break;
             case 27:          // ESC as a general clear and update tool
                 event.preventDefault();
                 curLine = ""; // Remove after sent or called
@@ -273,7 +272,7 @@ $(document).ready(function () {
         fileReader.readAsText(file, "UTF-8");
         curFilename = evt.target.files[0].name;
         //$('#fi_modal_title').empty();
-        //$('#fi_modal_title').append("File Ready to Run");
+        $('#fi_modal_title').append("File Ready to Run");
         //$("#fi_cur_info").text(curFilename);
         //$('#fi-modal').foundation('reveal', 'open');
          displayFillIn("", "File Ready to Run", curFilename);
@@ -298,13 +297,17 @@ $(document).ready(function () {
                     );
                 }
             });
-        } else {                     // its a command with parameters from fill in
+        } else if (ckFile === "Reru") {    // handle as rerun last file
+            fabmo.runNext();
+        } else {                           // its a command with parameters from fill in
             setSafeCmdFocus();
             sendCmd();
-    }
-    
+        }
     });
 
+//    $("#btn_cmd_run").click(function (event) {       // RE-RUN-LAST
+//    });
+    
     $("#btn_cmd_quit").click(function (event) {      // QUIT
         console.log("Not Run");
         $('#fi-modal').foundation('reveal', 'close');
@@ -313,7 +316,7 @@ $(document).ready(function () {
         $("#fi_cur_info").text("");
     });
 
-    $("#btn_prev_file").click(function (event) {    // ADVANCED
+    $("#btn_adv_file").click(function (event) {    // ADVANCED
         console.log("Advanced - curFilename");
         $('#fi-modal').foundation('reveal', 'close');
         fabmo.clearJobQueue(function (err, data) {
@@ -388,7 +391,7 @@ $(document).ready(function () {
         // Check the DOM to see if the FabMo DRO is visible and update the spindle speed if it is visible and the spindle is on or commanded on 
         var droClosed = localStorage.getItem('pinRight');
         if (droClosed === 'true') {
-            console.log("The DRO pane is not visible");
+            //console.log("The DRO pane is not visible");
             $(".spindle-display").css("visibility", "visible");
             if (status.spindle) {
                 if (status.spindle.vfdAchvFreq > 0) {
@@ -405,7 +408,6 @@ $(document).ready(function () {
         }
 
         // Show spindle-speed if DRO is visible and spindle is present in status object and is on (vfdAchvFreq > 0) or is commanded on (vfdDesgFreq > 0) 
-
         if (globals.FAbMo_state != "running" && globals.FAbMo_state != "paused") {
             $("#file_txt_area").text("");
             updateSpeedsFromEngineConfig();   //#### also testing checking on &HOMED status
@@ -552,9 +554,6 @@ $(document).ready(function () {
         fabmo.navigate(location, { target: '_blank' });
     });
 
-
-
-
     // ** If enter key hit in #fi-params, then click the Run button 
     $('#fi-params').keypress(function (e) {
         if (e.which == 13) {
@@ -563,7 +562,6 @@ $(document).ready(function () {
         }
     });
 
-    
     // ** Allow editing of Fill-In parameters and paste usably into Command Line ready to run
     $('#fi_container').on('change', '.fi_val', function () { // re-enter on each change in fill-in box
         let thisCurCmd = ($("#cmd-input").val()).substring(0,2);

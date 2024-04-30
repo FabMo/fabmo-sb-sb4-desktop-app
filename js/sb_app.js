@@ -3,35 +3,40 @@
  **/
 
 // Main Entry for 2-Letter Commands from the Sb4 Console
- function sendCmd(command) {
-  var thisCmd = command || $('#cmd-input').val();
-    $('#cmd-input').val('');    // remove after sent or called
-    $("#cmd-help").css("visibility","hidden");
-    postSbpAction(thisCmd);
-
-    // Some Commands Need 'SV' to make permanent because each command run like a file; thus need a multiline version
-  	var cmd_eval = thisCmd.substring(0,2);
+function sendCmd(command) {
+    if ((typeof $('#cmd-input').val() === 'undefined' || $('#cmd-input').val() == 0) && globals.FIll_In_Open === false) {  // If nothing entered, take a shot at this being a re-run of the last file
+        command = "FL";
+        processCommandInput(command);
+    } else {
+        var thisCmd = command || $('#cmd-input').val();
+        $('#cmd-input').val('');    // remove after sent or called
+        $("#cmd-help").css("visibility","hidden");
+        postSbpAction(thisCmd);
+        // Some Commands Need 'SV' to make permanent because each command run like a file; thus need a multiline version
+        var cmd_eval = thisCmd.substring(0,2);
         console.log(thisCmd);
         switch (cmd_eval) {
-  			case "VS":
-		        var mult_cmds=[
-        		thisCmd,
-          		'SV'						        // Make Permanent
-          		].join("\n");
-        		fabmo.runSBP(mult_cmds);	        // SEND MULTI >>>  
-  				break;
-  			case "MS":
-		        var mult_cmds=[
-        		thisCmd,
-          		'SV'						        // Make Permanent
-          		].join("\n");
-        		fabmo.runSBP(mult_cmds);	        // SEND MULTI >>>  
-  				break;
-  			default:
+            case "VS":
+                var mult_cmds=[
+                thisCmd,
+                'SV'						        // Make Permanent
+                ].join("\n");
+                fabmo.runSBP(mult_cmds);	        // SEND MULTI >>>  
+                break;
+            case "MS":
+                var mult_cmds=[
+                thisCmd,
+                'SV'						        // Make Permanent
+                ].join("\n");
+                fabmo.runSBP(mult_cmds);	        // SEND MULTI >>>  
+                break;
+            default:
                 fabmo.runSBP(thisCmd);    	        // SEND SIMPLE >>>
-  				break;
-  		}
-}
+                break;
+        }
+    }        
+}   
+
 
 // Get some Needed info, etc ...
 function getUsrResource(remote, local) {                ////## mucking around here for testing Easel
@@ -82,18 +87,17 @@ function displayFillIn(command, title, info) {
     $(".fi-listing").empty();
     $("#fill_in_table").css("overflow-y", "scroll");
 
-
     if (title.substring(0,4) === "File") {    // handle an FP run file case
         $("#fill_in_table").css("overflow-y", "hidden");
-        $('#btn_prev_file').show();
+        $('#btn_adv_file').show();
         $('#btn_ok_run').text("OK-Run")
     } else if (title.substring(0,5) === "Rerun") {    // handle an FL run last file case
         $("#fill_in_table").css("overflow-y", "hidden");
-        $('#btn_prev_file').show();
+        $('#btn_adv_file').show();
         $('#btn_ok_run').text("OK-Run")
     } else {
         $("#fill_in_table").css("overflow-y", "scroll");
-        $('#btn_prev_file').hide();
+        $('#btn_adv_file').hide();
         $('#btn_ok_run').text("Run Command")
     
         console.log(cmds[command])
@@ -231,18 +235,53 @@ function processCommandInput(command) {
         case "C7":  
         case "C8":  
         case "C9":
-        // case "FP":      
-        //     sendCmd(command);
-        //     break;
+            sendCmd(command);
+            break;
         case "FP":
-            // curFile = "";                           // ... clear out after running
-            // curFilename = "";
             $("#fi_cur_info").text("");
             $("#cmd-input").val(command);
             $('#file').val('');
             $('#file').trigger('click');
             break;
-        }
+        case "FL": 
+            var mostRecentJob = JSON.parse(localStorage.getItem('mostRecentJob'));    
+            if (mostRecentJob && mostRecentJob.id) {
+                fabmo.resubmitJob(mostRecentJob.id, { stayHere: true }, function(err, result) {
+                if (err) {
+                    console.error("Error resubmitting job:", err);
+                } else {
+                    console.log("Job resubmitted successfully:", mostRecentJob.name);
+                    // Optionally, update the UI here to reflect the job being re-run
+                }
+                });
+            } else {
+                console.log("No recent job to rerun.");
+            }
+            displayFillIn("", "Rerun File; Ready to Run", mostRecentJob.name);
+            break;
+        case "FE":
+            var mostRecentJob = JSON.parse(localStorage.getItem('mostRecentJob'));    
+            if (mostRecentJob && mostRecentJob.id) {
+            fabmo.launchApp('editor', {
+                'job': mostRecentJob.id
+              });
+            } else {
+                console.log("No recent job to edit.");
+            }
+            break;
+        case "FN":
+            fabmo.launchApp('editor', {
+                'new': true,
+                'content': "' Create a new OpenSBP part file here ... (change Language for Gcode)",
+                'language': 'sbp'
+            });
+            break;
+        case "FR":
+            fabmo.launchApp('job-manager', {
+                'tab': "nav-history"
+            });
+            break;
+    }
 
         // HANDLE COMMANDS (with a FILL-IN sheet)
         switch (Array.from(command)[0]) {
@@ -250,7 +289,6 @@ function processCommandInput(command) {
                 if (command === "CN" || command === "C#") {  // let these two filter on through
                     break;
                 }
-//            case "F":
             case "T":
             case "S":
             case "V":        
@@ -263,30 +301,11 @@ function processCommandInput(command) {
         // HANDLE COMMANDS (misc special command filtering)
         switch (command) {
             case "SI": // obsolete
-            case "FL": 
-                let titleCmd = "Rerun Last File", parameters = "";
-                titleCmd = "FL" + ": " + cmds[command].name;
-                displayFillIn(command, titleCmd, "");
-                break;
-            case "FN":
-                fabmo.launchApp('editor', {
-                    'new': true,
-                    'content': "' Create a new OpenSBP part file here ... (change Language for Gcode)",
-                    'language': 'sbp'
-                });
-                break;
-            case "FR":
-                fabmo.launchApp('job-manager', {
-                    'tab': "nav-history"
-                });
-                break;
-                                                                                        // ## mucking around here with Easel and in calling routines &AND NODE-RED
             // INTERESTING POSSIBLE USE of call to another local server
             //                                                                        // case "TR":                                                             // testing some Node-Red stuff ... **added to this sbp3_commands
             //     let tempip = window.globals.ORigin + ':1880/ui';
             //     getUsrResource(tempip, 'assets/docs/No_Internet.pdf');
             //     break;        
-
             case "DE":                                                             // testing some design stuff ... **added to this sbp3_commands
                 getUsrResource('http://easel.inventables.com/users/sign_in', 'assets/docs/No_Internet.pdf');
                 break;        
@@ -297,7 +316,6 @@ function processCommandInput(command) {
                 //getUsrResource('https://www.tinkercad.com/dashboard', 'assets/docs/No_Internet.pdf'); // also '/join' or '/login'
                 getUsrResource('https://www.tinkercad.com/login', 'assets/docs/No_Internet.pdf');
                 break;        
-
             case "HA":
                 // version info for this app from fabmo.js api call to fabmo engine ...  
                 console.log("at HA");
@@ -308,12 +326,10 @@ function processCommandInput(command) {
                     fabmo.notify('info', 'About: not getting AppInfo from FabMo');
                 });
                 break;
-
             case "HC":
                     //getUsrResource('http://www.shopbottools.com/ShopBotDocs/files/SBG00253140912CommandRefV3.pdf#CC', 'assets/docs/ComRef.pdf');       
                     getUsrResource('assets/docs/ComRef.pdf', 'assets/docs/ComRef.pdf');       
                     break;        
-
             case "HL":
                     $('#cmd-input').val('');
                     var cachedConfig = null;
@@ -365,14 +381,6 @@ function processCommandInput(command) {
             return false
         }
     }
-
-    // if (command.length == 0) {  // If nothing entered, take a shot at this being a rerun of the last file
-    //     command = "FL";
-    //     let titleCmd = "", parameters = "";
-    //     titleCmd = command + ": " + cmds[command].name;
-    //     displayFillIn(command, titleCmd, "");
-    //     return true;
-    // }
 
     if (command.length > 2) {
         return true;
