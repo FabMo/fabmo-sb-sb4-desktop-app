@@ -4,7 +4,7 @@
 
 // Main Entry for 2-Letter Commands from the Sb4 Console
 function sendCmd(command) {
-    if ((typeof $('#cmd-input').val() === 'undefined' || $('#cmd-input').val() == 0) && globals.FIll_In_Open === false) {  // If nothing entered, take a shot at this being a re-run of the last file
+    if ($('#cmd-input').val() === '' && (typeof command === 'undefined') && globals.FIll_In_Open === false) {  // If nothing entered, take a shot at this being a re-run of the last file
         command = "FL";
         processCommandInput(command);
     } else {
@@ -73,6 +73,7 @@ function setSafeCmdFocus(site) {     // too easy to walk on Manual Keypad (not s
         return;
     }
     if (globals.FIll_In_Open === true) {    // let fill-in keep focus
+//        $("#fi_1").focus();
         return;
     }
     if (globals.INject_inputbox_open) {
@@ -87,19 +88,23 @@ function displayFillIn(command, title, info) {
     $(".fi-listing").empty();
     $("#fill_in_table").css("overflow-y", "scroll");
 
-    if (title.substring(0,4) === "File") {    // handle an FP run file case
+    if (title.substring(0,4) === "File") { // handle an FP run file case
         $("#fill_in_table").css("overflow-y", "hidden");
+        $('#fill_in_table').css("visibility", "hidden");
         $('#btn_adv_file').show();
         $('#btn_ok_run').text("OK-Run")
-    } else if (title.substring(0,5) === "Rerun") {    // handle an FL run last file case
+        $('#btn_ok_run').focus();
+    } else if (title.substring(0,5) === "Rerun") { // handle an FL run last file case
         $("#fill_in_table").css("overflow-y", "hidden");
+        $('#fill_in_table').css("visibility", "hidden");
         $('#btn_adv_file').show();
         $('#btn_ok_run').text("OK-Run")
+        $('#btn_ok_run').focus();
     } else {
         $("#fill_in_table").css("overflow-y", "scroll");
+        $('#fill_in_table').css("visibility", "visible");
         $('#btn_adv_file').hide();
-        $('#btn_ok_run').text("Run Command")
-    
+        $('#btn_ok_run').text("Run Command");
         console.log(cmds[command])
         param_num = 0;
         cmds[command].params.forEach(function(entry) {

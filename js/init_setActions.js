@@ -207,8 +207,18 @@ $(document).ready(function () {
                 $("#cmd-input").val("");
                 break                
             case 13:
-               sendCmd();    // On ENTER ... SEND the command
-               break;
+               // if the fill-in modal is open for FP or FL, then run the command 
+                if ($('#fi-modal').hasClass('open')) {
+                    let ckFile = $('#fi_modal_title').text().substring(0,4);
+                    if (ckFile === "File" || ckFile === "Reru") {
+                        $('#btn_ok_run').click();
+                    } else {
+                        sendCmd(); // On ENTER ... SEND the command
+                    }
+                } else {
+                    sendCmd(); // On ENTER ... SEND the command
+                }       
+                break;
             case 27:          // ESC as a general clear and update tool
                 event.preventDefault();
                 curLine = ""; // Remove after sent or called
@@ -605,9 +615,10 @@ $(document).ready(function () {
         }
     });
 
+// MANAGING MODAL STUFF
 
+    $(document).on('open.fndtn.reveal', '[data-reveal]', function () {                 // ------------------- ON OPENING A MODAL
 
-    $(document).on('open.fndtn.reveal', '[data-reveal]', function () {      // ------------------- ON OPENING JOG PAD
         if ($(this).context.id === "fi-modal") {
             globals.FIll_In_Open = true;
         }
@@ -689,6 +700,12 @@ $(document).ready(function () {
 
     })
 
+    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {   // NOW "OPENED"
+        if ($(this).context.id === "fi-modal") {
+            $("#fi_1").focus();
+        }
+      });
+
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {   // -------------------- ON CLOSING JOG PAD    
         if ($(this).context.id === "fi-modal") {
             globals.FIll_In_Open = false;
@@ -707,6 +724,8 @@ $(document).ready(function () {
             console.log('got insertStream closing; did Exit from manual')
         };
     })
+
+    // There is also a document close event that can be used to do something when the modal closes
 
     window.addEventListener("unload", function (event) {
         if (globals.FAbMo_state === "manual") {

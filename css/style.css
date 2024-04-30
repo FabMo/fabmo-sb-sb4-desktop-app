@@ -115,6 +115,7 @@ row.large-uncollapse>.columns {
 .spindle-display {
     position: absolute;
     right: 120px;
+    cursor: default;
 }
 input#spindle-speed {
     position: absolute;
@@ -172,7 +173,6 @@ input.cmds {
 
 
 /* ============================================== FILL-IN STYLE WORK */
-
 
 .reveal-modal {
     top: 130px !important;
@@ -273,7 +273,7 @@ table tr:nth-of-type(even) {
 }
 
 
-
+/* ============================================== SPEED DISPLAYS */
 
 input.opensbp_input_formattedspeeds {
   color: rgb(113, 233, 241);
