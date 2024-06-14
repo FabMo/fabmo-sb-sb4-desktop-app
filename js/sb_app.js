@@ -213,8 +213,6 @@ function processCommandInput(command) {
         switch (command) {
         case "JH":
         case "MH":
-        case "MO":
-        case "M0":
         case "SA":
         case "SR":
         case "SF":

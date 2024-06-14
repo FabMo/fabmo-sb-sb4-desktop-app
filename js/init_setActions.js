@@ -1,7 +1,7 @@
 let cmds = [];
 //let fI_dispArray = [];
 
-// Initialize and Set Actions for Full App; BOTH the Regular Sb4 stuff and the beta MOtion-Pad and INSERT stuff
+// Initialize and Set Up Actions for Full App; BOTH the Regular Sb4 stuff and the beta MOtion-Pad and INSERT stuff
 
 // *th Experimenting with using first 2 CAps on my significant GLOBALS ==========================================
 window.globals = {
@@ -157,6 +157,19 @@ $(document).ready(function () {
 
     // ** Set-Up Response to Command Entry; first key management
 
+    // Key handler for triggering special "key" (shortcut) events in the dashboard
+    window.addEventListener('keydown', function(event) {
+        // If the key is either the + or the _ or the < or the > key, then send the key code to the parent window
+        console.log("GOT SOME EVENT at Sb4: " + event.key);
+        if (event.key === "+" || event.key === "_" || event.key === "<" || event.key === ">") {
+            // Send the key code to the parent window
+            console.log("Sending key code to parent window: " + event.key);
+            window.parent.postMessage({ key: event.key }, '*');
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    });
+
     $('.opensbp_input').change(function () {                  // Handle and Bind generic UI textboxes
         setConfig(this.id, this.value);
     });
@@ -206,7 +219,7 @@ $(document).ready(function () {
                 fabmo.manualEnter({ hideKeypad: false, mode: 'data' });
                 $("#cmd-input").val("");
                 break                
-            case 13:
+            case 13:          // ENTER key; Second part of ENTER-ENTER behavior for repeating as well
                // if the fill-in modal is open for FP or FL, then run the command 
                 if ($('#fi-modal').hasClass('open')) {
                     let ckFile = $('#fi_modal_title').text().substring(0,4);
@@ -288,7 +301,7 @@ $(document).ready(function () {
          displayFillIn("", "File Ready to Run", curFilename);
     })
 
-    $("#btn_ok_run").click(function (event) {
+    $("#btn_ok_run").click(function (event) {                 // RUN THE FILE
         let ckFile = $('#fi_modal_title').text().substring(0,4);
         $('#fi-modal').foundation('reveal', 'close');
         if (ckFile === "File") {    // handle as file
@@ -307,18 +320,41 @@ $(document).ready(function () {
                     );
                 }
             });
-        } else if (ckFile === "Reru") {    // handle as rerun last file
-            fabmo.runNext();
-        } else {                           // its a command with parameters from fill in
+        
+        } else if (ckFile === "Reru") {                      // or RE-RUN-LAST
+            // check history to identify last job
+            fabmo.getJobHistory({
+                start: 0,
+                count: 0
+              }, function(err, jobs) {
+                var arr = jobs.data;
+                var lastJob = arr[0];
+                // split the data from the lastJob into lines
+                var url = '/job/' + lastJob._id + '/file';           
+                $.get(url,function(data, status) {
+                    lines = data.split('\n');
+                    for (let line = 0; line < lines.length; line++) {
+                        //console.log(line + ">>>" + lines[line]);
+                    }
+                });    
+                fabmo.resubmitJob(lastJob._id, { stayHere: true },
+                    function () {
+                        fabmo.runNext();
+                    }
+                );  
+              }
+            );    
+
+        } else {                                           // ELSE its a command with parameters from fill in
             setSafeCmdFocus();
             sendCmd();
         }
     });
 
-//    $("#btn_cmd_run").click(function (event) {       // RE-RUN-LAST
+//    $("#btn_cmd_run").click(function (event) {
 //    });
     
-    $("#btn_cmd_quit").click(function (event) {      // QUIT
+    $("#btn_cmd_quit").click(function (event) {          // QUIT
         console.log("Not Run");
         $('#fi-modal').foundation('reveal', 'close');
         curFile = "";
@@ -326,7 +362,7 @@ $(document).ready(function () {
         $("#fi_cur_info").text("");
     });
 
-    $("#btn_adv_file").click(function (event) {    // ADVANCED
+    $("#btn_adv_file").click(function (event) {         // ADVANCED
         console.log("Advanced - curFilename");
         $('#fi-modal').foundation('reveal', 'close');
         fabmo.clearJobQueue(function (err, data) {
@@ -385,9 +421,9 @@ $(document).ready(function () {
             // update the fileline display
             for (let i = startLn; i < endLn; i++) {
                 if (i === computedLn) {
-                    lineDisplay += "> " + (i) + "  " + lines[i - 1].substring(0, dispLen) + '\n';
+                    lineDisplay += "> " + (i) + "  " + (typeof lines[i - 1] === 'string' ? lines[i - 1].substring(0, dispLen) : '') + '\n';
                 } else {
-                    lineDisplay += "  " + (i) + "  " + lines[i - 1].substring(0, dispLen) + '\n';
+                    lineDisplay += "  " + (i) + "  " + (typeof lines[i - 1] === 'string' ? lines[i - 1].substring(0, dispLen) : '') + '\n';
                 }
             }
             $("#file_txt_area").text(lineDisplay);   ////## could make line number and width adjustable
@@ -413,7 +449,7 @@ $(document).ready(function () {
                 }
             }
         } else {
-            console.log("The DRO pane is visible");
+            //console.log("The DRO pane is visible");
             $(".spindle-display").css("visibility", "hidden");
         }
 
@@ -726,7 +762,6 @@ $(document).ready(function () {
     })
 
     // There is also a document close event that can be used to do something when the modal closes
-
     window.addEventListener("unload", function (event) {
         if (globals.FAbMo_state === "manual") {
             fabmo.manualExit()

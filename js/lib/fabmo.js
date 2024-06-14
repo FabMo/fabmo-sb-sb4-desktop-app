@@ -42,7 +42,7 @@
             upload_progress: [],
         };
         this._setupMessageListener();
-        // listen for escape key press to quit the engine
+        // listen for escape key press to quit the engine (*don't think this is working th 6/14/24 ... handled elsewhere)
         document.onkeydown = function (e) {
             if (e.keyCode === 27) {
                 console.warn("ESC key pressed - quitting engine.");
