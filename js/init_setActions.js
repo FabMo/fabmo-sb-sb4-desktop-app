@@ -273,7 +273,8 @@ $(document).ready(function () {
     $('#file').change(function (evt) {
         //document.getElementById('file').addEventListener('input', function(evt) {
         evt.preventDefault();
-        $("#cmd-input").val("");
+//        $("#cmd-input").val("");
+        $("#cmd-input").val("... downloading file to tool ...");  // ... just a little message to show we're working
         $("#cmd-input").blur();
 
         lastLn = 0;
@@ -295,6 +296,7 @@ $(document).ready(function () {
         fileReader.readAsText(file, "UTF-8");
         curFilename = evt.target.files[0].name;
         //$('#fi_modal_title').empty();
+        $("#cmd-input").val("");
         $('#fi_modal_title').append("File Ready to Run");
         //$("#fi_cur_info").text(curFilename);
         //$('#fi-modal').foundation('reveal', 'open');
