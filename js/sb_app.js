@@ -152,7 +152,7 @@ function displayFillIn(command, title, info) {
 
 // MAIN COMMAND HANDLER for 2-Letter Commands
 function processCommandInput(command) {
-    console.log('got command')
+    console.log('got first command letter')
     var command = command.trim().toUpperCase();
     if (command.length == 1) {
         switch (command) {
