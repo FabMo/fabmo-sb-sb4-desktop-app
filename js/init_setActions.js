@@ -332,22 +332,23 @@ $(document).ready(function () {
             fabmo.getJobHistory({
                 start: 0,
                 count: 0
-              }, function(err, jobs) {
-                var arr = jobs.data;
-                var lastJob = arr[0];
-                // split the data from the lastJob into lines
-                var url = '/job/' + lastJob._id + '/file';           
-                $.get(url,function(data, status) {
+                }, function(err, jobs) {
+                    var arr = jobs.data;
+                    var lastJob = arr[0];
+                    // split the data from the lastJob into lines
+                    var url = '/job/' + lastJob._id + '/file';           
+                    $.get(url,function(data, status) {
                     lines = data.split('\n');
                     for (let line = 0; line < lines.length; line++) {
                         //console.log(line + ">>>" + lines[line]);
                     }
                 });    
-                fabmo.resubmitJob(lastJob._id, { stayHere: true },
-                    function () {
-                        fabmo.runNext();
+                fabmo.runNext(function(err, data) {
+                    if (err) {
+                        fabmo.notify(err);
+                    } else {
                     }
-                );  
+                });
               }
             );    
 

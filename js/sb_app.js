@@ -245,8 +245,10 @@ function processCommandInput(command) {
             $("#cmd-input").val(command);
             $('#file').val('');
             $('#file').trigger('click');
+            $("#cmd-input").val("... downloading file to tool ...");  // ... just a little message to show we're working
             break;
         case "FL": 
+            $("#cmd-input").val("... downloading file to tool ...");  // ... just a little message to show we're working
             var mostRecentJob = JSON.parse(localStorage.getItem('mostRecentJob'));    
             if (mostRecentJob && mostRecentJob.id) {
                 fabmo.resubmitJob(mostRecentJob.id, { stayHere: true }, function(err, result) {
