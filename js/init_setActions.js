@@ -158,14 +158,22 @@ $(document).ready(function () {
     // ** Set-Up Response to Command Entry; first key management
 
     // Key handler for triggering special "key" (shortcut) events in the dashboard
+    // ... here we add a case for handing spindle speed increments and decrements
+    // ... this is not necessary for feedrate override because fabmo main window already has that during file running
     window.addEventListener('keyup', function(event) {
-        // If the key is either the + or the _ , then send the key code to the parent window
-        //console.log("GOT SOME EVENT in Sb4: " + event.key);
-        if (event.key === "+" || event.key === "_") {
-            //console.log("Sending key code to parent window: " + event.key);
-            window.parent.postMessage({ key: event.key }, '*');
-            event.stopPropagation();
-            event.preventDefault();
+        var commandInputText = $("#cmd-input").val();
+        if (commandInputText.length < 1) {  // ... only if we have not started a line          
+            // If the key is either the + or the _ , then send the key code to the parent window
+            //console.log("GOT SOME EVENT in Sb4: " + event.key);
+            if (event.key === "+" || event.key === "_") {  // increment or decrement spindle speed
+                window.parent.postMessage({ key: event.key }, '*');
+                event.stopPropagation();
+                event.preventDefault();
+            } else {
+                // pass any other key events to the command input
+                console.log("GOT SOME EVENT in Sb4: " + event.key);
+                //$("#cmd-input").focus();
+            }
         }
     });
 
@@ -249,21 +257,6 @@ $(document).ready(function () {
                     $(".top-bar").click();
                     setSafeCmdFocus(3);
                 }
-                break;
-        }
-    });
-
-    $("#cmd-input").keydown(function (event) {
-        switch (event.which) {
-            case 13:            // ENTER key
-            case 188:          // '<' less than
-            case 190:          // '>' greater than
-            case 187:          // '+' plus
-            case 189:          // '-' minus
-                    event.preventDefault();
-                    //event.stopPropagation();
-                break;
-            default:
                 break;
         }
     });
