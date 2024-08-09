@@ -244,6 +244,11 @@ $(document).ready(function () {
                 curLine = ""; // Remove after sent or called
                 $(".top-bar").click(); // ... and click to clear any dropdowns
                 $("#file_txt_area").text("");
+                // if we are in insert stream mode, then close the insert stream box and exit manual mode 
+                if (globals.INject_inputbox_open) {
+                    $('#insertStream').foundation('reveal', 'close');
+                    fabmo.manualExit();
+                }
                 setSafeCmdFocus(2);
                 updateUIFromEngineConfig();
                 updateSpeedsFromEngineConfig();
@@ -396,8 +401,10 @@ $(document).ready(function () {
             if (globals.FAbMo_state === "manual") { fabmo.manualExit() }         // #??? making sure we aren't stuck ??
         } else {
             if (!globals.INject_inputbox_open) {
-                  $("#cmd-input").blur();
+                $("#cmd-input").blur();
                 parent.focus();
+            } else {
+                $("#insert-input").focus();
             }                                                                    // this allows focus to work right when manual start
             //$("body",parent.document).focus();
             //setTimeout(function(){$("body").focus()}, 100);
@@ -726,7 +733,7 @@ $(document).ready(function () {
             globals.INject_inputbox_open = true;
             // beep(20, 1800, 1);
             // beep(20, 1800, 1);
-            fabmo.requestStatus();
+            setTimeout(function () { fabmo.requestStatus(); }, 1000); // ... delay to allow for manual mode to start before status request and focus
         }    
 
         $('#padCloseX').click(function (event) {
