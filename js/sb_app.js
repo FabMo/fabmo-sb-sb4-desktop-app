@@ -128,7 +128,7 @@ function displayFillIn(command, title, info) {
             }
             html = [
                 '<tr>',
-                    '<td class="fi_name" title="' + entry.desc + '"><input value="' + entry.name + str_colon + '"></td>',
+                    '<td class="fi_name " title="' + entry.desc + '"><input value="' + entry.name + str_colon + '" tabindex="-1"></td>',
                     '<td class="fi_val" title="' + itemInfo + '"><input id="fi_' + param_num + '" value="' + setVal + '"></td>',
                 '</tr>'
             ].join('');
