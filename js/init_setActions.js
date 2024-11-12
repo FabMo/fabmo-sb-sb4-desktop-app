@@ -181,7 +181,9 @@ $(document).ready(function () {
         setConfig(this.id, this.value);
     });
 
-    $('.opensbp_input_formattedspeeds').change(function () {  // Handle and Bind updates from formatted SPEED textboxes
+    $('.opensbp_input_formattedspeeds').change(function (event) {  // Handle and Bind updates from formatted SPEED textboxes
+        event.preventDefault();  // Prevent the default action
+        event.stopPropagation(); // Stop the event from propagating
         switch (this.id) {
             case 'formatted_movexy_speed':
                 var mult_cmds = [
@@ -370,19 +372,23 @@ $(document).ready(function () {
     $("#btn_adv_file").click(function (event) {         // ADVANCED
         console.log("Advanced - curFilename");
         $('#fi-modal').foundation('reveal', 'close');
-        fabmo.clearJobQueue(function (err, data) {
-            if (err) {
-                cosole.log(err);
-            } else {
-                job = curFilename.replace('.sbp', '');
-                fabmo.submitJob({
-                    file: curFile,
-                    filename: curFilename,
-                    name: job,
-                    description: '... called from Sb4'
-                });
-            }
-        });
+        if (!curFilename) { // if no file then this is FL or recent file to run, already loaded from sb_app
+            fabmo.launchApp('job-manager', { stayHere: true });
+        } else { 
+            fabmo.clearJobQueue(function (err, data) {
+                if (err) {
+                    cosole.log(err);
+                } else {
+                    job = curFilename.replace('.sbp', '');
+                    fabmo.submitJob({
+                        file: curFile,
+                        filename: curFilename,
+                        name: job,
+                        description: '... called from Sb4'
+                    });
+                }    
+            });
+        }    
     });
 
     // ** STATUS: Report Ongoing and Clear Command Line after a status report is recieved    ## Need a clear after esc too
