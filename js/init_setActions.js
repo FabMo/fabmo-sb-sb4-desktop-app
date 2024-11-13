@@ -141,19 +141,39 @@ $(document).ready(function () {
 
     initVideo();
 
-    // Manage video container size
-    // ... using click to pick up the resize for the moment
-    $('#sbp-container').on('click', function () {
-        console.log("got resize click");
-        // ... then define a max-width that is 5% less than full width of "#cmd-panel"
-        var maxWidth = $("#cmd-panel").width() * 0.95;  
-        if ($(this).width() > maxWidth) { $(this).width() = maxWidth };
-        g.COnt_Width = $(this).width();
-        g.COnt_Height = $(this).height();
-        console.log("width: " + g.COnt_Width + " height: " + g.COnt_Height);
-        resetAppConfig();
-    });
+    // Manage video/text container size using ResizeObserver (older attempt to manage container below; click not consistent)
 
+    // ... should probably just have done it all interms of the window container size
+    const sbpContainer = document.getElementById('sbp-container');
+    const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            //console.log("got resize event on sbp-container");
+            // Define a max-width that is 5% less than full width of "#cmd-panel"
+            const maxWidth = document.getElementById('cmd-panel').clientWidth * 0.95;
+            if (entry.contentRect.width != maxWidth) {
+                sbpContainer.style.width = `${maxWidth}px`;
+            }
+            g.COnt_Width = sbpContainer.clientWidth;
+            g.COnt_Height = sbpContainer.clientHeight;
+            //console.log("width: " + g.COnt_Width + " height: " + g.COnt_Height);
+            resetAppConfig();
+        }
+    });
+    // Observe the sbp-container for resize events
+    resizeObserver.observe(sbpContainer);
+    // Observe the app windo for resize events
+    window.addEventListener('resize', function () {
+        //console.log("got resize event on window");
+        // Define a max-width that is 5% less than full width of "#cmd-panel"
+        const maxWidth = document.getElementById('cmd-panel').clientWidth * 0.95;
+        if (sbpContainer.clientWidth != maxWidth) {
+            sbpContainer.style.width = `${maxWidth}px`;
+        }
+        g.COnt_Width = sbpContainer.clientWidth;
+        g.COnt_Height = sbpContainer.clientHeight;
+        //console.log("width: " + g.COnt_Width + " height: " + g.COnt_Height);
+        resetAppConfig();
+    });   
 
     // ** Set-Up Response to Command Entry; first key management
 
