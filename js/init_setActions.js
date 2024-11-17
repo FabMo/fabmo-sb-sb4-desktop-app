@@ -197,47 +197,35 @@ $(document).ready(function () {
         }
     });
 
-    $('.opensbp_input').change(function () {                  // Handle and Bind generic UI textboxes
-        setConfig(this.id, this.value);
+    $('.opensbp_input_formattedspeeds').on('keyup', function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();  // Prevent the unwanted default action for Enter key on other items ???
+            event.stopPropagation(); // Stop the event from propagating; effectiveness ???
+            $(this).trigger('change'); // Manually trigger the change event
+        }
     });
-
+    
     $('.opensbp_input_formattedspeeds').change(function (event) {  // Handle and Bind updates from formatted SPEED textboxes
         event.preventDefault();  // Prevent the default action
         event.stopPropagation(); // Stop the event from propagating
         switch (this.id) {
             case 'formatted_movexy_speed':
-                var mult_cmds = [
-                    'VS,' + this.value,
-                    'SV'
-                ].join("\n");
-                //console.log("Commands are: \n" + mult_cmds);
-                fabmo.runSBP(mult_cmds);
+                var thisSpeedCmd = 'VS,' + this.value;
                 break;
             case 'formatted_movez_speed':
-                var mult_cmds = [
-                    'VS,,' + this.value,
-                    'SV'
-                ].join("\n");
-                fabmo.runSBP(mult_cmds);
+                var thisSpeedCmd = 'VS,,' + this.value;
                 break;
             case 'formatted_jogxy_speed':
-                var mult_cmds = [
-                    'VS,,,,,,' + this.value,
-                    'SV'
-                ].join("\n");
-                fabmo.runSBP(mult_cmds);
-                break;
+                var thisSpeedCmd = 'VS,,,,,,' + this.value;
+                break;    
             case 'formatted_jogz_speed':
-                var mult_cmds = [
-                    'VS,,,,,,,' + this.value,
-                    'SV'
-                ].join("\n");
-                fabmo.runSBP(mult_cmds);
-                break;
+                var thisSpeedCmd = 'VS,,,,,,,' + this.value;
+                break;    
         }
+        var mult_cmds = [thisSpeedCmd, 'SV'].join("\n");
+        fabmo.runSBP(mult_cmds);
         console.log("changed speeds ...");
         updateSpeedsFromEngineConfig();
-        setSafeCmdFocus(1);
     });
 
     // ** Set-Up Response to Command Entry; first key management 
@@ -249,7 +237,8 @@ $(document).ready(function () {
                 $("#cmd-input").val("");
                 break                
             case 13:          // ENTER key; Second part of ENTER-ENTER behavior for repeating as well
-               // if the fill-in modal is open for FP or FL, then run the command 
+                // If the fill-in modal is open for FP or FL, then run the command 
+                console.log("got to ENTER key");
                 if ($('#fi-modal').hasClass('open')) {
                     let ckFile = $('#fi_modal_title').text().substring(0,4);
                     if (ckFile === "File" || ckFile === "Reru") {
@@ -490,10 +479,13 @@ $(document).ready(function () {
         if (globals.FAbMo_state != "running" && globals.FAbMo_state != "paused") {
             $("#file_txt_area").text("");
             updateSpeedsFromEngineConfig();   //#### also testing checking on &HOMED status
-            $(".top-bar").click();    // click to clear any dropdowns
-            setSafeCmdFocus(4);
+            // Prevent an ENTER that starting an FL if issues too soon ...
+            // ... Insert a 3/4 second delay before click and setSafeCmdFocus (ultimately needed to clear dropdowns and set focus)
+            setTimeout(function () {
+                $(".top-bar").click();
+                setSafeCmdFocus(1);
+            }, 750);
         }
-   
     });
 
     $("#vid-button").click(function () {      // Toggle video

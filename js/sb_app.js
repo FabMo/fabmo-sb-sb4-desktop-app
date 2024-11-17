@@ -67,14 +67,14 @@ function postSbpAction(action) {
     200);
 }
 
-// Try and Keep Focus in the Command Input Box
+// Try and Keep Focus in the Command Input Box; except when it should not be
 function setSafeCmdFocus(site) {     // too easy to walk on Manual Keypad (not sure why?); so protect
   console.log("got safeCheck", site) // site for debugging flow
     if (globals.FAbMo_state === "manual") {
         return;
     }
     if (globals.FIll_In_Open === true) {    // let fill-in keep focus
-//        $("#fi_1").focus();
+        //  $("#fi_1").focus();
         return;
     }
     if (globals.INject_inputbox_open) {
