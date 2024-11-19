@@ -238,7 +238,7 @@ $(document).ready(function () {
                 break                
             case 13:          // ENTER key; Second part of ENTER-ENTER behavior for repeating as well
                 // If the fill-in modal is open for FP or FL, then run the command 
-                console.log("got to ENTER key");
+                //console.log("got to ENTER key");
                 if ($('#fi-modal').hasClass('open')) {
                     let ckFile = $('#fi_modal_title').text().substring(0,4);
                     if (ckFile === "File" || ckFile === "Reru") {
@@ -293,16 +293,16 @@ $(document).ready(function () {
         lastLn = 0;
         upDating = false;
     
-        console.log("got entry");
-        console.log(evt);
-        console.log("file- " + curFile);
+        //console.log("got entry");
+        //console.log(evt);
+        //console.log("file- " + curFile);
         lastLn = 0;
         let file = document.getElementById("file").files[0];
         let fileReader = new FileReader();
         fileReader.onload = function (fileLoadedEvent) {
             lines = fileLoadedEvent.target.result.split('\n');
             for (let line = 0; line < lines.length; line++) {
-                //  console.log(line + ">>>" + lines[line]);
+                //console.log(line + ">>>" + lines[line]);
             }
             curFile = file
         };
@@ -371,7 +371,7 @@ $(document).ready(function () {
 //    });
     
     $("#btn_cmd_quit").click(function (event) {          // QUIT
-        console.log("Not Run");
+        //console.log("Not Run");
         $('#fi-modal').foundation('reveal', 'close');
         curFile = "";
         curFilename = "";
@@ -379,7 +379,7 @@ $(document).ready(function () {
     });
 
     $("#btn_adv_file").click(function (event) {         // ADVANCED
-        console.log("Advanced - curFilename");
+        //console.log("Advanced - curFilename");
         $('#fi-modal').foundation('reveal', 'close');
         if (!curFilename) { // if no file then this is FL or recent file to run, already loaded from sb_app
             fabmo.launchApp('job-manager', { stayHere: true });
@@ -416,8 +416,8 @@ $(document).ready(function () {
             if (globals.FAbMo_state === "manual") { fabmo.manualExit() }         // #??? making sure we aren't stuck ??
         } else {
             if (!globals.INject_inputbox_open) {
-                $("#cmd-input").blur();
-                parent.focus();
+            //    $("#cmd-input").blur();            ////## lines may be required to for focus on leaving INSERT box; but they disrupt display in MACROs
+            //    parent.focus();
             } else {
                 $("#insert-input").focus();
             }                                                                    // this allows focus to work right when manual start
@@ -478,7 +478,7 @@ $(document).ready(function () {
         // Show spindle-speed if DRO is visible and spindle is present in status object and is on (vfdAchvFreq > 0) or is commanded on (vfdDesgFreq > 0) 
         if (globals.FAbMo_state != "running" && globals.FAbMo_state != "paused") {
             $("#file_txt_area").text("");
-            updateSpeedsFromEngineConfig();   //#### also testing checking on &HOMED status
+            updateSpeedsFromEngineConfig();
             // Prevent an ENTER that starting an FL if issues too soon ...
             // ... Insert a 3/4 second delay before click and setSafeCmdFocus (ultimately needed to clear dropdowns and set focus)
             setTimeout(function () {
@@ -692,57 +692,6 @@ $(document).ready(function () {
             // beep(20, 1800, 1);
             fabmo.requestStatus();                                                      // another update when we open pad
             globals.UPdateMoPadState();
-            
-            //fabmo.hideDRO();  **if needed?
-
-            //   $("#jog_dial_sel_char").click(function(e) {                       //... toggle through AXES with click on selector
-            //     //  console.log("got click",($('#jog_dial_sel_char')));           //... ## could make this a little more concise
-            //       axis = $('#jog_dial_sel_char').text();
-            //       beep(30,3000, 30);
-            //       switch (axis) {
-            //         case "X":
-            //           if (excluded_axes_str.indexOf("Y") == -1) {
-            //             $("#jog_dial_sel_char").text("Y");
-            //             globals.JOg_Axis = "Y"
-            //             break;
-            //           }
-            //         case "Y":
-            //           if (excluded_axes_str.indexOf("Z") == -1) {
-            //             $("#jog_dial_sel_char").text("Z");
-            //             globals.JOg_Axis = "Z"
-            //             break;
-            //           }
-            //         case "Z":
-            //           if (excluded_axes_str.indexOf("A") == -1) {
-            //             $("#jog_dial_sel_char").text("A");
-            //             globals.JOg_Axis = "A"
-            //             break;
-            //           }
-            //         case "A":
-            //           if (excluded_axes_str.indexOf("B") == -1) {
-            //             $("#jog_dial_sel_char").text("B");
-            //             globals.JOg_Axis = "B"
-            //             break;
-            //           }
-            //         case "B":
-            //           if (excluded_axes_str.indexOf("C") == -1) {
-            //             $("#jog_dial_sel_char").text("C");
-            //             globals.JOg_Axis = "C"
-            //             break;
-            //           }
-            //         case "C":
-            //           if (excluded_axes_str.indexOf("X") == -1) {
-            //             $("#jog_dial_sel_char").text("X");
-            //             globals.JOg_Axis = "X"
-            //             break;
-            //           }
-            //         default:
-            //           $("#jog_dial_sel_char").text("X");
-            //           globals.JOg_Axis = "X"
-            //       }
-            //       let axis_start_str = "TOol_" +  (globals.JOg_Axis.toLowerCase());
-            //       $('#jog_dial_loc_trgt').val(globals[axis_start_str].toFixed(3));           //... set loc display
-            //   });
 
         }
 
@@ -755,7 +704,7 @@ $(document).ready(function () {
         }    
 
         $('#padCloseX').click(function (event) {
-            console.log('got close click')
+            //console.log('got close click')
             $('#modal').foundation('reveal', 'close');
         });
 
@@ -771,18 +720,18 @@ $(document).ready(function () {
         if ($(this).context.id === "fi-modal") {
             globals.FIll_In_Open = false;
             $('#fi-params').value = "";
-            console.log('got Fill-In closing; did Exit from manual')
+            //console.log('got Fill-In closing; did Exit from manual')
         };
         if ($(this).context.id === "moPad") {
             globals.MO_pad_open = false;
             gotOnce = false;
             fabmo.manualExit();
-            console.log('got moPad closing; did Exit from manual')
+            //console.log('got moPad closing; did Exit from manual')
         };
         if ($(this).context.id === "insertStream") {
             globals.INject_inputbox_open = false;
             fabmo.manualExit();
-            console.log('got insertStream closing; did Exit from manual')
+            //console.log('got insertStream closing; did Exit from manual')
         };
     })
 

@@ -28,20 +28,49 @@ function updateUIFromEngineConfig() {
     });
 }
 
-function updateSpeedsFromEngineConfig() {
-  var temp = 0;
-  fabmo.getConfig(function(err, data) {
-    $('#formatted_movexy_speed').val(data.opensbp.movexy_speed.toFixed(2));
-    $('#formatted_movez_speed').val(data.opensbp.movez_speed.toFixed(2));
-    // Note that for g2, jog speeds are handled differently than move speeds (they are drived from G2 velocity max)
-    $('#formatted_jogxy_speed').val(data.opensbp.jogxy_speed.toFixed(2));
-    $('#formatted_jogz_speed').val(data.opensbp.jogz_speed.toFixed(2));
-    $('#formatted_joga_speed').val(data.opensbp.joga_speed.toFixed(2));
-    var xyHomedStatus = data?.opensbp?.tempVariables?.HOMED;
-    if (!xyHomedStatus || xyHomedStatus == "false") {
-        $('#first_macro_button').css('filter', 'brightness(1.2)');
-    }
-  });
+function updateSpeedsFromEngineConfig() {  // ALSO update HOMING status at the same time
+    fabmo.getConfig(function(err, data) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        $('#formatted_movexy_speed').val(data.opensbp.movexy_speed.toFixed(2));
+        $('#formatted_movez_speed').val(data.opensbp.movez_speed.toFixed(2));
+        // Note that for g2, jog speeds are handled differently than move speeds (they are drived from G2 velocity max)
+        $('#formatted_jogxy_speed').val(data.opensbp.jogxy_speed.toFixed(2));
+        $('#formatted_jogz_speed').val(data.opensbp.jogz_speed.toFixed(2));
+        $('#formatted_joga_speed').val(data.opensbp.joga_speed.toFixed(2));
+
+
+        var xyHomedStatus = data?.opensbp?.tempVariables?.XYHOMED || null;
+        if (!xyHomedStatus || xyHomedStatus == "false") {
+            $("#first_macro_button").addClass("info");
+            $("#first_macro_button").removeClass("disabled");
+            fabmo.setConfig({"opensbp": {"tempVariables": {"XYHOMED": "false"}}}, function(err, data) {
+                if (err) {
+                    console.error(err);
+                }
+            });
+        } else {
+            $("#first_macro_button").addClass("disabled");
+            $("#first_macro_button").removeClass("info");
+        }
+
+        var zHomedStatus = data?.opensbp?.tempVariables?.ZHOMED || null;
+        if (!zHomedStatus || zHomedStatus == "false") {
+            $("#second_macro_button").addClass("info");
+            $("#second_macro_button").removeClass("disabled");
+            fabmo.setConfig({"opensbp": {"tempVariables": {"ZHOMED": "false"}}}, function(err, data) {
+                if (err) {
+                    console.error(err);
+                }
+            });
+        } else {
+            $("#second_macro_button").addClass("disabled");
+            $("#second_macro_button").removeClass("info");
+        }
+
+    });
 }
 
 // AXis = ["", "X", "Y", "Z", "A", "B", "C", "U", "V", "W" ]
