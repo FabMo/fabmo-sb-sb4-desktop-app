@@ -565,23 +565,24 @@ $(document).ready(function () {
         }
 
         // Check the DOM to see if the FabMo DRO is visible and update the spindle speed if it is visible and the spindle is on or commanded on 
-        var droClosed = localStorage.getItem('pinRight');
-        if (droClosed === 'true') {
-            //console.log("The DRO pane is not visible");
-            $(".spindle-display").css("visibility", "visible");
-            if (status.spindle) {
-                if (status.spindle.vfdAchvFreq > 0) {
-                    $("#spindle-speed").css("color", "rgb(113, 233, 241)");
-                    $("#spindle-speed").val(status.spindle.vfdAchvFreq.toFixed(0));
-                } else {
-                    $("#spindle-speed").val(status.spindle.vfdDesgFreq.toFixed(0));
-                    $("#spindle-speed").css("color", "rgb(90, 90, 90)");
-                }
-            }
-        } else {
-            //console.log("The DRO pane is visible");
-            $(".spindle-display").css("visibility", "hidden");
-        }
+        // NOT CURRENTLY USING; Pulling out DRO seems best if user wants full info!
+        // var droClosed = localStorage.getItem('pinRight');
+            // if (droClosed === 'true') {
+            //     //console.log("The DRO pane is not visible");
+            //     $(".spindle-display").css("visibility", "visible");
+            //     if (status.spindle) {
+            //         if (status.spindle.vfdAchvFreq > 0) {
+            //             $("#spindle-speed").css("color", "rgb(113, 233, 241)");
+            //             $("#spindle-speed").val(status.spindle.vfdAchvFreq.toFixed(0));
+            //         } else {
+            //             $("#spindle-speed").val(status.spindle.vfdDesgFreq.toFixed(0));
+            //             $("#spindle-speed").css("color", "rgb(90, 90, 90)");
+            //         }
+            //     }
+            // } else {
+            //     //console.log("The DRO pane is visible");
+            //     $(".spindle-display").css("visibility", "hidden");
+            // }
 
         // Show spindle-speed if DRO is visible and spindle is present in status object and is on (vfdAchvFreq > 0) or is commanded on (vfdDesgFreq > 0) 
         if (globals.FAbMo_state != "running" && globals.FAbMo_state != "paused") {
