@@ -626,21 +626,25 @@ $(document).ready(function () {
     }
 
     $("#vid-button").click(function () {      // Toggle video
-        // Check for toggle state and change if video present 
+        // Check for toggle state and change if video present
         if ($("#vid-button").hasClass("vid-button-on")) {
             $("#vid-button").removeClass("vid-button-on");
             $("#vid-button").addClass("vid-button-off");
-            $("#video").css("visibility", "hidden");
-            $("#file_txt_area").css("background", "#327c7e");
-            g.VI_display = 0;
-            localStorage.setItem("fabmo_sb4_has_video", "false");
-        }
-        else {
+            if (localStorage.getItem("fabmo_sb4_has_video") === "true") {
+                $("#video").css("visibility", "visible");
+                $("#file_txt_area").css("background", "#327c7e");
+                localStorage.setItem("fabmo_sb4_video_button", 1); // 1 for video present, but not playing; 
+            } else {
+                $("#video").css("visibility", "hidden");
+                $("#file_txt_area").css("background", "#327c7e");
+                localStorage.setItem("fabmo_sb4_video_button", 0); // 0 for video disabled
+            }
+        } else {
             $("#vid-button").removeClass("vid-button-off");
             $("#vid-button").addClass("vid-button-on");
             $("#video").css("visibility", "visible");
             $("#file_txt_area").css("background", "transparent");
-            g.VI_display = 3;
+            localStorage.setItem("fabmo_sb4_video_button", 2); // 2 for video present and playing
             localStorage.setItem("fabmo_sb4_has_video", "true");
         }
         saveUIConfig();
@@ -776,7 +780,7 @@ $(document).ready(function () {
     // // ** Listen for the keydown event on the input fields
     // $('#fi_container').on('keydown', '.fi_val', function(event) {
     //     if (event.key === "Enter") {
-    //  //       enterKeyPressed = true;
+    //     //    enterKeyPressed = true;
     //     }
     // });
 
