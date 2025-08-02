@@ -31,10 +31,9 @@ function updateUIFromEngineConfig() {
 
 let previousXYHomedStatus = null;
 let previousZHomedStatus = null;
-let video_button = 0;
+let video_button = "0"; // note that the localStorage value is a string, so we use "0", "1", or "2"
 let videoLayout = "none";
 let hasVideo = true;
-
 
 function updateSpeedsFromEngineConfig() {  // ALSO update HOMING status at the same time
     fabmo.getConfig(function(err, data) {
@@ -169,9 +168,6 @@ function getExcludedAxes(callback) {
 function saveUIConfig() {
     localStorage.setItem("fabmo_sb4_height", g.COnt_Height);
     localStorage.setItem("fabmo_sb4_width", g.COnt_Width);
-    localStorage.setItem("fabmo_sb4_video_button", g.VI_button_display);
-    localStorage.setItem("fabmo_sb4_video_layout", g.VI_layout || "none");
-    console.log("UI Config saved: height=" + g.COnt_Height + ", width=" + g.COnt_Width + ", video_button=" + g.VI_button_display + ", video_layout=" + g.VI_layout);
 }
 
 function restoreUIConfig() {
@@ -202,8 +198,6 @@ function restoreUIConfig() {
         videoLayout = "both";
         console.log("Video layout is 'none', setting to 'both'");
     }
-    console.log("Restored UI Config: height=" + g.COnt_Height + ", width=" + g.COnt_Width + ", video_button=" + g.VI_button_display + ", video_layout=" + videoLayout);
-    g.VI_layout = videoLayout
     localStorage.setItem("fabmo_sb4_video_layout", videoLayout);
 
     $("#sbp-container").css("height", g.COnt_Height);
@@ -220,12 +214,11 @@ function restoreUIConfig() {
         localStorage.setItem("fabmo_sb4_has_video", "false");
     } else {
         // CAMERAS ARE AVAILABLE - Check if video is on or off
-        if (g.VI_display !== 0) {
+        if (video_button == 2) {   // Note: video_button is a string, so we check for "2"
             // VIDEO ON
             $("#video").css("visibility", "visible");
             $("#file_txt_area").css("background", "transparent");
             $("#vid-button").addClass("vid-button-on");
-            g.VI_layout = videoLayout || "both";
             localStorage.setItem("fabmo_sb4_video_button", 2); // Video button is on RED
             localStorage.setItem("fabmo_sb4_has_video", "true");
             $("#sbp-container").click(); // refresh the form

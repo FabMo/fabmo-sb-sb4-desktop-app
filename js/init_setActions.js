@@ -326,9 +326,6 @@ $(document).ready(function () {
     let upDating = false;
 
     $('#file').change(function (evt) {
-        //document.getElementById('file').addEventListener('input', function(evt) {
-//        evt.preventDefault();
-//        $("#cmd-input").val("");
         $("#cmd-input").val("... downloading file to tool ...");  // ... just a little message to show we're working
         $("#cmd-input").blur();
 
@@ -347,8 +344,6 @@ $(document).ready(function () {
         curFilename = evt.target.files[0].name;
         $("#cmd-input").val("FP");
         $('#fi_modal_title').append("File Ready to Run");
-        //$("#fi_cur_info").text(curFilename);
-        //$('#fi-modal').foundation('reveal', 'open');
         displayFillIn("", "File Ready to Run", curFilename);
     })
 
@@ -633,18 +628,18 @@ $(document).ready(function () {
             if (localStorage.getItem("fabmo_sb4_has_video") === "true") {
                 $("#video").css("visibility", "visible");
                 $("#file_txt_area").css("background", "#327c7e");
-                localStorage.setItem("fabmo_sb4_video_button", 1); // 1 for video present, but not playing; 
+                localStorage.setItem("fabmo_sb4_video_button", 1); // 1 video present, but not playing; 
             } else {
                 $("#video").css("visibility", "hidden");
                 $("#file_txt_area").css("background", "#327c7e");
-                localStorage.setItem("fabmo_sb4_video_button", 0); // 0 for video disabled
+                localStorage.setItem("fabmo_sb4_video_button", 0); // 0 video disabled
             }
         } else {
             $("#vid-button").removeClass("vid-button-off");
             $("#vid-button").addClass("vid-button-on");
             $("#video").css("visibility", "visible");
             $("#file_txt_area").css("background", "transparent");
-            localStorage.setItem("fabmo_sb4_video_button", 2); // 2 for video present and playing
+            localStorage.setItem("fabmo_sb4_video_button", 2); // 2 video present and playing
             localStorage.setItem("fabmo_sb4_has_video", "true");
         }
         saveUIConfig();
