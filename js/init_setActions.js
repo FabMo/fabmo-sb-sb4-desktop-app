@@ -499,13 +499,13 @@ $(document).ready(function () {
 
     // Tool Tips
     $("#cmd-ref").click(function(evt) {
-        getUsrResource('docs/ComRef.pdf', 'docs/ComRef.pdf');      // Open the local ComRef.pdf in the dashboard docs folder for the moment 
+        getUsrResource('https://shopbottools.com/wp-content/uploads/2025/07/ComRef.pdf', 'docs/ComRef.pdf');   // Testing the online ShopBot Host 
     });
     $("#cmd-ref2").click(function(evt) {
-        getUsrResource('https://shopbottools.com/wp-content/uploads/2025/07/ComRef.pdf', 'docs/ComRef.pdf');      // Testing the online ComRef.pdf
+        getUsrResource('https://shopbottools.com/wp-content/uploads/2025/07/ComRef.pdf', 'docs/ComRef.pdf');   // Testing the online ShopBot Host
     });
     $("#ck-list").click(function(evt) {
-        getUsrResource('docs/ShopBot_checklist.pdf', 'docs/ShopBot_checklist.pdf');      // Open the local ComRef.pdf in the dashboard docs folder for the moment 
+        getUsrResource('docs/ShopBot_checklist.pdf', 'docs/ShopBot_checklist.pdf');      // Open only the local version of checklist in fabmo
     });
 
 
@@ -623,9 +623,9 @@ $(document).ready(function () {
 
     $("#vid-button").click(function () {      // Toggle video
         // Check for toggle state and change if video present
-        if ($("#vid-button").hasClass("vid-button-on")) {
-            $("#vid-button").removeClass("vid-button-on");
-            $("#vid-button").addClass("vid-button-off");
+    if ($("#vid-button").hasClass("vid-button-on")) {
+        $("#vid-button").removeClass("vid-button-on");
+        $("#vid-button").addClass("vid-button-off");
             if (localStorage.getItem("fabmo_sb4_has_video") === "true") {
                 $("#video").css("visibility", "visible");
                 $("#file_txt_area").css("background", "#327c7e");
@@ -636,15 +636,15 @@ $(document).ready(function () {
                 localStorage.setItem("fabmo_sb4_video_button", 0); // 0 video disabled
             }
         } else {
-            $("#vid-button").removeClass("vid-button-off");
-            $("#vid-button").addClass("vid-button-on");
+        $("#vid-button").removeClass("vid-button-off");
+        $("#vid-button").addClass("vid-button-on");
             $("#video").css("visibility", "visible");
             $("#file_txt_area").css("background", "transparent");
             localStorage.setItem("fabmo_sb4_video_button", 2); // 2 video present and playing
             localStorage.setItem("fabmo_sb4_has_video", "true");
         }
-        saveUIConfig();
-    });
+    saveUIConfig();
+});
 
     //** Try to restore CMD focus when there is a shift back to app
     $(document).click(function (e) {
