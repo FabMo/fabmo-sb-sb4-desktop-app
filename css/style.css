@@ -563,7 +563,7 @@ p.at-foot {
     background: #156ed350;
     border-style: solid;
     border-color: #7ab6fc;
-    border-radius: 5%;
+    border-radius: 15px;
 }
 
 #padCloseX {
