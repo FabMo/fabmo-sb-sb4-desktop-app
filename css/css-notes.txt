@@ -1,3 +1,0 @@
-body.noScroll body.dialogShowing { /* ...or body.dialogShowing */
-	overflow: hidden;
-}
