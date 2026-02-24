@@ -179,19 +179,19 @@
                     Click to download a detailed workflow <span class = "tooltiplink" id="ck-list">Checklist</span></span></span>
                 </h9>
                     <button type="button" class="macro-button secondary button small medium-expanded" id="first_macro_button" title="Home the X and Y Axes; C3 or Macro">
-                        1 - Home X & Y 
+                        A - Home X & Y 
                         <span class="tog-homed" id="tog-xy-homed" style="color: grey;">&#10680;</span>
                     </button>
                     <button type="button" class="macro-button secondary button small medium-expanded" id="second_macro_button" title="Set Z Zero; C2 or Macro2">
-                        2 - Set Z Zero 
+                        B - Set Z Zero 
                         <span class="tog-homed" id="tog-z-homed" style="color: grey;">&#10680;</span>
                     </button>
                     <button type="button" class="macro-button success button small medium-expanded" id="cut_part_call" title="Pick a Single Part File to Cut; FP">
-                        <strong>3 - CUT PART</strong>
+                        <strong>C - CUT PART</strong>
                     </button>
                     <button type="button" class="macro-button success button small medium-expanded" id="to_job_manager" title="Advanced: Select and Order Parts in Job Manager">
                         <span class="icon"></span>
-                        <strong>(3) MANAGE PARTS</strong>
+                        <strong>(D) - MANAGE PARTS</strong>
                     </button>
               </div>
 
@@ -272,32 +272,72 @@
 
                         <div class="move-speed-box small-11 medium-8 large-8 columns">
                             <div class="row">
-                                <div class="large-6 medium-6 columns">
-                                    <label class="left speed-labels show-for-medium-up">Default Move Speed</label><label class="right speed-labels show-for-medium-up">X / Y</label>
-                                    <label class="left speed-labels show-for-small-only">Move Speed</label><label class="right speed-labels show-for-small-only">X/Y &nbsp;</label>
-                                    <input type="text" placeholder="0.00" id="formatted_movexy_speed"  autocomplete="off" class=" text-right opensbp_input_formattedspeeds" />
+                                <div class="large-2 medium-3 small-12 columns">
+                                    <label class="left speed-labels show-for-medium-up" style="white-space: nowrap;">Default:&nbsp;<span class="tooltip">i<span class="tooltiptext">
+                                        Default speeds are used for Move and Jog commands entered from <br>
+                                        the Command Input box above, or from the Editor, or Files in which <br>
+                                        speeds are not specified.<br></span></span>  
+                                    </span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Move<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Speed</label>
+                                    <label class="left speed-labels show-for-small-only">Move Speed</label>
                                 </div>
-                                <div class="large-6 medium-6 columns">
-                                    <label class="right speed-labels show-for-medium-up">Z</label>
-                                    <label class="right speed-labels show-for-small-only">Z</label>
-                                    <input type="text" placeholder="0.00" id="formatted_movez_speed"  autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                <div class="large-9 medium-9 small-12 columns">
+                                    <div class="speed-inputs-container">
+                                        <div class="speed-input-group">
+                                            <label class="speed-axis-label">X / Y</label>
+                                            <input type="text" placeholder="0.00" id="formatted_movexy_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group">
+                                            <label class="speed-axis-label">Z</label>
+                                            <input type="text" placeholder="0.00" id="formatted_movez_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group" id="movea-container" style="display: none;">
+                                            <label class="speed-axis-label">A</label>
+                                            <input type="text" placeholder="0.00" id="formatted_movea_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group" id="moveb-container" style="display: none;">
+                                            <label class="speed-axis-label">B</label>
+                                            <input type="text" placeholder="0.00" id="formatted_moveb_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group" id="movec-container" style="display: none;">
+                                            <label class="speed-axis-label">C</label>
+                                            <input type="text" placeholder="0.00" id="formatted_movec_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="large-6 medium-6 columns">
-                                    <label class="right speed-labels show-for-medium-up"> Default Jog Speed X / Y</label>
-                                    <label class="right speed-labels show-for-small-only">Jog Speed X/Y</label>
-                                    <input type="text" placeholder="0.00" id="formatted_jogxy_speed"  autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                <div class="large-2 medium-3 small-12 columns">
+                                    <label class="left speed-labels show-for-medium-up"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jog<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Speed</label>
+                                    <label class="left speed-labels show-for-small-only">Jog Speed</label>
                                 </div>
-                                <div class="large-6 medium-6 columns">
-                                    <label class="right speed-labels show-for-medium-up"> Default Jog Speed Z &nbsp;&nbsp;</label>
-                                    <label class="right speed-labels show-for-small-only">Jog Speed Z</label>
-                                    <input type="text" placeholder="0.00" id="formatted_jogz_speed"  autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                <div class="large-9 medium-9 small-12 columns">
+                                    <div class="speed-inputs-container">
+                                        <div class="speed-input-group">
+                                            <label class="speed-axis-label">X / Y</label>
+                                            <input type="text" placeholder="0.00" id="formatted_jogxy_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group">
+                                            <label class="speed-axis-label">Z</label>
+                                            <input type="text" placeholder="0.00" id="formatted_jogz_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group" id="joga-container" style="display: none;">
+                                            <label class="speed-axis-label">A</label>
+                                            <input type="text" placeholder="0.00" id="formatted_joga_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group" id="jogb-container" style="display: none;">
+                                            <label class="speed-axis-label">B</label>
+                                            <input type="text" placeholder="0.00" id="formatted_jogb_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                        <div class="speed-input-group" id="jogc-container" style="display: none;">
+                                            <label class="speed-axis-label">C</label>
+                                            <input type="text" placeholder="0.00" id="formatted_jogc_speed" autocomplete="off" class="text-right opensbp_input_formattedspeeds" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div>
-                                <p class="small text-left at-foot show-for-medium-up" id="copyright">© Copyright ShopBot Tools 2025.</p>
+                                <p class="small text-left at-foot show-for-medium-up" id="copyright">© Copyright ShopBot Tools 2026.</p>
                             </div>
                         </div>
                     </div>
