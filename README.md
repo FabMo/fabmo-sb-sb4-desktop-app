@@ -1,3 +1,6 @@
+# !!! MAIN REPO for this APP is now https://github.com/FabMo/FabMo-Engine/apps !!!
+# !!! NO FURTHER WORK HERE FROM 10/3/26 -- ALL WORK IN FABMO !!!
+
 # Fabmo Sb4 App
 ShopBot Sb4 Desktop View; friendly, familiar CNC interface for ShopBotters
 
@@ -10,7 +13,3 @@ Starting the App will yield a CNC experinece and offer an interaction somewhat l
 ## Documentation
 Currently the only available documentation is this README and the "CommandRef" PDF that is found under Help. This documentation describes the usage of all the OpenSBP Commands. A more comprehensive "guide" is coming soon that will highlight some of the limited changes to the syntax that were required for compatibility with FabMo features and the new low-level hardware for ShopBot running on FabMo. Documentation for the OpenSBP digital fab syntax is also available at opensbp.org ...
 
-## When Building
- - Include latest:  /js/lib/fabmo.js
- - Update: /assets and /assets/docs (source for Help documents)
- - Build with: grunt build
